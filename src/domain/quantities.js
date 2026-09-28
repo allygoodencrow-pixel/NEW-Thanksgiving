@@ -1,0 +1,4 @@
+const APPETITE_FACTORS={light:.8,regular:1,hearty:1.25};const CHILD_FACTOR=.65;
+export function weightedServings(diners=[]){return diners.reduce((total,diner)=>total+(APPETITE_FACTORS[diner.appetite]||1)*(diner.child?CHILD_FACTOR:1),0);}
+export function scaleQuantity(baseQuantity,baseServings,requiredServings,options={}){const base=Math.max(0,Number(baseQuantity)||0);const serves=Math.max(1,Number(baseServings)||1);const required=Math.max(0,Number(requiredServings)||0);const raw=base*required/serves;const increment=Number(options.increment)||0;return increment?Math.ceil(raw/increment)*increment:raw;}
+export function packageCount(requiredQuantity,packageSize){const required=Math.max(0,Number(requiredQuantity)||0);const size=Math.max(.000001,Number(packageSize)||1);return Math.ceil(required/size);}
