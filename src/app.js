@@ -12,10 +12,9 @@ let state=(storage&&loadState(storage))||createPartyState();
 let active="home";
 let saveLabel=storage?"Saved locally":"Local save unavailable";
 
-const NAV=[
- ["home","HOME"],["party","PARTY PLAN"],["menu","MENU"],["prep","PREP"],["shopping","SHOPPING"],["table","TABLE"],
- ["space","SPACE + SEATING"],["timeline","TIMELINE"],["guests","GUESTS"],["experience","EXPERIENCE"],["budget","BUDGET"],["printables","PRINTABLES"]
-];
+const NAV=[["home","HOME"],["menu","MENU"],["shopping","SHOPPING"],["timeline","PLAN"],["guests","GUESTS"]];
+const MORE=[["prep","Prep"],["table","Table"],["space","Seating"],["experience","Experience"],["budget","Budget"],["printables","Printables"],["party","Party settings"]];
+let sheet=null;
 const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const fmt=n=>Number(n||0).toLocaleString(undefined,{maximumFractionDigits:2});
 const qty=q=>q?`${fmt(q.quantity)} ${esc(q.unit||"")}`:"—";
@@ -32,7 +31,7 @@ function persist(next,{bumpRevision=true}={}){
 function update(mutator,options){persist(mutator(structuredClone(state)),options);}
 function inventoryNumber(value){return typeof value==="number"?value:Number(value?.quantity??value?.owned)||0;}
 function shoppingInventoryKey(key){return String(key||"").replace(/^(equipment|table|activity):/,"");}
-function pageHeader(title,sub=""){return `<header class="pagehead page-${esc(active)}"><div class="hero-copy"><p class="eyebrow">CROW & CROWN / THANKSGIVING</p><h1>${esc(title)}</h1>${sub?`<p class="page-sub">${esc(sub)}</p>`:""}</div><div class="hero-art" aria-hidden="true"><i></i><i></i><i></i><span>HOSTING SYSTEM</span></div></header>`;}
+function pageHeader(title,sub=""){return `<header class="pagehead page-${esc(active)}"><p class="eyebrow">THE ART OF HAVING PEOPLE OVER / 2026</p><h1>${esc(title)}</h1></header>`;}
 function stat(label,value,detail=""){return `<div class="stat"><span>${esc(label)}</span><strong>${esc(value)}</strong>${detail?`<small>${esc(detail)}</small>`:""}</div>`;}
 function empty(text){return `<p class="empty">${esc(text)}</p>`;}
 
@@ -69,19 +68,12 @@ function setupView(){
 
 function homeView(p){
  const issues=issueList(p);
- return pageHeader("Thanksgiving, already figured out.","One plan. Every change recalculates what depends on it.")+
- `<section class="metric-strip">${stat("Planning for",String(p.planning.planningHeadcount),"people")}${stat("Dinner",state.event.dinnerAt?new Date(state.event.dinnerAt).toLocaleString():"Set a time")}${stat("Budget",state.event.budget?`$${fmt(state.event.budget)}`:"Set budget")}${stat("Service",p.service.style.label)}</section>
- <section class="two-col">
-  <div class="panel"><div class="section-title"><span>NEEDS ATTENTION</span><strong>${issues.length}</strong></div>${issues.length?`<ul class="issue-list">${issues.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`:empty("No current exceptions.")}</div>
-  <div class="panel"><div class="section-title"><span>CONNECTED PLAN</span></div><dl class="compact-list">
-   <div><dt>Menu roles</dt><dd>${p.menu.present.length} resolved</dd></div>
-   <div><dt>Shopping</dt><dd>${p.shopping.filter(x=>(x.remainingCanonical??0)>0).length} open</dd></div>
-   <div><dt>Prep</dt><dd>${p.prep.length} tasks</dd></div>
-   <div><dt>Seats</dt><dd>${p.table.seatCapacity}/${p.table.requiredSeats}</dd></div>
-   <div><dt>Timeline</dt><dd>${p.timeline.tasks.length} scheduled</dd></div>
-   <div><dt>Projected spend</dt><dd>$${fmt(p.budget.projectedFinal)}</dd></div>
-  </dl></div>
- </section>`;
+ const dinner=state.event.dinnerAt?new Date(state.event.dinnerAt).toLocaleString(undefined,{month:"long",day:"numeric",hour:"numeric",minute:"2-digit"}):"Set dinner time";
+ return `<section class="home-photo"><div class="photo-top">C | C <span>THE THANKSGIVING EDIT</span></div><div class="photo-title"><span>YOUR HOSTING PLAN</span><h1>Thanksgiving,<br>already figured out.</h1></div></section>
+ <section class="home-sheet"><div class="sheet-handle"></div><p class="kicker">THE PLAN / AT A GLANCE</p><div class="home-event"><div><strong>${esc(dinner)}</strong><span>${p.planning.planningHeadcount} guests · ${esc(p.service.style.label)}</span></div><button class="circle-arrow" data-nav="party" aria-label="Edit party settings">↗</button></div>
+ <div class="next-action"><span>NEXT UP</span><strong>${esc(issues[0]||"Your plan is looking good.")}</strong><button data-nav="${issues[0]?.startsWith("Menu")?"menu":"shopping"}">TAKE A LOOK →</button></div>
+ <div class="quick-links"><button data-nav="menu"><span>01 / THE FOOD</span><b>Menu ↗</b></button><button data-nav="shopping"><span>02 / THE LIST</span><b>Shopping ↗</b></button><button data-nav="timeline"><span>03 / THE DAY</span><b>Timeline ↗</b></button></div>
+ ${issues.length>1?`<div class="attention"><span>ALSO ON YOUR RADAR</span>${issues.slice(1,4).map(x=>`<p>${esc(x)}</p>`).join("")}</div>`:""}</section>`;
 }
 
 function partyView(p){
@@ -104,15 +96,15 @@ function partyView(p){
 
 function menuView(p){
  const rows=Object.entries(state.dishes||{}).filter(([,d])=>d?.on).map(([id,d])=>({id,d,recipe:state.recipes?.[d.recipeId||id]})).filter(x=>x.recipe);
- return pageHeader("Menu","Selections drive portions, ingredients, shopping, prep, equipment and timing.")+
+ return pageHeader("The menu")+`<div class="editorial-lead"><span>${rows.length} DISHES IN YOUR PLAN</span><button class="pill dark" data-sheet="recipe">+ ADD A DISH</button></div><div class="feature-food"><div><span>ON THE TABLE</span><strong>Good food.<br>Good company.</strong></div></div><div class="pills"><span class="pill dark">ALL DISHES</span><span class="pill">MAINS</span><span class="pill">SIDES</span><span class="pill">DESSERT</span></div>`+
  `<div class="section-title"><span>CURRENT MENU</span><strong>${rows.length}</strong></div>
- ${rows.length?`<div class="rows">${rows.map(({id,d,recipe:r})=>`<div class="row menu-row"><div><strong>${esc(r.title)}</strong><span>${esc(r.mealRole||"uncategorized")} · plan ${fmt(requiredServingsForDish(state,id))} servings</span></div><div class="inline-actions">
+ ${rows.length?`<div class="rows">${rows.map(({id,d,recipe:r},i)=>`<div class="row menu-row"><div class="dish-photo" style="background-image:url('/images/${i%3===0?"turkey":i%3===1?"roast-potatoes":"mashed-potatoes"}.jpeg')"></div><div><strong>${esc(r.title)}</strong><span>${esc(r.mealRole||"uncategorized")} · ${fmt(requiredServingsForDish(state,id))} servings</span></div><button class="circle-arrow" data-dish-detail="${esc(id)}" aria-label="Edit ${esc(r.title)}">↗</button><div class="dish-edit" hidden><div class="inline-actions">
    <select data-dish-mode="${esc(id)}"><option value="homemade" ${d.preparationMode==="homemade"?"selected":""}>Homemade</option><option value="purchased" ${d.preparationMode==="purchased"?"selected":""}>Purchased</option><option value="guest-provided" ${d.preparationMode==="guest-provided"?"selected":""}>Guest provided</option></select>
    ${d.preparationMode==="guest-provided"?`<select data-contribution-status="${esc(id)}"><option value="pending" ${state.menuResponsibilities?.[id]?.status==="pending"||!state.menuResponsibilities?.[id]?"selected":""}>Contribution pending</option><option value="confirmed" ${state.menuResponsibilities?.[id]?.status==="confirmed"?"selected":""}>Contribution confirmed</option><option value="arrived" ${state.menuResponsibilities?.[id]?.status==="arrived"?"selected":""}>Dish arrived</option></select>`:""}
    <button class="text-button" data-action="remove-dish" data-id="${esc(id)}">Remove</button>
-  </div></div>`).join("")}</div>`:empty("No recipes selected yet. Add a custom recipe below; curated content can be loaded later.")}
+  </div></div></div>`).join("")}</div>`:empty("Your menu is waiting. Add the first dish to begin." )}
  <div class="panel slim"><b>Missing roles:</b> ${p.menu.missing.length?p.menu.missing.map(x=>esc(x)).join(", "):"None"}</div>
- <form id="recipe-form" class="form-grid compact">
+ <form id="recipe-form" class="form-grid compact advanced-form" ${sheet==="recipe"?"":"hidden"}>
   <label>Recipe title<input name="title" required></label>
   <label>Meal role<select name="role"><option value="main">Main</option><option value="secondary-main">Secondary main</option><option value="starch">Starch</option><option value="vegetable">Vegetable</option><option value="fresh">Salad / fresh</option><option value="bread">Bread</option><option value="sauce-condiment">Sauce / condiment</option><option value="appetizer">Appetizer</option><option value="dessert">Dessert</option><option value="non-alcoholic-drink">Non-alcoholic drink</option></select></label>
   <label>Original servings<input name="servings" type="number" min="1" value="8" required></label>
@@ -138,19 +130,20 @@ function prepView(p){
 }
 
 function shoppingView(p){
- return pageHeader("Shopping","Required − already have − purchased = still need. Purchases stay committed when the plan changes.")+
+ return pageHeader("The shopping list")+`<div class="editorial-lead"><span>${p.shopping.filter(x=>(x.remainingCanonical??0)>0).length} ITEMS TO GET</span><button class="pill dark" data-sheet="manual-shopping">+ ADD ITEM</button></div><p class="quiet-note">Your list follows the menu, even when the guest count changes.</p>`+
  (p.shopping.length?`<div class="shopping-head"><span>ITEM</span><span>REQUIRED</span><span>HAVE</span><span>PURCHASED</span><span>STILL NEED</span><span>COST</span></div><div class="shopping-rows">${p.shopping.map(x=>{
   const sources=(x.sources||[]).map(s=>s.recipeTitle||s.activityId||s.source).filter(Boolean);
   const canHave=!["prepared-food","turkey"].includes(x.kind);
   return `<form class="shopping-line" data-shopping-key="${esc(x.key)}" data-kind="${esc(x.kind||"")}"><div><strong>${esc(x.name||x.key)}</strong><span>${esc(x.kind||"")}</span>${sources.length?`<details><summary>Used for ${sources.length}</summary><small>${esc([...new Set(sources)].join(", "))}</small></details>`:""}</div>
-   <div>${qty(x.required)}</div>
-   <label class="mini-label">${canHave?`<input name="have" type="number" min="0" step="any" value="${fmt(x.alreadyHave?.quantity||0)}"><small>${esc(x.alreadyHave?.unit||x.unit||"")}</small>`:"—"}</label>
-   <label class="mini-label"><input name="purchased" type="number" min="0" step="any" value="${fmt(x.purchased?.quantity||0)}"><small>${esc(x.purchased?.unit||x.unit||"")}</small></label>
-   <div><b>${qty(x.stillNeed)}</b>${x.surplusCanonical>0?`<small>surplus ${qty(x.surplus)}</small>`:""}</div>
-   <label class="mini-label"><small>Committed $</small><input name="committed" type="number" min="0" step=".01" value="${x.committedCost||""}"><small>Paid $</small><input name="actual" type="number" min="0" step=".01" value="${x.actualCost||""}"><button class="text-button" type="submit">Save</button></label>
+   <div class="shopping-required">${qty(x.required)} required</div>
+   <div class="shopping-need">${(x.remainingCanonical??0)>0?`${qty(x.stillNeed)} to get`:"Covered"}${x.surplusCanonical>0?` · surplus ${qty(x.surplus)}`:""}</div>
+   <details class="shopping-edit"><summary>${(x.purchased?.quantity||0)>0?"Update purchase":"Mark purchased"} · DETAILS</summary><div class="shopping-controls">
+   <label class="mini-label">Already have${canHave?`<input name="have" type="number" min="0" step="any" value="${fmt(x.alreadyHave?.quantity||0)}"><small>${esc(x.alreadyHave?.unit||x.unit||"")}</small>`:"—"}</label>
+   <label class="mini-label">Purchased<input name="purchased" type="number" min="0" step="any" value="${fmt(x.purchased?.quantity||0)}"><small>${esc(x.purchased?.unit||x.unit||"")}</small></label>
+   <label class="mini-label">Committed $<input name="committed" type="number" min="0" step=".01" value="${x.committedCost||""}"></label><label class="mini-label">Paid $<input name="actual" type="number" min="0" step=".01" value="${x.actualCost||""}"></label><button class="pill dark" type="submit">SAVE ITEM</button></div></details>
   </form>`;
  }).join("")}</div>`:empty("No shopping requirements yet."))+
- `<form id="manual-shopping-form" class="form-grid compact"><label>Manual item<input name="name" required></label><label>Quantity<input name="quantity" type="number" min="0" step="any" value="1"></label><label>Unit<input name="unit" value="each"></label><button class="primary" type="submit">Add item</button></form>`;
+ `<form id="manual-shopping-form" class="form-grid compact advanced-form" ${sheet==="manual-shopping"?"":"hidden"}><label>Manual item<input name="name" required></label><label>Quantity<input name="quantity" type="number" min="0" step="any" value="1"></label><label>Unit<input name="unit" value="each"></label><button class="primary" type="submit">Add item</button></form>`;
 }
 
 function tableView(p){
@@ -184,25 +177,25 @@ function tableView(p){
 
 function spaceView(p){
  const byPerson=new Map(p.seating.namedPeople.map(x=>[x.personId,x]));
- return pageHeader("Space + seating","Assign each named guest once. Projected unnamed guests remain visible as placeholders.")+
+ return pageHeader("Space + seating")+`<div class="editorial-lead"><span>${p.seating.unassigned.length} PEOPLE TO PLACE</span><button class="pill dark" data-nav="table">EDIT TABLES</button></div><p class="quiet-note">Tap an open seat to place a guest. Every name has one seat.</p>`+
  `<section class="metric-strip">${stat("Seats",`${p.seating.availableSeatCount}/${p.table.requiredSeats}`)}${stat("Unassigned named",String(p.seating.unassigned.length))}${stat("Planning placeholders",String(p.seating.placeholderCount))}${stat("Layout",p.space.measurementStatus)}</section>
  <form id="room-form" class="form-grid compact"><label>Room width in<input name="width" type="number" min="0" value="${state.room?.widthIn||0}"></label><label>Room length in<input name="length" type="number" min="0" value="${state.room?.lengthIn||0}"></label><button class="primary" type="submit">Update room</button></form>
  <div class="section-title"><span>SEATS</span><strong>${p.seating.seatIds.length}</strong></div>
- ${p.seating.seatIds.length?`<div class="rows">${p.seating.seatIds.map(seatId=>{const personId=p.seating.assignments[seatId],person=byPerson.get(personId);return `<div class="row"><div><strong>${esc(seatId)}</strong><span>${person?esc(person.name):"Open"}</span></div><div class="inline-actions">${person?`<button class="text-button" data-action="unassign-seat" data-person="${esc(personId)}">Unassign</button>`:`<select data-seat-select="${esc(seatId)}"><option value="">Assign guest…</option>${p.seating.unassigned.map(x=>`<option value="${esc(x.personId)}">${esc(x.name)}</option>`).join("")}</select>`}</div></div>`;}).join("")}</div>`:empty("Add dining tables before assigning seats.")}
+ ${p.seating.seatIds.length?`<div class="seating-map">${p.table.tables.filter(t=>t.use==="dining").map(t=>`<section class="visual-table"><div class="table-surface ${esc(t.shape)}"><span>${esc(t.id)}</span><small>${t.seatCapacity} SEATS</small></div><div class="seat-ring">${p.seating.seatIds.filter(id=>id.startsWith(`${t.id}:`)).map(seatId=>{const personId=p.seating.assignments[seatId],person=byPerson.get(personId);return `<div class="seat-chip ${person?"occupied":""}"><span>${person?esc(person.name):"OPEN"}</span>${person?`<button data-action="unassign-seat" data-person="${esc(personId)}" aria-label="Remove ${esc(person.name)} from seat">×</button>`:`<select data-seat-select="${esc(seatId)}" aria-label="Assign ${esc(seatId)}"><option value="">+ PLACE</option>${p.seating.unassigned.map(x=>`<option value="${esc(x.personId)}">${esc(x.name)}</option>`).join("")}</select>`}</div>`;}).join("")}</div></section>`).join("")}</div>`:empty("Add dining tables before assigning seats.")}
  <div class="two-col top-gap"><div class="panel"><div class="section-title"><span>ZONES</span></div>${p.space.zones.map(z=>`<div class="micro-row"><span>${esc(z.label||z.id)}</span><b>${esc(z.status||"defined")}</b></div>`).join("")||empty("No zones yet.")}</div><div class="panel"><div class="section-title"><span>SPACE ISSUES</span></div>${p.space.issues.length?p.space.issues.map(x=>`<div class="micro-row"><span>${esc(x.type)}</span><b>${esc((x.ids||[x.id]).filter(Boolean).join(", "))}</b></div>`).join(""):empty("No measured-space conflicts.")}</div></div>`;
 }
 
 function timelineView(p){
- return pageHeader("Timeline","Generated timing stays editable; fixed times remain fixed when dinner moves.")+
+ return pageHeader("The timeline")+`<div class="editorial-lead"><span>DINNER ${state.event.dinnerAt?esc(new Date(state.event.dinnerAt).toLocaleTimeString(undefined,{hour:"numeric",minute:"2-digit"})):"TIME TO BE SET"}</span><button class="pill dark" data-sheet="task">+ ADD TASK</button></div><p class="quiet-note">The day adjusts when dinner time changes. Pinned tasks stay where you put them.</p>`+
  (p.timeline.tasks.length?`<div class="rows timeline">${p.timeline.tasks.map(t=>`<form class="row ${t.conflict?"conflict":""}" data-task-form="${esc(t.taskId)}"><div><strong>${esc(t.title)}</strong><span>${esc(t.recipeTitle||t.source||"manual")} ${t.assignments?.length?`· ${esc(t.assignments.map(a=>a.resourceId).join(", "))}`:""}</span></div><div class="task-edit"><label>Minutes<input name="duration" type="number" min="0" value="${t.durationMinutes||0}"></label><label>Pin time<input name="fixed" type="datetime-local" value="${localInput(t.fixedStart||"")}"></label><button class="text-button" type="submit">Save</button></div></form>`).join("")}</div>`:empty("Timed recipe tasks appear here."))+
- `<form id="manual-task-form" class="form-grid compact"><label>Manual task<input name="title" required></label><label>Minutes<input name="duration" type="number" min="0" value="15"></label><label>Fixed time<input name="fixed" type="datetime-local"></label><button class="primary" type="submit">Add task</button></form>`;
+ `<form id="manual-task-form" class="form-grid compact advanced-form" ${sheet==="task"?"":"hidden"}><label>Manual task<input name="title" required></label><label>Minutes<input name="duration" type="number" min="0" value="15"></label><label>Fixed time<input name="fixed" type="datetime-local"></label><button class="primary" type="submit">Add task</button></form>`;
 }
 
 function guestsView(){
- return pageHeader("Guests","RSVP, children, plus-ones, dietary needs and allergies feed the same plan.")+
+ return pageHeader("The guest list")+`<div class="editorial-lead"><span>EVERYONE AT THE TABLE</span><button class="pill dark" data-sheet="guest">+ ADD GUEST</button></div>`+
  `<div class="section-title"><span>GUEST LIST</span><strong>${state.guests.length}</strong></div>
  ${state.guests.length?`<div class="rows">${state.guests.map((g,index)=>`<div class="row"><div><strong>${esc(g.name)}</strong><span>${esc(g.type||"adult")} · ${esc((g.dietaryRestrictions||[]).join(", ")||"no dietary notes")} ${(g.allergies||[]).length?`· allergies: ${esc(g.allergies.join(", "))}`:""}</span></div><div class="inline-actions"><select data-guest-rsvp="${index}"><option value="pending" ${g.rsvp==="pending"?"selected":""}>Pending</option><option value="yes" ${g.rsvp==="yes"?"selected":""}>Attending</option><option value="no" ${g.rsvp==="no"?"selected":""}>Not attending</option></select><button class="text-button" data-action="remove-guest" data-index="${index}">Remove</button></div></div>`).join("")}</div>`:empty("No named guests yet. Projected headcount still drives quantities.")}
- <form id="guest-form" class="form-grid compact">
+ <form id="guest-form" class="form-grid compact advanced-form" ${sheet==="guest"?"":"hidden"}>
   <label>Name<input name="name" required></label><label>RSVP<select name="rsvp"><option value="pending">Pending</option><option value="yes">Attending</option><option value="no">Not attending</option></select></label><label>Type<select name="type"><option value="adult">Adult</option><option value="child">Child</option></select></label>
   <label>Dietary needs<input name="dietary" placeholder="vegetarian, gluten-free"></label><label>Allergies<input name="allergies" placeholder="peanut, shellfish"></label>
   <label>Plus one<select name="plus"><option value="0">No</option><option value="1">Yes</option></select></label><label>+1 dietary needs<input name="plusDietary"></label><label>+1 allergies<input name="plusAllergies"></label>
@@ -240,13 +233,16 @@ function view(p){
 function render(){
  if(!state.setupCompleted){app.innerHTML=setupView();bind();return;}
  const p=derivePlan(state);
- app.innerHTML=`<div class="app-shell"><aside class="sidebar"><div class="brand-lockup"><span class="brand-mark">C+C</span><div><b>CROW & CROWN</b><span>THANKSGIVING</span></div></div><nav>${NAV.map(([id,label],index)=>`<button data-nav="${id}" class="${active===id?"active":""}"><span class="nav-no">${String(index+1).padStart(2,"0")}</span><span class="nav-label">${label}</span></button>`).join("")}</nav><div class="save-state"><i></i>${esc(saveLabel)}</div></aside><main class="workspace">${view(p)}</main></div>`;
+ app.innerHTML=`<div class="app-shell"><header class="topbar"><button data-sheet="more" aria-label="More sections">☰</button><span>C | C</span><button data-nav="party" aria-label="Party settings">⋯</button></header><main class="workspace">${view(p)}</main><nav class="bottom-nav">${NAV.map(([id,label])=>`<button data-nav="${id}" class="${active===id?"active":""}"><span class="nav-icon">${({home:"⌂",menu:"◇",shopping:"☷",timeline:"◷",guests:"♙"})[id]}</span><span>${label}</span></button>`).join("")}</nav>${sheet==="more"?`<div class="modal-backdrop" data-close-sheet><section class="more-sheet"><div class="sheet-handle"></div><p class="kicker">YOUR HOSTING PLAN</p>${MORE.map(([id,label])=>`<button data-nav="${id}">${label}<span>↗</span></button>`).join("")}<button data-close-sheet>CLOSE</button></section></div>`:""}</div>`;
  bind();
 }
 
 function bind(){
  app.querySelector("#setup-form")?.addEventListener("submit",e=>{e.preventDefault();const f=new FormData(e.currentTarget);persist({...state,setupCompleted:true,event:{...state.event,service:f.get("service"),budget:Number(f.get("budget"))||0,dinnerAt:f.get("dinnerAt")||null,ovens:Math.max(0,Number(f.get("ovens"))||0),burners:Math.max(0,Number(f.get("burners"))||0),timeZone:Intl.DateTimeFormat().resolvedOptions().timeZone||null},planning:{...state.planning,mode:"estimated",estimatedHeadcount:Math.max(1,Number(f.get("headcount"))||1)}});});
- app.querySelectorAll("[data-nav]").forEach(b=>b.addEventListener("click",()=>{active=b.dataset.nav;render();}));
+ app.querySelectorAll("[data-nav]").forEach(b=>b.addEventListener("click",()=>{active=b.dataset.nav;sheet=null;render();}));
+ app.querySelectorAll("[data-sheet]").forEach(b=>b.addEventListener("click",()=>{sheet=b.dataset.sheet;render();app.querySelector(".advanced-form:not([hidden])")?.scrollIntoView?.({block:"start"});}));
+ app.querySelectorAll("[data-close-sheet]").forEach(b=>b.addEventListener("click",e=>{if(e.target===b){sheet=null;render();}}));
+ app.querySelectorAll("[data-dish-detail]").forEach(b=>b.addEventListener("click",()=>{const el=b.closest(".menu-row").querySelector(".dish-edit");el.hidden=!el.hidden;}));
  app.querySelector("#party-form")?.addEventListener("submit",e=>{e.preventDefault();const f=new FormData(e.currentTarget),mode=String(f.get("mode")),headcount=Math.max(0,Number(f.get("headcount"))||0);update(x=>({...x,event:{...x.event,service:f.get("service"),budget:Number(f.get("budget"))||0,dinnerAt:f.get("dinnerAt")||null,ovens:Math.max(0,Number(f.get("ovens"))||0),burners:Math.max(0,Number(f.get("burners"))||0),cookingHelpers:Math.max(0,Number(f.get("helpers"))||0),timeZone:x.event.timeZone||Intl.DateTimeFormat().resolvedOptions().timeZone||null},planning:{...x.planning,mode,[mode==="custom"?"customHeadcount":"estimatedHeadcount"]:headcount,foodBufferPercent:Math.max(0,Number(f.get("foodBuffer"))||0),placeSettingSparePercent:Math.max(0,Number(f.get("spare"))||0)}}));});
  app.querySelector("#recipe-form")?.addEventListener("submit",e=>{e.preventDefault();const f=new FormData(e.currentTarget),id=`custom-${crypto.randomUUID()}`;
   const ingredients=String(f.get("ingredients")||"").split(/\n+/).map(line=>line.split("|").map(x=>x.trim())).filter(parts=>parts[2]).map(([quantity,unit,name])=>({name,quantity:Number(quantity)||0,unit:unit||"each"}));
