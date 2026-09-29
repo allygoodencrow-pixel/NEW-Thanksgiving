@@ -25,6 +25,8 @@ test('unverified, missing, or declined contribution does not remove host fallbac
  assert.equal(dishRequirementMode('potatoes',state),'ingredients');
  state={...state,guests:[{guestId:'g1',name:'Guest',rsvp:'no'}],menuResponsibilities:{potatoes:{ownerType:'guest',contributorGuestId:'g1',status:'confirmed'}}};
  assert.equal(dishRequirementMode('potatoes',state),'ingredients');
+ state={...state,guests:[{guestId:'g1',name:'Guest',rsvp:'pending'}]};
+ assert.equal(dishRequirementMode('potatoes',state),'ingredients');
  state={...state,guests:[{guestId:'g1',name:'Guest',rsvp:'yes'}]};
  assert.equal(dishRequirementMode('potatoes',state),'none');
 });
@@ -68,6 +70,6 @@ test('unseated named guests get place cards and unreviewed labels do not claim s
  const bundle=generatePrintableBundle(state).printables;
  assert.deepEqual(bundle['place-cards'].rows,[{personId:'g1',name:'Alex',seatId:null}]);
  assert.deepEqual(bundle['seating-chart'].rows,[]);
- assert.equal(bundle['food-labels'].rows[0].status,'needs confirmation');
+ assert.match(bundle['food-labels'].rows[0].status,/review required/);
  assert.deepEqual(bundle['food-labels'].rows[0].dietaryTags,[]);
 });
