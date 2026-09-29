@@ -27,13 +27,14 @@ export function deriveTurkeyPlan(state){
  const averageBirdWeightLb=birdCount?requiredWeightLb/birdCount:0;
  const maxBirdWeightLb=Math.min(24,Math.max(averageBirdWeightLb,Number(rules.maxBirdWeightLb)||20));
  const roastBirdWeightLb=Math.min(maxBirdWeightLb,Math.max(averageBirdWeightLb,0));
+ const ovenCount=Math.max(1,Math.floor(Number(state.event?.ovens)||1));const birdsPerOven=Math.max(1,Math.floor(Number(rules.birdsPerOven)||1));const parallelBirdCapacity=ovenCount*birdsPerOven;const ovenWaves=birdCount?Math.ceil(birdCount/parallelBirdCapacity):0;
  const purchasedWeightLb=Math.max(0,Number(ledgerPurchasedLb(state)??state.turkeyPlan?.purchasedWeightLb)||0);
  const stillNeedLb=Math.max(0,requiredWeightLb-purchasedWeightLb),surplusLb=Math.max(0,purchasedWeightLb-requiredWeightLb);
  const thawHours=turkeyDishId?Math.ceil(roastBirdWeightLb/4)*24:null;
- const cookMinutes=turkeyDishId?roastMinutesForWeight(roastBirdWeightLb):null;
+ const perWaveCookMinutes=turkeyDishId?roastMinutesForWeight(roastBirdWeightLb):null;const cookMinutes=perWaveCookMinutes==null?null:perWaveCookMinutes*Math.max(1,ovenWaves);
  const restMinutes=Math.max(20,Number(rules.restMinutes)||20);
  const issues=[];
- if(turkeyDishId&&birdCount>Math.max(1,Number(state.event?.ovens)||1))issues.push("turkey-oven-capacity-review");
+ if(turkeyDishId&&ovenWaves>1)issues.push("turkey-oven-capacity-review");
  if(turkeyDishId&&roastBirdWeightLb>24)issues.push("turkey-bird-weight-too-large");
- return {dishId:turkeyDishId,recipeTitle:recipe?.title||"Turkey",headcount,poundsPerPerson,bufferPercent:buffer,requiredWeightLb,purchasedWeightLb,stillNeedLb,surplusLb,birdCount,averageBirdWeightLb,roastBirdWeightLb,thawHours,cookMinutes,restMinutes,ovenTemperatureF:325,safeMinimumInternalTemperatureF:165,issues};
+ return {dishId:turkeyDishId,recipeTitle:recipe?.title||"Turkey",headcount,poundsPerPerson,bufferPercent:buffer,requiredWeightLb,purchasedWeightLb,stillNeedLb,surplusLb,birdCount,averageBirdWeightLb,roastBirdWeightLb,ovenCount,birdsPerOven,parallelBirdCapacity,ovenWaves,thawHours,perWaveCookMinutes,cookMinutes,restMinutes,ovenTemperatureF:325,safeMinimumInternalTemperatureF:165,issues};
 }
