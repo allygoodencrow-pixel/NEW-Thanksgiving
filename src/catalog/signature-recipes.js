@@ -300,6 +300,51 @@ export const SIGNATURE_RECIPE_OVERRIDES={
   dietaryTags:['vegetarian','nut-free','sesame-free','fish-free','shellfish-free'],allergens:['milk','egg','wheat'],
   metadataReviewed:true,allergenReviewed:true,reviewedAt,recipeComplete:true,
   provenance:{type:'original',label:'Crow & Crown original recipe'},preparedPurchase:{estimatedUnitCost:4.5}
+ },
+ 'sparkling-water':{
+  id:'sparkling-water',title:'Still + sparkling water',mealRole:'non-alcoholic-drink',baseServings:1,servingStrategy:{basis:'headcount'},
+  ingredients:[p('still-water','Still water',20,'floz','Beverages',33.8,'floz',2.49),p('sparkling-water','Sparkling water',12,'floz','Beverages',33.8,'floz',2.99)],
+  instructions:['Chill water thoroughly.','Stage still and sparkling bottles or carafes where guests can self-serve.','Replenish cold bottles in small batches so the station stays clean.'],
+  prepTasks:[task('chill','Chill still + sparkling water','day-before',5,{handsOn:true,fixedStartOffsetMinutes:-1440}),task('stage','Stage water station','before-guests',10,{handsOn:true,fixedStartOffsetMinutes:-60})],
+  makeAhead:'Chill the day before.',storage:'Keep chilled until service.',reheat:'Not applicable.',substitutions:['Use filtered tap water in carafes for still water.'],
+  equipment:[],servingRequirements:[eq('water-carafes','Water carafes or chilled bottles',2,'serving'),eq('water-glasses','Water glasses',1,'serving',{perPerson:true})],
+  dietaryTags:['vegan','vegetarian','gluten-free','dairy-free','nut-free','egg-free','soy-free','sesame-free','fish-free','shellfish-free'],allergens:[],metadataReviewed:true,allergenReviewed:true,reviewedAt,recipeComplete:true,provenance:{type:'original',label:'Crow & Crown original beverage plan'}
+ },
+ wine:{
+  id:'wine',title:'Wine for dinner',mealRole:'alcohol',baseServings:1,servingStrategy:{basis:'adult-drinkers'},
+  ingredients:[p('wine-bottles','Wine bottles',0.4,'each','Beverages',1,'each',18)],
+  instructions:['Choose a mix that fits the menu and your guests.','Chill white or sparkling wine in advance.','Open bottles gradually and keep water available alongside alcohol.'],
+  prepTasks:[task('chill','Chill white + sparkling wine','day-before',5,{handsOn:true,fixedStartOffsetMinutes:-1440}),task('stage','Stage wine glasses + opener','before-guests',10,{handsOn:true,fixedStartOffsetMinutes:-60})],
+  makeAhead:'Buy ahead and chill whites the day before.',storage:'Store unopened bottles according to label; refrigerate opened white wine.',reheat:'Not applicable.',substitutions:['Replace with additional non-alcoholic sparkling beverages.'],
+  equipment:[eq('wine-opener','Wine opener')],servingRequirements:[eq('wine-glasses','Wine glasses',1,'serving',{perPerson:true})],
+  dietaryTags:['vegetarian','gluten-free','dairy-free','nut-free','egg-free','sesame-free','fish-free','shellfish-free'],allergens:[],metadataReviewed:true,allergenReviewed:true,reviewedAt,recipeComplete:true,provenance:{type:'original',label:'Crow & Crown original beverage plan'}
+ },
+ 'signature-cocktail':{
+  id:'signature-cocktail',title:'Signature cocktail',mealRole:'alcohol',baseServings:1,servingStrategy:{basis:'adult-drinkers'},
+  ingredients:[p('cocktail-spirit','Cocktail spirit',3,'floz','Beverages',25.36,'floz',29.99),p('cocktail-mixer','Cocktail mixer',6,'floz','Beverages',33.8,'floz',4.99),p('cocktail-ice','Cocktail ice',0.75,'lb','Beverages',5,'lb',4.99)],
+  instructions:['Batch non-carbonated spirit and mixer components ahead.','Chill the batch thoroughly.','Add ice and any sparkling component only when serving.'],
+  prepTasks:[task('batch','Batch signature cocktail base','morning',20,{handsOn:true,fixedStartOffsetMinutes:-360}),task('ice','Stage cocktail ice + glassware','before-guests',10,{handsOn:true,fixedStartOffsetMinutes:-45})],
+  makeAhead:'Batch the non-carbonated base the morning of.',storage:'Keep batched cocktail refrigerated until service.',reheat:'Not applicable.',substitutions:['Make a zero-proof version with the same garnish and glassware.'],
+  equipment:[eq('cocktail-pitcher','Pitcher or drink dispenser'),eq('jigger','Jigger')],servingRequirements:[eq('cocktail-glasses','Cocktail glasses',1,'serving',{perPerson:true})],
+  dietaryTags:['vegetarian','gluten-free','dairy-free','nut-free','egg-free','sesame-free','fish-free','shellfish-free'],allergens:[],metadataReviewed:true,allergenReviewed:true,reviewedAt,recipeComplete:true,provenance:{type:'original',label:'Crow & Crown original beverage plan'}
+ },
+ 'kids-cider':{
+  id:'kids-cider',title:'Kids’ cider + juice',mealRole:'non-alcoholic-drink',baseServings:1,servingStrategy:{basis:'children'},
+  ingredients:[p('apple-cider','Apple cider or juice',16,'floz','Beverages',64,'floz',4.99)],
+  instructions:['Chill cider or juice.','Pour into a small kid-safe pitcher or individual cups.','Keep the kids’ drink station separate from alcoholic drinks.'],
+  prepTasks:[task('chill','Chill kids’ cider + juice','day-before',5,{handsOn:true,fixedStartOffsetMinutes:-1440}),task('stage','Stage kid-safe cups + pitcher','before-guests',10,{handsOn:true,fixedStartOffsetMinutes:-45})],
+  makeAhead:'Chill the day before.',storage:'Keep refrigerated until service.',reheat:'Not applicable.',substitutions:['Use diluted juice or water based on family preference.'],
+  equipment:[],servingRequirements:[eq('kid-pitcher','Kid-safe pitcher',1,'serving'),eq('kid-cups','Kid-safe cups',1,'serving',{perPerson:true})],
+  dietaryTags:['vegan','vegetarian','gluten-free','dairy-free','nut-free','egg-free','soy-free','sesame-free','fish-free','shellfish-free'],allergens:[],metadataReviewed:true,allergenReviewed:true,reviewedAt,recipeComplete:true,provenance:{type:'original',label:'Crow & Crown original beverage plan'}
+ },
+ 'coffee-tea':{
+  id:'coffee-tea',title:'Coffee + tea after dinner',mealRole:'coffee',baseServings:1,servingStrategy:{basis:'adults',factor:0.75},
+  ingredients:[p('coffee-beans','Coffee',0.06,'lb','Beverages',12,'oz',12.99),p('tea-bags','Tea bags',0.5,'each','Beverages',20,'each',5.99),p('coffee-cream','Coffee cream',2,'floz','Dairy',16,'floz',4.99)],
+  instructions:['Set mugs, tea, sugar and cream before dinner.','Brew coffee as dessert is cleared or plated.','Refresh hot water for tea and serve cream cold.'],
+  prepTasks:[task('stage','Stage coffee + tea service','morning',15,{handsOn:true,fixedStartOffsetMinutes:-360}),task('brew','Brew coffee + heat tea water','serve',15,{handsOn:true,fixedStartOffsetMinutes:45,resourceRequirements:[{type:'burner',slots:1}]})],
+  makeAhead:'Stage cups and shelf-stable items in the morning.',storage:'Keep dairy cream refrigerated until service.',reheat:'Brew fresh rather than reheating coffee.',substitutions:['Offer decaf and dairy-free creamer if needed.'],
+  equipment:[eq('coffee-maker','Coffee maker'),eq('tea-kettle','Tea kettle')],servingRequirements:[eq('coffee-mugs','Coffee cups or mugs',1,'serving',{perPerson:true}),eq('teaspoons','Teaspoons',1,'serving',{perPerson:true})],
+  dietaryTags:['vegetarian','gluten-free','nut-free','egg-free','sesame-free','fish-free','shellfish-free'],allergens:['milk'],metadataReviewed:true,allergenReviewed:true,reviewedAt,recipeComplete:true,provenance:{type:'original',label:'Crow & Crown original beverage plan'}
  }
 };
 
