@@ -21,6 +21,8 @@ test("customer shell renders every destination and core write paths",async()=>{
  setup.querySelector('[name="headcount"]').value="8";
  setup.querySelector('[name="dinnerAt"]').value="2026-11-26T17:00";
  submit(setup);
+ assert.ok(document.querySelector(".desktop-sidebar"),"wide-screen workspace navigation renders");
+ assert.equal(document.querySelectorAll(".desktop-sidebar nav [data-nav]").length,12,"desktop navigation exposes every planning section");
 
  const expected={
   home:"already figured out.",party:"Party plan",menu:"Menu",prep:"Prep",shopping:"Shopping",table:"Table",
