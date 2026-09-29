@@ -32,7 +32,7 @@ function persist(next,{bumpRevision=true}={}){
 function update(mutator,options){persist(mutator(structuredClone(state)),options);}
 function inventoryNumber(value){return typeof value==="number"?value:Number(value?.quantity??value?.owned)||0;}
 function shoppingInventoryKey(key){return String(key||"").replace(/^(equipment|table|activity):/,"");}
-function pageHeader(title,sub=""){return `<header class="pagehead"><div><p class="eyebrow">CROW & CROWN / THANKSGIVING</p><h1>${esc(title)}</h1></div>${sub?`<p class="page-sub">${esc(sub)}</p>`:""}</header>`;}
+function pageHeader(title,sub=""){return `<header class="pagehead page-${esc(active)}"><div class="hero-copy"><p class="eyebrow">CROW & CROWN / THANKSGIVING</p><h1>${esc(title)}</h1>${sub?`<p class="page-sub">${esc(sub)}</p>`:""}</div><div class="hero-art" aria-hidden="true"><i></i><i></i><i></i><span>HOSTING SYSTEM</span></div></header>`;}
 function stat(label,value,detail=""){return `<div class="stat"><span>${esc(label)}</span><strong>${esc(value)}</strong>${detail?`<small>${esc(detail)}</small>`:""}</div>`;}
 function empty(text){return `<p class="empty">${esc(text)}</p>`;}
 
@@ -53,7 +53,9 @@ function issueList(p){
 }
 
 function setupView(){
- return `<main class="setup-shell"><div class="setup-card"><p class="eyebrow">CROW & CROWN / THANKSGIVING</p><h1>Thanksgiving,<br>already figured out.</h1><p class="page-sub">Set the few facts that drive the plan. You can change all of them later.</p>
+ return `<main class="setup-shell"><div class="setup-card">
+ <section class="setup-hero"><p class="eyebrow">CROW & CROWN / THANKSGIVING</p><div class="setup-orbit" aria-hidden="true"><i></i><i></i></div><div class="setup-copy"><span class="setup-index">01 / SETUP</span><h1>Thanksgiving,<br>already figured out.</h1><p>One quiet setup. The rest of the plan follows.</p></div></section>
+ <section class="setup-form-wrap"><div class="form-intro"><span>HOSTING PROFILE</span><h2>Build the room around the dinner.</h2><p>Start with the facts that change everything else.</p></div>
  <form id="setup-form" class="form-grid">
   <label>Planning for<input name="headcount" type="number" min="1" value="${state.planning.estimatedHeadcount||12}" required></label>
   <label>Dinner time<input name="dinnerAt" type="datetime-local" value="${localInput(state.event.dinnerAt)}"></label>
@@ -61,8 +63,8 @@ function setupView(){
   <label>Budget<input name="budget" type="number" min="0" value="${state.event.budget||0}"></label>
   <label>Ovens<input name="ovens" type="number" min="0" value="${state.event.ovens??1}"></label>
   <label>Burners<input name="burners" type="number" min="0" value="${state.event.burners??4}"></label>
-  <button class="primary" type="submit">Build my plan</button>
- </form></div></main>`;
+  <button class="primary" type="submit">Build my plan <span>→</span></button>
+ </form></section></div></main>`;
 }
 
 function homeView(p){
@@ -238,7 +240,7 @@ function view(p){
 function render(){
  if(!state.setupCompleted){app.innerHTML=setupView();bind();return;}
  const p=derivePlan(state);
- app.innerHTML=`<div class="app-shell"><aside class="sidebar"><div class="brand-lockup"><b>CROW & CROWN</b><span>THANKSGIVING</span></div><nav>${NAV.map(([id,label])=>`<button data-nav="${id}" class="${active===id?"active":""}">${label}</button>`).join("")}</nav><div class="save-state">${esc(saveLabel)} · plan r${state.revision}</div></aside><main class="workspace">${view(p)}</main></div>`;
+ app.innerHTML=`<div class="app-shell"><aside class="sidebar"><div class="brand-lockup"><span class="brand-mark">C+C</span><div><b>CROW & CROWN</b><span>THANKSGIVING</span></div></div><nav>${NAV.map(([id,label],index)=>`<button data-nav="${id}" class="${active===id?"active":""}"><span class="nav-no">${String(index+1).padStart(2,"0")}</span><span class="nav-label">${label}</span></button>`).join("")}</nav><div class="save-state"><i></i>${esc(saveLabel)}</div></aside><main class="workspace">${view(p)}</main></div>`;
  bind();
 }
 
