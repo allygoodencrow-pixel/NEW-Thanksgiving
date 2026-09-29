@@ -1,0 +1,10 @@
+import {SCHEMA_VERSION,createPartyState} from "./state.js";
+export const DEFAULT_STORAGE_KEY="crow-crown-thanksgiving:event";
+export function migrateState(raw){const source=raw?.state&&raw.schemaVersion!=null?raw.state:raw||{};const merged=createPartyState(source);return {...merged,schemaVersion:SCHEMA_VERSION,revision:Math.max(0,Number(source.revision??raw?.revision)||0)};}
+export function loadState(storage,key=DEFAULT_STORAGE_KEY){const text=storage?.getItem?.(key);if(!text)return null;try{return migrateState(JSON.parse(text));}catch{return null;}}
+export function saveState(storage,state,{key=DEFAULT_STORAGE_KEY,expectedRevision=null}={}){const current=loadState(storage,key);if(expectedRevision!=null&&current&&Number(current.revision)!==Number(expectedRevision))return {ok:false,conflict:true,current};const next={...migrateState(state),revision:Math.max(Number(current?.revision)||0,Number(state.revision)||0)+1,savedAt:new Date().toISOString()};storage.setItem(key,JSON.stringify(next));return {ok:true,state:next};}
+export function backupState(state){return JSON.stringify({format:"crow-crown-thanksgiving-backup",schemaVersion:SCHEMA_VERSION,exportedAt:new Date().toISOString(),state:migrateState(state)},null,2);}
+export function restoreBackup(text){const parsed=typeof text==="string"?JSON.parse(text):text;if(parsed?.format!=="crow-crown-thanksgiving-backup"&&!parsed?.state)throw new Error("Invalid backup");return migrateState(parsed.state||parsed);}
+export function browserStorage(){return typeof localStorage!=="undefined"?localStorage:null;}
+export function memoryStorage(seed={}){const map=new Map(Object.entries(seed));return {getItem:k=>map.has(k)?map.get(k):null,setItem:(k,v)=>map.set(k,String(v)),removeItem:k=>map.delete(k)};}
+export function duplicateForNewEvent(state,{name=state.event?.name||"Thanksgiving",dinnerAt=null}={}){const next=migrateState(state);return {...next,revision:0,event:{...next.event,name,dinnerAt},guests:(next.guests||[]).map(g=>({...g,rsvp:"pending"})),seats:{},shoppingLedger:{},taskOverrides:{},manualTasks:(next.manualTasks||[]).map(t=>({...t,completed:false})),actualSpendEntries:[],printableOverrides:{}};}

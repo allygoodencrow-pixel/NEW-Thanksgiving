@@ -1,41 +1,13 @@
 # Thanksgiving recovery migration
 
-## Authority
-The 2026-09-28 recovery specification remains the behavioral reference. Prior interface code is not design authority.
+The connected planning engine is now recovered in the new repository across guests, menu, recipes, ingredients, shopping, prep, turkey, equipment, kitchen scheduling, service style, tables, seating, space, activities, budget, printables, and versioned local persistence.
 
-## Recovered and protected
-- [x] canonical event/planning state
-- [x] guest and planning-population logic
-- [x] recipe/custom-recipe menu integration
-- [x] live ingredient scaling and compatible-unit consolidation
-- [x] pantry and committed-purchase accounting
-- [x] host/purchased/guest-contribution responsibility rules
-- [x] prep propagation
-- [x] role-aware menu portion sharing
-- [x] batch/pan capacity and sequential-wave calculation
-- [x] menu-role completeness
-- [x] person-level dietary coverage with unresolved metadata state
-- [x] recipe equipment and serving-piece requirements
-- [x] equipment inventory gaps flowing to hosting-supply shopping
-- [x] turkey requirement vs purchased-weight tracking
-- [x] dependency-aware prep task graph
-- [x] oven/burner/host resource scheduling
-- [x] incompatible oven-temperature conflict handling
-- [x] relative dinner-time scheduling with fixed/pinned task preservation
-- [x] one derived plan exposing menu, dietary coverage, turkey, ingredients, shopping, equipment, prep, and timeline
+## Important boundaries
+- Local save/backup/restore is implemented and versioned. It is not represented as cross-device account persistence.
+- Cross-device/private-customer storage still requires a backend/database connection.
+- Printable generators now produce live plan data and browser-printable output; final approved visual templates/assets remain a content/design dependency.
+- Product links, prices, imagery, and exact approved printable artwork are never invented by the planning engine.
+- Measured space checks run only when dimensions/positions are supplied; otherwise the layout is explicitly approximate.
 
-## Intentional safeguards
-- Cooking duration does not multiply directly with guest count.
-- Extra duration appears only when recipe batch capacity forces sequential waves.
-- Missing turkey thaw/cook rules are surfaced as missing data; the engine does not invent universal timing guidance.
-- Unreviewed dietary/allergen metadata remains unresolved rather than being called safe.
-- Confirmed guest-provided dishes can stop host cooking/shopping while still retaining receiving, reheating, finishing, and serving tasks where the recipe defines them.
-
-## Still outside this recovery slice
-- [ ] service-style propagation across table/buffet/plated requirements
-- [ ] table geometry, chairs, linen fit, and space zones
-- [ ] projected/committed/actual budget rollup across every domain
-- [ ] activities/experience quantity mapping
-- [ ] printable data generators
-- [ ] persistence/schema migration/backup-restore recovery in the new repository
-- [ ] final customer UI wiring for every derived issue and control
+## Regression protections
+The repository includes tests for the recovered meal engine, cooking scheduler, table/linen/chair calculations, seating uniqueness, service-style switching, activities, budget reconciliation, printable staleness, backups, revision conflicts, and prior-plan duplication.
