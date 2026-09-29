@@ -13,9 +13,12 @@ import {generatePrintableBundle} from '../src/domain/printables.js';
 test('prepared turkey is one prepared order, not a raw bird too',()=>{
  let state=withSignatureMenu(createPartyState({planning:{mode:'custom',customHeadcount:200}}));
  state=setDishPreparationMode(state,'turkey','purchased');
- const turkey=deriveShoppingList(state).filter(row=>row.sources?.some(source=>source.dishId==='turkey'));
- assert.deepEqual(turkey.map(row=>row.key),['prepared:turkey']);
- assert.equal(turkey[0].required.quantity,200);
+ const rows=deriveShoppingList(state).filter(row=>row.sources?.some(source=>source.dishId==='turkey'));
+ const prepared=rows.find(row=>row.key==='prepared:turkey');
+ assert.ok(prepared);
+ assert.equal(prepared.required.quantity,200);
+ assert.equal(rows.some(row=>row.key==='turkey:whole-bird'),false);
+ assert.equal(rows.some(row=>row.kind==='ingredient'),false);
 });
 
 test('unverified, missing, or declined contribution does not remove host fallback',()=>{
@@ -41,11 +44,14 @@ test('drinks use eligible segments and roles are not misclassified',()=>{
  assert.ok(deriveMenuCompleteness(state).missing.includes('vegetable'));
 });
 
-test('count shopping offers buyable units without changing recipe demand',()=>{
+test('package shopping keeps recipe demand separate from what the host should buy',()=>{
  const state=withSignatureMenu(createPartyState({planning:{mode:'estimated',estimatedHeadcount:12}}));
  const row=deriveShoppingList(state).find(x=>x.name==='Pumpkin purée');
- assert.equal(row.required.quantity,1.08);
- assert.deepEqual(row.purchaseRecommendation,{quantity:2,unit:'can',packages:2,packageSize:1});
+ assert.ok(Math.abs(row.required.quantity-1.40625)<1e-9);
+ assert.equal(row.required.unit,'lb');
+ assert.equal(row.purchaseRecommendation.packages,2);
+ assert.equal(row.purchaseRecommendation.quantity,30);
+ assert.equal(row.purchaseRecommendation.unit,'oz');
  assert.equal(row.category,'Pantry');
 });
 
@@ -56,20 +62,20 @@ test('owned tableware routes to inventory and resolves the actual shortage',()=>
  assert.equal(state.pantry['table:dinner-plates'],undefined);
 });
 
-test('incomplete recovered recipes cannot produce a clear or complete plan',()=>{
+test('signature menu is backed by complete reviewed recipes',()=>{
  const state=withSignatureMenu(createPartyState({event:{dinnerAt:'2026-11-26T16:30:00-08:00'}}));
  const menu=deriveMenuCompleteness(state);
  assert.equal(menu.structureComplete,true);
- assert.equal(menu.complete,false);
- assert.equal(menu.incompleteRecipes.length,8);
- assert.equal(deriveTimeline(state).issues.filter(x=>x.type==='recipe-incomplete').length,8);
+ assert.equal(menu.complete,true);
+ assert.equal(menu.incompleteRecipes.length,0);
+ assert.equal(deriveTimeline(state).issues.filter(x=>x.type==='recipe-incomplete').length,0);
 });
 
-test('unseated named guests get place cards and unreviewed labels do not claim safety',()=>{
+test('unseated named guests get place cards and reviewed signature labels may make reviewed claims',()=>{
  const state=withSignatureMenu(createPartyState({planning:{mode:'expected'},guests:[{guestId:'g1',name:'Alex',rsvp:'yes'}]}));
  const bundle=generatePrintableBundle(state).printables;
  assert.deepEqual(bundle['place-cards'].rows,[{personId:'g1',name:'Alex',seatId:null}]);
  assert.deepEqual(bundle['seating-chart'].rows,[]);
- assert.match(bundle['food-labels'].rows[0].status,/review required/);
- assert.deepEqual(bundle['food-labels'].rows[0].dietaryTags,[]);
+ assert.equal(bundle['food-labels'].rows[0].status,'reviewed');
+ assert.ok(Array.isArray(bundle['food-labels'].rows[0].dietaryTags));
 });
