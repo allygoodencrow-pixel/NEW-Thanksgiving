@@ -22,6 +22,7 @@ const fmt=n=>Number(n||0).toLocaleString(undefined,{maximumFractionDigits:2});
 const qty=q=>q?`${fmt(q.quantity)} ${esc(q.unit||"")}`:"—";
 const csv=v=>String(v||"").split(",").map(x=>x.trim().toLowerCase()).filter(Boolean);
 const localInput=v=>v?String(v).slice(0,16):"";
+function suggestedDinner(){let year=new Date().getFullYear();const day=y=>1+(4-new Date(y,10,1).getDay()+7)%7+21;if(new Date(year,10,day(year),16,30)<new Date())year++;return `${year}-11-${String(day(year)).padStart(2,"0")}T16:30`;}
 const app=document.querySelector("#app");
 
 function persist(next,{bumpRevision=true}={}){
@@ -59,7 +60,7 @@ function setupView(){
  <section class="setup-form-wrap"><div class="form-intro"><span>HOSTING PROFILE</span><h2>Build the room around the dinner.</h2><p>Start with the facts that change everything else.</p></div>
  <form id="setup-form" class="form-grid">
   <label>Planning for<input name="headcount" type="number" min="1" value="${state.planning.estimatedHeadcount||12}" required></label>
-  <label>Dinner time<input name="dinnerAt" type="datetime-local" value="${localInput(state.event.dinnerAt)}"></label>
+  <label>Dinner time<input name="dinnerAt" type="datetime-local" value="${localInput(state.event.dinnerAt)||suggestedDinner()}"></label>
   <label>Service style<select name="service"><option value="family">Family style</option><option value="buffet">Buffet</option><option value="plated">Plated</option><option value="cocktail">Cocktail / grazing</option></select></label>
   <label>Budget<input name="budget" type="number" min="0" value="${state.event.budget||0}"></label>
   <label>Ovens<input name="ovens" type="number" min="0" value="${state.event.ovens??1}"></label>
