@@ -11,7 +11,7 @@ import {derivePlan} from "../src/domain/planning.js";
 
 test("confirmed planning only counts yes RSVPs",()=>{const guests=[{name:"A",rsvp:"yes",plus:1,kids:2},{name:"B",rsvp:"pending"},{name:"C",rsvp:"no"}];assert.deepEqual(guestPopulation(guests,"confirmed"),{headcount:4,adults:2,children:2,drinkers:0});});
 test("estimated planning uses estimated values",()=>{const state=createPartyState({planning:{mode:"estimated",estimatedHeadcount:20,estimatedChildren:5}});assert.equal(planningContext(state).planningAdults,15);});
-test("confirmed guest contribution removes host requirement",()=>{const state=createPartyState({dishes:{pie:{on:true,preparationMode:"homemade"}},menuResponsibilities:{pie:{ownerType:"guest",status:"confirmed"}}});assert.equal(dishRequirementMode("pie",state),"none");});
+test("confirmed guest contribution removes host requirement",()=>{const state=createPartyState({dishes:{pie:{on:true,preparationMode:"homemade"}},guests:[{guestId:"supplier",name:"Supplier",rsvp:"yes"}],menuResponsibilities:{pie:{ownerType:"guest",contributorGuestId:"supplier",status:"confirmed"}}});assert.equal(dishRequirementMode("pie",state),"none");});
 test("purchased dish becomes prepared-food requirement",()=>{const state=createPartyState({dishes:{rolls:{on:true,preparationMode:"purchased"}}});assert.equal(dishRequirementMode("rolls",state),"prepared-food");});
 test("quantity scaling and package rounding are deterministic",()=>{assert.equal(scaleQuantity(2,8,20),5);assert.equal(packageCount(5,2),3);});
 
@@ -68,7 +68,7 @@ test("unconfirmed guest contribution remains host requirement until confirmed",(
  let state=createPartyState({planning:{mode:"estimated",estimatedHeadcount:8}});
  state=addRecipeToMenu(state,{id:"pie",title:"Pie",baseServings:8,ingredients:[{ingredientId:"sugar",name:"Sugar",quantity:1,unit:"cup"}],prepTasks:["Bake pie"]});
  state={...state,menuResponsibilities:{pie:{ownerType:"guest",status:"pending"}}};assert.equal(deriveShoppingList(state).some(x=>x.key==="sugar"),true);assert.equal(derivePrepTasks(state).length,1);
- state={...state,menuResponsibilities:{pie:{ownerType:"guest",status:"confirmed"}}};assert.equal(deriveShoppingList(state).some(x=>x.key==="sugar"),false);assert.equal(derivePrepTasks(state).length,0);
+ state={...state,guests:[{guestId:"supplier",name:"Supplier",rsvp:"yes"}],menuResponsibilities:{pie:{ownerType:"guest",contributorGuestId:"supplier",status:"confirmed"}}};assert.equal(deriveShoppingList(state).some(x=>x.key==="sugar"),false);assert.equal(derivePrepTasks(state).length,0);
 });
 
 test("manual shopping items survive recipe recalculation",()=>{
