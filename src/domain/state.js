@@ -1,4 +1,4 @@
-export const SCHEMA_VERSION=4;
+export const SCHEMA_VERSION=5;
 export const DEFAULT_ROLE_SERVING_TARGETS={main:1,"secondary-main":.5,starch:1,vegetable:1,fresh:.5,bread:.75,"sauce-condiment":.25,appetizer:.75,dessert:1,"non-alcoholic-drink":1,alcohol:1,coffee:1};
 export function createPartyState(overrides={}){
  const base={
