@@ -17,8 +17,8 @@ export const SIGNATURE_RECIPE_OVERRIDES={
   description:'Whole roast turkey with herb butter, aromatics and pan juices.',
   ingredients:[
    p('butter-unsalted','Unsalted butter',0.5,'lb','Dairy',1,'lb',5.99),
-   p('kosher-salt','Kosher salt',3,'tbsp','Pantry',3,'lb',6.49),
-   p('black-pepper','Black pepper',1,'tbsp','Pantry',3,'oz',5.49),
+   p('kosher-salt','Kosher salt',3,'tbsp','Pantry',96,'tbsp',6.49),
+   p('black-pepper','Black pepper',1,'tbsp','Pantry',12,'tbsp',5.49),
    p('fresh-sage','Fresh sage',0.5,'bunch','Produce',1,'bunch',2.49),
    p('fresh-thyme','Fresh thyme',0.5,'bunch','Produce',1,'bunch',2.49),
    p('fresh-rosemary','Fresh rosemary',0.5,'bunch','Produce',1,'bunch',2.49),
@@ -68,8 +68,8 @@ export const SIGNATURE_RECIPE_OVERRIDES={
    p('fresh-parsley','Flat-leaf parsley',0.5,'bunch','Produce',1,'bunch',1.99),
    p('eggs-large','Large eggs',2,'each','Dairy + Eggs',12,'each',4.99),
    p('chicken-stock','Chicken or vegetable stock',4,'cup','Pantry',32,'floz',4.49),
-   p('kosher-salt','Kosher salt',2,'tsp','Pantry',3,'lb',6.49),
-   p('black-pepper','Black pepper',1,'tsp','Pantry',3,'oz',5.49)
+   p('kosher-salt','Kosher salt',2,'tsp','Pantry',96,'tbsp',6.49),
+   p('black-pepper','Black pepper',1,'tsp','Pantry',12,'tbsp',5.49)
   ],
   instructions:[
    'Cube the bread and dry it uncovered overnight, or toast it gently until dry but not deeply browned.',
@@ -103,7 +103,7 @@ export const SIGNATURE_RECIPE_OVERRIDES={
    p('butter-unsalted','Unsalted butter',0.75,'lb','Dairy',1,'lb',5.99),
    p('heavy-cream','Heavy cream',2,'cup','Dairy',16,'floz',5.49),
    p('whole-milk','Whole milk',2,'cup','Dairy',64,'floz',3.99),
-   p('kosher-salt','Kosher salt',1,'tbsp','Pantry',3,'lb',6.49)
+   p('kosher-salt','Kosher salt',1,'tbsp','Pantry',96,'tbsp',6.49)
   ],
   instructions:[
    'Peel if desired and cut potatoes into even chunks.',
@@ -137,8 +137,8 @@ export const SIGNATURE_RECIPE_OVERRIDES={
    p('butter-unsalted','Unsalted butter',0.25,'lb','Dairy',1,'lb',5.99),
    p('all-purpose-flour','All-purpose flour',0.25,'lb','Pantry',5,'lb',5.49),
    p('chicken-stock','Chicken or turkey stock',4,'cup','Pantry',32,'floz',4.49),
-   p('kosher-salt','Kosher salt',1,'tsp','Pantry',3,'lb',6.49),
-   p('black-pepper','Black pepper',0.5,'tsp','Pantry',3,'oz',5.49)
+   p('kosher-salt','Kosher salt',1,'tsp','Pantry',96,'tbsp',6.49),
+   p('black-pepper','Black pepper',0.5,'tsp','Pantry',12,'tbsp',5.49)
   ],
   instructions:[
    'Melt butter in a saucepan and whisk in flour. Cook until the roux smells nutty but remains light brown.',
@@ -170,7 +170,7 @@ export const SIGNATURE_RECIPE_OVERRIDES={
    p('garlic','Garlic',1,'head','Produce',3,'head',2.49),
    p('lemon','Lemons',2,'each','Produce',4,'each',4.49),
    p('olive-oil','Extra-virgin olive oil',0.5,'cup','Pantry',25.5,'floz',11.99),
-   p('kosher-salt','Kosher salt',2,'tsp','Pantry',3,'lb',6.49)
+   p('kosher-salt','Kosher salt',2,'tsp','Pantry',96,'tbsp',6.49)
   ],
   instructions:[
    'Trim the beans.',
@@ -232,9 +232,9 @@ export const SIGNATURE_RECIPE_OVERRIDES={
    p('all-purpose-flour','All-purpose flour',1.5,'lb','Bakery',5,'lb',5.49),
    p('whole-milk','Whole milk',1.5,'cup','Dairy',64,'floz',3.99),
    p('butter-unsalted','Unsalted butter',0.5,'lb','Dairy',1,'lb',5.99),
-   p('instant-yeast','Instant yeast',2.25,'tsp','Pantry',3,'packet',2.49),
-   p('granulated-sugar','Granulated sugar',0.25,'cup','Pantry',4,'lb',4.49),
-   p('kosher-salt','Kosher salt',2,'tsp','Pantry',3,'lb',6.49)
+   p('instant-yeast','Instant yeast',2.25,'tsp','Pantry',6.75,'tsp',2.49),
+   p('granulated-sugar','Granulated sugar',0.25,'cup','Pantry',8,'cup',4.49),
+   p('kosher-salt','Kosher salt',2,'tsp','Pantry',96,'tbsp',6.49)
   ],
   instructions:[
    'Warm the milk until just warm, not hot.',
@@ -271,9 +271,9 @@ export const SIGNATURE_RECIPE_OVERRIDES={
    p('pumpkin-puree','Pumpkin purée',15,'oz','Pantry',15,'oz',2.49),
    p('evaporated-milk','Evaporated milk',12,'floz','Dairy',12,'floz',2.19),
    p('eggs-large','Large eggs',2,'each','Dairy + Eggs',12,'each',4.99),
-   p('brown-sugar','Brown sugar',0.75,'cup','Pantry',2,'lb',3.99),
-   p('pumpkin-spice','Pumpkin pie spice',2,'tsp','Pantry',2,'oz',5.49),
-   p('kosher-salt','Kosher salt',0.5,'tsp','Pantry',3,'lb',6.49),
+   p('brown-sugar','Brown sugar',0.75,'cup','Pantry',4,'cup',3.99),
+   p('pumpkin-spice','Pumpkin pie spice',2,'tsp','Pantry',28,'tsp',5.49),
+   p('kosher-salt','Kosher salt',0.5,'tsp','Pantry',96,'tbsp',6.49),
    p('heavy-cream','Heavy cream',1,'cup','Dairy',16,'floz',5.49,{optional:true,includeByDefault:true})
   ],
   instructions:[
