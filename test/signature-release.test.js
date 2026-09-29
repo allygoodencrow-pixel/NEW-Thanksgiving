@@ -6,6 +6,7 @@ import {deriveShoppingList} from '../src/domain/shopping.js';
 import {deriveBudgetPlan} from '../src/domain/budget.js';
 import {deriveTurkeyPlan} from '../src/domain/turkey.js';
 import {deriveTimeline} from '../src/domain/schedule.js';
+import {migrateState} from '../src/domain/persistence.js';
 
 test('every selectable signature recipe is operationally complete',()=>{
  const state=withCatalog(createPartyState());
@@ -61,4 +62,19 @@ test('recovered reference recipes remain explicitly incomplete until reviewed',(
  assert.ok(r.unsupportedReason);
  assert.equal(r.metadataReviewed,false);
  assert.equal(r.allergenReviewed,false);
+});
+
+
+test('migration repairs malformed legacy fields without resetting unrelated party work',()=>{
+ const migrated=migrateState({schemaVersion:2,revision:7,event:{name:'My Thanksgiving',dinnerTime:'2026-11-26T17:00:00-08:00'},planning:{mode:'nonsense',estimatedHeadcount:16},guests:[{id:'old-1',name:'Alex',rsvp:'maybe'}],manualShoppingItems:{bad:true},dishes:{pie:{on:true,recipeId:'pie'}},shopping:{'pumpkin-puree':{quantity:1,unit:'each'}}});
+ assert.equal(migrated.schemaVersion,5);
+ assert.equal(migrated.revision,7);
+ assert.equal(migrated.event.name,'My Thanksgiving');
+ assert.equal(migrated.event.dinnerAt,'2026-11-26T17:00:00-08:00');
+ assert.equal(migrated.planning.mode,'estimated');
+ assert.equal(migrated.guests[0].guestId,'old-1');
+ assert.equal(migrated.guests[0].rsvp,'pending');
+ assert.deepEqual(migrated.manualShoppingItems,[]);
+ assert.equal(migrated.dishes.pie.on,true);
+ assert.equal(migrated.shoppingLedger['pumpkin-puree'].quantity,1);
 });
