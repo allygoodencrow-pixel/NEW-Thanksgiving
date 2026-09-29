@@ -2,8 +2,10 @@ import test from "node:test";import assert from "node:assert/strict";
 import {createPartyState} from "../src/domain/state.js";
 import {namedPlanningPeople} from "../src/domain/guests.js";
 import {addRecipeToMenu} from "../src/domain/recipes.js";
-import {setDishPreparationMode} from "../src/domain/menu.js";
+import {dishRequirementMode,setDishPreparationMode} from "../src/domain/menu.js";
 import {deriveEquipmentPlan} from "../src/domain/equipment.js";
+import {deriveExperiencePlan} from "../src/domain/experience.js";
+import {deriveSpacePlan} from "../src/domain/space.js";
 import {deriveTablePlan} from "../src/domain/table.js";
 import {deriveShoppingList,recordPurchase} from "../src/domain/shopping.js";
 import {deriveBudgetPlan} from "../src/domain/budget.js";
@@ -28,3 +30,14 @@ test("printable metadata can save without changing plan revision",()=>{const sto
 test("seating assignment rejects unknown people",()=>{const s=createPartyState({planning:{mode:"confirmed"},guests:[{id:"a",name:"A",rsvp:"yes"}],tables:[{id:"t",use:"dining",seatCapacity:1}]});assert.throws(()=>assignSeat(s,"not-a-person","t:seat:1"),/Unknown person/);});
 
 test("printable HTML includes operational seating and timeline details",()=>{let s=createPartyState({event:{dinnerAt:"2026-11-26T17:00:00-08:00"},planning:{mode:"confirmed"},guests:[{id:"a",name:"Alex",rsvp:"yes"}],tables:[{id:"t",use:"dining",seatCapacity:1}],seats:{"t:seat:1":"a"},manualTasks:[{id:"host",title:"Light candles",durationMinutes:10,finishOffsetMinutes:-15}]});const bundle=generatePrintableBundle(s);const seating=renderPrintableHtml(bundle.printables["seating-chart"]);const timeline=renderPrintableHtml(bundle.printables["kitchen-timeline"]);assert.match(seating,/Alex/);assert.match(seating,/t:seat:1/);assert.match(timeline,/Light candles/);assert.match(timeline,/host/);});
+
+
+test("guest-provided dish keeps host backup until contribution is confirmed",()=>{let s=createPartyState({planning:{mode:"estimated",estimatedHeadcount:8}});s=addRecipeToMenu(s,{id:"pie",title:"Pie",baseServings:8,ingredients:[{name:"Sugar",quantity:1,unit:"cup"}]},{preparationMode:"guest-provided"});assert.equal(dishRequirementMode("pie",s),"ingredients");assert.equal(deriveShoppingList(s).some(x=>x.name==="Sugar"),true);s={...s,menuResponsibilities:{pie:{ownerType:"guest",status:"confirmed"}}};assert.equal(dishRequirementMode("pie",s),"none");assert.equal(deriveShoppingList(s).some(x=>x.name==="Sugar"),false);});
+
+test("equipment purchases resolve both equipment gap and shopping need",()=>{let s=createPartyState();s=addRecipeToMenu(s,{id:"mash",title:"Mash",baseServings:12,equipment:[{id:"pot",name:"Pot",quantity:1}],ingredients:[]});let e=deriveEquipmentPlan(s).find(x=>x.key==="pot");assert.equal(e.missing,1);s=recordPurchase(s,"equipment:pot",1,"each",20);e=deriveEquipmentPlan(s).find(x=>x.key==="pot");assert.equal(e.missing,0);const row=deriveShoppingList(s).find(x=>x.key==="equipment:pot");assert.equal(row.required.quantity,1);assert.equal(row.purchased.quantity,1);assert.equal(row.stillNeed.quantity,0);});
+
+test("chair purchases resolve table shortage and shopping need together",()=>{let s=createPartyState({planning:{mode:"estimated",estimatedHeadcount:8},tables:[{id:"t",use:"dining",seatCapacity:8}],inventory:{chairs:{quantity:4}}});assert.equal(deriveTablePlan(s).chairShortage,4);s=recordPurchase(s,"table:chairs",4,"each",80);assert.equal(deriveTablePlan(s).chairShortage,0);const row=deriveShoppingList(s).find(x=>x.key==="table:chairs");assert.equal(row.required.quantity,8);assert.equal(row.alreadyHave.quantity,4);assert.equal(row.purchased.quantity,4);assert.equal(row.stillNeed.quantity,0);});
+
+test("linen purchase tied to a table resolves that table's linen gap",()=>{let s=createPartyState({tables:[{id:"t",use:"dining",seatCapacity:6,lengthIn:72,widthIn:36,linenDropIn:12}]});assert.equal(deriveTablePlan(s).linens[0].missing,1);s=recordPurchase(s,"table:linen:t",1,"each",30);assert.equal(deriveTablePlan(s).linens[0].missing,0);const row=deriveShoppingList(s).find(x=>x.key==="table:linen:t");assert.equal(row.stillNeed.quantity,0);});
+
+test("activity dependencies and space zones remain connected",()=>{const s=createPartyState({activities:{cards:{name:"Cards",zoneRequirement:"activity",tasks:[{id:"prep",title:"Prep",durationMinutes:5},{id:"set",title:"Set",durationMinutes:5,dependsOn:["prep"]}]}},selectedActivities:{cards:true}});const exp=deriveExperiencePlan(s);const set=exp.tasks.find(x=>x.title==="Set");assert.deepEqual(set.dependsOn,["activity:cards:prep"]);assert.equal(deriveSpacePlan(s).missingZones.includes("activity"),true);});
