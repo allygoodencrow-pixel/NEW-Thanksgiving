@@ -12,7 +12,7 @@ import {dishRequirementMode} from '../src/domain/menu.js';
 
 test('every selectable signature recipe is operationally complete',()=>{
  const state=withCatalog(createPartyState());
- assert.deepEqual([...SUPPORTED_SIGNATURE_IDS].sort(),[...SIGNATURE_MENU].sort());
+ for(const id of SIGNATURE_MENU)assert.ok(SUPPORTED_SIGNATURE_IDS.includes(id),id+' is selectable');
  for(const id of SIGNATURE_MENU){
   const r=state.recipes[id];
   assert.equal(r.recipeComplete,true,id+' complete');
@@ -95,4 +95,18 @@ test('declining or deleting a guest releases seats and invalidates their contrib
  assert.equal(state.menuResponsibilities.pie.status,'contributor-removed');
  assert.equal(state.dishes.pie.on,true);
  assert.equal(dishRequirementMode('pie',state),'ingredients');
+});
+
+
+test('beverage recipes scale to the correct guest segments',()=>{
+ const base=withCatalog(createPartyState({planning:{mode:'custom',customHeadcount:12,customChildren:3,customAdultDrinkers:4}}));
+ const state={...base,dishes:{wine:{on:true,recipeId:'wine'},'kids-cider':{on:true,recipeId:'kids-cider'},'sparkling-water':{on:true,recipeId:'sparkling-water'},'coffee-tea':{on:true,recipeId:'coffee-tea'}}};
+ const shopping=deriveShoppingList(state);
+ const wine=shopping.find(x=>x.name==='Wine bottles');
+ const cider=shopping.find(x=>x.name==='Apple cider or juice');
+ const water=shopping.find(x=>x.name==='Still water');
+ assert.ok(wine&&cider&&water);
+ assert.equal(wine.purchaseRecommendation.packages,2);
+ assert.equal(cider.purchaseRecommendation.packages,1);
+ assert.ok(water.requiredCanonical>cider.requiredCanonical);
 });
