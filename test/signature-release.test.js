@@ -7,6 +7,8 @@ import {deriveBudgetPlan} from '../src/domain/budget.js';
 import {deriveTurkeyPlan} from '../src/domain/turkey.js';
 import {deriveTimeline} from '../src/domain/schedule.js';
 import {migrateState} from '../src/domain/persistence.js';
+import {removeGuest,updateGuest} from '../src/domain/guests.js';
+import {dishRequirementMode} from '../src/domain/menu.js';
 
 test('every selectable signature recipe is operationally complete',()=>{
  const state=withCatalog(createPartyState());
@@ -77,4 +79,20 @@ test('migration repairs malformed legacy fields without resetting unrelated part
  assert.deepEqual(migrated.manualShoppingItems,[]);
  assert.equal(migrated.dishes.pie.on,true);
  assert.equal(migrated.shoppingLedger['pumpkin-puree'].quantity,1);
+});
+
+
+test('declining or deleting a guest releases seats and invalidates their contribution without deleting the dish',()=>{
+ let state=withSignatureMenu(createPartyState({planning:{mode:'expected'},guests:[{guestId:'g1',name:'Alex',rsvp:'yes'}],tables:[{id:'t',use:'dining',seatCapacity:1}],seats:{'t:seat:1':'g1'},menuResponsibilities:{pie:{ownerType:'guest',contributorGuestId:'g1',status:'confirmed'}}}));
+ assert.equal(dishRequirementMode('pie',state),'none');
+ state=updateGuest(state,'g1',{rsvp:'no'});
+ assert.equal(state.seats['t:seat:1'],undefined);
+ assert.equal(dishRequirementMode('pie',state),'ingredients');
+ state={...state,guests:[{guestId:'g1',name:'Alex',rsvp:'yes'}],seats:{'t:seat:1':'g1'},menuResponsibilities:{pie:{ownerType:'guest',contributorGuestId:'g1',status:'confirmed'}}};
+ state=removeGuest(state,'g1');
+ assert.equal(state.guests.length,0);
+ assert.equal(state.seats['t:seat:1'],undefined);
+ assert.equal(state.menuResponsibilities.pie.status,'contributor-removed');
+ assert.equal(state.dishes.pie.on,true);
+ assert.equal(dishRequirementMode('pie',state),'ingredients');
 });
