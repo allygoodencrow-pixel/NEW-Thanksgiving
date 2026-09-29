@@ -190,8 +190,65 @@ function spaceView(p){
 }
 
 function timelineView(p){
- return pageHeader("The timeline")+`<div class="editorial-lead"><span>DINNER ${state.event.dinnerAt?esc(new Date(state.event.dinnerAt).toLocaleTimeString(undefined,{hour:"numeric",minute:"2-digit"})):"TIME TO BE SET"}</span><button class="pill dark" data-sheet="task">+ ADD TASK</button></div>${!state.event.dinnerAt?`<div class="timeline-empty"><strong>Set dinner time to schedule these steps.</strong><p>The tasks are ready. One time anchors the whole day.</p><button class="pill dark" data-nav="party">SET DINNER TIME →</button></div>`:""}<p class="quiet-note">The day adjusts when dinner time changes. Pinned tasks stay where you put them.</p>`+
- (p.timeline.tasks.length?`<div class="rows timeline">${p.timeline.tasks.map(t=>`<form class="row ${t.conflict?"conflict":""}" data-task-form="${esc(t.taskId)}"><details><summary><time>${t.startAt?esc(new Date(t.startAt).toLocaleString(undefined,{weekday:"short",hour:"numeric",minute:"2-digit"})):"TIME TBD"}</time><strong>${esc(t.title)}</strong><span>${esc(t.recipeTitle||t.source||"manual")} · ${fmt(t.durationMinutes||0)} min ${t.conflict?"· TIMING CONFLICT":""}</span></summary><div class="task-edit"><label>Minutes<input name="duration" type="number" min="0" value="${t.durationMinutes||0}"></label><label>Pin time<input name="fixed" type="datetime-local" value="${localInput(t.fixedStart||"")}"></label><button class="text-button" type="submit">Save changes</button></div></details></form>`).join("")}</div>`:`<div class="timeline-empty"><strong>No cooking steps yet.</strong><p>Choose dishes and the prep schedule will appear here.</p><button class="pill dark" data-action="signature-menu">USE SIGNATURE MENU →</button></div>`)+
+ const tasks=p.timeline.tasks||[];
+ const dinnerRaw=state.event.dinnerAt?new Date(state.event.dinnerAt):null;
+ const dinner=dinnerRaw&&!Number.isNaN(dinnerRaw.getTime())?dinnerRaw:null;
+ const localDayKey=value=>{
+  if(!value)return "unscheduled";
+  const d=new Date(value);
+  if(Number.isNaN(d.getTime()))return "unscheduled";
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+ };
+ const dayDate=key=>key==="unscheduled"?null:new Date(`${key}T12:00:00`);
+ const dayLabel=key=>{
+  const d=dayDate(key);
+  if(!d)return "TO PLACE";
+  if(dinner){
+   const a=new Date(d.getFullYear(),d.getMonth(),d.getDate(),12);
+   const b=new Date(dinner.getFullYear(),dinner.getMonth(),dinner.getDate(),12);
+   const diff=Math.round((b-a)/86400000);
+   if(diff===0)return "DINNER DAY";
+   if(diff===1)return "DAY BEFORE";
+   if(diff>1&&diff<=14)return `${diff} DAYS BEFORE`;
+   if(diff<0)return `${Math.abs(diff)} DAY${Math.abs(diff)===1?"":"S"} AFTER`;
+  }
+  return d.toLocaleDateString(undefined,{weekday:"long"}).toUpperCase();
+ };
+ const dayStamp=key=>{
+  const d=dayDate(key);
+  return d?d.toLocaleDateString(undefined,{weekday:"long",month:"short",day:"numeric"}).toUpperCase():"UNSCHEDULED";
+ };
+ const timeLabel=value=>{
+  if(!value)return "TBD";
+  const d=new Date(value);
+  return Number.isNaN(d.getTime())?"TBD":d.toLocaleTimeString(undefined,{hour:"numeric",minute:"2-digit"});
+ };
+ const grouped=new Map();
+ for(const task of tasks){
+  const key=localDayKey(task.startAt||task.fixedStart);
+  if(!grouped.has(key))grouped.set(key,[]);
+  grouped.get(key).push(task);
+ }
+ const groups=[...grouped.entries()].sort(([a],[b])=>a==="unscheduled"?1:b==="unscheduled"?-1:a.localeCompare(b));
+ const conflicts=tasks.filter(t=>t.conflict).length;
+ const dinnerText=dinner?dinner.toLocaleTimeString(undefined,{hour:"numeric",minute:"2-digit"}):"TIME TO BE SET";
+ const sequence=groups.map(([key,dayTasks],dayIndex)=>`<section class="timeline-day">
+  <header class="timeline-day-head"><div><span class="timeline-day-index">${String(dayIndex+1).padStart(2,"0")} / ${esc(dayLabel(key))}</span><strong>${esc(dayStamp(key))}</strong></div><span>${dayTasks.length} STEP${dayTasks.length===1?"":"S"}</span></header>
+  <div class="timeline-sequence">${dayTasks.map((t,index)=>{
+   const context=t.recipeTitle||t.source||"Host task";
+   const phase=t.phase?String(t.phase).replace(/-/g," ").toUpperCase():"";
+   return `<form class="timeline-step ${t.conflict?"conflict":""}" data-task-form="${esc(t.taskId)}">
+    <div class="timeline-step-time">${esc(timeLabel(t.startAt||t.fixedStart))}</div>
+    <div class="timeline-step-copy"><span class="timeline-step-no">${String(index+1).padStart(2,"0")}</span><strong>${esc(t.title)}</strong><span class="timeline-step-context">${esc(context)}</span><div class="timeline-step-meta"><span>${fmt(t.durationMinutes||0)} MIN</span>${phase?`<span>${esc(phase)}</span>`:""}${t.fixedStart?`<span>PINNED</span>`:""}${t.conflict?`<span class="timeline-conflict">TIMING CONFLICT</span>`:""}</div></div>
+    <details class="timeline-adjust"><summary>ADJUST</summary><div class="timeline-task-edit"><label>Duration<input name="duration" type="number" min="0" value="${t.durationMinutes||0}"></label><label>Pin time<input name="fixed" type="datetime-local" value="${localInput(t.fixedStart||"")}"></label><button class="text-button" type="submit">Save changes</button></div></details>
+   </form>`;
+  }).join("")}</div>
+ </section>`).join("");
+ return pageHeader("The timeline")+
+ `<section class="timeline-overview"><div class="timeline-overview-copy"><span>DINNER TARGET</span><strong>${esc(dinnerText)}</strong><small>${tasks.length} cooking step${tasks.length===1?"":"s"}${conflicts?` &middot; ${conflicts} timing conflict${conflicts===1?"":"s"}`:" &middot; sequence clear"}</small></div><button class="pill timeline-add" data-sheet="task">+ ADD TASK</button></section>`+
+ (!state.event.dinnerAt?`<div class="timeline-empty"><strong>Set dinner time to schedule these steps.</strong><p>The tasks are ready. One time anchors the whole sequence.</p><button class="pill dark" data-nav="party">SET DINNER TIME &rarr;</button></div>`:"")+
+ `<p class="quiet-note timeline-note">This is your cooking order, grouped by day. Change dinner time and the sequence recalculates; pinned tasks stay where you put them.</p>`+
+ (tasks.length?`<div class="timeline-days">${sequence}</div>`:`<div class="timeline-empty"><strong>No cooking steps yet.</strong><p>Choose dishes and the prep sequence will appear here.</p><button class="pill dark" data-action="signature-menu">USE SIGNATURE MENU &rarr;</button></div>`)+
  `<form id="manual-task-form" class="form-grid compact advanced-form" ${sheet==="task"?"":"hidden"}><label>Manual task<input name="title" required></label><label>Minutes<input name="duration" type="number" min="0" value="15"></label><label>Fixed time<input name="fixed" type="datetime-local"></label><button class="primary" type="submit">Add task</button></form>`;
 }
 
