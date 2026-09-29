@@ -12,9 +12,9 @@ test('recovered catalog drives menu, shopping and timeline without losing purcha
  let plan=derivePlan(state);
  assert.equal(Object.values(state.dishes).filter(x=>x.on).length,8);
  assert.equal(plan.turkey.requiredWeightLb,22.5);
- assert.ok(plan.shopping.some(x=>x.name==='Potatoes'));
+ assert.ok(plan.shopping.some(x=>x.name==='Yukon Gold potatoes'));
  assert.ok(plan.timeline.tasks.some(x=>x.title.includes('turkey')));
- const potato=plan.shopping.find(x=>x.name==='Potatoes');
+ const potato=plan.shopping.find(x=>x.name==='Yukon Gold potatoes');
  state=setPantryQuantity(state,potato.key,2,'lb');
  state=recordPurchase(state,potato.key,3,'lb',8,8);
  state={...state,planning:{...state.planning,estimatedHeadcount:20}};
@@ -22,7 +22,7 @@ test('recovered catalog drives menu, shopping and timeline without losing purcha
  assert.equal(plan.turkey.requiredWeightLb,25);
  assert.ok(plan.shopping.find(x=>x.key===potato.key).purchased.quantity>0);
  state=removeDishFromMenu(state,'potatoes');
- assert.ok(!derivePlan(state).shopping.some(x=>x.name==='Potatoes'));
+ assert.ok(!derivePlan(state).shopping.some(x=>x.name==='Yukon Gold potatoes'));
  state=addRecipeToMenu(state,catalogRecipe(ORIGINAL_CATALOG.find(x=>x.id==='potatoes')));
  assert.ok(derivePlan(state).shopping.find(x=>x.key===potato.key).purchased.quantity>0);
 });
