@@ -14,3 +14,17 @@ export function namedPlanningPeople(state){
  }
  return people;
 }
+
+function belongsToGuest(personId,guestId){const p=String(personId||""),g=String(guestId);return p===g||p.startsWith(g+":plus")||p.startsWith(g+":child:");}
+function releaseGuestSeats(state,guestId){const seats={...(state.seats||{})};for(const [seatId,personId] of Object.entries(seats))if(belongsToGuest(personId,guestId))delete seats[seatId];return seats;}
+export function updateGuest(state,guestId,patch={}){
+ const id=String(guestId);const guests=(state.guests||[]).map((g,index)=>{const n=normalizeGuest(g,`guest-${index+1}`);return n.guestId===id?{...g,...patch,guestId:id}:g;});
+ const declined=patch.rsvp==="no";return {...state,guests,seats:declined?releaseGuestSeats(state,id):state.seats};
+}
+export function removeGuest(state,guestId){
+ const id=String(guestId);
+ const guests=(state.guests||[]).filter((g,index)=>normalizeGuest(g,`guest-${index+1}`).guestId!==id);
+ const menuResponsibilities={...(state.menuResponsibilities||{})};
+ for(const [dishId,r] of Object.entries(menuResponsibilities)){if(String(r?.contributorGuestId||"")===id)menuResponsibilities[dishId]={...r,contributorGuestId:null,status:"contributor-removed"};}
+ return {...state,guests,seats:releaseGuestSeats(state,id),menuResponsibilities};
+}
