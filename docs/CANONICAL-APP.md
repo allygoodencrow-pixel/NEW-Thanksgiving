@@ -6,61 +6,61 @@ There is ONE Crow & Crown Thanksgiving application.
 
 ### Canonical deployed app
 - Platform: AppDeploy
-- App ID: `crow-crown-thanksgiving-ejawvv`
-- Live URL: https://crow-crown-thanksgiving-ejawvv.v2.appdeploy.ai/
+- App ID: `crow-crown-thanksgiving-gm970n`
+- Live URL: https://crow-crown-thanksgiving-gm970n.v2.appdeploy.ai/
 
 Do not create a second Thanksgiving AppDeploy app unless the owner explicitly orders a replacement.
 
-### Protected logic baseline
-The protected functional baseline is Git commit:
+### Protected planning engine
+The application uses the preserved planning-engine baseline pinned to Git commit:
 
 `bfdc9fe4256d22e997e234c03fa8344ed351efa4`
 
-This baseline contains the recovered Thanksgiving planning engine, recipe catalog, persistence, and current UI shell.
+GitHub is the protected logic source and backup. It is not a second customer-facing app.
 
 ## Protected functional systems
 
-These systems must not be removed, simplified away, or silently rewritten during visual redesign work:
+Do not remove, simplify away, or silently rewrite these systems during visual work:
 
-- planning headcount and planning modes
-- permanent guest identity and RSVP-derived counts
+- planning headcount and Estimated / Expected / Confirmed / Custom modes
+- stable guest identity and RSVP-derived counts
 - adult / child / drinker distinctions
-- recipe catalog and menu selection
+- 32-recipe catalog and menu selection
 - recipe scaling
 - menu -> ingredient -> shopping dependency mapping
 - pantry / already-have quantities
 - purchase ledger and purchase persistence
-- manual shopping items
+- manual and household shopping items
 - prep generation
 - dinner-relative timeline scheduling
 - pinned/fixed timeline tasks
 - equipment and resource conflict logic
 - table / chair / seating calculations
-- space and activity logic
-- budget logic
-- printables generation
-- saved-state migration / persistence behavior
+- experience/activity dependencies
+- budget estimate / committed / paid
+- live printables
+- schema-versioned persistence
+- backup / restore
 
-## Redesign rule
+## Design system
 
-Visual redesigns are presentation-layer work.
+The current UI direction is a fresh Crow & Crown build, not a recovery of any old approved app.
 
-Unless the owner explicitly requests a logic change:
-1. preserve the domain and catalog behavior;
-2. do not replace working logic with mocked data;
-3. do not delete existing workflows because they are visually inconvenient;
-4. keep existing saved-data compatibility;
-5. update the SAME AppDeploy app ID;
-6. regression-check menu -> shopping, headcount scaling, purchases, timeline, guests, and persistence before accepting the update.
+- modern editorial, moody and high contrast
+- cooler ivory, charcoal, muted olive / stone
+- rounded corners and translucent glass-like surfaces
+- strong food/table photography
+- clear negative space and thin editorial typography
+- compact five-tab mobile navigation
+- primary screens stay simple; advanced controls sit behind details
+- no generic SaaS dashboard, beige luxury, wedding-planner styling, clutter, or raw engine controls
 
-## Deployment discipline
+## Update discipline
 
-Before any substantial update:
-- inspect the current AppDeploy snapshot;
-- preserve a recoverable version;
-- make only the intended changes;
-- test the core dependency flows;
-- deploy to `crow-crown-thanksgiving-ejawvv`, never a new app;
-- confirm the deployment reaches ready status with no reported frontend/network errors.
+For every future change:
 
-GitHub is source control and backup. It is not a second customer-facing app.
+1. Inspect the current AppDeploy snapshot first.
+2. Update `crow-crown-thanksgiving-gm970n`; do not create another app.
+3. Treat design changes as presentation-layer changes unless the owner explicitly asks for logic changes.
+4. Regression-check guest/headcount -> menu -> quantities -> shopping -> prep/timeline -> seating -> printables.
+5. Confirm the deployment reaches ready status with no reported frontend/network errors.
