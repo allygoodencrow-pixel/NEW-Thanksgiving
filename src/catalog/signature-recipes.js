@@ -301,6 +301,42 @@ export const SIGNATURE_RECIPE_OVERRIDES={
   metadataReviewed:true,allergenReviewed:true,reviewedAt,recipeComplete:true,
   provenance:{type:'original',label:'Crow & Crown original recipe'},preparedPurchase:{estimatedUnitCost:4.5}
  },
+ salad:{
+  id:'salad',title:'Bitter greens + pear salad',mealRole:'fresh',baseServings:12,servingStrategy:{basis:'headcount',factor:0.8},
+  ingredients:[p('bitter-greens','Bitter greens',1.5,'lb','Produce',10,'oz',5.99),p('pears','Ripe pears',3,'each','Produce',4,'each',5.99),p('lemon','Lemons',2,'each','Produce',4,'each',4.49),p('olive-oil','Extra-virgin olive oil',0.5,'cup','Pantry',25.5,'floz',11.99),p('dijon','Dijon mustard',2,'tbsp','Pantry',12,'oz',4.49)],
+  instructions:['Wash and dry the greens thoroughly.','Whisk lemon juice, olive oil, Dijon, salt and pepper into a sharp vinaigrette.','Slice pears just before serving. Toss greens lightly with dressing, then fold in pears.'],
+  prepTasks:[task('wash','Wash + dry salad greens','day-before',15,{handsOn:true,fixedStartOffsetMinutes:-1440}),task('dressing','Make vinaigrette','day-before',10,{handsOn:true,fixedStartOffsetMinutes:-1380}),task('finish','Slice pears + toss salad','finish',10,{handsOn:true,finishOffsetMinutes:-5})],
+  makeAhead:'Wash greens and make dressing the day before; slice pears at the last moment.',storage:'Refrigerate greens, dressing and pears separately.',reheat:'Not applicable.',substitutions:['Use apples instead of pears.'],
+  equipment:[eq('salad-spinner','Salad spinner'),eq('mixing-bowl','Large mixing bowl')],servingRequirements:[eq('salad-bowl','Wide salad bowl',1,'serving'),eq('salad-tongs','Salad tongs',1,'serving')],
+  dietaryTags:['vegan','vegetarian','gluten-free','dairy-free','nut-free','egg-free','soy-free','sesame-free','fish-free','shellfish-free'],allergens:[],metadataReviewed:true,allergenReviewed:true,reviewedAt,recipeComplete:true,provenance:{type:'original',label:'Crow & Crown original recipe'}
+ },
+ mac:{
+  id:'mac',title:'Baked mac + cheese',mealRole:'starch',baseServings:12,servingStrategy:{basis:'headcount',factor:0.75},batchCapacityServings:18,parallelBatchCapacity:1,
+  ingredients:[p('elbow-pasta','Elbow pasta',2,'lb','Pantry',1,'lb',2.49),p('cheddar-cheese','Sharp cheddar',2,'lb','Dairy',1,'lb',6.99),p('whole-milk','Whole milk',4,'cup','Dairy',64,'floz',3.99),p('butter-unsalted','Unsalted butter',0.5,'lb','Dairy',1,'lb',5.99),p('all-purpose-flour','All-purpose flour',0.25,'lb','Pantry',5,'lb',5.49),p('breadcrumbs','Breadcrumbs',0.5,'lb','Bakery',15,'oz',3.99)],
+  instructions:['Boil pasta in salted water until just shy of al dente; drain.','Cook butter and flour together, then whisk in milk and simmer until thickened. Melt in most of the cheese.','Fold pasta into sauce, transfer to a buttered casserole, top with remaining cheese and breadcrumbs, and bake until bubbling and browned.'],
+  prepTasks:[task('sauce','Make cheese sauce + cook pasta','day-before',30,{handsOn:true,fixedStartOffsetMinutes:-1440,resourceRequirements:[{type:'burner',slots:2}]}),task('assemble','Assemble mac + cheese','day-before',15,{handsOn:true,dependsOn:['sauce']}),task('bake','Bake mac + cheese at 375°F','cook',35,{dependsOn:['assemble'],finishOffsetMinutes:-15,resourceRequirements:[{type:'oven',temperatureF:375,slots:1}]})],
+  makeAhead:'Assemble one day ahead; bake before dinner.',storage:'Refrigerate assembled or cooked casserole promptly.',reheat:'Reheat covered at 350°F until hot, then uncover briefly.',substitutions:['Use a tested gluten-free pasta and crumbs for a gluten-free version.'],
+  equipment:[eq('large-pot','Large pot'),eq('medium-saucepan','Medium saucepan'),eq('casserole-9x13','9×13 casserole')],servingRequirements:[eq('mac-casserole','Casserole dish',1,'serving'),eq('serving-spoon','Large serving spoon',1,'serving')],
+  dietaryTags:['vegetarian','nut-free','sesame-free','fish-free','shellfish-free'],allergens:['milk','wheat'],metadataReviewed:true,allergenReviewed:true,reviewedAt,recipeComplete:true,provenance:{type:'original',label:'Crow & Crown original recipe'},preparedPurchase:{estimatedUnitCost:3.5}
+ },
+ sweet:{
+  id:'sweet',title:'Roasted sweet potatoes',mealRole:'starch',baseServings:12,servingStrategy:{basis:'headcount',factor:0.75},batchCapacityServings:18,parallelBatchCapacity:1,
+  ingredients:[p('sweet-potatoes','Sweet potatoes',4,'lb','Produce',3,'lb',4.99),p('olive-oil','Extra-virgin olive oil',0.33,'cup','Pantry',25.5,'floz',11.99),p('maple-syrup','Maple syrup',0.25,'cup','Pantry',12,'floz',8.99),p('kosher-salt','Kosher salt',2,'tsp','Pantry',96,'tbsp',6.49)],
+  instructions:['Cut sweet potatoes into even wedges or large cubes.','Toss with olive oil and salt; spread on sheet pans without crowding.','Roast at 425°F until browned and tender. Drizzle lightly with maple syrup during the final minutes and return to the oven to glaze.'],
+  prepTasks:[task('cut','Cut sweet potatoes','day-before',20,{handsOn:true,fixedStartOffsetMinutes:-1440}),task('roast','Roast sweet potatoes at 425°F','cook',40,{dependsOn:['cut'],finishOffsetMinutes:-20,resourceRequirements:[{type:'oven',temperatureF:425,slots:1}]})],
+  makeAhead:'Cut the day before and refrigerate submerged in cold water; drain and dry very well before roasting.',storage:'Refrigerate cooked leftovers promptly.',reheat:'Reheat uncovered at 400°F to restore browned edges.',substitutions:['Use honey instead of maple syrup if vegan service is not required.'],
+  equipment:[eq('sheet-pans','Rimmed sheet pans',2)],servingRequirements:[eq('sweet-potato-platter','Low serving platter',1,'serving'),eq('serving-spoon','Large serving spoon',1,'serving')],
+  dietaryTags:['vegan','vegetarian','gluten-free','dairy-free','nut-free','egg-free','soy-free','sesame-free','fish-free','shellfish-free'],allergens:[],metadataReviewed:true,allergenReviewed:true,reviewedAt,recipeComplete:true,provenance:{type:'original',label:'Crow & Crown original recipe'},preparedPurchase:{estimatedUnitCost:2.5}
+ },
+ app:{
+  id:'app',title:'Whipped ricotta + crostini',mealRole:'appetizer',baseServings:12,servingStrategy:{basis:'headcount',factor:0.65},
+  ingredients:[p('ricotta','Whole-milk ricotta',1.5,'lb','Dairy',15,'oz',5.99),p('baguette','Baguettes',2,'each','Bakery',1,'each',3.49),p('olive-oil','Extra-virgin olive oil',0.25,'cup','Pantry',25.5,'floz',11.99),p('lemon','Lemons',1,'each','Produce',4,'each',4.49),p('honey','Honey',0.25,'cup','Pantry',12,'oz',7.99)],
+  instructions:['Whip ricotta with olive oil, lemon zest and a pinch of salt until light.','Slice baguettes, brush lightly with oil and toast until crisp.','Spread ricotta in a shallow bowl, finish with honey and lemon, and serve with crostini on the side.'],
+  prepTasks:[task('whip','Whip ricotta','day-before',10,{handsOn:true,fixedStartOffsetMinutes:-1440}),task('slice','Slice baguettes','morning',10,{handsOn:true,fixedStartOffsetMinutes:-360}),task('toast','Toast crostini at 375°F','before-guests',12,{dependsOn:['slice'],fixedStartOffsetMinutes:-90,resourceRequirements:[{type:'oven',temperatureF:375,slots:1}]}),task('plate','Plate whipped ricotta','before-guests',8,{dependsOn:['whip'],fixedStartOffsetMinutes:-45})],
+  makeAhead:'Whip ricotta the day before; toast crostini the day of.',storage:'Keep whipped ricotta refrigerated; keep crostini dry at room temperature.',reheat:'Crostini can be refreshed for 3–4 minutes in a warm oven.',substitutions:['Use a dairy-free cultured spread for a dairy-free version.'],
+  equipment:[eq('food-processor','Food processor or mixer'),eq('sheet-pan','Sheet pan')],servingRequirements:[eq('ricotta-bowl','Shallow serving bowl',1,'serving'),eq('crostini-board','Board or platter',1,'serving'),eq('spreader','Spreader',1,'serving')],
+  dietaryTags:['vegetarian','nut-free','egg-free','sesame-free','fish-free','shellfish-free'],allergens:['milk','wheat'],metadataReviewed:true,allergenReviewed:true,reviewedAt,recipeComplete:true,provenance:{type:'original',label:'Crow & Crown original recipe'},preparedPurchase:{estimatedUnitCost:3}
+ },
  'sparkling-water':{
   id:'sparkling-water',title:'Still + sparkling water',mealRole:'non-alcoholic-drink',baseServings:1,servingStrategy:{basis:'headcount'},
   ingredients:[p('still-water','Still water',20,'floz','Beverages',33.8,'floz',2.49),p('sparkling-water','Sparkling water',12,'floz','Beverages',33.8,'floz',2.99)],
