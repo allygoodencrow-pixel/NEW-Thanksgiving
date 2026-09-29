@@ -22,8 +22,8 @@ export const SIGNATURE_RECIPE_OVERRIDES={
    p('fresh-sage','Fresh sage',0.5,'bunch','Produce',1,'bunch',2.49),
    p('fresh-thyme','Fresh thyme',0.5,'bunch','Produce',1,'bunch',2.49),
    p('fresh-rosemary','Fresh rosemary',0.5,'bunch','Produce',1,'bunch',2.49),
-   p('yellow-onion','Yellow onions',2,'each','Produce',3,'lb',4.99),
-   p('lemon','Lemons',2,'each','Produce',2,'lb',4.49),
+   p('yellow-onion','Yellow onions',2,'each','Produce',3,'each',4.99),
+   p('lemon','Lemons',2,'each','Produce',4,'each',4.49),
    p('gluten-free-stock','Gluten-free turkey or chicken stock',4,'cup','Pantry',32,'floz',4.99)
   ],
   instructions:[
@@ -62,8 +62,8 @@ export const SIGNATURE_RECIPE_OVERRIDES={
   ingredients:[
    p('country-bread','Country bread',1.5,'lb','Bakery',1,'lb',5.99),
    p('butter-unsalted','Unsalted butter',0.5,'lb','Dairy',1,'lb',5.99),
-   p('yellow-onion','Yellow onions',2,'each','Produce',3,'lb',4.99),
-   p('celery','Celery',6,'each','Produce',1,'bunch',2.99),
+   p('yellow-onion','Yellow onions',2,'each','Produce',3,'each',4.99),
+   p('celery','Celery',6,'each','Produce',8,'each',2.99),
    p('fresh-sage','Fresh sage',0.5,'bunch','Produce',1,'bunch',2.49),
    p('fresh-parsley','Flat-leaf parsley',0.5,'bunch','Produce',1,'bunch',1.99),
    p('eggs-large','Large eggs',2,'each','Dairy + Eggs',12,'each',4.99),
@@ -101,8 +101,8 @@ export const SIGNATURE_RECIPE_OVERRIDES={
   ingredients:[
    p('yukon-potatoes','Yukon Gold potatoes',6,'lb','Produce',5,'lb',6.99),
    p('butter-unsalted','Unsalted butter',0.75,'lb','Dairy',1,'lb',5.99),
-   p('heavy-cream','Heavy cream',2,'cup','Dairy',1,'pint',5.49),
-   p('whole-milk','Whole milk',2,'cup','Dairy',0.5,'gallon',3.99),
+   p('heavy-cream','Heavy cream',2,'cup','Dairy',16,'floz',5.49),
+   p('whole-milk','Whole milk',2,'cup','Dairy',64,'floz',3.99),
    p('kosher-salt','Kosher salt',1,'tbsp','Pantry',3,'lb',6.49)
   ],
   instructions:[
@@ -168,7 +168,7 @@ export const SIGNATURE_RECIPE_OVERRIDES={
   ingredients:[
    p('green-beans','Green beans',4,'lb','Produce',2,'lb',6.99),
    p('garlic','Garlic',1,'head','Produce',3,'head',2.49),
-   p('lemon','Lemons',2,'each','Produce',2,'lb',4.49),
+   p('lemon','Lemons',2,'each','Produce',4,'each',4.49),
    p('olive-oil','Extra-virgin olive oil',0.5,'cup','Pantry',25.5,'floz',11.99),
    p('kosher-salt','Kosher salt',2,'tsp','Pantry',3,'lb',6.49)
   ],
@@ -201,7 +201,7 @@ export const SIGNATURE_RECIPE_OVERRIDES={
   ingredients:[
    p('cranberries','Fresh cranberries',1.5,'lb','Produce',12,'oz',3.49),
    p('granulated-sugar','Granulated sugar',1,'lb','Pantry',4,'lb',4.49),
-   p('orange','Oranges',2,'each','Produce',3,'lb',5.49)
+   p('orange','Oranges',2,'each','Produce',4,'each',5.49)
   ],
   instructions:[
    'Zest and juice the oranges.',
@@ -230,7 +230,7 @@ export const SIGNATURE_RECIPE_OVERRIDES={
   description:'Soft, butter-brushed yeast rolls served warm.',
   ingredients:[
    p('all-purpose-flour','All-purpose flour',1.5,'lb','Bakery',5,'lb',5.49),
-   p('whole-milk','Whole milk',1.5,'cup','Dairy',0.5,'gallon',3.99),
+   p('whole-milk','Whole milk',1.5,'cup','Dairy',64,'floz',3.99),
    p('butter-unsalted','Unsalted butter',0.5,'lb','Dairy',1,'lb',5.99),
    p('instant-yeast','Instant yeast',2.25,'tsp','Pantry',3,'packet',2.49),
    p('granulated-sugar','Granulated sugar',0.25,'cup','Pantry',4,'lb',4.49),
@@ -274,7 +274,7 @@ export const SIGNATURE_RECIPE_OVERRIDES={
    p('brown-sugar','Brown sugar',0.75,'cup','Pantry',2,'lb',3.99),
    p('pumpkin-spice','Pumpkin pie spice',2,'tsp','Pantry',2,'oz',5.49),
    p('kosher-salt','Kosher salt',0.5,'tsp','Pantry',3,'lb',6.49),
-   p('heavy-cream','Heavy cream',1,'cup','Dairy',1,'pint',5.49,{optional:true,includeByDefault:true})
+   p('heavy-cream','Heavy cream',1,'cup','Dairy',16,'floz',5.49,{optional:true,includeByDefault:true})
   ],
   instructions:[
    'Heat the oven to 425°F and fit the crust into a 9-inch pie plate.',
