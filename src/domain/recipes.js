@@ -1,36 +1,14 @@
 import {planningContext} from "./guests.js";
 import {normalizeDishRecord} from "./menu.js";
 
-export function normalizeIngredient(ingredient={}){
- const name=String(ingredient.name||ingredient.ingredient||"Ingredient").trim();
- const ingredientId=String(ingredient.ingredientId||ingredient.id||"").trim();
- return {...ingredient,name,ingredientId:ingredientId||undefined,quantity:Math.max(0,Number(ingredient.quantity)||0),unit:String(ingredient.unit||"each"),variant:String(ingredient.variant||"").trim(),optional:Boolean(ingredient.optional)};
-}
-export function normalizeRecipe(recipe={}){
- const id=String(recipe.id||recipe.recipeId||slug(recipe.title||recipe.name||"recipe"));
- const title=String(recipe.title||recipe.name||id);
- const baseServings=Math.max(1,Number(recipe.baseServings||recipe.servings)||1);
- const ingredients=Array.isArray(recipe.ingredients)?recipe.ingredients.map(normalizeIngredient):[];
- const prepTasks=Array.isArray(recipe.prepTasks)?recipe.prepTasks.map((task,index)=>typeof task==="string"?{id:`${id}:prep:${index}`,title:task}:({...task,id:String(task.id||`${id}:prep:${index}`),title:String(task.title||task.name||`Prep ${index+1}`)})):[];
- return {...recipe,id,title,baseServings,ingredients,prepTasks};
-}
+export function normalizeIngredient(ingredient={}){const name=String(ingredient.name||ingredient.ingredient||"Ingredient").trim();const ingredientId=String(ingredient.ingredientId||ingredient.id||"").trim();return {...ingredient,name,ingredientId:ingredientId||undefined,quantity:Math.max(0,Number(ingredient.quantity)||0),unit:String(ingredient.unit||"each"),variant:String(ingredient.variant||"").trim(),optional:Boolean(ingredient.optional)};}
+function normalizeTask(task,index,recipeId){if(typeof task==="string")return {id:`${recipeId}:prep:${index}`,title:task,durationMinutes:0,phase:"prep",dependsOn:index?[`${recipeId}:prep:${index-1}`]:[]};const id=String(task.id||`${recipeId}:prep:${index}`);const depends=Array.isArray(task.dependsOn)?task.dependsOn.map(String):index?[String(task.previousTaskId||`${recipeId}:prep:${index-1}`)]:[];return {...task,id,title:String(task.title||task.name||`Prep ${index+1}`),durationMinutes:Math.max(0,Number(task.durationMinutes??task.duration)||0),phase:String(task.phase||"prep"),dependsOn:depends,resourceRequirements:Array.isArray(task.resourceRequirements)?task.resourceRequirements:Array.isArray(task.resources)?task.resources:[]};}
+export function normalizeRecipe(recipe={}){const id=String(recipe.id||recipe.recipeId||slug(recipe.title||recipe.name||"recipe"));const title=String(recipe.title||recipe.name||id);const baseServings=Math.max(1,Number(recipe.baseServings||recipe.servings)||1);const ingredients=Array.isArray(recipe.ingredients)?recipe.ingredients.map(normalizeIngredient):[];const prepTasks=Array.isArray(recipe.prepTasks)?recipe.prepTasks.map((task,index)=>normalizeTask(task,index,id)):[];return {...recipe,id,title,baseServings,mealRole:String(recipe.mealRole||recipe.role||"").trim(),ingredients,prepTasks,equipment:Array.isArray(recipe.equipment)?recipe.equipment:[],servingRequirements:Array.isArray(recipe.servingRequirements)?recipe.servingRequirements:[],dietaryTags:Array.isArray(recipe.dietaryTags)?recipe.dietaryTags.map(x=>String(x).toLowerCase()):[],allergens:Array.isArray(recipe.allergens)?recipe.allergens.map(x=>String(x).toLowerCase()):[]};}
 export function upsertRecipe(state,recipe){const normalized=normalizeRecipe(recipe);return {...state,recipes:{...(state.recipes||{}),[normalized.id]:normalized}};}
-export function addRecipeToMenu(state,recipeOrId,options={}){
- let next=state;let recipeId;
- if(typeof recipeOrId==="string")recipeId=recipeOrId;else{const normalized=normalizeRecipe(recipeOrId);recipeId=normalized.id;next=upsertRecipe(next,normalized);}
- if(!next.recipes?.[recipeId]&&!options.allowMissingRecipe)throw new Error(`Unknown recipe: ${recipeId}`);
- const current=normalizeDishRecord(next.dishes?.[recipeId]||{});
- return {...next,dishes:{...(next.dishes||{}),[recipeId]:{...current,...options,on:true,recipeId,preparationMode:options.preparationMode||current.preparationMode||"homemade"}}};
-}
+export function addRecipeToMenu(state,recipeOrId,options={}){let next=state;let recipeId;if(typeof recipeOrId==="string")recipeId=recipeOrId;else{const normalized=normalizeRecipe(recipeOrId);recipeId=normalized.id;next=upsertRecipe(next,normalized);}if(!next.recipes?.[recipeId]&&!options.allowMissingRecipe)throw new Error(`Unknown recipe: ${recipeId}`);const current=normalizeDishRecord(next.dishes?.[recipeId]||{});return {...next,dishes:{...(next.dishes||{}),[recipeId]:{...current,...options,on:true,recipeId,preparationMode:options.preparationMode||current.preparationMode||"homemade"}}};}
 export function removeDishFromMenu(state,dishId){const current=normalizeDishRecord(state.dishes?.[dishId]||{});return {...state,dishes:{...(state.dishes||{}),[dishId]:{...current,on:false}}};}
 export function recipeForDish(state,dishId){const dish=normalizeDishRecord(state.dishes?.[dishId]||{});const recipeId=dish.recipeId||dishId;const recipe=state.recipes?.[recipeId]||dish.recipe;return recipe?normalizeRecipe({...recipe,id:recipe.id||recipeId}):null;}
-export function requiredServingsForDish(state,dishId){
- const dish=normalizeDishRecord(state.dishes?.[dishId]||{});const recipe=recipeForDish(state,dishId);if(!recipe)return 0;
- if(Number.isFinite(Number(dish.servingsOverride))&&Number(dish.servingsOverride)>=0)return Number(dish.servingsOverride);
- const plan=planningContext(state);const strategy=recipe.servingStrategy||{};const basis=strategy.basis||"headcount";
- let diners=basis==="adults"?plan.planningAdults:basis==="children"?plan.planningChildren:basis==="fixed"?recipe.baseServings:plan.planningHeadcount;
- diners*=Math.max(0,Number(strategy.factor)||1);
- const recipeBuffer=Number(strategy.bufferPercent);const globalBuffer=Number(state.planning?.foodBufferPercent)||0;const buffer=Number.isFinite(recipeBuffer)?recipeBuffer:globalBuffer;
- return diners*(1+Math.max(0,buffer)/100);
-}
+function roleShare(state,dishId,role){const dish=normalizeDishRecord(state.dishes?.[dishId]||{});const recipe=recipeForDish(state,dishId);const ownWeight=Math.max(0,Number(dish.roleShareWeight??recipe?.servingStrategy?.shareWeight)||1);let total=0;for(const [id,d] of Object.entries(state.dishes||{})){if(!d?.on)continue;const r=recipeForDish(state,id);if(!r||r.mealRole!==role||(r.servingStrategy?.basis||"headcount")!=="role-share")continue;total+=Math.max(0,Number(d.roleShareWeight??r.servingStrategy?.shareWeight)||1);}return total>0?ownWeight/total:1;}
+export function requiredServingsForDish(state,dishId){const dish=normalizeDishRecord(state.dishes?.[dishId]||{});const recipe=recipeForDish(state,dishId);if(!recipe)return 0;if(Number.isFinite(Number(dish.servingsOverride))&&Number(dish.servingsOverride)>=0)return Number(dish.servingsOverride);const plan=planningContext(state);const strategy=recipe.servingStrategy||{};const basis=strategy.basis||"headcount";let diners=basis==="adults"?plan.planningAdults:basis==="children"?plan.planningChildren:basis==="fixed"?Math.max(0,Number(strategy.fixedServings)||recipe.baseServings):plan.planningHeadcount;if(basis==="role-share"){const role=recipe.mealRole||"other";const roleFactor=Math.max(0,Number(strategy.roleServingFactor??state.planning?.roleServingTargets?.[role])||1);diners=plan.planningHeadcount*roleFactor*roleShare(state,dishId,role);}else diners*=Math.max(0,Number(strategy.factor)||1);const recipeBuffer=Number(strategy.bufferPercent);const globalBuffer=Number(state.planning?.foodBufferPercent)||0;const buffer=Number.isFinite(recipeBuffer)?recipeBuffer:globalBuffer;return diners*(1+Math.max(0,buffer)/100);}
+export function deriveBatchPlanForDish(state,dishId){const recipe=recipeForDish(state,dishId);if(!recipe)return null;const requiredServings=requiredServingsForDish(state,dishId);const capacity=Math.max(0,Number(recipe.batchCapacityServings)||0);if(!capacity)return {dishId,requiredServings,batches:1,parallelCapacity:1,waves:1,capacityKnown:false};const batches=Math.max(1,Math.ceil(requiredServings/capacity));const parallelCapacity=Math.max(1,Math.floor(Number(recipe.parallelBatchCapacity)||1));return {dishId,requiredServings,batches,parallelCapacity,waves:Math.ceil(batches/parallelCapacity),capacityKnown:true};}
 function slug(value){return String(value).toLowerCase().trim().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"")||"recipe";}

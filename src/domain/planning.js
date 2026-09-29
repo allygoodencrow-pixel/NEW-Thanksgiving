@@ -1,13 +1,2 @@
-import {planningContext} from "./guests.js";
-import {aggregateIngredients} from "./ingredients.js";
-import {derivePrepTasks} from "./prep.js";
-import {deriveShoppingList} from "./shopping.js";
-
-export function derivePlan(state){
- return {
-   planning:planningContext(state),
-   ingredients:aggregateIngredients(state),
-   shopping:deriveShoppingList(state),
-   prep:derivePrepTasks(state)
- };
-}
+import {planningContext} from "./guests.js";import {aggregateIngredients} from "./ingredients.js";import {derivePrepTasks} from "./prep.js";import {deriveShoppingList} from "./shopping.js";import {deriveEquipmentPlan} from "./equipment.js";import {deriveTimeline} from "./schedule.js";import {deriveTurkeyPlan} from "./turkey.js";import {deriveDietaryCoverage,deriveMenuCompleteness} from "./coverage.js";
+export function derivePlan(state){return {planning:planningContext(state),menu:deriveMenuCompleteness(state),dietaryCoverage:deriveDietaryCoverage(state),turkey:deriveTurkeyPlan(state),ingredients:aggregateIngredients(state),shopping:deriveShoppingList(state),equipment:deriveEquipmentPlan(state),prep:derivePrepTasks(state),timeline:deriveTimeline(state)};}

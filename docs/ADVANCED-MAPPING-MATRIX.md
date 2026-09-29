@@ -1,22 +1,23 @@
-# Advanced Mapping Matrix — Menu / Ingredients / Shopping / Prep Slice
+# Advanced Mapping Matrix
 
-| Requirement | Status | Implementation | Acceptance protection |
+| Requirement | Status | Domain implementation | Regression coverage |
 |---|---|---|---|
-| Add recipe to menu once | VERIFIED COMPLETE | `src/domain/recipes.js` | duplicate add test |
-| Custom recipes use same engine | VERIFIED COMPLETE | `upsertRecipe`, `addRecipeToMenu` | custom recipe scaling test |
-| Guest/planning count rescales ingredients | VERIFIED COMPLETE | `requiredServingsForDish` | 18→24 serving test |
-| Merge duplicate ingredients | VERIFIED COMPLETE | `aggregateIngredients` | cup + tbsp consolidation test |
-| Keep incompatible units separate | VERIFIED COMPLETE | `src/domain/units.js` | mass vs volume test |
-| Keep recipe source attribution | VERIFIED COMPLETE | ingredient source records | multi-source test |
-| Required - have - purchased = still need | VERIFIED COMPLETE | `deriveShoppingList` | pantry/purchase test |
-| Preserve purchased amount when demand changes | VERIFIED COMPLETE | shopping ledger independent of derived demand | demand decrease and increase tests |
-| Report surplus/coverage | VERIFIED COMPLETE | `surplusCanonical` + display value | surplus assertion |
-| Removing dish removes only its demand | VERIFIED COMPLETE | derived dependencies from active dishes only | shared ingredient removal test |
-| Purchased dish replaces ingredient shopping | VERIFIED COMPLETE | prepared-food requirement mode | purchased-dish test |
-| Confirmed guest contribution removes host shopping/prep | VERIFIED COMPLETE | `dishRequirementMode` gate | confirmed contribution test |
-| Unconfirmed contribution remains host responsibility | VERIFIED COMPLETE | responsibility status gate | pending contribution test |
-| Prep follows menu automatically | VERIFIED COMPLETE for recipe task propagation | `derivePrepTasks` | purchased/contribution tests |
-| Full task dependency graph / timing | MISSING in this slice | next recovery phase | future scheduler tests |
-| Role-aware smart portion allocation | MISSING in this slice | next food-planning phase | future multi-side allocation tests |
-
-This matrix intentionally separates the now-complete recipe/ingredient/shopping propagation slice from later Thanksgiving-specific meal-share and scheduling logic.
+| Recipe → scaled ingredients → shopping/prep | VERIFIED COMPLETE | recipes / ingredients / shopping / prep | existing domain tests |
+| Multiple dishes share a meal-role demand | VERIFIED COMPLETE | role-share serving strategy | advanced cooking test |
+| More portions require batches rather than multiplied cook time | VERIFIED COMPLETE | deriveBatchPlanForDish | advanced cooking test |
+| Equipment + serving-piece inventory gaps | VERIFIED COMPLETE | equipment.js + shopping.js | advanced cooking test |
+| Guest contribution retains receive/serve work | VERIFIED COMPLETE | prep task mode filtering | advanced cooking test |
+| Oven/burner/host resource reservations | VERIFIED COMPLETE | kitchen.js + schedule.js | advanced cooking tests |
+| Incompatible temperatures in one oven | VERIFIED COMPLETE | resource conflict/earlier placement | flexible + fixed tests |
+| Dinner-time changes move relative tasks | VERIFIED COMPLETE | schedule anchor offsets | pinned-time test |
+| Fixed/pinned task survives dinner-time change | VERIFIED COMPLETE | fixedStart | pinned-time test |
+| Turkey required vs purchased quantity | VERIFIED COMPLETE | turkey.js | turkey purchase test |
+| Turkey thaw/cook rules missing | VERIFIED COMPLETE as explicit unresolved state | turkey issues | domain behavior |
+| Menu completeness by meal role | VERIFIED COMPLETE | coverage.js | advanced cooking test |
+| Person-level dietary coverage | VERIFIED COMPLETE | namedPlanningPeople + coverage.js | advanced cooking test |
+| Unreviewed recipe metadata is not declared safe | VERIFIED COMPLETE | unresolved coverage state | advanced cooking test |
+| Service style → serving/table/space changes | MISSING | next domain layer | pending |
+| Table/seating/linen/space propagation | MISSING | next domain layer | pending |
+| Unified budget projection/commitment/actual | PARTIAL | purchases retain actual cost; full rollup pending | pending |
+| Printables follow live plan | MISSING in new repo | pending | pending |
+| Persistent save/backup/restore | MISSING in new repo | pending | pending |
