@@ -9,6 +9,7 @@ export function createPartyState(overrides={}){
   shoppingLedger:{},pantry:{},manualShoppingItems:[],costCatalog:{},
   kitchenResources:{ovens:[],burners:[],hosts:[]},taskOverrides:{},manualTasks:[],
   turkeyPlan:{poundsPerPerson:1.25,bufferPercent:0,purchasedWeightLb:0},
+  housePrep:{enabled:true},
   tables:[],seats:{},inventory:{},room:{},spaceZones:{},
   activities:{},selectedActivities:{},
   budgetEntries:[],actualSpendEntries:[],
