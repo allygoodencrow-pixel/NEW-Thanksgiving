@@ -1,3 +1,4 @@
+import {SELECTED_PUBLISHER_RECIPES} from './publisher-recipes.js';
 // Crow & Crown original signature recipes.
 // These are the supported, fully structured recipes used by the connected Thanksgiving planner.
 // Price fields are planning estimates, not retailer quotes. Food-safety notes use USDA/FSIS guidance where applicable.
@@ -383,5 +384,7 @@ export const SIGNATURE_RECIPE_OVERRIDES={
   dietaryTags:['vegetarian','gluten-free','nut-free','egg-free','sesame-free','fish-free','shellfish-free'],allergens:['milk'],metadataReviewed:true,allergenReviewed:true,reviewedAt,recipeComplete:true,provenance:{type:'original',label:'Crow & Crown original beverage plan'}
  }
 };
+
+Object.assign(SIGNATURE_RECIPE_OVERRIDES,SELECTED_PUBLISHER_RECIPES);
 
 export const SUPPORTED_SIGNATURE_IDS=Object.freeze(Object.keys(SIGNATURE_RECIPE_OVERRIDES));
