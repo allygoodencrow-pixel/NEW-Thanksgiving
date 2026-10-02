@@ -483,3 +483,126 @@ body{background:#e9e9e5;font-family:'Helvetica Neue',Arial,sans-serif}
 .task-toggle.done{opacity:.6;text-decoration:line-through;}
 .row.task-done strong{text-decoration:line-through;opacity:.65;}
 .party-day-cta{display:block;width:100%;margin:10px 0;padding:12px;text-align:center;box-sizing:border-box;}
+
+/* ============================================================
+   MODERN EDITORIAL REFRESH — type, surface + motion layer
+   Keeps the cream/ink Crow & Crown palette; modernizes the
+   execution: Instrument Serif display + Inter UI, hairline
+   surfaces, subtle elevation, quiet motion.
+   ============================================================ */
+:root{
+  --font-sans:"Inter","Helvetica Neue",Arial,sans-serif;
+  --font-serif:"Instrument Serif",Georgia,"Times New Roman",serif;
+  --paper:#faf9f5;
+  --paper-2:#f4f3ed;
+  --card:#fbfaf7;
+  --ink:#151512;
+  --muted:#7d7a72;
+  --line:rgba(21,21,18,.09);
+  --hairline:rgba(21,21,18,.13);
+  --shadow-sm:0 1px 2px rgba(21,21,18,.05),0 10px 30px rgba(21,21,18,.05);
+  --shadow-lg:0 2px 4px rgba(21,21,18,.05),0 24px 60px rgba(21,21,18,.1);
+}
+html{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility}
+body{font-family:var(--font-sans);font-feature-settings:"kern","liga";background:#ebe9e2;color:var(--ink)}
+::selection{background:#151512;color:#faf9f5}
+
+/* ---------- display type: serif headlines + big numerals ---------- */
+.pagehead h1,.home-event strong,.stat strong,.section-title strong,.next-action strong,
+.photo-title h1,.feature-food strong,.setup-copy h1,.timeline-overview-copy strong,
+.print-card span,.topbar span,.photo-top,.home-photo .photo-top{
+  font-family:var(--font-serif);font-weight:400;font-variant-numeric:lining-nums;
+}
+.pagehead h1{font-size:clamp(38px,6.2vw,58px);letter-spacing:-.012em;line-height:1.04}
+.home-event strong{font-size:29px;letter-spacing:-.01em}
+.stat strong{font-size:clamp(26px,3vw,34px);letter-spacing:0}
+.section-title strong{font-size:21px;letter-spacing:0}
+.next-action strong{font-size:22px;letter-spacing:-.005em}
+.photo-title h1{font-size:clamp(37px,6.4vw,52px);letter-spacing:-.01em;line-height:1.06}
+.feature-food strong{font-size:34px;letter-spacing:-.01em;line-height:1.08}
+.setup-copy h1{font-size:clamp(41px,7vw,57px)!important;letter-spacing:-.01em;line-height:1.03}
+.timeline-overview-copy strong{font-size:clamp(38px,7vw,52px);letter-spacing:-.01em;line-height:.98}
+.print-card span{font-size:28px;letter-spacing:-.01em}
+.topbar span,.photo-top{font-size:23px;letter-spacing:.05em}
+.eyebrow{font-weight:500;font-size:9.5px;letter-spacing:.22em}
+
+/* ---------- surfaces: hairline cards, quiet elevation ---------- */
+.stat{background:var(--card);border:1px solid var(--hairline);border-radius:16px;box-shadow:var(--shadow-sm);min-height:112px;padding:18px 19px;transition:transform .2s ease,box-shadow .2s ease}
+.stat:nth-child(2){background:#191916;color:#f8f7f2;border-color:#191916}
+.stat:nth-child(2) span,.stat:nth-child(2) small{color:rgba(255,255,255,.52)}
+.stat span,.section-title span{letter-spacing:.18em}
+.panel.slim{background:#f2f1ea;border-radius:16px}
+.form-grid{background:var(--card);border:1px solid var(--hairline);border-radius:20px;box-shadow:var(--shadow-sm)}
+.shopping-controls{background:var(--paper-2);border-radius:14px}
+.dish-edit{background:#f2f1eb;border-radius:14px}
+.visual-table{background:#eeece5;border-radius:20px}
+.timeline-day{border:1px solid var(--hairline);border-radius:20px;background:var(--card);box-shadow:var(--shadow-sm)}
+.timeline-overview{border-radius:22px;box-shadow:var(--shadow-lg);background:#161715}
+.next-action{background:#161715;border-radius:22px}
+.quick-links button{background:var(--card);border:1px solid var(--hairline);border-radius:16px;transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease}
+.quick-links button:hover{transform:translateY(-1px);border-color:rgba(21,21,18,.24);box-shadow:var(--shadow-sm)}
+.home-sheet{border-radius:30px 30px 0 0;background:var(--paper)}
+.feature-food{border-radius:20px}
+.home-photo{border-radius:0 0 22px 22px}
+.print-card{border-radius:20px;box-shadow:var(--shadow-sm);transition:transform .18s ease,box-shadow .18s ease}
+.print-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+
+/* ---------- rows: hover, aligned, tabular numbers ---------- */
+.row{transition:background .15s ease}
+.row:hover{background:rgba(21,21,18,.025)}
+.row strong{font-weight:500;letter-spacing:-.008em}
+.row span,.compact-list div{font-variant-numeric:tabular-nums}
+.shopping-line>div:nth-child(2){font-variant-numeric:tabular-nums}
+.qty{font-variant-numeric:tabular-nums}
+
+/* ---------- controls: cleaner inputs, refined buttons ---------- */
+input,select,textarea{
+  background:#fff;border:1px solid var(--hairline);border-radius:11px;min-height:46px;
+  font-size:14px;transition:border-color .15s ease,box-shadow .15s ease
+}
+input:hover,select:hover,textarea:hover{border-color:rgba(21,21,18,.22)}
+input:focus,select:focus,textarea:focus{border-color:var(--ink);box-shadow:0 0 0 3px rgba(21,21,18,.07)}
+.form-grid input,.form-grid select,.form-grid textarea{background:#fff}
+.inline-actions select{background:var(--card)}
+label{font-weight:500;font-size:8.5px;letter-spacing:.14em}
+.primary{
+  background:#151512;font-weight:500;letter-spacing:.11em;border-radius:999px;
+  transition:transform .18s ease,box-shadow .18s ease,background .18s ease;
+  box-shadow:0 8px 22px rgba(21,21,18,.16)
+}
+.primary:hover{transform:translateY(-1px);box-shadow:0 12px 28px rgba(21,21,18,.2);background:#000}
+.primary:active{transform:translateY(0)}
+.pill,.secondary{transition:transform .18s ease,border-color .18s ease,background .18s ease}
+.pill:hover{border-color:rgba(21,21,18,.3)}
+.pill.dark:hover{background:#000}
+.secondary:hover{border-color:rgba(21,21,18,.3)}
+.text-button{transition:color .15s ease}
+.text-button:hover{color:var(--ink)}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid rgba(21,21,18,.4);outline-offset:2px}
+.task-toggle{border:1px solid rgba(21,21,18,.18);border-radius:999px;transition:border-color .15s ease,opacity .15s ease}
+.task-toggle:hover{border-color:rgba(21,21,18,.4)}
+
+/* ---------- chrome: sidebar, topbars, bottom nav ---------- */
+.app-shell{background:var(--paper)}
+.topbar{background:rgba(250,249,245,.88);border-bottom:1px solid var(--line)}
+.bottom-nav{background:rgba(250,249,245,.94);border-top:1px solid var(--line)}
+.bottom-nav button{transition:color .15s ease}
+.bottom-nav button.active{color:var(--ink)}
+.desktop-sidebar{background:#fbfaf6;border-right:1px solid var(--line)}
+.desktop-wordmark{font-weight:600;letter-spacing:.2em}
+.desktop-sidebar nav button{border-radius:11px;font-size:10.5px;font-weight:450;transition:background .15s ease,color .15s ease}
+.desktop-sidebar nav button:hover{background:#f0efe8;color:var(--ink)}
+.desktop-sidebar nav button.active{background:#151512;color:#faf9f5}
+.desktop-topbar{background:rgba(250,249,245,.8);border-bottom:1px solid var(--line)}
+.desktop-topbar button{border-radius:11px;transition:background .15s ease,border-color .15s ease}
+.desktop-topbar button:hover{background:#f0efe8;border-color:rgba(21,21,18,.2)}
+.desktop-shop:hover{opacity:1}
+
+/* setup hero */
+.setup-hero{border-radius:0}
+.setup-form-wrap{background:var(--paper)}
+
+@media(prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important}
+  .primary:hover,.quick-links button:hover,.print-card:hover{transform:none}
+}
