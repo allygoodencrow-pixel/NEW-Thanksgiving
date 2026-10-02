@@ -25,6 +25,8 @@ const csv=v=>String(v||"").split(",").map(x=>x.trim().toLowerCase()).filter(Bool
 const localInput=v=>v?String(v).slice(0,16):"";
 function suggestedDinner(){let year=new Date().getFullYear();const day=y=>1+(4-new Date(y,10,1).getDay()+7)%7+21;if(new Date(year,10,day(year),16,30)<new Date())year++;return `${year}-11-${String(day(year)).padStart(2,"0")}T16:30`;}
 const app=document.querySelector("#app");
+const YEAR=new Date().getFullYear();
+const SHOP_URL="https://thecrowandcrown.com/";
 
 function persist(next,{bumpRevision=true}={}){
  if(!storage){state=next;saveLabel="Local save unavailable";render();return;}
@@ -35,7 +37,7 @@ function persist(next,{bumpRevision=true}={}){
 function update(mutator,options){persist(mutator(structuredClone(state)),options);}
 function inventoryNumber(value){return typeof value==="number"?value:Number(value?.quantity??value?.owned)||0;}
 function shoppingInventoryKey(key){return String(key||"").replace(/^(equipment|table|activity):/,"");}
-function pageHeader(title,sub=""){return `<header class="pagehead page-${esc(active)}"><p class="eyebrow">THE ART OF HAVING PEOPLE OVER / 2026</p><h1>${esc(title)}</h1></header>`;}
+function pageHeader(title,sub=""){return `<header class="pagehead page-${esc(active)}"><p class="eyebrow">THE ART OF HAVING PEOPLE OVER / ${YEAR}</p><h1>${esc(title)}</h1></header>`;}
 function stat(label,value,detail=""){return `<div class="stat"><span>${esc(label)}</span><strong>${esc(value)}</strong>${detail?`<small>${esc(detail)}</small>`:""}</div>`;}
 function empty(text){return `<p class="empty">${esc(text)}</p>`;}
 
@@ -296,7 +298,7 @@ function render(){
  if(!state.setupCompleted){app.innerHTML=setupView();bind();return;}
  const p=derivePlan(state);
  const navButton=([id,label],desktop=false)=>`<button data-nav="${id}" class="${active===id?"active":""}">${desktop?`<span class="desktop-nav-no">${String(NAV.concat(MORE).findIndex(x=>x[0]===id)+1).padStart(2,"0")}</span>`:`<span class="nav-icon">${({home:"⌂",menu:"◇",shopping:"☷",timeline:"◷",guests:"♙"})[id]||"·"}</span>`}<span>${label}</span></button>`;
- app.innerHTML=`<div class="app-shell"><aside class="desktop-sidebar"><button class="desktop-brand" data-nav="home"><span class="desktop-wordmark">CROW & CROWN</span><span class="desktop-product">THANKSGIVING / THE HOSTING EDIT</span></button><p class="desktop-nav-label">YOUR EVENT</p><nav aria-label="Thanksgiving planning sections">${NAV.concat(MORE).map(x=>navButton(x,true)).join("")}</nav><div class="desktop-save"><i></i><span>${esc(saveLabel)}</span></div></aside><div class="app-main"><header class="topbar"><button data-sheet="more" aria-label="More sections">☰</button><span>C | C</span><button data-nav="party" aria-label="Party settings">⋯</button></header><header class="desktop-topbar"><span>THANKSGIVING / THE HOSTING EDIT</span><div><i></i>${esc(saveLabel)}<button data-nav="party" aria-label="Party settings">PARTY SETTINGS&nbsp; ↗</button></div></header><main class="workspace">${view(p)}</main><nav class="bottom-nav" aria-label="Primary mobile sections">${NAV.map(x=>navButton(x)).join("")}</nav></div>${sheet==="more"?`<div class="modal-backdrop" data-close-sheet><section class="more-sheet"><div class="sheet-handle"></div><p class="kicker">YOUR HOSTING PLAN</p>${MORE.map(([id,label])=>`<button data-nav="${id}">${label}<span>↗</span></button>`).join("")}<button data-close-sheet>CLOSE</button></section></div>`:""}</div>`;
+ app.innerHTML=`<div class="app-shell"><aside class="desktop-sidebar"><button class="desktop-brand" data-nav="home"><span class="desktop-wordmark">CROW & CROWN</span><span class="desktop-product">THANKSGIVING / THE HOSTING EDIT</span></button><p class="desktop-nav-label">YOUR EVENT</p><nav aria-label="Thanksgiving planning sections">${NAV.concat(MORE).map(x=>navButton(x,true)).join("")}</nav><div class="desktop-save"><i></i><span>${esc(saveLabel)}</span></div><a class="desktop-shop" href="${SHOP_URL}" target="_blank" rel="noopener">THE CROW &amp; CROWN SHOP ↗</a></aside><div class="app-main"><header class="topbar"><button data-sheet="more" aria-label="More sections">☰</button><span>C | C</span><button data-nav="party" aria-label="Party settings">⋯</button></header><header class="desktop-topbar"><span>THANKSGIVING / THE HOSTING EDIT</span><div><i></i>${esc(saveLabel)}<button data-nav="party" aria-label="Party settings">PARTY SETTINGS&nbsp; ↗</button></div></header><main class="workspace">${view(p)}</main><nav class="bottom-nav" aria-label="Primary mobile sections">${NAV.map(x=>navButton(x)).join("")}</nav></div>${sheet==="more"?`<div class="modal-backdrop" data-close-sheet><section class="more-sheet"><div class="sheet-handle"></div><p class="kicker">YOUR HOSTING PLAN</p>${MORE.map(([id,label])=>`<button data-nav="${id}">${label}<span>↗</span></button>`).join("")}<a href="${SHOP_URL}" target="_blank" rel="noopener">The Crow &amp; Crown shop<span>↗</span></a><button data-close-sheet>CLOSE</button></section></div>`:""}</div>`;
  bind();
 }
 

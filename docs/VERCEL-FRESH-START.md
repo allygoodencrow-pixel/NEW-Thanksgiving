@@ -28,5 +28,7 @@ The repository-level `vercel.json` is the deployment contract and intentionally 
 3. Confirm the production branch is `main`.
 4. Run the deployment.
 5. Verify onboarding plus all 12 planner destinations on the deployed URL.
+6. Once the production domain is known, add the canonical link and og:url to index.html (see the comment in its head).
+7. The GA4 tag in index.html currently uses the shop's measurement ID (G-B9JF1LJ1JT); swap it for a dedicated planner property if shop and planner traffic should be reported separately.
 6. Verify local persistence, backup/restore, shopping propagation, seating assignment, timeline edits, and printables in the live browser.
 7. Only after live QA, attach the final production domain.
