@@ -15,7 +15,7 @@ let active="home";
 let saveLabel=storage?"Saved locally":"Local save unavailable";
 
 const NAV=[["home","HOME"],["menu","MENU"],["shopping","SHOPPING"],["timeline","TIMELINE"],["guests","GUESTS"]];
-const MORE=[["prep","Prep"],["table","Table"],["space","Seating"],["experience","Experience"],["budget","Budget"],["printables","Printables"],["party","Party settings"]];
+const MORE=[["prep","Prep"],["party-day","Party day"],["table","Table"],["space","Seating"],["experience","Experience"],["budget","Budget"],["printables","Printables"],["party","Party settings"]];
 const catalogImage=id=>id==="turkey"||id==="ba-dry-turkey"?"old-bird":id==="potatoes"||id==="ba-mashed"||id==="sweet"?"old-potatoes":id==="salad"||id==="app"?"old-salad":"old-feast";
 let sheet=null;
 const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -54,6 +54,7 @@ function issueList(p){
  const buy=p.shopping.filter(x=>(x.remainingCanonical??0)>0).length;
  if(buy)issues.push(`${buy} shopping item${buy===1?"":"s"} still needed`);
  if(p.budget.incompletePriceLines)issues.push(`${p.budget.incompletePriceLines} budget line${p.budget.incompletePriceLines===1?"":"s"} missing price data`);
+ if(p.budget.target&&p.budget.projectedFinal>p.budget.target)issues.push(`Projected spending $${fmt(p.budget.projectedFinal)} exceeds your $${fmt(p.budget.target)} budget target`);
  return issues;
 }
 
@@ -78,7 +79,9 @@ function homeView(p){
  return `<section class="home-photo"><div class="photo-top">C | C <span>THE THANKSGIVING EDIT</span></div><div class="photo-title"><span>YOUR HOSTING PLAN</span><h1>Thanksgiving,<br>already figured out.</h1></div></section>
  <section class="home-sheet"><div class="sheet-handle"></div><p class="kicker">THE PLAN / AT A GLANCE</p><div class="home-event"><div><strong>${esc(dinner)}</strong><span>${p.planning.planningHeadcount} guests · ${esc(p.service.style.label)}</span></div><button class="circle-arrow" data-nav="party" aria-label="Edit party settings">↗</button></div>
  <div class="next-action"><span>NEXT UP</span><strong>${esc(issues[0]||"Your plan is looking good.")}</strong><button data-nav="${issues[0]?.startsWith("Menu")?"menu":"shopping"}">TAKE A LOOK →</button></div>
+ <section class="metric-strip">${stat("Prep done",`${p.prep.filter(t=>t.completed).length}/${p.prep.length}`)}${stat("Shopping covered",`${p.shopping.filter(x=>(x.remainingCanonical??0)<=0).length}/${p.shopping.length}`)}${stat("Menu dishes",String(Object.values(state.dishes||{}).filter(d=>d?.on).length))}${stat("Dietary gaps",String(p.dietaryCoverage.gaps.length))}</section>
  <div class="quick-links"><button data-nav="menu"><span>01 / THE FOOD</span><b>Menu ↗</b></button><button data-nav="shopping"><span>02 / THE LIST</span><b>Shopping ↗</b></button><button data-nav="timeline"><span>03 / THE DAY</span><b>Timeline ↗</b></button></div>
+ ${state.event.dinnerAt&&new Date(state.event.dinnerAt).toDateString()===new Date().toDateString()?`<button class="pill dark party-day-cta" data-nav="party-day">ENTER PARTY DAY MODE &rarr;</button>`:""}
  ${issues.length>1?`<div class="attention"><span>ALSO ON YOUR RADAR</span>${issues.slice(1,4).map(x=>`<p>${esc(x)}</p>`).join("")}</div>`:""}</section>`;
 }
 
@@ -95,6 +98,7 @@ function partyView(p){
   <label>Cooking helpers<input name="helpers" type="number" min="0" value="${state.event.cookingHelpers||0}"></label>
   <label>Food buffer %<input name="foodBuffer" type="number" min="0" value="${state.planning.foodBufferPercent||0}"></label>
   <label>Place-setting spare %<input name="spare" type="number" min="0" value="${state.planning.placeSettingSparePercent||0}"></label>
+  <label>Location<input name="location" value="${esc(state.event.location||"")}" placeholder="Our house"></label>
   <label>Event time zone<input value="${esc(state.event.timeZone||Intl.DateTimeFormat().resolvedOptions().timeZone||"browser local")}" disabled></label>
   <button class="primary" type="submit">Update plan</button>
  </form>`;
@@ -132,8 +136,10 @@ function menuView(p){
 }
 
 function prepView(p){
+ const done=p.prep.filter(t=>t.completed).length;
  return pageHeader("Prep","Generated from current recipes, responsibility, activities and service setup.")+
- (p.prep.length?`<div class="rows">${p.prep.map(t=>`<div class="row"><div><strong>${esc(t.title)}</strong><span>${esc(t.recipeTitle||t.source||"manual")}</span></div><div>${t.durationMinutes?fmt(t.durationMinutes)+" min":t.needsDuration?"needs duration":""}</div></div>`).join("")}</div>`:empty("Prep tasks appear when recipes or activities are added."));
+ `<section class="metric-strip">${stat("Tasks",String(p.prep.length))}${stat("Done",`${done}/${p.prep.length}`)}${stat("Remaining",String(p.prep.length-done))}</section>`+
+ (p.prep.length?`<div class="rows">${p.prep.map(t=>`<div class="row ${t.completed?"task-done":""}"><div><strong>${esc(t.title)}</strong><span>${esc(t.recipeTitle||t.source||"manual")}</span></div><div class="inline-actions"><span>${t.durationMinutes?fmt(t.durationMinutes)+" min":"&mdash;"}</span><button class="text-button" data-action="toggle-task" data-id="${esc(t.taskId)}">${t.completed?"&check; Done":"Mark done"}</button></div></div>`).join("")}</div>`:empty("Prep tasks appear when recipes or activities are added."));
 }
 
 function shoppingView(p){
@@ -241,7 +247,7 @@ function timelineView(p){
    const context=t.recipeTitle||t.source||"Host task";
    const phase=t.phase?String(t.phase).replace(/-/g," ").toUpperCase():"";
    return `<form class="timeline-step ${t.conflict?"conflict":""}" data-task-form="${esc(t.taskId)}">
-    <div class="timeline-step-time">${esc(timeLabel(t.startAt||t.fixedStart))}</div>
+    <div class="timeline-step-time">${esc(timeLabel(t.startAt||t.fixedStart))}<button class="task-toggle ${t.completed?"done":""}" data-action="toggle-task" data-id="${esc(t.taskId)}" aria-label="${t.completed?"Mark not done":"Mark done"}">${t.completed?"&check; DONE":"MARK DONE"}</button></div>
     <div class="timeline-step-copy"><span class="timeline-step-no">${String(index+1).padStart(2,"0")}</span><strong>${esc(t.title)}</strong><span class="timeline-step-context">${esc(context)}</span><div class="timeline-step-meta"><span>${fmt(t.durationMinutes||0)} MIN</span>${phase?`<span>${esc(phase)}</span>`:""}${t.fixedStart?`<span>PINNED</span>`:""}${t.conflict?`<span class="timeline-conflict">TIMING CONFLICT</span>`:""}</div></div>
     <details class="timeline-adjust"><summary>ADJUST</summary><div class="timeline-task-edit"><label>Duration<input name="duration" type="number" min="0" value="${t.durationMinutes||0}"></label><label>Pin time<input name="fixed" type="datetime-local" value="${localInput(t.fixedStart||"")}"></label><button class="text-button" type="submit">Save changes</button></div></details>
    </form>`;
@@ -258,12 +264,12 @@ function timelineView(p){
 function guestsView(){
  return pageHeader("The guest list")+`<div class="editorial-lead"><span>EVERYONE AT THE TABLE</span><button class="pill dark" data-sheet="guest">+ ADD GUEST</button></div>`+
  `<div class="section-title"><span>GUEST LIST</span><strong>${state.guests.length}</strong></div>
- ${state.guests.length?`<div class="rows">${state.guests.map((g,index)=>`<div class="row"><div><strong>${esc(g.name)}</strong><span>${esc(g.type||"adult")} · ${esc((g.dietaryRestrictions||[]).join(", ")||"no dietary notes")} ${(g.allergies||[]).length?`· allergies: ${esc(g.allergies.join(", "))}`:""}</span></div><div class="inline-actions"><select data-guest-rsvp="${index}"><option value="pending" ${g.rsvp==="pending"?"selected":""}>Pending</option><option value="yes" ${g.rsvp==="yes"?"selected":""}>Attending</option><option value="no" ${g.rsvp==="no"?"selected":""}>Not attending</option></select><button class="text-button" data-action="remove-guest" data-index="${index}">Remove</button></div></div>`).join("")}</div>`:empty("No named guests yet. Projected headcount still drives quantities.")}
+ ${state.guests.length?`<div class="rows">${state.guests.map((g,index)=>`<div class="row"><div><strong>${esc(g.name)}</strong><span>${esc(g.type||"adult")} · ${esc((g.dietaryRestrictions||[]).join(", ")||"no dietary notes")} ${(g.allergies||[]).length?`· allergies: ${esc(g.allergies.join(", "))}`:""}${g.notes?` · ${esc(g.notes)}`:""}</span></div><div class="inline-actions"><select data-guest-rsvp="${index}"><option value="pending" ${g.rsvp==="pending"?"selected":""}>Pending</option><option value="yes" ${g.rsvp==="yes"?"selected":""}>Attending</option><option value="no" ${g.rsvp==="no"?"selected":""}>Not attending</option></select><button class="text-button" data-action="remove-guest" data-index="${index}">Remove</button></div></div>`).join("")}</div>`:empty("No named guests yet. Projected headcount still drives quantities.")}
  <form id="guest-form" class="form-grid compact advanced-form" ${sheet==="guest"?"":"hidden"}>
   <label>Name<input name="name" required></label><label>RSVP<select name="rsvp"><option value="pending">Pending</option><option value="yes">Attending</option><option value="no">Not attending</option></select></label><label>Type<select name="type"><option value="adult">Adult</option><option value="child">Child</option></select></label>
   <label>Dietary needs<input name="dietary" placeholder="vegetarian, gluten-free"></label><label>Allergies<input name="allergies" placeholder="peanut, shellfish"></label>
   <label>Plus one<select name="plus"><option value="0">No</option><option value="1">Yes</option></select></label><label>+1 dietary needs<input name="plusDietary"></label><label>+1 allergies<input name="plusAllergies"></label>
-  <label>Children in household<input name="kids" type="number" min="0" value="0"></label><label>High chairs<input name="highchairs" type="number" min="0" value="0"></label>
+  <label>Children in household<input name="kids" type="number" min="0" value="0"></label><label>High chairs<input name="highchairs" type="number" min="0" value="0"></label><label class="span-2">Notes<input name="notes" placeholder="Bringing her famous rolls"></label>
   <button class="primary" type="submit">Add guest</button>
  </form>`;
 }
@@ -289,8 +295,28 @@ function printablesView(){
  <div class="backup-actions"><button class="secondary" data-action="backup">Download plan backup</button><label class="secondary file-label">Restore backup<input id="restore-input" type="file" accept="application/json"></label><button class="secondary danger" data-action="reset">Reset event</button></div>`;
 }
 
+function partyDayView(p){
+ const dinner=state.event.dinnerAt?new Date(state.event.dinnerAt):null;
+ if(!dinner||Number.isNaN(dinner.getTime()))return pageHeader("Party day")+`<div class="timeline-empty"><strong>Set dinner time to run Party Day mode.</strong><p>The full sequence is ready. One time turns it into your day-of command center.</p><button class="pill dark" data-nav="party">SET DINNER TIME &rarr;</button></div>`;
+ const now=new Date();
+ const tasks=p.timeline.tasks.filter(t=>t.startAt);
+ const current=tasks.filter(t=>new Date(t.startAt)<=now&&new Date(t.endAt)>now);
+ const upcoming=tasks.filter(t=>new Date(t.startAt)>now).sort((a,b)=>new Date(a.startAt)-new Date(b.startAt));
+ const done=tasks.filter(t=>t.completed).length;
+ const contributions=Object.entries(state.menuResponsibilities||{}).filter(([,r])=>r?.ownerType==="guest"&&r?.status!=="arrived").map(([dishId,r])=>{const dish=state.dishes?.[dishId],recipe=state.recipes?.[dish?.recipeId||dishId],guest=(state.guests||[]).find(g=>String(g.guestId||g.id)===String(r.contributorGuestId));return {title:recipe?.title||dishId,guest:guest?.name||"unassigned",status:r.status};});
+ const ovenUpcoming=upcoming.filter(t=>(t.assignments||[]).some(a=>a.type==="oven"));
+ const step=t=>`<div class="row ${t.completed?"task-done":""}"><div><strong>${esc(t.title)}</strong><span>${t.startAt?new Date(t.startAt).toLocaleTimeString(undefined,{hour:"numeric",minute:"2-digit"}):""} &middot; ${esc(t.recipeTitle||t.source||"host")} &middot; ${fmt(t.durationMinutes||0)} min</span></div><div class="inline-actions"><button class="text-button" data-action="toggle-task" data-id="${esc(t.taskId)}">${t.completed?"&check; Done":"Mark done"}</button></div></div>`;
+ return pageHeader("Party day","The whole plan, reduced to right now.")+
+ `<section class="metric-strip">${stat("Done",`${done}/${tasks.length}`)}${stat("Happening now",String(current.length))}${stat("Still ahead",String(upcoming.length))}${stat("Contributions expected",String(contributions.length))}</section>
+ ${current.length?`<div class="section-title"><span>HAPPENING NOW</span><strong>${current.length}</strong></div><div class="rows">${current.map(step).join("")}</div>`:""}
+ ${upcoming.length?`<div class="section-title"><span>NEXT UP</span><strong>${upcoming.length}</strong></div><div class="rows">${upcoming.slice(0,5).map(step).join("")}</div>`:""}
+ ${ovenUpcoming.length?`<div class="section-title"><span>OVEN AHEAD</span><strong>${ovenUpcoming.length}</strong></div><div class="rows">${ovenUpcoming.slice(0,4).map(step).join("")}</div>`:""}
+ ${contributions.length?`<div class="section-title"><span>STILL EXPECTED FROM GUESTS</span><strong>${contributions.length}</strong></div><div class="rows">${contributions.map(c=>`<div class="row"><div><strong>${esc(c.title)}</strong><span>${esc(c.guest)} &middot; ${esc(c.status)}</span></div></div>`).join("")}</div>`:""}
+ ${!tasks.length?empty("Add dishes to your menu and the day-of steps appear here."):""}
+ <p class="quiet-note">Times recalculate automatically if you change dinner time. Check tasks off as you go.</p>`;
+}
 function view(p){
- const views={home:()=>homeView(p),party:()=>partyView(p),menu:()=>menuView(p),prep:()=>prepView(p),shopping:()=>shoppingView(p),table:()=>tableView(p),space:()=>spaceView(p),timeline:()=>timelineView(p),guests:()=>guestsView(),experience:()=>experienceView(p),budget:()=>budgetView(p),printables:()=>printablesView()};
+ const views={home:()=>homeView(p),party:()=>partyView(p),menu:()=>menuView(p),prep:()=>prepView(p),shopping:()=>shoppingView(p),table:()=>tableView(p),space:()=>spaceView(p),timeline:()=>timelineView(p),guests:()=>guestsView(),experience:()=>experienceView(p),budget:()=>budgetView(p),printables:()=>printablesView(),"party-day":()=>partyDayView(p)};
  return (views[active]||views.home)();
 }
 
@@ -308,7 +334,7 @@ function bind(){
  app.querySelectorAll("[data-sheet]").forEach(b=>b.addEventListener("click",()=>{sheet=b.dataset.sheet;render();app.querySelector(".advanced-form:not([hidden])")?.scrollIntoView?.({block:"start"});}));
  app.querySelectorAll("[data-close-sheet]").forEach(b=>b.addEventListener("click",e=>{if(e.target===b){sheet=null;render();}}));
  app.querySelectorAll("[data-dish-detail]").forEach(b=>b.addEventListener("click",()=>{const el=b.closest(".menu-row").querySelector(".dish-edit");el.hidden=!el.hidden;}));
- app.querySelector("#party-form")?.addEventListener("submit",e=>{e.preventDefault();const f=new FormData(e.currentTarget),mode=String(f.get("mode")),headcount=Math.max(0,Number(f.get("headcount"))||0);update(x=>({...x,event:{...x.event,service:f.get("service"),budget:Number(f.get("budget"))||0,dinnerAt:f.get("dinnerAt")||null,ovens:Math.max(0,Number(f.get("ovens"))||0),burners:Math.max(0,Number(f.get("burners"))||0),cookingHelpers:Math.max(0,Number(f.get("helpers"))||0),timeZone:x.event.timeZone||Intl.DateTimeFormat().resolvedOptions().timeZone||null},planning:{...x.planning,mode,[mode==="custom"?"customHeadcount":"estimatedHeadcount"]:headcount,foodBufferPercent:Math.max(0,Number(f.get("foodBuffer"))||0),placeSettingSparePercent:Math.max(0,Number(f.get("spare"))||0)}}));});
+ app.querySelector("#party-form")?.addEventListener("submit",e=>{e.preventDefault();const f=new FormData(e.currentTarget),mode=String(f.get("mode")),headcount=Math.max(0,Number(f.get("headcount"))||0);update(x=>({...x,event:{...x.event,service:f.get("service"),location:String(f.get("location")||""),budget:Number(f.get("budget"))||0,dinnerAt:f.get("dinnerAt")||null,ovens:Math.max(0,Number(f.get("ovens"))||0),burners:Math.max(0,Number(f.get("burners"))||0),cookingHelpers:Math.max(0,Number(f.get("helpers"))||0),timeZone:x.event.timeZone||Intl.DateTimeFormat().resolvedOptions().timeZone||null},planning:{...x.planning,mode,[mode==="custom"?"customHeadcount":"estimatedHeadcount"]:headcount,foodBufferPercent:Math.max(0,Number(f.get("foodBuffer"))||0),placeSettingSparePercent:Math.max(0,Number(f.get("spare"))||0)}}));});
  app.querySelector("#recipe-form")?.addEventListener("submit",e=>{e.preventDefault();const f=new FormData(e.currentTarget),id=`custom-${crypto.randomUUID()}`;
   const ingredients=String(f.get("ingredients")||"").split(/\n+/).map(line=>line.split("|").map(x=>x.trim())).filter(parts=>parts[2]).map(([quantity,unit,name])=>({name,quantity:Number(quantity)||0,unit:unit||"each"}));
   const tasks=String(f.get("tasks")||"").split(/\n+/).map(line=>line.split("|").map(x=>x.trim())).filter(parts=>parts[0]).map(([title,minutes,phase,resource,temp])=>({title,durationMinutes:Number(minutes)||0,phase:phase||"prep",resourceRequirements:resource?[{type:resource,temperatureF:temp?Number(temp):undefined}]:[]}));
@@ -332,9 +358,10 @@ function bind(){
  app.querySelectorAll('[data-action="unassign-seat"]').forEach(b=>b.addEventListener("click",()=>update(x=>unassignPerson(x,b.dataset.person))));
  app.querySelectorAll("[data-task-form]").forEach(form=>form.addEventListener("submit",e=>{e.preventDefault();const f=new FormData(form),id=form.dataset.taskForm;update(x=>({...x,taskOverrides:{...(x.taskOverrides||{}),[id]:{...(x.taskOverrides?.[id]||{}),durationMinutes:Math.max(0,Number(f.get("duration"))||0),fixedStart:f.get("fixed")||null}}}));}));
  app.querySelector("#manual-task-form")?.addEventListener("submit",e=>{e.preventDefault();const f=new FormData(e.currentTarget);update(x=>({...x,manualTasks:[...(x.manualTasks||[]),{id:`manual-${crypto.randomUUID()}`,title:String(f.get("title")),durationMinutes:Math.max(0,Number(f.get("duration"))||0),fixedStart:f.get("fixed")||null}]}));});
- app.querySelector("#guest-form")?.addEventListener("submit",e=>{e.preventDefault();const f=new FormData(e.currentTarget);update(x=>({...x,guests:[...x.guests,{id:crypto.randomUUID(),name:String(f.get("name")),rsvp:f.get("rsvp"),type:f.get("type"),dietaryRestrictions:csv(f.get("dietary")),allergies:csv(f.get("allergies")),plus:Number(f.get("plus"))?1:0,plusDietaryRestrictions:csv(f.get("plusDietary")),plusAllergies:csv(f.get("plusAllergies")),kids:Math.max(0,Number(f.get("kids"))||0),highChairs:Math.max(0,Number(f.get("highchairs"))||0)}]}));});
+ app.querySelector("#guest-form")?.addEventListener("submit",e=>{e.preventDefault();const f=new FormData(e.currentTarget);update(x=>({...x,guests:[...x.guests,{id:crypto.randomUUID(),name:String(f.get("name")),rsvp:f.get("rsvp"),type:f.get("type"),dietaryRestrictions:csv(f.get("dietary")),allergies:csv(f.get("allergies")),plus:Number(f.get("plus"))?1:0,plusDietaryRestrictions:csv(f.get("plusDietary")),plusAllergies:csv(f.get("plusAllergies")),kids:Math.max(0,Number(f.get("kids"))||0),highChairs:Math.max(0,Number(f.get("highchairs"))||0),notes:String(f.get("notes")||"")}]}));});
  app.querySelectorAll("[data-guest-rsvp]").forEach(el=>el.addEventListener("change",()=>update(x=>{const i=Number(el.dataset.guestRsvp),g=x.guests[i],id=g?.guestId||g?.id;if(!id)return x;return updateGuest(x,id,{rsvp:el.value});})));
  app.querySelectorAll('[data-action="remove-guest"]').forEach(b=>b.addEventListener("click",()=>update(x=>{const g=x.guests[Number(b.dataset.index)],id=g?.guestId||g?.id;return id?removeGuest(x,id):x;})));
+ app.querySelectorAll('[data-action="toggle-task"]').forEach(b=>b.addEventListener("click",()=>update(x=>{const id=b.dataset.id,current=x.taskOverrides?.[id]||{};return {...x,taskOverrides:{...(x.taskOverrides||{}),[id]:{...current,completed:!(current.completed??false)}}};})));
  app.querySelectorAll('[data-action="toggle-activity"]').forEach(b=>b.addEventListener("click",()=>update(x=>{const selected={...(x.selectedActivities||{})};if(selected[b.dataset.id])delete selected[b.dataset.id];else selected[b.dataset.id]=true;return {...x,selectedActivities:selected};})));
  app.querySelector("#activity-form")?.addEventListener("submit",e=>{e.preventDefault();const f=new FormData(e.currentTarget),id=`activity-${crypto.randomUUID()}`,supply=String(f.get("supply")||"").trim(),task=String(f.get("task")||"").trim();update(x=>({...x,activities:{...(x.activities||{}),[id]:{name:String(f.get("name")),supplies:supply?[{key:supply.toLowerCase().replace(/\s+/g,"-"),name:supply,quantityPerPerson:Math.max(0,Number(f.get("perPerson"))||0)}]:[],tasks:task?[{id:"setup",title:task,durationMinutes:Math.max(0,Number(f.get("minutes"))||0)}]:[],zoneRequirement:String(f.get("zone")||"").trim()||null,printables:[]}},selectedActivities:{...(x.selectedActivities||{}),[id]:true}}));});
  app.querySelectorAll('[data-action="print"]').forEach(b=>b.addEventListener("click",()=>{const bundle=generatePrintableBundle(state),item=bundle.printables[b.dataset.type];if(!item)return;const w=window.open("","_blank");if(w){w.document.write(renderPrintableHtml(item));w.document.close();w.focus();w.print();}update(x=>markPrintableGenerated(x,b.dataset.type),{bumpRevision:false});}));
