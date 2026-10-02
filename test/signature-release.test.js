@@ -34,7 +34,7 @@ test('signature ingredient shopping preserves recipe demand and provides package
  const state=withSignatureMenu(createPartyState({planning:{mode:'estimated',estimatedHeadcount:12}}));
  const ingredients=deriveShoppingList(state).filter(x=>x.kind==='ingredient');
  assert.ok(ingredients.length>10);
- const pumpkin=ingredients.find(x=>x.name==='Pumpkin purée');
+ const pumpkin=ingredients.find(x=>x.name==='Unsweetened pumpkin purée');
  assert.ok(pumpkin.requiredCanonical>0);
  assert.equal(pumpkin.purchaseRecommendation.packages,2);
  assert.equal(pumpkin.purchaseRecommendation.quantity,30);
@@ -47,7 +47,7 @@ test('signature ingredient shopping preserves recipe demand and provides package
 test('200-person turkey plan becomes multiple birds and multiple oven waves instead of one fake roast',()=>{
  const state=withSignatureMenu(createPartyState({planning:{mode:'custom',customHeadcount:200},event:{ovens:1,dinnerAt:'2026-11-26T17:00:00-08:00'}}));
  const turkey=deriveTurkeyPlan(state);
- assert.equal(turkey.requiredWeightLb,250);
+ assert.equal(turkey.requiredWeightLb,270);
  assert.ok(turkey.birdCount>1);
  assert.ok(turkey.ovenWaves>1);
  assert.ok(turkey.cookMinutes>turkey.perWaveCookMinutes);
@@ -83,18 +83,18 @@ test('migration repairs malformed legacy fields without resetting unrelated part
 
 
 test('declining or deleting a guest releases seats and invalidates their contribution without deleting the dish',()=>{
- let state=withSignatureMenu(createPartyState({planning:{mode:'expected'},guests:[{guestId:'g1',name:'Alex',rsvp:'yes'}],tables:[{id:'t',use:'dining',seatCapacity:1}],seats:{'t:seat:1':'g1'},menuResponsibilities:{pie:{ownerType:'guest',contributorGuestId:'g1',status:'confirmed'}}}));
- assert.equal(dishRequirementMode('pie',state),'none');
+ let state=withSignatureMenu(createPartyState({planning:{mode:'expected'},guests:[{guestId:'g1',name:'Alex',rsvp:'yes'}],tables:[{id:'t',use:'dining',seatCapacity:1}],seats:{'t:seat:1':'g1'},menuResponsibilities:{'ba-pumpkin-pie':{ownerType:'guest',contributorGuestId:'g1',status:'confirmed'}}}));
+ assert.equal(dishRequirementMode('ba-pumpkin-pie',state),'none');
  state=updateGuest(state,'g1',{rsvp:'no'});
  assert.equal(state.seats['t:seat:1'],undefined);
- assert.equal(dishRequirementMode('pie',state),'ingredients');
- state={...state,guests:[{guestId:'g1',name:'Alex',rsvp:'yes'}],seats:{'t:seat:1':'g1'},menuResponsibilities:{pie:{ownerType:'guest',contributorGuestId:'g1',status:'confirmed'}}};
+ assert.equal(dishRequirementMode('ba-pumpkin-pie',state),'ingredients');
+ state={...state,guests:[{guestId:'g1',name:'Alex',rsvp:'yes'}],seats:{'t:seat:1':'g1'},menuResponsibilities:{'ba-pumpkin-pie':{ownerType:'guest',contributorGuestId:'g1',status:'confirmed'}}};
  state=removeGuest(state,'g1');
  assert.equal(state.guests.length,0);
  assert.equal(state.seats['t:seat:1'],undefined);
- assert.equal(state.menuResponsibilities.pie.status,'contributor-removed');
- assert.equal(state.dishes.pie.on,true);
- assert.equal(dishRequirementMode('pie',state),'ingredients');
+ assert.equal(state.menuResponsibilities['ba-pumpkin-pie'].status,'contributor-removed');
+ assert.equal(state.dishes['ba-pumpkin-pie'].on,true);
+ assert.equal(dishRequirementMode('ba-pumpkin-pie',state),'ingredients');
 });
 
 
