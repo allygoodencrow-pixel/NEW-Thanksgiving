@@ -22,11 +22,12 @@ test("customer shell renders every destination and core write paths",async()=>{
  setup.querySelector('[name="dinnerAt"]').value="2026-11-26T17:00";
  submit(setup);
  assert.ok(document.querySelector(".desktop-sidebar"),"wide-screen workspace navigation renders");
- assert.equal(document.querySelectorAll(".desktop-sidebar nav [data-nav]").length,12,"desktop navigation exposes every planning section");
+ assert.equal(document.querySelectorAll(".desktop-sidebar nav [data-nav]").length,13,"desktop navigation exposes every planning section");
 
  const expected={
   home:"already figured out.",party:"Party plan",menu:"Menu",prep:"Prep",shopping:"Shopping",table:"Table",
-  space:"Space + seating",timeline:"Timeline",guests:"Guests",experience:"Experience",budget:"Budget",printables:"Printables"
+  space:"Space + seating",timeline:"Timeline",guests:"Guests",experience:"Experience",budget:"Budget",printables:"Printables",
+  "party-day":"Party day"
  };
  assert.equal(document.querySelectorAll(".bottom-nav [data-nav]").length,5);
  for(const [id,title] of Object.entries(expected)){

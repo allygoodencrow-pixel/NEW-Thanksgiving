@@ -479,3 +479,7 @@ body{background:#e9e9e5;font-family:'Helvetica Neue',Arial,sans-serif}
 .desktop-shop{display:block;margin:8px 16px 0;padding:8px 0;color:inherit;text-decoration:none;font-size:.68rem;letter-spacing:.12em;opacity:.75;}
 .desktop-shop:hover{opacity:1;}
 .more-sheet a{display:flex;justify-content:space-between;align-items:center;padding:12px 8px;color:inherit;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.08);}
+.task-toggle{margin-top:6px;padding:4px 8px;font-size:.6rem;letter-spacing:.08em;border:1px solid rgba(255,255,255,.25);border-radius:999px;background:transparent;color:inherit;cursor:pointer;}
+.task-toggle.done{opacity:.6;text-decoration:line-through;}
+.row.task-done strong{text-decoration:line-through;opacity:.65;}
+.party-day-cta{display:block;width:100%;margin:10px 0;padding:12px;text-align:center;box-sizing:border-box;}

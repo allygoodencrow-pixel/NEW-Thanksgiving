@@ -11,7 +11,15 @@ export function createPartyState(overrides={}){
   turkeyPlan:{poundsPerPerson:1.25,bufferPercent:0,purchasedWeightLb:0},
   housePrep:{enabled:true},
   tables:[],seats:{},inventory:{},room:{},spaceZones:{},
-  activities:{},selectedActivities:{},
+  activities:{
+   'gratitude-round':{name:'Gratitude round',title:'Gratitude round',description:'One line of thanks per guest before dinner.',supplies:[{key:'gratitude-cards',name:'Gratitude + conversation cards',quantityPerHousehold:1,estimatedUnitCost:8,unit:'each'}],tasks:[{id:'set-out',title:'Set out gratitude cards',phase:'before-guests',durationMinutes:5,handsOn:true}],zoneRequirement:'dining',printables:[{type:'gratitude-cards'}]},
+   'kids-activity-kit':{name:'Kids activity kit',title:'Kids table activity kit',description:'Crayons and activity sheets for the kids table.',supplies:[{key:'crayons',name:'Crayons + coloring sets',fixedQuantity:4,estimatedUnitCost:9,unit:'each'},{key:'activity-sheets',name:'Printed activity sheets',quantityPerPerson:1,estimatedUnitCost:0.5,unit:'each'}],tasks:[{id:'set-kids-table',title:'Set up kids table activities',phase:'day-before',durationMinutes:10,handsOn:true}],zoneRequirement:'kids-area',printables:[{type:'kids-activities'}]},
+   'guest-favors':{name:'Guest favors',title:'Guest favors',description:'A small favor bag per household.',supplies:[{key:'favor-bags',name:'Favor bags + tags',quantityPerHousehold:1,estimatedUnitCost:3,unit:'each'}],tasks:[{id:'pack-favors',title:'Pack + tag favors',phase:'day-before',durationMinutes:15,handsOn:true}],printables:[{type:'favor-tags'}]},
+   'table-candles':{name:'Table candles',title:'Taper candles + holders',description:'Candlelight for the dining tables.',supplies:[{key:'taper-candles',name:'Taper candles',fixedQuantity:8,estimatedUnitCost:12,unit:'each'},{key:'candle-holders',name:'Candle holders',fixedQuantity:8,estimatedUnitCost:18,unit:'each'}],tasks:[{id:'set-candles',title:'Place candles + check holders',phase:'before-guests',durationMinutes:8,handsOn:true}],zoneRequirement:'dining',printables:[]},
+   'fresh-flowers':{name:'Fresh flowers',title:'Centerpiece flowers',description:'Two arrangements from the market run.',supplies:[{key:'flowers',name:'Flowers for centerpieces',fixedQuantity:2,estimatedUnitCost:20,unit:'bunch'}],tasks:[{id:'trim-flowers',title:'Buy, trim + arrange flowers',phase:'morning',durationMinutes:25,handsOn:true}],zoneRequirement:'dining',printables:[]}
+  },
+  selectedActivities:{},
+
   budgetEntries:[],actualSpendEntries:[],
   printableOverrides:{}
  };
