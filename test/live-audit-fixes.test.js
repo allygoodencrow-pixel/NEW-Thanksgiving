@@ -46,8 +46,8 @@ test('drinks use eligible segments and roles are not misclassified',()=>{
 
 test('package shopping keeps recipe demand separate from what the host should buy',()=>{
  const state=withSignatureMenu(createPartyState({planning:{mode:'estimated',estimatedHeadcount:12}}));
- const row=deriveShoppingList(state).find(x=>x.name==='Pumpkin purée');
- assert.ok(Math.abs(row.required.quantity-1.40625)<1e-9);
+ const row=deriveShoppingList(state).find(x=>x.name==='Unsweetened pumpkin purée');
+ assert.ok(Math.abs(row.required.quantity-1.59375)<1e-9);
  assert.equal(row.required.unit,'lb');
  assert.equal(row.purchaseRecommendation.packages,2);
  assert.equal(row.purchaseRecommendation.quantity,30);
