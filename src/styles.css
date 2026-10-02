@@ -606,3 +606,126 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
   *{transition:none!important;animation:none!important}
   .primary:hover,.quick-links button:hover,.print-card:hover{transform:none}
 }
+
+/* ============================================================
+   MOODY ORGANIC EDITORIAL — dark marble kitchen layer
+   Deep warm charcoal surfaces, cream ivory contrast, stone
+   veining texture, high-contrast serif display. Keeps the
+   Crow & Crown voice; changes the light.
+   ============================================================ */
+:root{
+  --paper:#161411;
+  --paper-2:#1c1916;
+  --card:#1e1b17;
+  --ivory:#eae2d3;
+  --ink:#e9e1d2;
+  --muted:#a2967f;
+  --line:rgba(236,229,214,.07);
+  --hairline:rgba(236,229,214,.13);
+  --stone:#cbb9a0;
+}
+html,body{background:#131110;color:var(--ink)}
+::selection{background:#eae2d3;color:#161411}
+
+/* surfaces */
+.app-shell{background:var(--paper)}
+.home-sheet{background:#171512}
+.sheet-handle{background:rgba(236,229,214,.16)}
+.topbar{background:rgba(22,20,17,.9);border-bottom:1px solid var(--line)}
+.bottom-nav{background:rgba(20,18,15,.95);border-top:1px solid var(--line)}
+.stat{background:#1e1b17;border-color:var(--hairline)}
+.stat:nth-child(2){background:var(--ivory);color:#171510;border-color:var(--ivory)}
+.stat:nth-child(2) span,.stat:nth-child(2) small{color:rgba(23,21,16,.55)}
+.panel{background:#1e1b17;border:1px solid var(--hairline)}
+.panel.slim{background:#221e19}
+.form-grid{background:#1c1916;border-color:var(--hairline)}
+.shopping-controls,.dish-edit{background:#221e19}
+.visual-table{background:#141210;border:1px solid var(--hairline)}
+.table-surface{background:#26221b;border-color:rgba(236,229,214,.3);color:var(--ink)}
+.timeline-day{background:#1e1b17;border-color:var(--hairline)}
+.quick-links button{background:#1e1b17;border-color:var(--hairline)}
+.quick-links button:hover{border-color:rgba(236,229,214,.3);box-shadow:none}
+.print-card{background:var(--ivory);color:#171510;box-shadow:none}
+.print-card span{color:inherit}
+.print-card:nth-child(even){background:#211d18;color:var(--ink);border:1px solid var(--hairline)}
+.print-card:nth-child(even) small{color:var(--muted)}
+.more-sheet{background:#1c1916;color:var(--ink);border:1px solid var(--hairline)}
+.modal-backdrop{background:rgba(10,9,7,.66)}
+.empty,.quiet-note{color:var(--muted)}
+
+/* rows + lists */
+.row{border-bottom-color:rgba(236,229,214,.08)}
+.row:hover{background:rgba(236,229,214,.035)}
+.home-event{border-bottom-color:var(--line)}
+.attention p{border-bottom-color:var(--line)}
+.shopping-line{border-bottom-color:var(--line)}
+.compact-list div{border-bottom-color:var(--line)}
+.issue-list li{border-bottom-color:rgba(255,255,255,.12)}
+.menu-row>div:nth-child(2) small{color:rgba(236,229,214,.42)}
+
+/* contrast moments: ivory on charcoal */
+.next-action{background:var(--ivory);color:#171510}
+.next-action span,.next-action button{color:rgba(23,21,16,.55)}
+.next-action strong{color:#171510}
+.primary{background:var(--ivory)!important;color:#171510!important;box-shadow:0 8px 26px rgba(0,0,0,.35)}
+.primary:hover{background:#f4ede0}
+.primary span{color:inherit}
+.pill{border-color:rgba(236,229,214,.18);color:var(--ink)}
+.pill.dark{background:var(--ivory);border-color:var(--ivory);color:#171510}
+.pill.dark:hover{background:#f4ede0}
+.menu-row>.pill.selected{background:var(--stone);border-color:var(--stone);color:#171510}
+.desktop-sidebar nav button.active{background:var(--ivory);color:#171510}
+.desktop-sidebar nav button.active .desktop-nav-no{color:rgba(23,21,16,.5)}
+.desktop-wordmark{color:var(--ink)}
+.circle-arrow{border-color:rgba(236,229,214,.28);color:var(--ink)}
+.circle-arrow:hover{background:rgba(236,229,214,.07)}
+
+/* inputs */
+input,select,textarea{background:#232019;border-color:var(--hairline);color:var(--ink)}
+input:hover,select:hover,textarea:hover{border-color:rgba(236,229,214,.26)}
+input:focus,select:focus,textarea:focus{border-color:var(--stone);box-shadow:0 0 0 3px rgba(203,185,160,.14)}
+input::placeholder,textarea::placeholder{color:rgba(236,229,214,.35)}
+.inline-actions select{background:#232019}
+input[type="checkbox"]{accent-color:var(--stone)}
+button:focus-visible,input:focus-visible,select:focus-visible{outline-color:rgba(236,229,214,.45)}
+
+/* chrome */
+.desktop-sidebar{background:#191713;border-right:1px solid var(--line)}
+.desktop-sidebar nav button{color:#a2967f}
+.desktop-sidebar nav button:hover{background:rgba(236,229,214,.06);color:var(--ink)}
+.desktop-sidebar nav{scrollbar-color:rgba(236,229,214,.2) transparent}
+.desktop-save{border-top-color:var(--line)}
+.desktop-save i,.desktop-topbar i,.save-state i{background:var(--stone)}
+.desktop-topbar{background:rgba(22,20,17,.85);border-bottom:1px solid var(--line)}
+.desktop-topbar button{border-color:var(--hairline);color:var(--ink)}
+.desktop-topbar button:hover{background:rgba(236,229,214,.07)}
+.text-button{color:var(--muted)}
+.text-button:hover{color:var(--ink)}
+.danger{color:#c58c7e;border-color:rgba(197,140,126,.4)}
+.desktop-shop{color:var(--muted)}
+.kicker,.photo-title span{color:rgba(236,229,214,.55)}
+.eyebrow{color:var(--muted)}
+.secondary{background:transparent;border-color:rgba(236,229,214,.2);color:var(--ink)}
+.secondary:hover{border-color:rgba(236,229,214,.35)}
+.save-state{color:var(--muted)}
+.topbar button,.bottom-nav button{color:var(--muted)}
+.bottom-nav button.active{color:var(--ink)}
+.task-toggle{border-color:rgba(236,229,214,.22)}
+.task-toggle:hover{border-color:rgba(236,229,214,.4)}
+
+/* imagery: darker, moodier */
+.home-photo{background-image:linear-gradient(0deg,rgba(12,10,8,.78),rgba(12,10,8,.15) 70%),url('/images/moody-hero.jpeg');border-radius:0 0 20px 20px}
+.feature-food{background-image:linear-gradient(0deg,rgba(12,10,8,.72),rgba(12,10,8,.1) 65%),url('/images/old-bird.jpeg')}
+.setup-hero{background:linear-gradient(0deg,#1310108c,transparent 60%),url('/images/moody-hero.jpeg') center 45%/cover!important}
+.timeline-overview{
+  background:
+    linear-gradient(115deg,rgba(20,17,14,.92) 0%,rgba(24,20,16,.86) 100%),
+    url('/images/marble.jpeg') center/cover;
+  border-radius:22px
+}
+.timeline-overview:after{border-color:rgba(236,229,214,.1)}
+.next-action{background:
+  linear-gradient(120deg,rgba(234,226,211,.96) 0%,rgba(234,226,211,.88) 100%),
+  url('/images/marble.jpeg') center/cover;
+  color:#171510
+}
