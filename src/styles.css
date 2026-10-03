@@ -672,3 +672,15 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline-color:rgba
   url('/images/marble.jpeg') center/cover;
   color:#171510
 }
+
+/* Customer navigation and recovery stay available at phone sizes. */
+.section-switcher{min-width:0;max-width:65%;min-height:44px;background:transparent;border:0;color:var(--ink);font:inherit;letter-spacing:.06em}
+.save-status{padding:8px 24px;color:var(--ink);font-size:12px;border-bottom:1px solid var(--line)}
+.save-status button{margin-left:8px;min-height:44px;color:inherit;background:transparent;border:1px solid var(--line);border-radius:8px}
+.more-sheet{top:0;bottom:0;right:auto;width:min(86vw,360px);max-height:100dvh;border-radius:0;padding-bottom:calc(24px + env(safe-area-inset-bottom));box-sizing:border-box}
+.bottom-nav{padding-bottom:env(safe-area-inset-bottom)}
+button:focus-visible,a:focus-visible,select:focus-visible,summary:focus-visible{outline:2px solid currentColor;outline-offset:4px}
+.catalog-detail li{margin-bottom:10px;line-height:1.6}
+.pagehead h1,.home-event strong,.stat strong,.section-title strong,.next-action strong,.photo-title h1,.feature-food strong,.setup-copy h1,.timeline-overview-copy strong,.print-card span{font-family:var(--font-sans);font-weight:300}
+@media(max-width:600px){input,select,textarea{font-size:16px!important}.bottom-nav button{min-height:48px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}

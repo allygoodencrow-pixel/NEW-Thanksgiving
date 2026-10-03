@@ -1,3 +1,4 @@
+import {scaledIngredientsForDish} from "./domain/ingredients.js";
 import {createPartyState} from "./domain/state.js";
 import {derivePlan} from "./domain/planning.js";
 import {browserStorage,loadState,saveState,backupState,restoreBackup,DEFAULT_STORAGE_KEY} from "./domain/persistence.js";
@@ -10,9 +11,11 @@ import {updateGuest,removeGuest} from "./domain/guests.js";
 import {ORIGINAL_CATALOG,SUPPORTED_SIGNATURE_IDS,catalogRecipe,withCatalog,withSignatureMenu} from "./catalog/thanksgiving.js";
 
 const storage=browserStorage();
-let state=(storage&&loadState(storage))||createPartyState();
+let startupError=false;
+let state;
+try{state=(storage&&loadState(storage))||createPartyState();}catch{state=createPartyState();startupError=true;}
 let active="home";
-let saveLabel=storage?"Saved locally":"Local save unavailable";
+let saveLabel=storage&&!startupError?"Saved locally":"Saving unavailable — download a backup before closing";
 
 const NAV=[["home","HOME"],["menu","MENU"],["shopping","SHOPPING"],["timeline","TIMELINE"],["guests","GUESTS"]];
 const MORE=[["prep","Prep"],["party-day","Party day"],["table","Table"],["space","Seating"],["experience","Experience"],["budget","Budget"],["printables","Printables"],["party","Party settings"]];
@@ -29,8 +32,10 @@ const YEAR=new Date().getFullYear();
 const SHOP_URL="https://thecrowandcrown.com/";
 
 function persist(next,{bumpRevision=true}={}){
- if(!storage){state=next;saveLabel="Local save unavailable";render();return;}
- const result=saveState(storage,next,{expectedRevision:state.revision,bumpRevision});
+ if(!storage){state=next;saveLabel="Not saved — download a backup before closing";render();return;}
+ let result;
+ try{result=saveState(storage,next,{expectedRevision:state.revision,bumpRevision});}
+ catch{state=next;saveLabel="Not saved — download a backup before closing";render();return;}
  if(result.ok){state=result.state;saveLabel="Saved locally";}else{state=result.current;saveLabel="Save conflict — reloaded latest";}
  render();
 }
@@ -58,6 +63,19 @@ function issueList(p){
  return issues;
 }
 
+function recipeDetails(id,r,on){
+ const ingredients=on?scaledIngredientsForDish(state,id):r.ingredients||[];
+ const servings=on?requiredServingsForDish(state,id):r.baseServings;
+ return `<p>${on?"Your plan":"Recipe base"}: ${fmt(servings)} servings</p>${on&&!ingredients.length?"<p>Ingredients are not on your shopping list for this preparation or confirmed contribution.</p>":`<ul>${ingredients.map(i=>`<li>${esc(i.name)} · ${fmt(i.quantity)} ${esc(i.unit)}</li>`).join("")}</ul>`}${r.turkey?"<p>Whole-turkey weight and bird count are calculated separately in Shopping.</p>":""}<ol>${(r.instructions||[]).map(step=>`<li>${esc(step)}</li>`).join("")}</ol>`;
+}
+function issueDestination(issue=""){
+ if(/Menu missing|option/.test(issue))return "menu";
+ if(/seats|chairs/.test(issue))return "table";
+ if(/zone/.test(issue))return "space";
+ if(/timeline|turkey|thaw/.test(issue))return "timeline";
+ if(/budget|spending/.test(issue))return "budget";
+ return issue?"shopping":"party";
+}
 function setupView(){
  return `<main class="setup-shell"><div class="setup-card">
  <section class="setup-hero"><p class="eyebrow">CROW & CROWN / THANKSGIVING</p><div class="setup-orbit" aria-hidden="true"><i></i><i></i></div><div class="setup-copy"><span class="setup-index">01 / SETUP</span><h1>Thanksgiving,<br>already figured out.</h1><p>One quiet setup. The rest of the plan follows.</p></div></section>
@@ -69,7 +87,7 @@ function setupView(){
   <label>Budget<input name="budget" type="number" min="0" value="${state.event.budget||0}"></label>
   <label>Ovens<input name="ovens" type="number" min="0" value="${state.event.ovens??1}"></label>
   <label>Burners<input name="burners" type="number" min="0" value="${state.event.burners??4}"></label>
-  <button class="primary" type="submit">Build my plan</button>
+  <p class="quiet-note span-2">Your plan saves in this browser. Download backups in Printables to keep a copy or move to another device.</p><button class="primary" type="submit">Build my plan</button>
  </form></section></div></main>`;
 }
 
@@ -78,7 +96,7 @@ function homeView(p){
  const dinner=state.event.dinnerAt?new Date(state.event.dinnerAt).toLocaleString(undefined,{month:"long",day:"numeric",hour:"numeric",minute:"2-digit"}):"Set dinner time";
  return `<section class="home-photo"><div class="photo-top">C | C <span>THE THANKSGIVING EDIT</span></div><div class="photo-title"><span>YOUR HOSTING PLAN</span><h1>Thanksgiving,<br>already figured out.</h1></div></section>
  <section class="home-sheet"><div class="sheet-handle"></div><p class="kicker">THE PLAN / AT A GLANCE</p><div class="home-event"><div><strong>${esc(dinner)}</strong><span>${p.planning.planningHeadcount} guests · ${esc(p.service.style.label)}</span></div><button class="circle-arrow" data-nav="party" aria-label="Edit party settings">↗</button></div>
- <div class="next-action"><span>NEXT UP</span><strong>${esc(issues[0]||"Your plan is looking good.")}</strong><button data-nav="${issues[0]?.startsWith("Menu")?"menu":"shopping"}">TAKE A LOOK</button></div>
+ <div class="next-action"><span>NEXT UP</span><strong>${esc(issues[0]||"Your plan is looking good.")}</strong><button data-nav="${issueDestination(issues[0])}">TAKE A LOOK</button></div>
  <section class="metric-strip">${stat("Prep done",`${p.prep.filter(t=>t.completed).length}/${p.prep.length}`)}${stat("Shopping covered",`${p.shopping.filter(x=>(x.remainingCanonical??0)<=0).length}/${p.shopping.length}`)}${stat("Menu dishes",String(Object.values(state.dishes||{}).filter(d=>d?.on).length))}${stat("Dietary gaps",String(p.dietaryCoverage.gaps.length))}</section>
  <div class="quick-links"><button data-nav="menu"><span>01 / THE FOOD</span><b>Menu</b></button><button data-nav="shopping"><span>02 / THE LIST</span><b>Shopping</b></button><button data-nav="timeline"><span>03 / THE DAY</span><b>Timeline</b></button></div>
  ${state.event.dinnerAt&&new Date(state.event.dinnerAt).toDateString()===new Date().toDateString()?`<button class="pill dark party-day-cta" data-nav="party-day">ENTER PARTY DAY MODE &rarr;</button>`:""}
@@ -109,11 +127,11 @@ function menuView(p){
  return pageHeader("The menu")+`<div class="editorial-lead"><span>${rows.length} DISHES IN YOUR PLAN</span><button class="pill dark" data-sheet="recipe">+ CUSTOM DISH</button></div><div class="feature-food"><div><span>ON THE TABLE</span><strong>Good food.<br>Good company.</strong></div></div><div class="pills"><span class="pill dark">THE EDIT · ${SUPPORTED_SIGNATURE_IDS.length} READY TO PLAN</span><span class="pill">${ORIGINAL_CATALOG.length-SUPPORTED_SIGNATURE_IDS.length} SOURCE REFERENCES</span></div>`+
  `<div class="section-title"><span>CURRENT MENU</span><strong>${rows.length}</strong></div>
  ${!rows.length?`<button class="pill dark signature-action" data-action="signature-menu">START WITH THE SIGNATURE MENU</button>`:""}
- <div class="rows">${ORIGINAL_CATALOG.map((item,i)=>{const id=item.id,d=state.dishes?.[id],r=state.recipes?.[id]||catalogRecipe(item),on=!!d?.on,supported=SUPPORTED_SIGNATURE_IDS.includes(id);return `<div class="row menu-row ${supported?"":"reference-only"}"><div class="dish-photo" style="background-image:url('/images/${catalogImage(id)}.jpeg')"></div><div><small>${esc(item.group)}</small><strong>${esc(r.title)}</strong><span>${on?`${fmt(requiredServingsForDish(state,id))} servings · `:""}${esc(item.minutes)} min · $${esc(item.cost)} est.</span>${item.tags?.length?`<span>${esc(item.tags.slice(0,3).join(" · "))}</span>`:""}</div><button class="pill ${on?"selected":""}" data-action="toggle-catalog" data-id="${esc(id)}" ${!supported&&!on?"disabled":""}>${on?"✓ IN PLAN":supported?"+ ADD":"REFERENCE ONLY"}</button><details class="catalog-detail"><summary>VIEW RECIPE</summary><p>${esc(item.portion||"")}</p><p>${esc(item.makeAhead||"")}</p><ul>${item.ingredients.map(([name,quantity,unit])=>`<li>${esc(name)} · ${fmt(quantity)} ${esc(unit)} per guest</li>`).join("")}</ul>${item.sourceUrl?`<a href="${esc(item.sourceUrl)}" target="_blank" rel="noopener noreferrer">FULL RECIPE SOURCE</a>`:""}</details>${on?`<div class="dish-edit"><div class="inline-actions">
+ <div class="rows">${ORIGINAL_CATALOG.map((item,i)=>{const id=item.id,d=state.dishes?.[id],r=state.recipes?.[id]||catalogRecipe(item),on=!!d?.on,supported=SUPPORTED_SIGNATURE_IDS.includes(id);return `<div class="row menu-row ${supported?"":"reference-only"}"><div class="dish-photo" style="background-image:url('/images/${catalogImage(id)}.jpeg')"></div><div><small>${esc(item.group)}</small><strong>${esc(r.title)}</strong><span>${on?`${fmt(requiredServingsForDish(state,id))} servings · `:""}${esc(item.minutes)} min · $${esc(item.cost)} est.</span>${item.tags?.length?`<span>${esc(item.tags.slice(0,3).join(" · "))}</span>`:""}</div><button class="pill ${on?"selected":""}" data-action="toggle-catalog" data-id="${esc(id)}" ${!supported&&!on?"disabled":""}>${on?"✓ IN PLAN":supported?"+ ADD":"REFERENCE ONLY"}</button><details class="catalog-detail"><summary>VIEW RECIPE</summary>${supported?recipeDetails(id,r,on):`<p>Source reference only. This recipe is not available for automatic planning.</p>`}${item.sourceUrl?`<a href="${esc(item.sourceUrl)}" target="_blank" rel="noopener noreferrer">FULL RECIPE SOURCE</a>`:""}</details>${on?`<div class="dish-edit"><div class="inline-actions">
    <select data-dish-mode="${esc(id)}"><option value="homemade" ${d.preparationMode==="homemade"?"selected":""}>Homemade</option><option value="purchased" ${d.preparationMode==="purchased"?"selected":""}>Purchased</option><option value="guest-provided" ${d.preparationMode==="guest-provided"?"selected":""}>Guest provided</option></select>
    ${d.preparationMode==="guest-provided"?`<select data-contribution-guest="${esc(id)}"><option value="">Choose contributor</option>${state.guests.filter(g=>g.rsvp==="yes").map(g=>`<option value="${esc(g.guestId||g.id)}" ${String(state.menuResponsibilities?.[id]?.contributorGuestId||"")===String(g.guestId||g.id)?"selected":""}>${esc(g.name)}</option>`).join("")}</select><select data-contribution-status="${esc(id)}"><option value="pending" ${state.menuResponsibilities?.[id]?.status==="pending"||!state.menuResponsibilities?.[id]?"selected":""}>Contribution pending</option><option value="confirmed" ${state.menuResponsibilities?.[id]?.status==="confirmed"?"selected":""}>Contribution confirmed</option><option value="arrived" ${state.menuResponsibilities?.[id]?.status==="arrived"?"selected":""}>Dish arrived</option></select>`:""}
    <button class="text-button" data-action="remove-dish" data-id="${esc(id)}">Remove</button>
-  </div></div>`:""}</div>`;}).join("")}${rows.filter(x=>!ORIGINAL_CATALOG.some(item=>item.id===x.id)).map(({id,d,recipe:r})=>`<div class="row menu-row"><div><strong>${esc(r.title)}</strong><span>${esc(r.mealRole)}</span></div><button data-action="remove-dish" data-id="${esc(id)}">REMOVE</button></div>`).join("")}</div>
+  </div></div>`:""}</div>`;}).join("")}${rows.filter(x=>!ORIGINAL_CATALOG.some(item=>item.id===x.id)).map(({id,d,recipe:r})=>`<div class="row menu-row"><div><strong>${esc(r.title)}</strong><span>${esc(r.mealRole)} · ${fmt(requiredServingsForDish(state,id))} servings</span><details><summary>View recipe</summary>${recipeDetails(id,r,true)}</details></div><button data-action="remove-dish" data-id="${esc(id)}">REMOVE</button></div>`).join("")}</div>
  <div class="panel slim"><b>Missing roles:</b> ${p.menu.missing.length?p.menu.missing.map(x=>esc(x)).join(", "):"None"}</div>
  <form id="recipe-form" class="form-grid compact advanced-form" ${sheet==="recipe"?"":"hidden"}>
   <label>Recipe title<input name="title" required></label>
@@ -324,11 +342,18 @@ function render(){
  if(!state.setupCompleted){app.innerHTML=setupView();bind();return;}
  const p=derivePlan(state);
  const navButton=([id,label],desktop=false)=>`<button data-nav="${id}" class="${active===id?"active":""}">${desktop?`<span class="desktop-nav-no">${String(NAV.concat(MORE).findIndex(x=>x[0]===id)+1).padStart(2,"0")}</span>`:`<span class="nav-icon">${({home:"⌂",menu:"◇",shopping:"☷",timeline:"◷",guests:"♙"})[id]||"·"}</span>`}<span>${label}</span></button>`;
- app.innerHTML=`<div class="app-shell"><aside class="desktop-sidebar"><button class="desktop-brand" data-nav="home"><span class="desktop-wordmark">CROW & CROWN</span><span class="desktop-product">THANKSGIVING / THE HOSTING EDIT</span></button><p class="desktop-nav-label">YOUR EVENT</p><nav aria-label="Thanksgiving planning sections">${NAV.concat(MORE).map(x=>navButton(x,true)).join("")}</nav><div class="desktop-save"><i></i><span>${esc(saveLabel)}</span></div><a class="desktop-shop" href="${SHOP_URL}" target="_blank" rel="noopener">THE CROW &amp; CROWN SHOP</a></aside><div class="app-main"><header class="topbar"><button data-sheet="more" aria-label="More sections">☰</button><span>C | C</span><button data-nav="party" aria-label="Party settings">⋯</button></header><header class="desktop-topbar"><span>THANKSGIVING / THE HOSTING EDIT</span><div><i></i>${esc(saveLabel)}<button data-nav="party" aria-label="Party settings">PARTY SETTINGS</button></div></header><main class="workspace">${view(p)}</main><nav class="bottom-nav" aria-label="Primary mobile sections">${NAV.map(x=>navButton(x)).join("")}</nav></div>${sheet==="more"?`<div class="modal-backdrop" data-close-sheet><section class="more-sheet"><div class="sheet-handle"></div><p class="kicker">YOUR HOSTING PLAN</p>${MORE.map(([id,label])=>`<button data-nav="${id}">${label}</button>`).join("")}<a href="${SHOP_URL}" target="_blank" rel="noopener">The Crow &amp; Crown shop</a><button data-close-sheet>CLOSE</button></section></div>`:""}</div>`;
+ app.innerHTML=`<div class="app-shell"><aside class="desktop-sidebar"><button class="desktop-brand" data-nav="home"><span class="desktop-wordmark">CROW & CROWN</span><span class="desktop-product">THANKSGIVING / THE HOSTING EDIT</span></button><p class="desktop-nav-label">YOUR EVENT</p><nav aria-label="Thanksgiving planning sections">${NAV.concat(MORE).map(x=>navButton(x,true)).join("")}</nav><div class="desktop-save"><i></i><span>${esc(saveLabel)}</span></div><a class="desktop-shop" href="${SHOP_URL}" target="_blank" rel="noopener">THE CROW &amp; CROWN SHOP</a></aside><div class="app-main"><header class="topbar"><button data-sheet="more" aria-label="More sections">☰</button><select class="section-switcher" aria-label="Go to section">${NAV.concat(MORE).map(([id,label])=>`<option value="${id}" ${active===id?"selected":""}>${label}</option>`).join("")}</select><button data-nav="party" aria-label="Party settings">⋯</button></header><header class="desktop-topbar"><span>THANKSGIVING / THE HOSTING EDIT</span><div><i></i>${esc(saveLabel)}<button data-nav="party" aria-label="Party settings">PARTY SETTINGS</button></div></header><div class="save-status" role="status">${esc(saveLabel)}${/unavailable|Not saved/.test(saveLabel)?` <button data-action="backup">Download backup</button>`:""}</div><main class="workspace">${view(p)}</main><nav class="bottom-nav" aria-label="Primary mobile sections">${NAV.map(x=>navButton(x)).join("")}</nav></div>${sheet==="more"?`<div class="modal-backdrop" data-close-sheet><section class="more-sheet" role="dialog" aria-modal="true" aria-label="Planning sections"><div class="sheet-handle"></div><p class="kicker">YOUR HOSTING PLAN</p>${NAV.concat(MORE).map(([id,label])=>`<button data-nav="${id}">${label}</button>`).join("")}<a href="${SHOP_URL}" target="_blank" rel="noopener">The Crow &amp; Crown shop</a><button data-close-sheet>CLOSE</button></section></div>`:""}</div>`;
  bind();
 }
 
 function bind(){
+ app.querySelector(".section-switcher")?.addEventListener("change",e=>{active=e.target.value;sheet=null;render();});
+ const dialog=app.querySelector('[role="dialog"]');
+ if(dialog){dialog.querySelector("button")?.focus();dialog.addEventListener("keydown",e=>{
+ if(e.key==="Escape"){sheet=null;render();app.querySelector('[data-sheet="more"]')?.focus();}
+ if(e.key==="Tab"){const items=[...dialog.querySelectorAll("button,a")],first=items[0],last=items.at(-1);if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}}
+ });}
+
  app.querySelector("#setup-form")?.addEventListener("submit",e=>{e.preventDefault();const f=new FormData(e.currentTarget);persist(withSignatureMenu({...state,setupCompleted:true,event:{...state.event,service:f.get("service"),budget:Number(f.get("budget"))||0,dinnerAt:f.get("dinnerAt")||null,ovens:Math.max(0,Number(f.get("ovens"))||0),burners:Math.max(0,Number(f.get("burners"))||0),timeZone:Intl.DateTimeFormat().resolvedOptions().timeZone||null},planning:{...state.planning,mode:"estimated",estimatedHeadcount:Math.max(1,Number(f.get("headcount"))||1)}}));});
  app.querySelectorAll("[data-nav]").forEach(b=>b.addEventListener("click",()=>{active=b.dataset.nav;sheet=null;render();if(!window.navigator?.userAgent?.includes("jsdom"))window.scrollTo(0,0);}));
  app.querySelectorAll("[data-sheet]").forEach(b=>b.addEventListener("click",()=>{sheet=b.dataset.sheet;render();app.querySelector(".advanced-form:not([hidden])")?.scrollIntoView?.({block:"start"});}));
@@ -364,10 +389,10 @@ function bind(){
  app.querySelectorAll('[data-action="toggle-task"]').forEach(b=>b.addEventListener("click",()=>update(x=>{const id=b.dataset.id,current=x.taskOverrides?.[id]||{};return {...x,taskOverrides:{...(x.taskOverrides||{}),[id]:{...current,completed:!(current.completed??false)}}};})));
  app.querySelectorAll('[data-action="toggle-activity"]').forEach(b=>b.addEventListener("click",()=>update(x=>{const selected={...(x.selectedActivities||{})};if(selected[b.dataset.id])delete selected[b.dataset.id];else selected[b.dataset.id]=true;return {...x,selectedActivities:selected};})));
  app.querySelector("#activity-form")?.addEventListener("submit",e=>{e.preventDefault();const f=new FormData(e.currentTarget),id=`activity-${crypto.randomUUID()}`,supply=String(f.get("supply")||"").trim(),task=String(f.get("task")||"").trim();update(x=>({...x,activities:{...(x.activities||{}),[id]:{name:String(f.get("name")),supplies:supply?[{key:supply.toLowerCase().replace(/\s+/g,"-"),name:supply,quantityPerPerson:Math.max(0,Number(f.get("perPerson"))||0)}]:[],tasks:task?[{id:"setup",title:task,durationMinutes:Math.max(0,Number(f.get("minutes"))||0)}]:[],zoneRequirement:String(f.get("zone")||"").trim()||null,printables:[]}},selectedActivities:{...(x.selectedActivities||{}),[id]:true}}));});
- app.querySelectorAll('[data-action="print"]').forEach(b=>b.addEventListener("click",()=>{const bundle=generatePrintableBundle(state),item=bundle.printables[b.dataset.type];if(!item)return;const w=window.open("","_blank");if(w){w.document.write(renderPrintableHtml(item));w.document.close();w.focus();w.print();}update(x=>markPrintableGenerated(x,b.dataset.type),{bumpRevision:false});}));
- app.querySelector('[data-action="backup"]')?.addEventListener("click",()=>{const blob=new Blob([backupState(state)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="crow-crown-thanksgiving-backup.json";a.click();URL.revokeObjectURL(a.href);});
+ app.querySelectorAll('[data-action="print"]').forEach(b=>b.addEventListener("click",()=>{const bundle=generatePrintableBundle(state),item=bundle.printables[b.dataset.type];if(!item)return;const w=window.open("","_blank");if(!w){saveLabel="Allow pop-ups to open your printable";render();return;}if(w){w.document.write(renderPrintableHtml(item));w.document.close();w.focus();w.print();}update(x=>markPrintableGenerated(x,b.dataset.type),{bumpRevision:false});}));
+ app.querySelectorAll('[data-action="backup"]').forEach(b=>b.addEventListener("click",()=>{const blob=new Blob([backupState(state)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="crow-crown-thanksgiving-backup.json";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);}));
  app.querySelector("#restore-input")?.addEventListener("change",async e=>{const file=e.target.files?.[0];if(!file)return;try{persist(restoreBackup(await file.text()));}catch{saveLabel="Backup could not be restored";render();}});
- app.querySelector('[data-action="reset"]')?.addEventListener("click",()=>{if(confirm("Reset this event? Download a backup first if you want to keep it.")){storage?.removeItem?.(DEFAULT_STORAGE_KEY);state=createPartyState();saveLabel="Reset";active="home";render();}});
+ app.querySelector('[data-action="reset"]')?.addEventListener("click",()=>{if(confirm("Reset this event? Download a backup first if you want to keep it.")){try{storage?.removeItem?.(DEFAULT_STORAGE_KEY);}catch{saveLabel="Reset failed — your plan has been kept";render();return;}state=createPartyState();saveLabel="Reset";active="home";render();}});
 }
 
 render();
