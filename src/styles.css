@@ -623,6 +623,7 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
   --line:rgba(236,229,214,.07);
   --hairline:rgba(236,229,214,.13);
   --stone:#cbb9a0;
+  color-scheme:dark;
 }
 html,body{background:#131110;color:var(--ink)}
 ::selection{background:#eae2d3;color:#161411}
