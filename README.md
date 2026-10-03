@@ -1,39 +1,47 @@
-# CROW & CROWN — Thanksgiving
+# Crow & Crown — Thanksgiving
 
-Clean rebuild created September 28, 2026.
+**Thanksgiving, already figured out.**
 
-## Source of truth
-This repository is the only active Thanksgiving application repository. Earlier Thanksgiving repositories and prototypes are retired implementation sources.
+The active Thanksgiving app repository is [allygoodencrow-pixel/NEW-Thanksgiving](https://github.com/allygoodencrow-pixel/NEW-Thanksgiving), branch `main`.
 
-## Architecture
-Domain logic lives under `src/domain`. UI components read derived results and do not own calculation rules.
+## Work on the current app
 
-## Recovered connected engine
-The current main branch includes:
-- guest/planning population and dietary coverage
-- menu responsibility and recipe scaling
-- ingredient normalization, grocery consolidation, pantry/purchase accounting
-- role-aware portions and batch capacity
-- turkey requirement tracking
-- equipment/serving requirements
-- oven/burner/host scheduling and dependency-based timeline
-- service-style zones
-- tables, chairs, place settings, linen sizing
-- unique seating assignments and capacity reconciliation
-- optional measured room conflict checks
-- activity supplies/tasks/zones/printables
-- budget projection/actual reconciliation
-- live printable data and browser print output
-- versioned local save, backup/restore, conflict detection, and prior-plan duplication
+Use the current `main` branch for development. Preserve the working planning engine; change calculation rules only to fix a verified defect or fulfill a new owner requirement. Older prototypes, ZIPs, recovery notes and commits are historical references.
 
-## Interface
-The app exposes the requested destinations:
-HOME / PARTY PLAN / MENU / PREP / SHOPPING / TABLE / SPACE + SEATING / TIMELINE / GUESTS / EXPERIENCE / BUDGET / PRINTABLES
+[Project rules and release guidance](docs/CANONICAL-APP.md) identify the existing hosted app and required checks. [The mapping matrix](docs/ADVANCED-MAPPING-MATRIX.md) links the connected planning features to their modules.
 
-The visual shell is intentionally image-light while planning behavior is stabilized.
+## Run locally
 
-## Persistence boundary
-Local versioned persistence and backups are implemented. A real cross-device private customer database is not yet connected and must not be represented as complete until a backend is configured.
+Requires Node.js 22.12 or later and npm.
 
-## Verification
-Regression tests live under `test/`. CI is configured to run `npm test` and `npm run build` on pushes to main.
+```sh
+npm ci
+npm run dev
+```
+
+```sh
+npm test
+npm run build
+npm run preview
+```
+
+Vite builds the app into `dist/`. GitHub Actions runs tests and builds on pull requests and pushes to `main`. `vercel.json` contains the Vite build settings; verify the current hosting configuration before changing deployments.
+
+## Project structure
+
+| Path | Purpose |
+| --- | --- |
+| `src/app.js` | Customer screens and edit controls |
+| `src/styles.css` | Current responsive interface styles |
+| `src/domain/` | Guest counts, recipes, shopping, scheduling, table/seating, budget, printables and persistence |
+| `src/catalog/` | Recipe content, starter menu and reviewed recipe definitions |
+| `public/images/` | Photos referenced by the current interface and sharing metadata |
+| `test/` | Domain, cascade, persistence and customer-screen regressions |
+
+Adding or removing a dish recalculates its scaled ingredients, shopping needs, prep and timeline. Guest-count changes update dependent quantities while preserving pantry and purchase records.
+
+## Persistence and release status
+
+Plans save in the current browser with versioned backup/restore and revision checks. A private cross-device account database is not connected.
+
+A passing repository build does not prove the hosted app is on the same version. Compare the intended source with the existing deployment and any saved draft before publishing. Printable generators provide current-plan browser print output; approved artwork remains a separate content dependency.

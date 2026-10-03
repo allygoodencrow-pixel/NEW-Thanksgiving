@@ -7,7 +7,7 @@ import {setDishPreparationMode} from "./domain/menu.js";
 import {setPantryQuantity,setOwnedQuantity,recordPurchase} from "./domain/shopping.js";
 import {assignSeat,unassignPerson} from "./domain/seating.js";
 import {updateGuest,removeGuest} from "./domain/guests.js";
-import {ORIGINAL_CATALOG,SIGNATURE_MENU,SUPPORTED_SIGNATURE_IDS,catalogRecipe,withCatalog,withSignatureMenu} from "./catalog/thanksgiving.js";
+import {ORIGINAL_CATALOG,SUPPORTED_SIGNATURE_IDS,catalogRecipe,withCatalog,withSignatureMenu} from "./catalog/thanksgiving.js";
 
 const storage=browserStorage();
 let state=(storage&&loadState(storage))||createPartyState();
@@ -16,7 +16,7 @@ let saveLabel=storage?"Saved locally":"Local save unavailable";
 
 const NAV=[["home","HOME"],["menu","MENU"],["shopping","SHOPPING"],["timeline","TIMELINE"],["guests","GUESTS"]];
 const MORE=[["prep","Prep"],["party-day","Party day"],["table","Table"],["space","Seating"],["experience","Experience"],["budget","Budget"],["printables","Printables"],["party","Party settings"]];
-const catalogImage=id=>id==="turkey"||id==="ba-dry-turkey"?"old-bird":id==="potatoes"||id==="ba-mashed"||id==="sweet"?"old-potatoes":id==="salad"||id==="app"?"old-salad":"old-feast";
+const catalogImage=id=>id==="turkey"||id==="ba-dry-turkey"?"turkey":id==="potatoes"||id==="ba-mashed"||id==="sweet"?"mashed-potatoes":id==="salad"||id==="app"?"salad":"feast";
 let sheet=null;
 const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const fmt=n=>Number(n||0).toLocaleString(undefined,{maximumFractionDigits:2});

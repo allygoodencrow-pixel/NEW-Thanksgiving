@@ -1,66 +1,65 @@
-# Canonical Thanksgiving App
+# Current Thanksgiving app
 
-## Permanent source-of-truth rule
+## Source and ownership
 
-There is ONE Crow & Crown Thanksgiving application.
+There is one Crow & Crown Thanksgiving application.
 
-### Canonical deployed app
-- Platform: AppDeploy
-- App ID: `crow-crown-thanksgiving-gm970n`
-- Live URL: https://crow-crown-thanksgiving-gm970n.v2.appdeploy.ai/
+- Repository: `allygoodencrow-pixel/NEW-Thanksgiving`
+- Development branch: `main`
+- Existing AppDeploy app ID: `crow-crown-thanksgiving-gm970n`
+- Existing hosted URL: https://crow-crown-thanksgiving-gm970n.v2.appdeploy.ai/
 
-Do not create a second Thanksgiving AppDeploy app unless the owner explicitly orders a replacement.
+Do not create another Thanksgiving repository, app, prototype or parallel implementation.
 
-### Protected planning engine
-The application uses the preserved planning-engine baseline pinned to Git commit:
+Use the newest explicit owner instruction first, then verified current source/deployment data, the current master knowledge file and approved customer files. Older files and conversation history are historical references. Do not restore an old snapshot over newer working code.
 
-`bfdc9fe4256d22e997e234c03fa8344ed351efa4`
+The hosted interface, GitHub source and a saved preview may be different versions. Verify their relationship before a release; do not infer that a preview or a GitHub commit has already been published.
 
-GitHub is the protected logic source and backup. It is not a second customer-facing app.
+## Preserve the connected planning engine
 
-## Protected functional systems
+The current engine lives in `src/domain/`, with recipe content in `src/catalog/`. Preserve its working interfaces and regression tests. Do not pin ongoing development to a superseded historical commit or rebuild working features without a verified defect.
 
-Do not remove, simplify away, or silently rewrite these systems during visual work:
+- Estimated, expected, confirmed and custom planning counts; stable guests, RSVP, +1s, children and drinkers.
+- Dietary/allergen coverage and confirmed vs. pending dish contributions.
+- Recipe and portion scaling; shared ingredient consolidation and compatible unit conversion.
+- Pantry, purchases, manual shopping items, prepared dishes and whole-turkey requirements.
+- Prep generation, dinner-relative and pinned timeline steps, dependencies and kitchen resource conflicts.
+- Table, chair, high-chair, place-setting and linen calculations; unique seating and optional measured room checks.
+- Activity supplies/tasks/zones; estimated, committed and paid budget totals.
+- Current-plan printables and staleness checks; versioned local saving, backup/restore and revision-conflict handling.
 
-- planning headcount and Estimated / Expected / Confirmed / Custom modes
-- stable guest identity and RSVP-derived counts
-- adult / child / drinker distinctions
-- 32-recipe catalog and menu selection
-- recipe scaling
-- menu -> ingredient -> shopping dependency mapping
-- pantry / already-have quantities
-- purchase ledger and purchase persistence
-- manual and household shopping items
-- prep generation
-- dinner-relative timeline scheduling
-- pinned/fixed timeline tasks
-- equipment and resource conflict logic
-- table / chair / seating calculations
-- experience/activity dependencies
-- budget estimate / committed / paid
-- live printables
-- schema-versioned persistence
-- backup / restore
+The catalog includes source references alongside selectable, reviewed recipes. `SUPPORTED_SIGNATURE_IDS` determines which catalog recipes are selectable. Preserve incomplete-reference safeguards and saved recipe IDs.
 
-## Design system
+## Current interface direction
 
-The current UI direction is a fresh Crow & Crown build, not a recovery of any old approved app.
+Follow the owner's latest UI instructions:
 
-- modern editorial, moody and high contrast
-- cooler ivory, charcoal, muted olive / stone
-- rounded corners and translucent glass-like surfaces
-- strong food/table photography
-- clear negative space and thin editorial typography
-- compact five-tab mobile navigation
-- primary screens stay simple; advanced controls sit behind details
-- no generic SaaS dashboard, beige luxury, wedding-planner styling, clutter, or raw engine controls
+- A clean mobile app with a compact Home screen and clear sections.
+- Pull-out side navigation, bottom buttons and a top section switcher.
+- Simple first-time setup, with details editable later.
+- Clear Plan, Guests and Menu flows; concise recipe guidance and obvious add/remove actions.
+- Thin, straight sans-serif typography, high contrast neutral surfaces and moody organic modern imagery.
+- Neutral, true-to-life image colors; no global color filters unless explicitly requested.
 
-## Update discipline
+These are requirements for interface work, not a claim that every requirement is already present in the current repository build. Do not use an older design note as approval for a rejected visual shell.
 
-For every future change:
+## Checks and publishing
 
-1. Inspect the current AppDeploy snapshot first.
-2. Update `crow-crown-thanksgiving-gm970n`; do not create another app.
-3. Treat design changes as presentation-layer changes unless the owner explicitly asks for logic changes.
-4. Regression-check guest/headcount -> menu -> quantities -> shopping -> prep/timeline -> seating -> printables.
-5. Confirm the deployment reaches ready status with no reported frontend/network errors.
+1. Read current `main` and the current target deployment/draft before editing.
+2. Keep routine UI changes in the presentation layer. Repair domain behavior only with evidence of the defect.
+3. Run `npm test` and `npm run build`.
+4. Verify guest count → menu → ingredients/shopping → prep/timeline → seating/budget/printables. Include add/remove, pantry/purchases, task edits, backups and reloads when those paths change.
+5. Check phone and desktop screens when changing the interface or its assets.
+6. Publish to the existing target only after reconciling intervening changes. Confirm the deployed source/version and check the live app for frontend and network errors.
+
+`vercel.json` specifies a Vite build with output `dist/`. It does not prove that a Vercel project exists, identify its current settings or authorize creating a replacement. Inspect the current project before a hosting change.
+
+## Implementation boundaries
+
+- Persistence is local to the browser plus backups; there is no connected private cross-device account database.
+- Browser local time governs the local-only runtime; stored event time zone is not a full cross-device conversion guarantee.
+- Printables generate functional current-plan browser print output; approved artwork/templates are a separate dependency.
+- Room checks require supplied dimensions/positions and cover bounds/overlap, not a full circulation model.
+- Product links, prices and approved artwork must be verified; do not invent them.
+
+Removed one-time recovery and outdated deployment reports remain available in Git history. Use current source and fresh verification for current status.
