@@ -1,1 +1,1 @@
-{"name":"crow-crown-thanksgiving","private":true,"version":"0.1.0","type":"module","scripts":{"dev":"vite","build":"vite build","preview":"vite preview","test":"node --test"},"devDependencies":{"jsdom":"^26.1.0","vite":"^7.1.7"}}
+{"name":"crow-crown-thanksgiving","private":true,"version":"0.1.0","type":"module","scripts":{"dev":"vite","build":"vite build","preview":"vite preview","test":"node --test"},"devDependencies":{"agent-browser":"0.38.2","jsdom":"^26.1.0","prettier":"3.6.2","supabase":"2.119.0","vite":"^7.1.7"},"dependencies":{"@supabase/supabase-js":"2.117.2"}}

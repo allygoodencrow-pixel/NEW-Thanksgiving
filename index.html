@@ -1,10 +1,12 @@
-<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0d0d0d"><title>CROW &amp; CROWN — Thanksgiving Planner</title><meta name="description" content="The Crow &amp; Crown Thanksgiving planner: guest counts, menu scaling, shopping lists, budget and a minute-by-minute timeline. One quiet setup and the whole plan follows.">
-<link rel="icon" type="image/svg+xml" href="/favicon.svg">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-<!-- When the production domain is known, add: <link rel="canonical" href="https://YOUR-DOMAIN/"> and set og:url to match. -->
-<meta property="og:type" content="website"><meta property="og:site_name" content="Crow &amp; Crown"><meta property="og:title" content="Thanksgiving, already figured out."><meta property="og:description" content="Plan guests, menu, shopping, budget and the cooking timeline for your Thanksgiving dinner."><meta property="og:image" content="/images/social-preview.jpeg">
-<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Thanksgiving, already figured out."><meta name="twitter:description" content="Plan guests, menu, shopping, budget and the cooking timeline for your Thanksgiving dinner."><meta name="twitter:image" content="/images/social-preview.jpeg">
-<!-- GA4: swap this measurement ID for a dedicated planner property if shop + planner traffic should stay separate. -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-B9JF1LJ1JT"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-B9JF1LJ1JT');</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Crow & Crown Thanksgiving Planner","applicationCategory":"LifestyleApplication","operatingSystem":"Web","description":"Thanksgiving planning for hosts: guest counts, menu scaling, shopping lists, budget tracking and a minute-by-minute cooking timeline.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
-</head><body><div id="app"></div><script type="module" src="/src/main.js"></script></body></html>
+<!doctype html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f6f5f1"><meta name="description" content="Your private Crow & Crown Thanksgiving planner."><title>Crow & Crown — Thanksgiving</title><link rel="icon" href="/favicon.svg"></head>
+<body>
+  <div id="account"></div>
+  <aside id="account-toolbar" hidden aria-label="Your account"><span data-email></span><span id="save-status" role="status" aria-live="polite"></span><button id="sign-out">Sign out</button></aside>
+  <div id="save-recovery" role="alert" hidden><strong>Your changes need attention</strong><p></p><button id="download-unsaved">Download unsaved changes</button><button id="reload-plan">Reload saved plan</button></div>
+  <div id="root"></div>
+  <noscript>Please enable JavaScript to use your private planner.</noscript>
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
