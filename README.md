@@ -1,3 +1,7 @@
+# Customer rebuild
+
+The customer entry point is `src/main.js` → `src/customer/app.js` → the user-selected interface. See [customer release status](docs/CUSTOMER-RELEASE.md) for implemented behavior, seller fulfillment, verification and the remaining production gates.
+
 # Crow & Crown — Thanksgiving
 
 **Thanksgiving, already figured out.**
@@ -45,3 +49,4 @@ Adding or removing a dish recalculates its scaled ingredients, shopping needs, p
 Plans save in the current browser with versioned backup/restore and revision checks. A private cross-device account database is not connected.
 
 A passing repository build does not prove the hosted app is on the same version. Compare the intended source with the existing deployment and any saved draft before publishing. Printable generators provide current-plan browser print output; approved artwork remains a separate content dependency.
+
