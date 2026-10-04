@@ -7,7 +7,7 @@ import {addRecipeToMenu,removeDishFromMenu} from '../src/domain/recipes.js';
 import {setPantryQuantity,recordPurchase} from '../src/domain/shopping.js';
 
 test('recovered catalog drives menu, shopping and timeline without losing purchase history',()=>{
- assert.equal(ORIGINAL_CATALOG.length,32);
+ assert.equal(ORIGINAL_CATALOG.length,44);
  let state=withSignatureMenu(createPartyState({planning:{estimatedHeadcount:18},event:{dinnerAt:'2026-11-26T16:30:00-08:00'}}));
  let plan=derivePlan(state);
  assert.equal(Object.values(state.dishes).filter(x=>x.on).length,8);
