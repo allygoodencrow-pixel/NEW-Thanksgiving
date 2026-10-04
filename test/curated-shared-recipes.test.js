@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createPartyState} from '../src/domain/state.js';
 import {deriveShoppingList} from '../src/domain/shopping.js';
-import {derivePrepPlan} from '../src/domain/prep.js';
+import {derivePrepTasks} from '../src/domain/prep.js';
 import {CURATED_SHARED_RECIPES,CURATED_SHARED_CATALOG} from '../src/catalog/curated-shared-recipes.js';
 import {withCatalog,SUPPORTED_SIGNATURE_IDS} from '../src/catalog/thanksgiving.js';
 
@@ -28,7 +28,7 @@ test('shared curated recipes scale into shopping and prep',()=>{
    state={...state,dishes:{...state.dishes,[id]:{on:true,recipeId:id,preparationMode:'homemade'}}};
   }
   const shopping=deriveShoppingList(state);
-  const prep=derivePrepPlan(state);
+  const prep=derivePrepTasks(state);
   assert.ok(shopping.some(x=>x.name==='Feta'));
   assert.ok(shopping.some(x=>x.name==='Bone-in turkey breast'));
   assert.ok(shopping.some(x=>x.name==='Apple cider'));
