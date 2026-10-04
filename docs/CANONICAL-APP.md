@@ -1,65 +1,68 @@
 # Current Thanksgiving app
 
-## Source and ownership
+## Canonical working target
 
-There is one Crow & Crown Thanksgiving application.
+There is one current Crow & Crown Thanksgiving working app.
 
 - Repository: `allygoodencrow-pixel/NEW-Thanksgiving`
 - Development branch: `main`
-- Existing AppDeploy app ID: `crow-crown-thanksgiving-gm970n`
-- Existing hosted URL: https://crow-crown-thanksgiving-gm970n.v2.appdeploy.ai/
+- Canonical live app: https://crow-crown-thanksgiving-at-home.glassy-snow-7815.chatgpt.site
+- ChatGPT Site project ID: `appgprj_6ac2b2b392608191a82a98bc16043eca`
+- Current recorded Site source version: `8`
+- Current recorded projection revision: `16`
+- Canonical designation updated: 2026-10-04
 
-Do not create another Thanksgiving repository, app, prototype or parallel implementation.
+The **Thanksgiving at Home** Site is the current product/interface reference. The previous AppDeploy Thanksgiving apps and older interface snapshots are historical references unless the owner explicitly asks to recover something from them.
 
-Use the newest explicit owner instruction first, then verified current source/deployment data, the current master knowledge file and approved customer files. Older files and conversation history are historical references. Do not restore an old snapshot over newer working code.
+Do not create another Thanksgiving repository or parallel product implementation. Do not overwrite the current Site with an older GitHub interface simply because the repository build is newer, older, or easier to access.
 
-The hosted interface, GitHub source and a saved preview may be different versions. Verify their relationship before a release; do not infer that a preview or a GitHub commit has already been published.
+## Source relationship
+
+GitHub remains the long-term development and logic repository, but the current Site and `main` are not assumed to be byte-for-byte identical.
+
+Before a GitHub-driven release:
+
+1. Compare the intended change against the canonical Site.
+2. Preserve the Site's current approved navigation, menu flow and visual direction unless the owner explicitly changes them.
+3. Reconcile logic and interface differences instead of restoring an old shell.
+4. Run the repository tests and production build.
+5. Verify both mobile and desktop before replacing the canonical Site.
+
+The canonical Site must not be treated as disposable preview output.
 
 ## Preserve the connected planning engine
 
-The current engine lives in `src/domain/`, with recipe content in `src/catalog/`. Preserve its working interfaces and regression tests. Do not pin ongoing development to a superseded historical commit or rebuild working features without a verified defect.
+Preserve working behavior across:
 
-- Estimated, expected, confirmed and custom planning counts; stable guests, RSVP, +1s, children and drinkers.
-- Dietary/allergen coverage and confirmed vs. pending dish contributions.
-- Recipe and portion scaling; shared ingredient consolidation and compatible unit conversion.
-- Pantry, purchases, manual shopping items, prepared dishes and whole-turkey requirements.
-- Prep generation, dinner-relative and pinned timeline steps, dependencies and kitchen resource conflicts.
-- Table, chair, high-chair, place-setting and linen calculations; unique seating and optional measured room checks.
-- Activity supplies/tasks/zones; estimated, committed and paid budget totals.
-- Current-plan printables and staleness checks; versioned local saving, backup/restore and revision-conflict handling.
+- Estimated, expected, confirmed and custom planning counts.
+- Stable guests, RSVP state, children, drinkers and dietary needs.
+- Menu selection and recipe scaling.
+- Consolidated ingredients and shopping demand.
+- Pantry and purchase records.
+- Prep generation and dinner-relative timeline behavior.
+- Table, seating and place-setting calculations.
+- Budget and printable derivation.
+- Local saving, backup/restore and revision checks.
 
-The catalog includes source references alongside selectable, reviewed recipes. `SUPPORTED_SIGNATURE_IDS` determines which catalog recipes are selectable. Preserve incomplete-reference safeguards and saved recipe IDs.
+The customer should enter a fact once and dependent systems should update from that fact.
 
-## Current interface direction
+## Current interface requirements
 
-Follow the owner's latest UI instructions:
+Use the canonical Site as the visual reference. Current owner requirements include:
 
-- A clean mobile app with a compact Home screen and clear sections.
-- Pull-out side navigation, bottom buttons and a top section switcher.
-- Simple first-time setup, with details editable later.
-- Clear Plan, Guests and Menu flows; concise recipe guidance and obvious add/remove actions.
-- Thin, straight sans-serif typography, high contrast neutral surfaces and moody organic modern imagery.
-- Neutral, true-to-life image colors; no global color filters unless explicitly requested.
+- Mobile and desktop versions of the same app.
+- Clean, compact, structured navigation.
+- Menu and Shopping as separate sections.
+- Add-a-dish choices integrated into the existing Menu page rather than replacing it with a competing screen.
+- Clear recipe add/remove state.
+- Menu choices connected to scaled shopping, prep and timeline logic.
+- Thin, modern sans-serif typography with restrained hierarchy.
+- Moody organic-modern imagery with neutral, true-to-reference color.
+- Clean dark surfaces and selective frosted-glass UI rather than stacked generic cards.
+- No global warm, sepia, amber or cinematic color grading unless explicitly requested.
 
-These are requirements for interface work, not a claim that every requirement is already present in the current repository build. Do not use an older design note as approval for a rejected visual shell.
+## Publishing rule
 
-## Checks and publishing
+The canonical app URL above is the current working target. Old AppDeploy URLs, older ZIPs, screenshots and historical GitHub commits are references only.
 
-1. Read current `main` and the current target deployment/draft before editing.
-2. Keep routine UI changes in the presentation layer. Repair domain behavior only with evidence of the defect.
-3. Run `npm test` and `npm run build`.
-4. Verify guest count → menu → ingredients/shopping → prep/timeline → seating/budget/printables. Include add/remove, pantry/purchases, task edits, backups and reloads when those paths change.
-5. Check phone and desktop screens when changing the interface or its assets.
-6. Publish to the existing target only after reconciling intervening changes. Confirm the deployed source/version and check the live app for frontend and network errors.
-
-`vercel.json` specifies a Vite build with output `dist/`. It does not prove that a Vercel project exists, identify its current settings or authorize creating a replacement. Inspect the current project before a hosting change.
-
-## Implementation boundaries
-
-- Persistence is local to the browser plus backups; there is no connected private cross-device account database.
-- Browser local time governs the local-only runtime; stored event time zone is not a full cross-device conversion guarantee.
-- Printables generate functional current-plan browser print output; approved artwork/templates are a separate dependency.
-- Room checks require supplied dimensions/positions and cover bounds/overlap, not a full circulation model.
-- Product links, prices and approved artwork must be verified; do not invent them.
-
-Removed one-time recovery and outdated deployment reports remain available in Git history. Use current source and fresh verification for current status.
+If a future change is made in GitHub, do not call it the working app until it has been reconciled with the canonical Site, tested, and explicitly promoted.
