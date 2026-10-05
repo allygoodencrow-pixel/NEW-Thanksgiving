@@ -1,6 +1,6 @@
 import type {State} from './App';
 import {tablesFor,clothSize} from './hostingTools';
-type Product={title:string;href:string;asin:string;pack:number;covers:string[];kind:string;dimensions?:number[];round?:boolean};
+type Product={title:string;href:string;asin:string;pack:number;covers:string[];kind:string;destinationStatus:string;dimensions?:number[];round?:boolean};
 // Captured from the owner-approved Shop the Look catalog on October 5, 2026.
 export const tableProducts:Product[]=[
   {
@@ -9,7 +9,8 @@ export const tableProducts:Product[]=[
     "asin": "B0C7HZW146",
     "pack": 6,
     "covers": [],
-    "kind": "places"
+    "kind": "places",
+    "destinationStatus": "Destination retrieved October 5; price and stock not confirmed"
   },
   {
     "href": "https://www.amazon.com/dp/B0GGDVBFMT",
@@ -17,7 +18,8 @@ export const tableProducts:Product[]=[
     "asin": "B0GGDVBFMT",
     "pack": 10,
     "covers": [],
-    "kind": "places"
+    "kind": "places",
+    "destinationStatus": "Destination retrieved October 5; price and stock not confirmed"
   },
   {
     "href": "https://www.amazon.com/dp/B0B6H9HZG9",
@@ -30,7 +32,8 @@ export const tableProducts:Product[]=[
       "knives",
       "spoons"
     ],
-    "kind": "service"
+    "kind": "service",
+    "destinationStatus": "Destination retrieved October 5; price and stock not confirmed"
   },
   {
     "href": "https://www.amazon.com/dp/B0FXX2FP6M",
@@ -43,7 +46,8 @@ export const tableProducts:Product[]=[
       "knives",
       "spoons"
     ],
-    "kind": "service"
+    "kind": "service",
+    "destinationStatus": "Destination unavailable to verification; original link retained"
   },
   {
     "href": "https://www.amazon.com/dp/B0CPY8V141",
@@ -56,7 +60,8 @@ export const tableProducts:Product[]=[
       "knives",
       "spoons"
     ],
-    "kind": "service"
+    "kind": "service",
+    "destinationStatus": "Destination retrieved October 5; price and stock not confirmed"
   },
   {
     "href": "https://www.amazon.com/dp/B07DFCDGDM",
@@ -66,7 +71,8 @@ export const tableProducts:Product[]=[
     "covers": [
       "napkins"
     ],
-    "kind": "service"
+    "kind": "service",
+    "destinationStatus": "Destination unavailable to verification; original link retained"
   },
   {
     "href": "https://www.amazon.com/dp/B0H1QRQ6XQ",
@@ -81,7 +87,8 @@ export const tableProducts:Product[]=[
       108,
       54
     ],
-    "round": false
+    "round": false,
+    "destinationStatus": "Destination unavailable to verification; original link retained"
   },
   {
     "href": "https://www.amazon.com/dp/B0G8LG8RHV",
@@ -92,7 +99,8 @@ export const tableProducts:Product[]=[
       "plates",
       "dessertPlates"
     ],
-    "kind": "service"
+    "kind": "service",
+    "destinationStatus": "Destination unavailable to verification; original link retained"
   },
   {
     "href": "https://www.amazon.com/dp/B0H35S469R",
@@ -102,7 +110,8 @@ export const tableProducts:Product[]=[
     "covers": [
       "cocktailGlasses"
     ],
-    "kind": "service"
+    "kind": "service",
+    "destinationStatus": "Destination unavailable to verification; original link retained"
   },
   {
     "href": "https://www.amazon.com/dp/B0G39T283M",
@@ -112,7 +121,8 @@ export const tableProducts:Product[]=[
     "covers": [
       "cocktailGlasses"
     ],
-    "kind": "service"
+    "kind": "service",
+    "destinationStatus": "Destination unavailable to verification; original link retained"
   },
   {
     "href": "https://www.amazon.com/dp/B0FG7HJF9P",
@@ -122,7 +132,8 @@ export const tableProducts:Product[]=[
     "covers": [
       "glasses"
     ],
-    "kind": "service"
+    "kind": "service",
+    "destinationStatus": "Destination retrieved October 5; price and stock not confirmed"
   },
   {
     "href": "https://www.amazon.com/dp/B0F1TMTWQ5",
@@ -132,7 +143,8 @@ export const tableProducts:Product[]=[
     "covers": [
       "glasses"
     ],
-    "kind": "service"
+    "kind": "service",
+    "destinationStatus": "Destination unavailable to verification; original link retained"
   },
   {
     "href": "https://www.amazon.com/dp/B0G2XXH2VZ",
@@ -142,7 +154,8 @@ export const tableProducts:Product[]=[
     "covers": [
       "napkins"
     ],
-    "kind": "service"
+    "kind": "service",
+    "destinationStatus": "Destination retrieved October 5; price and stock not confirmed"
   },
   {
     "href": "https://www.amazon.com/dp/B0H2DLZQTS",
@@ -152,7 +165,8 @@ export const tableProducts:Product[]=[
     "covers": [
       "napkins"
     ],
-    "kind": "service"
+    "kind": "service",
+    "destinationStatus": "Destination unavailable to verification; original link retained"
   },
   {
     "href": "https://www.amazon.com/dp/B0DHRZCX8B",
@@ -160,7 +174,8 @@ export const tableProducts:Product[]=[
     "asin": "B0DHRZCX8B",
     "pack": 4,
     "covers": [],
-    "kind": "holders"
+    "kind": "holders",
+    "destinationStatus": "Destination retrieved October 5; price and stock not confirmed"
   },
   {
     "href": "https://www.amazon.com/dp/B0DF5Q8YS4",
@@ -175,7 +190,8 @@ export const tableProducts:Product[]=[
       156,
       90
     ],
-    "round": false
+    "round": false,
+    "destinationStatus": "Destination retrieved October 5; price and stock not confirmed"
   },
   {
     "href": "https://www.amazon.com/dp/B0DM5LGF9N",
@@ -190,7 +206,8 @@ export const tableProducts:Product[]=[
       132,
       132
     ],
-    "round": true
+    "round": true,
+    "destinationStatus": "Destination retrieved October 5; price and stock not confirmed"
   },
   {
     "href": "https://www.amazon.com/dp/B0FX22QHD3",
@@ -205,7 +222,8 @@ export const tableProducts:Product[]=[
       84,
       60
     ],
-    "round": false
+    "round": false,
+    "destinationStatus": "Destination unavailable to verification; original link retained"
   },
   {
     "href": "https://www.amazon.com/dp/B078T2DVZK",
@@ -220,7 +238,8 @@ export const tableProducts:Product[]=[
       132,
       90
     ],
-    "round": false
+    "round": false,
+    "destinationStatus": "Destination retrieved October 5; price and stock not confirmed"
   },
   {
     "href": "https://www.amazon.com/dp/B0FPW85W14",
@@ -235,7 +254,8 @@ export const tableProducts:Product[]=[
       84,
       55
     ],
-    "round": false
+    "round": false,
+    "destinationStatus": "Destination retrieved October 5; price and stock not confirmed"
   },
   {
     "href": "https://www.amazon.com/dp/B0DJR221F9",
@@ -243,15 +263,17 @@ export const tableProducts:Product[]=[
     "asin": "B0DJR221F9",
     "pack": 20,
     "covers": [],
-    "kind": "holders"
+    "kind": "holders",
+    "destinationStatus": "Destination retrieved October 5; price and stock not confirmed"
   },
   {
     "href": "https://www.amazon.com/dp/B0FL7LWT8Q",
     "title": "KDG Cordless Portable Rechargeable Table Lamp for restaurants/dining tables",
     "asin": "B0FL7LWT8Q",
-    "pack": 1,
+    "pack": 2,
     "covers": [],
-    "kind": "lamps"
+    "kind": "lamps",
+    "destinationStatus": "Destination retrieved October 5; price and stock not confirmed"
   },
   {
     "href": "https://www.amazon.com/dp/B0BNQ4H51Q",
@@ -259,7 +281,8 @@ export const tableProducts:Product[]=[
     "asin": "B0BNQ4H51Q",
     "pack": 6,
     "covers": [],
-    "kind": "places"
+    "kind": "places",
+    "destinationStatus": "Destination retrieved October 5; price and stock not confirmed"
   },
   {
     "href": "https://www.amazon.com/dp/B0BXLCNG8K",
@@ -267,7 +290,8 @@ export const tableProducts:Product[]=[
     "asin": "B0BXLCNG8K",
     "pack": 4,
     "covers": [],
-    "kind": "places"
+    "kind": "places",
+    "destinationStatus": "Destination retrieved October 5; price and stock not confirmed"
   },
   {
     "href": "https://www.amazon.com/dp/B0FQ4T33W4",
@@ -278,7 +302,8 @@ export const tableProducts:Product[]=[
       "plates",
       "dessertPlates"
     ],
-    "kind": "service"
+    "kind": "service",
+    "destinationStatus": "Destination retrieved October 5; price and stock not confirmed"
   },
   {
     "href": "https://www.amazon.com/dp/B0DMBDJXPQ",
@@ -289,7 +314,8 @@ export const tableProducts:Product[]=[
       "plates",
       "dessertPlates"
     ],
-    "kind": "service"
+    "kind": "service",
+    "destinationStatus": "Destination unavailable to verification; original link retained"
   },
   {
     "href": "https://www.amazon.com/dp/B0DPMZDHGV",
@@ -300,7 +326,8 @@ export const tableProducts:Product[]=[
       "plates",
       "dessertPlates"
     ],
-    "kind": "service"
+    "kind": "service",
+    "destinationStatus": "Destination retrieved October 5; price and stock not confirmed"
   }
 ];
 export function productRecommendations(s:State,inventory:{key:string;missing:number}[],head:number,kids:number,selection=s.selectedTableProducts){

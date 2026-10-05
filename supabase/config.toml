@@ -1,0 +1,4 @@
+# Only the Shopify webhook uses custom authentication. Every request is verified
+# against the raw-body HMAC, configured store and orders/paid topic before writes.
+[functions.shopify-purchase]
+verify_jwt = false
