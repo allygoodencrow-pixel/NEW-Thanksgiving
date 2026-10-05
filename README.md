@@ -1,31 +1,17 @@
-# Crow & Crown — Thanksgiving
+# Crow & Crown — Thanksgiving at Home
 
-**Thanksgiving, already figured out.**
+This repository contains the exact application implementation synced from the existing Crow & Crown Thanksgiving Site on October 5, 2026. Continue this app; do not create a replacement.
 
-## Current working app
+- Existing Site project: `appgprj_6ab9b5c406b88191835e71782dd05346`
+- Live app: https://crow-crown-thanksgiving-hosting.allygoodencrow.chatgpt.site
+- Synced Site source: `2db787cf0541eb82f5743818b659ae3425630a25` (version 45)
+- GitHub development: `allygoodencrow-pixel/NEW-Thanksgiving`, branch `main`
 
-The canonical working Thanksgiving app is now:
+Read `HANDOFF.md`, `AGENTS.md` and `DESIGN_DIRECTION.md` before edits. Home supplies the approved typography reference. Preserve recipe, guest, shopping, budget, prep and timeline mappings and saved overrides.
 
-- Live app: https://crow-crown-thanksgiving-at-home.glassy-snow-7815.chatgpt.site
-- ChatGPT Site project: `appgprj_6ac2b2b392608191a82a98bc16043eca`
-- Site source version: `8`
-- Site projection revision: `16`
-- GitHub repository: `allygoodencrow-pixel/NEW-Thanksgiving`
-- Development branch: `main`
+## Run
 
-Treat the live **Thanksgiving at Home** Site as the current product/interface reference. Do not revive an older interface or overwrite the current Site from an older GitHub snapshot without first reconciling the differences.
-
-[Canonical app rules](docs/CANONICAL-APP.md) define the current working target and preservation rules.
-
-## Work on the current app
-
-Use `main` for the connected planning engine and repository history. Preserve working guest, menu, recipe, shopping, prep, timeline, seating, budget and printable logic. Change calculation rules only to fix a verified defect or fulfill a new owner requirement.
-
-The current ChatGPT Site and GitHub source may not be byte-for-byte identical. Before publishing from GitHub, reconcile the repository against the canonical Site instead of assuming one already contains the other.
-
-## Run locally
-
-Requires Node.js 22.12 or later and npm.
+Use Node.js 22 or newer.
 
 ```sh
 npm ci
@@ -34,27 +20,18 @@ npm run dev
 
 ```sh
 npm test
+npm run typecheck
 npm run build
-npm run preview
 ```
 
-Vite builds the app into `dist/`. GitHub Actions runs tests and builds on pull requests and pushes to `main`.
+The app uses React, TypeScript and Vite. Source is in `src/`, all images and fonts are in `public/`, and generated output is in `dist/`. The typography regression baseline is bundled in `tests/fixtures/` so fresh checkouts do not require the original Sites Git history.
 
-## Project structure
+## Continue from another chat
 
-| Path | Purpose |
-| --- | --- |
-| `src/app.js` | Customer screens and edit controls |
-| `src/styles.css` | Current responsive interface styles in the repository |
-| `src/domain/` | Guest counts, recipes, shopping, scheduling, table/seating, budget, printables and persistence |
-| `src/catalog/` | Recipe content, starter menu and reviewed recipe definitions |
-| `public/images/` | Photos referenced by the repository interface and sharing metadata |
-| `test/` | Domain, cascade, persistence and customer-screen regressions |
+Enable GitHub and provide this repository link. Ask the chat to edit `main` and read the handoff first. GitHub access permits source editing; it does not by itself fix the separate Sites project access error or publish edits to the live app. Publish only to the existing Site after resolving that access and verifying the source. Do not deploy a new app as a workaround.
 
-Adding or removing a dish must recalculate scaled ingredients, shopping needs, prep and timeline. Guest-count changes must update dependent quantities while preserving pantry and purchase records.
+## Persistence
 
-## Persistence and release status
+Party plans save in the current browser/device under `cc-thanksgiving-v4`. Export/import moves saved plans between browsers. Source synchronization does not transfer a person's local plan or add cloud account storage.
 
-Plans save in the current browser with versioned backup/restore and revision checks. A private cross-device account database is not connected to this Site.
-
-A passing repository build does not prove the live Site is on the same source. The live Site above is the current working reference until the source is explicitly reconciled and verified.
+Prior repository implementations remain in Git history. The previous README's different Site is superseded by the exact project above for this owner-authorized synchronization.

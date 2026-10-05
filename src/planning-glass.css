@@ -1,0 +1,57 @@
+/* Extend the approved Home photographic language to working tabs only. */
+.planning-backdrop{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;background:#0a0908}
+.planning-backdrop>img{width:100%;height:100%;object-fit:cover;object-position:center;filter:none}
+.planning-backdrop>div{position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,9,8,.62),rgba(10,9,8,.20) 85%),linear-gradient(0deg,rgba(10,9,8,.65),rgba(10,9,8,.08) 75%)}
+.planning-active .main>.planning-backdrop~:not(.topbar){position:relative;z-index:1}
+.planning-active .main>.section-navigation{position:sticky;top:0;z-index:6;padding:0 clamp(24px,6vw,78px) 17px;background:rgba(29,27,27,.43);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(214,214,211,.2);border-radius:14px;margin:0 auto;width:calc(100% - 12vw);max-width:1144px}
+.planning-active .destination-tabs{border-color:rgba(214,214,211,.22)}
+.planning-active .destination-tabs button{padding:23px 0}
+.planning-active .module-tabs button.active{border-color:#f1f1f1}
+.planning-active .content{padding-top:85px;max-width:1300px}
+.planning-active .page-head{min-height:230px;margin:0 0 32px;display:flex;align-items:flex-start;border:0;gap:30px}
+.planning-active .page-head h1{margin:28px 0 24px;max-width:900px}
+.planning-active .page-head p{max-width:600px}
+.planning-active .section-image{display:none!important}
+.planning-active :is(.panel,.panel.warm,.input-panel.panel,.custom-recipe-form.input-panel,.experience-card,.print-card,.inspiration-board,.prep-start-card){background:rgba(29,27,27,.72);border:1px solid rgba(214,214,211,.23);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-radius:18px;box-shadow:none}
+.planning-active .panel{padding:32px;margin-bottom:24px}
+.planning-active .input-kicker:before{background:#a39b91}
+.planning-active :is(.field input,.field select,.field textarea,.guest-add input,.guest-row input,.guest-row select,.seat select,.missing-row select,.panel textarea,.shopping-controls input,.shopping-controls select,.timeline-row input){background:rgba(10,9,8,.25);border:1px solid rgba(214,214,211,.33);color-scheme:dark;border-radius:6px;min-height:44px;padding:12px}
+.planning-active :is(.field input,.field select,.guest-add input,.guest-row input,.guest-row select,.seat select):focus{background:rgba(10,9,8,.50);border-color:#d6d6d3;outline:1px solid #d6d6d3;outline-offset:2px}
+.planning-active :is(.summary-line,.schedule-row,.check-row,.shop-item,.missing-row,.timeline-row,.serving-row,.guest-row,.budget-line,.day-task,.numbered,.seat){border-color:rgba(214,214,211,.23)}
+.planning-active :is(.stat-row,.budget-head){gap:0;background:rgba(29,27,27,.55);backdrop-filter:blur(20px);border:1px solid rgba(214,214,211,.23);border-radius:18px;overflow:hidden}
+.planning-active :is(.stat-row>div,.budget-head>div){background:transparent;border:0;border-right:1px solid rgba(214,214,211,.23);border-radius:0;padding:25px}
+.planning-active :is(.stat-row>div,.budget-head>div):last-child{border-right:0}
+.planning-active :is(.guest-add button,.save-recipe-button,.save-shopping-button,.add-recipe-button,.print-card button,.day-actions button){background:rgba(214,214,211,.1);border:1px solid rgba(214,214,211,.4);border-radius:7px;box-shadow:none}
+.planning-active :is(.guest-add button,.save-recipe-button,.add-recipe-button,.print-card button,.day-actions button):hover{background:rgba(214,214,211,.2)}
+.planning-active .plan-settings{margin:10px auto 20px;width:calc(100% - 12vw);max-width:1144px}
+.planning-active .plan-settings>summary{cursor:pointer;padding:12px 0}
+.planning-active .plan-utility{background:rgba(29,27,27,.75);border:1px solid rgba(214,214,211,.23);border-radius:12px;padding:20px;backdrop-filter:blur(20px)}
+.planning-active .warning-summary{width:calc(100% - 12vw);max-width:1144px;margin:10px auto 20px;background:rgba(29,27,27,.75);backdrop-filter:blur(20px);border:1px solid rgba(214,214,211,.23);border-radius:12px}
+.planning-active :is(.alert,.note-banner){background:rgba(29,27,27,.78);border-color:#a39b91;border-radius:9px;backdrop-filter:blur(20px)}
+/* Menu rows retain their food photography and all connected controls. */
+.planning-active .reference-menu .menu-intro{min-height:245px}
+.planning-active .reference-menu .menu-intro .page-head{min-height:200px}
+.planning-active .kitchen-reference{display:none}
+.planning-active .reference-menu .menu-plan-board{background:rgba(29,27,27,.72);border:1px solid rgba(214,214,211,.23);border-radius:18px;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);padding:34px}
+.planning-active .reference-menu .plan-included{background:none;border:0}
+.planning-active .reference-menu :is(.plan-board-head,.plan-dish-row,.plan-missing,.plan-gap-row,.selected-recipe-details){border-color:rgba(214,214,211,.25)}
+.planning-active .reference-menu .plan-dish-list .selected-recipe-link{background:none;border-bottom:1px solid rgba(214,214,211,.5);padding:0 0 3px}
+.planning-active .reference-menu .plan-dish-list .plan-remove{background:none}
+.planning-active .reference-menu .plan-dish-row select{background:rgba(10,9,8,.25);border-color:rgba(214,214,211,.33);color-scheme:dark;border-radius:6px}
+.planning-active .reference-menu .plan-missing{background:none}
+.planning-active .reference-menu .menu-connected-summary button:hover{text-decoration:underline;text-underline-offset:5px}
+.planning-active .reference-menu .dish-grid{background:rgba(29,27,27,.72);backdrop-filter:blur(20px);border:1px solid rgba(214,214,211,.23);border-radius:18px;padding:8px 30px}
+.planning-active .reference-menu .dish-card.compact{background:transparent;border-color:rgba(214,214,211,.23)}
+.planning-active .reference-menu .dish-card.compact:first-child{border-top:0}
+.planning-active .recipe-details{border-color:rgba(214,214,211,.25)}
+.planning-active .filter-chip{background:rgba(29,27,27,.6);border-color:rgba(214,214,211,.3);backdrop-filter:blur(15px)}
+.planning-active .filter-chip.active{background:#cdcac6;border-color:#cdcac6}
+.planning-active .mini-toggle{border-color:rgba(214,214,211,.4);background:transparent}
+.planning-active .mini-toggle.active{background:rgba(214,214,211,.15)}
+.planning-active .shopping-summary-strip,.planning-active .chair-logic{background:rgba(29,27,27,.65);backdrop-filter:blur(20px);border-color:rgba(214,214,211,.25);border-radius:14px}
+.planning-active .experience-card img,.planning-active .print-card img,.planning-active .selected-dish-photo{filter:none}
+.planning-active .day-page{max-width:1150px;margin:70px auto;padding:35px;background:rgba(29,27,27,.72);backdrop-filter:blur(20px);border:1px solid rgba(214,214,211,.23);border-radius:18px}
+@media(max-width:850px){.planning-backdrop>img{object-position:60% center}.planning-active .main>.section-navigation{width:88%;padding:0 22px 15px;border-radius:13px}.planning-active .content{padding-top:65px}.planning-active .page-head{min-height:210px}.planning-active .panel{padding:26px}.planning-active .reference-menu .menu-plan-board{padding:28px}.planning-active .day-page{margin:50px 6vw;padding:26px}.planning-active :is(.stat-row>div,.budget-head>div){padding:20px}}
+@media(max-width:560px){.planning-active .main>.section-navigation{padding:0 17px 13px;border-radius:12px}.planning-active .destination-tabs{gap:14px}.planning-active .destination-tabs button{padding:18px 0}.planning-active .module-tabs{gap:20px;padding-top:10px}.planning-active .module-tabs button{min-height:34px}.planning-active .content{padding-top:55px}.planning-active .page-head{min-height:195px;margin-bottom:24px}.planning-active .page-head h1{margin:25px 0 22px;overflow-wrap:anywhere}.planning-active .panel{padding:22px 18px;border-radius:15px}.planning-active .reference-menu .menu-intro{min-height:215px}.planning-active .reference-menu .menu-plan-board{padding:24px 18px;border-radius:15px}.planning-active .reference-menu .dish-grid{padding:6px 18px;border-radius:15px}.planning-active :is(.stat-row>div,.budget-head>div){padding:19px 15px}.planning-active .stat-row>div:nth-child(2){border-right:0}.planning-active .stat-row>div:nth-child(-n+2){border-bottom:1px solid rgba(214,214,211,.23)}.planning-active .day-page{margin:45px 6vw;padding:24px 18px}.planning-active .guest-add button{min-height:46px}}
+@media(prefers-reduced-motion:reduce){.planning-active *{scroll-behavior:auto;transition:none}}
+@media print{.planning-backdrop,.plan-settings,.section-navigation{display:none!important}.planning-active .main>.planning-backdrop~*{position:static}.planning-active .content{padding:0}.planning-active .page-head{min-height:0}.planning-active .page-head :is(h1,p,.eyebrow){color:#111!important}.planning-active :is(.panel,.panel.warm,.experience-card,.print-card,.reference-menu .menu-plan-board,.reference-menu .dish-grid,.day-page){background:#fff;color:#111;backdrop-filter:none;border:1px solid #aaa}.planning-active :is(.panel h2,.panel p,.fine,.plan-dish-name,.selected-recipe-details p){color:#111!important}}

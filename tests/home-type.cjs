@@ -1,0 +1,10 @@
+const fs=require('fs'),vm=require('vm'),assert=require('node:assert/strict'),{JSDOM}=require('jsdom'),React=require('react'),{renderToStaticMarkup}=require('react-dom/server');
+const dom=new JSDOM('<body></body>',{url:'http://localhost/'});global.window=dom.window;global.document=dom.window.document;global.localStorage=dom.window.localStorage;
+document.body.innerHTML=renderToStaticMarkup(React.createElement(require('../.qa/app.cjs').default));
+let code=fs.readFileSync('tests/styles.cjs','utf8').split('const doc=new JSDOM')[0];
+code=code.replace('function cascade(el,width){','const memo=new WeakMap(); function cascade(el,width){\n let cache=memo.get(el);if(!cache){cache=new Map();memo.set(el,cache)}if(cache.has(width))return cache.get(width);');
+code=code.replace('return winners;','cache.set(width,winners);return winners;');code+='\nmodule.exports={value};';
+function resolver(baseline){const module={exports:{}};vm.runInNewContext(code,{module,require:name=>name==='node:fs'&&baseline?{...fs,readFileSync:(path,encoding)=>String(path).startsWith('src/')&&String(path).endsWith('.css')?(path==='src/menu-studio.css'?'':fs.readFileSync('tests/fixtures/home-style-baseline/'+String(path).slice(4),'utf8')):fs.readFileSync(path,encoding)}:require(name)});return module.exports.value;}
+const before=resolver(true),after=resolver(false);
+for(const width of [375,560,768,850,1100,1440])for(const el of document.querySelectorAll('.hosting-canvas *, .topbar *, .sidebar *'))for(const prop of ['font-family','font-size','font-weight','font-style','line-height','letter-spacing','color'])assert.equal(after(el,prop,width),before(el,prop,width),`Home ${el.className||el.tagName} ${prop} at ${width}`);
+console.log('PASS all rendered Home and drawer typography matches the published baseline at six mobile/web widths');

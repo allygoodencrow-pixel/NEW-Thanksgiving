@@ -1,0 +1,225 @@
+/* Uploaded font files, served locally so every page uses the same typography. */
+@font-face{font-family:Lato;src:url('/fonts/Lato-Light.ttf') format('truetype');font-weight:300;font-style:normal;font-display:swap}
+@font-face{font-family:Lato;src:url('/fonts/Lato-Regular.ttf') format('truetype');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:Lato;src:url('/fonts/Lato-Bold.ttf') format('truetype');font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:Lato;src:url('/fonts/Lato-Italic.ttf') format('truetype');font-weight:400;font-style:italic;font-display:swap}
+@font-face{font-family:Metropolis;src:url('/fonts/Metropolis-ExtraLight.otf') format('opentype');font-weight:200;font-style:normal;font-display:swap}
+@font-face{font-family:Metropolis;src:url('/fonts/Metropolis-Light.otf') format('opentype');font-weight:300;font-style:normal;font-display:swap}
+@font-face{font-family:Metropolis;src:url('/fonts/Metropolis-Regular.otf') format('opentype');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:Metropolis;src:url('/fonts/Metropolis-Medium.otf') format('opentype');font-weight:500;font-style:normal;font-display:swap}
+:root{--font-display:Metropolis,'Helvetica Neue',Arial,sans-serif;--font-body:Lato,'Helvetica Neue',Arial,sans-serif}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{font-family:var(--font-body);font-weight:400;font-synthesis:none}
+
+/* Frozen home typography, preserving its existing cascade. */
+:where(.page-home:not(.planning-active)) button,:where(.page-home:not(.planning-active)) input,:where(.page-home:not(.planning-active)) select,:where(.page-home:not(.planning-active)) textarea {
+  font: inherit;
+}
+:where(.page-home:not(.planning-active)) button {
+  color: inherit;
+}
+:where(.page-home:not(.planning-active)) .brand {
+  letter-spacing: 0.31em;
+  font-size: 15px;
+  line-height: 1.52;
+  font-weight: 400;
+}
+:where(.page-home:not(.planning-active)) .sidebar nav button {
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  font-weight: 500;
+}
+:where(.page-home:not(.planning-active)) .sidebar nav button:hover,:where(.page-home:not(.planning-active)) .sidebar nav button.active {
+  color: #fff;
+}
+:where(.page-home:not(.planning-active)) .sidebar-foot {
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  line-height: 1.8;
+}
+:where(.page-home:not(.planning-active)) .sidebar-foot span {
+  color: #9f968b;
+  font-size: 9px;
+}
+:where(.page-home:not(.planning-active)) .mode {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+}
+:where(.page-home:not(.planning-active)) .eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.29em;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+@media (max-width: 850px) {
+  :where(.page-home:not(.planning-active)) .mobile-menu {
+    color: white;
+    font-size: 24px;
+  }
+}
+@media (max-width: 560px) {
+  :where(.page-home:not(.planning-active)) .mode {
+    font-size: 8px;
+  }
+}
+:where(.page-home:not(.planning-active)) .sidebar-foot span,:where(.page-home:not(.planning-active)) .page-head p,:where(.page-home:not(.planning-active)) .lede,:where(.page-home:not(.planning-active)) .fine { color: var(--stone) !important; }
+:where(.page-home:not(.planning-active)) .brand { font-size: 12px; line-height: 1.5; letter-spacing: .32em; }
+:where(.page-home:not(.planning-active)) .sidebar nav button { font-size: 9px; letter-spacing: .15em; font-weight: 400; }
+:where(.page-home:not(.planning-active)) .nav-index { color: #70766b; font-size: 8px; letter-spacing: .08em; }
+:where(.page-home:not(.planning-active)) .sidebar-foot { font-size: 9px; }
+:where(.page-home:not(.planning-active)) .mode { font-size: 8px; }
+:where(.page-home:not(.planning-active)) .eyebrow { color: #aab08c; font-size: 9px; letter-spacing: .27em; font-weight: 400; }
+@media (max-width: 850px) {
+  :where(.page-home:not(.planning-active)) .sidebar-close {
+    color: #f3f0e8;
+  }
+}
+@media (max-width: 850px) {
+  :where(.page-home:not(.planning-active)) .mobile-menu,:where(.page-home:not(.planning-active)) .avatar {
+    color: #111411;
+  }
+}
+@media (max-width: 850px) {
+  :where(.page-home:not(.planning-active)) .sidebar {
+    color: #f2efeb;
+  }
+}
+@media (max-width: 850px) {
+  :where(.page-home:not(.planning-active)) .sidebar .brand { color: #f4f1ed; font-size: 17px; font-weight: 300; }
+}
+@media (max-width: 850px) {
+  :where(.page-home:not(.planning-active)) .sidebar nav button { color: #f4f0ed; font-size: 11px; }
+}
+@media (max-width: 850px) {
+  :where(.page-home:not(.planning-active)) .sidebar .nav-index,:where(.page-home:not(.planning-active)) .sidebar .nav-phase { color: #ded9d1; }
+}
+@media (max-width: 850px) {
+  :where(.page-home:not(.planning-active)) .sidebar .sidebar-foot { color: #f3efeb; }
+}
+@media (max-width: 850px) {
+  :where(.page-home:not(.planning-active)) .sidebar .sidebar-foot span { color: #d0c9c2; }
+}
+:where(.page-home:not(.planning-active)) button,:where(.page-home:not(.planning-active)) input,:where(.page-home:not(.planning-active)) select,:where(.page-home:not(.planning-active)) textarea{font-family: var(--font-display)}
+:where(.page-home:not(.planning-active)) .mobile-menu{color:var(--bone);font-size:12px;letter-spacing:.27em}
+:where(.page-home:not(.planning-active)) .header-monogram{font-size:20px;font-weight:200;letter-spacing:.3em}
+:where(.page-home:not(.planning-active)) .mode{font-size:8px;letter-spacing:.13em;color:#a6a39b}
+:where(.page-home:not(.planning-active)) .sidebar{color:#e7e6dd}
+:where(.page-home:not(.planning-active)) .sidebar .brand{font-size:13px;font-weight:300;letter-spacing:.24em}
+:where(.page-home:not(.planning-active)) .sidebar nav button{color:#d7d6cf;font-size:11px;font-weight:300}
+:where(.page-home:not(.planning-active)) .sidebar .nav-phase,:where(.page-home:not(.planning-active)) .sidebar .nav-index{color:#96938b}
+:where(.page-home:not(.planning-active)) .sidebar .sidebar-foot{color:#d7d6cf}
+:where(.page-home:not(.planning-active)) .sidebar .sidebar-foot span{color:#96938b}
+:where(.page-home:not(.planning-active)) .sidebar-close{color:#e7e6dd}
+@media (max-width:850px) {:where(.page-home:not(.planning-active)) .mobile-menu{color:#e7e6dd;font-size:11px}
+}
+@media (max-width:850px) {:where(.page-home:not(.planning-active)) .mode{font-size:7px}
+}
+@media (max-width:560px) {:where(.page-home:not(.planning-active)) .mobile-menu{font-size:10px}
+}
+@media (max-width:560px) {:where(.page-home:not(.planning-active)) .header-monogram{font-size:18px}
+}
+@media (max-width:560px) {:where(.page-home:not(.planning-active)) .mode{font-size:6px}
+}
+:where(.page-home:not(.planning-active)) .hosting-title{color:#f1f1f1}
+:where(.page-home:not(.planning-active)) .hosting-title .eyebrow{font-size:10px;letter-spacing:.28em;font-weight:300;color:#d6d6d3}
+:where(.page-home:not(.planning-active)) .hosting-title h1{font-family: var(--font-display);font-weight:200;font-size:clamp(44px,7.8vw,118px);letter-spacing:.045em;line-height:1.1}
+:where(.page-home:not(.planning-active)) .hosting-counts{font-size:11px;letter-spacing:.17em;font-weight:300}
+:where(.page-home:not(.planning-active)) .hosting-counts span{color:#a39b91}
+:where(.page-home:not(.planning-active)) .hosting-navigation button{color:#f1f1f1}
+:where(.page-home:not(.planning-active)) .hosting-navigation small{font-size:9px;letter-spacing:.18em;font-weight:300;color:#cdcac6}
+:where(.page-home:not(.planning-active)) .hosting-navigation span{font-size:20px;letter-spacing:.13em;font-weight:300}
+:where(.page-home:not(.planning-active)) .hosting-footer{font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:#d6d6d3}
+:where(.page-home:not(.planning-active)) .sidebar .brand{font-size:22px;font-weight:200;letter-spacing:.3em}
+:where(.page-home:not(.planning-active)) .sidebar .drawer-subnav button{font-size:12px;letter-spacing:.03em;text-transform:none}
+:where(.page-home:not(.planning-active)) .sidebar-foot{font-size:9px}
+:where(.page-home:not(.planning-active)) .topbar .mode{color:#cdcac6}
+:where(.page-home:not(.planning-active)) .topbar .header-monogram{color:#f1f1f1}
+@media (max-width:850px) {:where(.page-home:not(.planning-active)) .hosting-title h1{font-size:clamp(38px,8vw,65px);letter-spacing:.02em}
+}
+@media (max-width:850px) {:where(.page-home:not(.planning-active)) .hosting-navigation span{font-size:16px;letter-spacing:.09em}
+}
+@media (max-width:560px) {:where(.page-home:not(.planning-active)) .hosting-title h1{font-size:clamp(31px,8.2vw,46px);letter-spacing:.01em}
+}
+@media (max-width:560px) {:where(.page-home:not(.planning-active)) .hosting-title .eyebrow{font-size:8px}
+}
+@media (max-width:560px) {:where(.page-home:not(.planning-active)) .hosting-counts{font-size:8px;letter-spacing:.08em}
+}
+@media (max-width:560px) {:where(.page-home:not(.planning-active)) .hosting-navigation span{font-size:11px;letter-spacing:.08em}
+}
+@media (max-width:560px) {:where(.page-home:not(.planning-active)) .hosting-navigation small{font-size:8px}
+}
+@media (max-width:560px) {:where(.page-home:not(.planning-active)) .hosting-footer{font-size:8px;letter-spacing:.08em}
+}
+:where(.page-home:not(.planning-active)) .sidebar .drawer-subnav button{font-size:11px}
+@media (max-width:560px) {:where(.page-home:not(.planning-active)) .sidebar .drawer-subnav button{font-size:10px}
+}
+:where(.page-home:not(.planning-active)) .drawer-heading{font-size:10px;letter-spacing:.15em;color:#a39b91}
+:where(.page-home:not(.planning-active)) .sidebar .drawer-subnav button{font-size:16px}
+:where(.page-home:not(.planning-active)) .sidebar .drawer-subnav .nav-index{font-size:11px;color:#a39b91}
+body :where(.page-home:not(.planning-active)) :is(p,li,label,small,span,summary,input,select,textarea,button,b,strong){font-family:var(--font-body)}
+body :where(.page-home:not(.planning-active)) :is(h1,h2,h3,h4),body :where(.page-home:not(.planning-active)) :is(.brand,.hosting-title h1,.hero-copy h1,.menu-dish-title,.dish-name){font-family:var(--font-display)}
+body :where(.page-home:not(.planning-active)) :is(p,li,input,select,textarea){font-weight:400}
+body :where(.page-home:not(.planning-active)) :is(button,label,summary){font-weight:400}
+body :where(.page-home:not(.planning-active)) :is(h1,h2){font-weight:200}
+body :where(.page-home:not(.planning-active)) :is(.eyebrow,.input-kicker,.nav-phase){font-family:var(--font-display);font-weight:400}
+
+/* Sole owner of planning-screen typography and text colors. Home is scoped above. */
+.planning-active{
+ --font-body:Lato,'Helvetica Neue',Arial,sans-serif;
+ --text-primary:#f1f1f1;--text-muted:#cdcac6;--text-on-fill:#1d1b1b;
+ --type-title:44px;--type-heading:20px;--type-subheading:14px;--type-body:13px;--type-label:11px;
+ color:var(--text-primary);font-family:var(--font-body);font-size:var(--type-body);font-weight:300;line-height:1.6;letter-spacing:0;
+}
+.planning-active :where(*){font-family:inherit;font-size:inherit;font-weight:inherit;font-style:normal;line-height:inherit;letter-spacing:inherit;color:inherit;-webkit-text-fill-color:currentColor}
+.planning-active :is(.glass-light,.paper,.recipe-integrity-notice){--text-primary:#292725;--text-muted:#595650;--text-on-fill:#f1f1f1;color:var(--text-primary)}
+.planning-active :is(h1,.recipe-reader-intro h2){font-family:var(--font-display);font-size:var(--type-title);font-weight:200;line-height:1.2;letter-spacing:.045em;text-transform:uppercase;color:var(--text-primary)}
+.planning-active h2{font-family:var(--font-display);font-size:var(--type-heading);font-weight:200;line-height:1.35;letter-spacing:.13em;text-transform:uppercase;color:var(--text-primary)}
+.planning-active :is(h3,h4,.panel>summary,.shopping-support summary,.shopping-support-row>summary){font-family:var(--font-display);font-size:var(--type-subheading);font-weight:300;line-height:1.45;letter-spacing:.09em;text-transform:uppercase;color:var(--text-primary)}
+.planning-active :is(p,li,.check-row,.shop-item-name,.timeline-row,.budget-line,.summary-line,.guest-contribution){font-family:var(--font-body);font-size:var(--type-body);font-weight:300;line-height:1.6;color:var(--text-primary)}
+.planning-active .staging-sheet b{font-family:var(--font-display);font-size:var(--type-subheading);font-weight:300;line-height:1.45;letter-spacing:.015em}
+.planning-active :is(small,.fine,.eyebrow,.input-kicker,.field>span:first-child,.dish-meta,.menu-dish-meta,.menu-dish-source,.recipe-completeness,.menu-dish-status,.recipe-scale-note,.recipe-facts dt,.recipe-reader-header,.recipe-section-heading>span,.recipe-vessel,.recipe-scaling-details p,.shopping-item-origin,.shopping-category-heading>span,.shopping-column-head,.shopping-quantity-warning,.guided-step-label,.guided-step-copy small){font-family:var(--font-body);font-size:var(--type-label);font-weight:300;line-height:1.5;color:var(--text-muted);opacity:1}
+.planning-active :is(.eyebrow,.input-kicker){font-family:var(--font-body);font-weight:300;letter-spacing:.28em;text-transform:uppercase}
+.planning-active :is(.guided-step-label,.shopping-column-head,.field>span:first-child,.recipe-facts dt,.menu-dish-meta){letter-spacing:.17em;text-transform:uppercase}
+.planning-active :is(button,a,summary){font-family:var(--font-body);font-size:var(--type-label);font-weight:300;line-height:1.5;letter-spacing:.15em;text-transform:uppercase;color:var(--text-primary)}
+.planning-active :is(.panel>summary,.shopping-support summary,.shopping-support-row>summary){font-family:var(--font-display);font-size:var(--type-subheading);letter-spacing:.09em;text-transform:uppercase}
+.planning-active :is(input,select,textarea){font-family:var(--font-body);font-size:var(--type-body);font-weight:300;line-height:1.4;color:var(--text-primary);caret-color:var(--text-primary)}
+.planning-active :is(input,textarea)::placeholder{color:var(--text-muted);-webkit-text-fill-color:currentColor;opacity:1}
+.planning-active :is(.stat-row b,.budget-head b,.shopping-summary-strip b,.chair-logic b,.shopping-list-toolbar p b){font-family:var(--font-display);font-size:21px;font-weight:200;line-height:1.25;letter-spacing:0}
+.planning-active :is(.shopping-row-quantity,.reader-ingredients b,.recipe-facts dd,.qty-stepper b){font-family:var(--font-body);font-size:var(--type-body);font-weight:300;font-variant-numeric:tabular-nums;line-height:1.5;color:var(--text-primary)}
+.planning-active .recipe-source-label{font-size:var(--type-label);color:var(--text-muted)}
+.planning-active .reference-menu .menu-dish-fields label{font-family:var(--font-body);font-size:var(--type-label);font-weight:300;color:var(--text-muted)}
+.planning-active .recipe-section-heading h3{font-size:var(--type-heading)}
+.planning-active .reader-method li{line-height:1.8}
+.planning-active .reader-method li::before{font-family:var(--font-body);font-size:var(--type-label);line-height:2.3;color:var(--text-muted)}
+.planning-active :is(.add-dish-action,.save-recipe-button,.mini-toggle,.recipe-reader-actions .recipe-plan-action){background:var(--text-primary);color:var(--text-on-fill)}
+.planning-active :is(.filter-chip.active,.shopping-list-filters button[aria-pressed=true]){background:var(--text-primary);color:var(--text-on-fill)}
+.planning-active .shop-item.completed .check-circle{background:var(--text-primary);color:var(--text-on-fill)}
+.planning-active :is(.recipe-section-heading>span,.shopping-support summary span){font-size:var(--type-label);color:var(--text-muted)}
+.planning-active .topbar .mode.active{background:var(--text-primary);color:var(--text-on-fill)}
+.planning-active .sidebar{font-family:var(--font-body);font-size:var(--type-label);color:var(--text-primary)}
+.planning-active .sidebar .brand{font-family:var(--font-display);font-size:22px;font-weight:200;letter-spacing:.3em}
+.planning-active .sidebar .drawer-heading{font-size:var(--type-label);color:var(--text-muted);letter-spacing:.15em;text-transform:uppercase}
+.planning-active .sidebar nav button{font-size:16px;font-weight:300;letter-spacing:.03em}
+.planning-active .sidebar .nav-index{font-size:var(--type-label);color:var(--text-muted)}
+.planning-active :is(button:disabled,input:disabled,select:disabled){opacity:.5}
+@media(max-width:767px){.planning-active{--type-title:31px;--type-heading:16px}.planning-active :is(input,select,textarea){font-size:16px}}
+
+
+/* Shared content roles, including the menu and recipe library. */
+.planning-active :is(.menu-dish-title,.dish-name,.library-recipe-card h3){font-family:var(--font-display);font-size:var(--type-heading);font-weight:200;line-height:1.35;letter-spacing:.09em;text-transform:uppercase}
+.planning-active .menu-totals button b{font-family:var(--font-display);font-size:var(--type-heading);font-weight:200;line-height:1.25}
+.planning-active :is(.menu-totals button span,.library-recipe-card p,.recipe-library-toolbar p){font-size:var(--type-label);color:var(--text-muted)}
+.planning-active :is(.recipe-add-button,.recipe-remove-button,.recipe-added,.menu-recipe-status,.menu-library-entry button){font-family:var(--font-body);font-size:var(--type-label);font-weight:300;line-height:1.5;letter-spacing:.15em;text-transform:uppercase}
+.planning-active .recipe-reader-intro h2{font-size:30px;letter-spacing:.045em;text-transform:uppercase}
+.planning-active .topbar .mobile-menu{font-size:12px;letter-spacing:.27em;font-weight:300}
+.planning-active .topbar .header-monogram{font-family:var(--font-display);font-size:20px;font-weight:200;letter-spacing:.3em}
+.planning-active .topbar .mode{font-size:8px;letter-spacing:.13em;font-weight:300}
+@media(max-width:850px){.planning-active .topbar .mobile-menu{font-size:11px}.planning-active .topbar .mode{font-size:7px}}
+@media(max-width:560px){.planning-active .topbar .mobile-menu{font-size:10px}.planning-active .topbar .header-monogram{font-size:18px}.planning-active .topbar .mode{font-size:6px}.planning-active .recipe-reader-intro h2{font-size:26px}}
+
+/* Functional rows retain body type even though the entire row is a button. */
+.planning-active .shopping-edit-trigger{letter-spacing:0;text-transform:none}
+.planning-active .shopping-edit-quantity>small{font-size:var(--type-label);letter-spacing:.15em;text-transform:uppercase;color:var(--text-muted)}
+.planning-active :is(.guest-entry .guest-add button,.guest-list-panel .guest-add button,.shopping-item-editor .shopping-save,.shopping-item-editor .qty-reset,.shopping-item-editor .manual-remove,.shopping-item-editor .shopping-controls button,.shopping-workspace .save-recipe-button){--text-primary:#f1f1f1;--text-muted:#d6d6d3;color:var(--text-primary)}
+.planning-active .shopping-list-filters button{color:#f1f1f1}.planning-active .shopping-list-filters button[aria-pressed=true]{color:#292725}
+.planning-active .shopping-workspace .shop-item.completed .check-circle{color:#f1f1f1}

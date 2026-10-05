@@ -1,0 +1,1332 @@
+/* Uploaded font files, served locally so every page uses the same typography. */
+@font-face{font-family:Lato;src:url('/fonts/Lato-Light.ttf') format('truetype');font-weight:300;font-style:normal;font-display:swap}
+@font-face{font-family:Lato;src:url('/fonts/Lato-Regular.ttf') format('truetype');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:Lato;src:url('/fonts/Lato-Bold.ttf') format('truetype');font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:Lato;src:url('/fonts/Lato-Italic.ttf') format('truetype');font-weight:400;font-style:italic;font-display:swap}
+@font-face{font-family:Metropolis;src:url('/fonts/Metropolis-ExtraLight.otf') format('opentype');font-weight:200;font-style:normal;font-display:swap}
+@font-face{font-family:Metropolis;src:url('/fonts/Metropolis-Light.otf') format('opentype');font-weight:300;font-style:normal;font-display:swap}
+@font-face{font-family:Metropolis;src:url('/fonts/Metropolis-Regular.otf') format('opentype');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:Metropolis;src:url('/fonts/Metropolis-Medium.otf') format('opentype');font-weight:500;font-style:normal;font-display:swap}
+:root{--font-display:Metropolis,'Helvetica Neue',Arial,sans-serif;--font-body:Lato,'Helvetica Neue',Arial,sans-serif}
+body{font-family:var(--font-body);font-weight:400;font-synthesis:none}
+
+/* Frozen home typography, preserving its existing cascade. */
+:where(.page-home:not(.planning-active)) button,:where(.page-home:not(.planning-active)) input,:where(.page-home:not(.planning-active)) select,:where(.page-home:not(.planning-active)) textarea {
+  font: inherit;
+}
+:where(.page-home:not(.planning-active)) button {
+  color: inherit;
+}
+:where(.page-home:not(.planning-active)) .brand {
+  letter-spacing: 0.31em;
+  font-size: 15px;
+  line-height: 1.52;
+  font-weight: 400;
+}
+:where(.page-home:not(.planning-active)) .sidebar nav button {
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  font-weight: 500;
+}
+:where(.page-home:not(.planning-active)) .sidebar nav button:hover,:where(.page-home:not(.planning-active)) .sidebar nav button.active {
+  color: #fff;
+}
+:where(.page-home:not(.planning-active)) .sidebar-foot {
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  line-height: 1.8;
+}
+:where(.page-home:not(.planning-active)) .sidebar-foot span {
+  color: #9f968b;
+  font-size: 9px;
+}
+:where(.page-home:not(.planning-active)) .topbar > span {
+  font-size: 9px;
+  letter-spacing: 0.27em;
+  color: #dfd7d0;
+}
+:where(.page-home:not(.planning-active)) .mode {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+}
+:where(.page-home:not(.planning-active)) .mode.active {
+  color: #111;
+}
+:where(.page-home:not(.planning-active)) .avatar {
+  font-family: var(--font-display);
+  font-style: italic;
+}
+:where(.page-home:not(.planning-active)) .eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.29em;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+:where(.page-home:not(.planning-active)) .hero-copy h1 {
+  font-family: var(--font-display);
+  font-size: clamp(58px, 6vw, 94px);
+  font-weight: 200;
+  letter-spacing: 0.075em;
+  line-height: 1.08;
+}
+:where(.page-home:not(.planning-active)) .hero-date {
+  font-size: 12px;
+  line-height: 2;
+  letter-spacing: 0.25em;
+  font-weight: 500;
+}
+:where(.page-home:not(.planning-active)) .outline-btn {
+  font-size: 11px;
+  letter-spacing: 0.19em;
+}
+:where(.page-home:not(.planning-active)) .outline-btn:hover {
+  color: #111;
+}
+:where(.page-home:not(.planning-active)) .host-command h2 {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: 27px;
+  letter-spacing: .02em;
+}
+:where(.page-home:not(.planning-active)) .host-command-intro {
+  color: #aaa79d;
+  font-size: 11px;
+  line-height: 1.55;
+}
+:where(.page-home:not(.planning-active)) .host-readiness-row b {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .04em;
+  color: #f3f0e8;
+}
+:where(.page-home:not(.planning-active)) .host-readiness-row small {
+  color: #aaa79d;
+  font-size: 9px;
+  line-height: 1.45;
+}
+:where(.page-home:not(.planning-active)) .progress-number {
+  font-family: var(--font-display);
+  font-size: 63px;
+  font-weight: 200;
+}
+:where(.page-home:not(.planning-active)) .status-list > div {
+  font-size: 12px;
+  letter-spacing: 0.02em;
+}
+:where(.page-home:not(.planning-active)) .status-dot {
+  font-size: 12px;
+}
+:where(.page-home:not(.planning-active)) .status-dot.filled {
+  color: #111;
+}
+:where(.page-home:not(.planning-active)) .next-title {
+  font-size: 11px;
+  letter-spacing: 0.23em;
+}
+:where(.page-home:not(.planning-active)) .move span {
+  font-size: 12px;
+  line-height: 1.5;
+}
+:where(.page-home:not(.planning-active)) .move small {
+  font-size: 9px;
+  letter-spacing: 0.13em;
+  color: #c2b6a9;
+}
+:where(.page-home:not(.planning-active)) .home-card h3 {
+  font-family: var(--font-display);
+  font-size: 17px;
+  letter-spacing: 0.12em;
+  font-weight: 300;
+}
+:where(.page-home:not(.planning-active)) .home-card p {
+  font-size: 12px;
+  line-height: 1.55;
+  color: #e0d8d0;
+}
+:where(.page-home:not(.planning-active)) .home-card div > span {
+  font-size: 21px;
+}
+:where(.page-home:not(.planning-active)) .page-head h1,:where(.page-home:not(.planning-active)) .day-page h1 {
+  font-family: var(--font-display);
+  font-weight: 200;
+  letter-spacing: 0.035em;
+  font-size: clamp(42px, 4.8vw, 70px);
+}
+:where(.page-home:not(.planning-active)) .page-head p,:where(.page-home:not(.planning-active)) .lede {
+  color: #bdb5aa;
+  font-size: 15px;
+  line-height: 1.6;
+}
+:where(.page-home:not(.planning-active)) .panel h2,:where(.page-home:not(.planning-active)) .dish-card h2,:where(.page-home:not(.planning-active)) .experience-card h2 {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 300;
+  letter-spacing: 0.025em;
+}
+:where(.page-home:not(.planning-active)) .panel p {
+  color: #c9c0b6;
+  line-height: 1.6;
+  font-size: 14px;
+}
+:where(.page-home:not(.planning-active)) .field > span:first-child {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: #c2b5a8;
+}
+:where(.page-home:not(.planning-active)) .field input,:where(.page-home:not(.planning-active)) .field select,:where(.page-home:not(.planning-active)) .guest-add input,:where(.page-home:not(.planning-active)) .guest-row input,:where(.page-home:not(.planning-active)) .guest-row select,:where(.page-home:not(.planning-active)) .seat select,:where(.page-home:not(.planning-active)) .missing-row select {
+  color: #f4eee7;
+}
+:where(.page-home:not(.planning-active)) .field option,:where(.page-home:not(.planning-active)) .guest-row option,:where(.page-home:not(.planning-active)) .seat option,:where(.page-home:not(.planning-active)) .missing-row option {
+  color: #111;
+}
+:where(.page-home:not(.planning-active)) .panel textarea {
+  color: #eee;
+}
+:where(.page-home:not(.planning-active)) .summary-line {
+  font-size: 13px;
+}
+:where(.page-home:not(.planning-active)) .summary-line b {
+  font-weight: 500;
+}
+:where(.page-home:not(.planning-active)) .text-link {
+  color: #e8d8c9;
+  letter-spacing: 0.12em;
+  font-size: 10px;
+}
+:where(.page-home:not(.planning-active)) .text-link:hover {
+  color: #fff;
+}
+:where(.page-home:not(.planning-active)) .pill {
+  font-size: 10px;
+  letter-spacing: 0.13em;
+}
+:where(.page-home:not(.planning-active)) .pill:hover,:where(.page-home:not(.planning-active)) .pill.active {
+  color: #171411;
+}
+:where(.page-home:not(.planning-active)) .note-banner,:where(.page-home:not(.planning-active)) .alert {
+  letter-spacing: 0.05em;
+  font-size: 12px;
+  line-height: 1.6;
+}
+:where(.page-home:not(.planning-active)) .alert {
+  font-weight: 500;
+}
+:where(.page-home:not(.planning-active)) .alert small {
+  letter-spacing: normal;
+  font-weight: 300;
+  color: #e1cfc0;
+}
+:where(.page-home:not(.planning-active)) .alert button {
+  font-size: 10px;
+}
+:where(.page-home:not(.planning-active)) .dish-card > p {
+  color: #cbbfb3;
+  font-size: 13px;
+}
+:where(.page-home:not(.planning-active)) .mini-toggle {
+  font-size: 9px;
+  letter-spacing: 0.1em;
+}
+:where(.page-home:not(.planning-active)) .dish-meta {
+  font-size: 11px;
+  color: #e0cbbb;
+}
+:where(.page-home:not(.planning-active)) .dish-actions button {
+  color: #e8d4c0;
+  letter-spacing: 0.08em;
+  font-size: 10px;
+}
+:where(.page-home:not(.planning-active)) .recipe-details {
+  font-size: 12px;
+}
+:where(.page-home:not(.planning-active)) .recipe-details strong {
+  font-size: 10px;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+:where(.page-home:not(.planning-active)) .recipe-details p {
+  color: #c9bcb0;
+  line-height: 1.5;
+}
+:where(.page-home:not(.planning-active)) .big-callout {
+  font-family: var(--font-display);
+  font-size: 67px;
+  font-weight: 200;
+}
+:where(.page-home:not(.planning-active)) .big-callout small {
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.17em;
+}
+:where(.page-home:not(.planning-active)) .fine {
+  font-size: 12px !important;
+  color: #aa9f94 !important;
+  line-height: 1.6;
+}
+:where(.page-home:not(.planning-active)) .schedule-row {
+  font-size: 13px;
+}
+:where(.page-home:not(.planning-active)) .schedule-row b {
+  font-weight: 500;
+}
+:where(.page-home:not(.planning-active)) .prep-start-card > span {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 200;
+  color: #aeb497;
+}
+:where(.page-home:not(.planning-active)) .prep-start-card b {
+  font-size: 12px;
+  font-weight: 500;
+}
+:where(.page-home:not(.planning-active)) .prep-start-card small {
+  color: var(--stone);
+  font-size: 9px;
+  line-height: 1.4;
+}
+:where(.page-home:not(.planning-active)) .prep-details summary {
+  color: #d6dac6;
+  font-size: 10px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+:where(.page-home:not(.planning-active)) .check-row {
+  font-size: 13px;
+  line-height: 1.4;
+}
+:where(.page-home:not(.planning-active)) .check-row small {
+  color: #a99b8f;
+  font-size: 11px;
+}
+:where(.page-home:not(.planning-active)) .completed .check-circle {
+  color: #181615;
+}
+:where(.page-home:not(.planning-active)) .heading-count {
+  color: #a89685;
+  font-size: 14px;
+}
+:where(.page-home:not(.planning-active)) .shop-group h3 {
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #d4bda9;
+}
+:where(.page-home:not(.planning-active)) .shop-item {
+  font-size: 13px;
+}
+:where(.page-home:not(.planning-active)) .shop-item b {
+  font-weight: 400;
+  color: #c0aa97;
+}
+:where(.page-home:not(.planning-active)) .timeline-simple b {
+  font-size: 11px;
+  letter-spacing: 0.17em;
+  color: #ead4c0;
+}
+:where(.page-home:not(.planning-active)) .missing-row span {
+  font-size: 13px;
+}
+:where(.page-home:not(.planning-active)) .missing-row b {
+  font-weight: 400;
+}
+:where(.page-home:not(.planning-active)) .missing-row small {
+  color: #a99c8e;
+}
+:where(.page-home:not(.planning-active)) .visual-banner h2 {
+  font-family: var(--font-display);
+  font-size: 45px;
+  font-weight: 200;
+}
+:where(.page-home:not(.planning-active)) .numbered {
+  font-size: 13px;
+  color: #e8ded4;
+}
+:where(.page-home:not(.planning-active)) .numbered span {
+  color: #b18e70;
+  letter-spacing: 0.08em;
+}
+:where(.page-home:not(.planning-active)) .seat {
+  font-size: 13px;
+}
+:where(.page-home:not(.planning-active)) .timeline-row > span {
+  font-size: 12px;
+  color: #d4b89f;
+}
+:where(.page-home:not(.planning-active)) .serving-row {
+  font-size: 12px;
+}
+:where(.page-home:not(.planning-active)) .serving-row b {
+  font-weight: 500;
+}
+:where(.page-home:not(.planning-active)) .serving-row small {
+  color: #ab9c8f;
+}
+:where(.page-home:not(.planning-active)) .stat-row b,:where(.page-home:not(.planning-active)) .budget-head b {
+  font-family: var(--font-display);
+  font-size: 38px;
+  font-weight: 200;
+}
+:where(.page-home:not(.planning-active)) .stat-row span,:where(.page-home:not(.planning-active)) .budget-head span {
+  font-size: 10px;
+  letter-spacing: 0.16em;
+}
+:where(.page-home:not(.planning-active)) .guest-add button {
+  color: #191613;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+}
+:where(.page-home:not(.planning-active)) .guest-row input,:where(.page-home:not(.planning-active)) .guest-row select {
+  font-size: 12px;
+}
+:where(.page-home:not(.planning-active)) .experience-card p {
+  color: #b9ada1;
+  font-size: 12px;
+  line-height: 1.5;
+}
+:where(.page-home:not(.planning-active)) .budget-head b {
+  font-size: 44px;
+}
+:where(.page-home:not(.planning-active)) .over {
+  color: #e6a189;
+}
+:where(.page-home:not(.planning-active)) .budget-line {
+  font-size: 13px;
+}
+:where(.page-home:not(.planning-active)) .budget-line b {
+  font-weight: 400;
+}
+:where(.page-home:not(.planning-active)) .paper {
+  color: #231d19;
+}
+:where(.page-home:not(.planning-active)) .paper > span,:where(.page-home:not(.planning-active)) .paper small {
+  font-size: 8px;
+  letter-spacing: 0.24em;
+}
+:where(.page-home:not(.planning-active)) .paper h3 {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: 28px;
+}
+:where(.page-home:not(.planning-active)) .paper p {
+  font-family: var(--font-display);
+  font-style: italic;
+  line-height: 1.5;
+  font-size: 12px;
+}
+:where(.page-home:not(.planning-active)) .print-card > button {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+}
+:where(.page-home:not(.planning-active)) .day-page h1 {
+  font-size: 70px;
+}
+:where(.page-home:not(.planning-active)) .day-task {
+  font-size: 22px;
+}
+:where(.page-home:not(.planning-active)) .day-task b {
+  font-size: 16px;
+  font-weight: 500;
+  color: #d2ad8e;
+}
+:where(.page-home:not(.planning-active)) .day-actions button {
+  font-size: 11px;
+  letter-spacing: 0.13em;
+}
+@media (max-width: 1200px) {
+  :where(.page-home:not(.planning-active)) .hero-copy h1 {
+    font-size: 60px;
+  }
+}
+@media (max-width: 850px) {
+  :where(.page-home:not(.planning-active)) .mobile-menu {
+    color: white;
+    font-size: 24px;
+  }
+}
+@media (max-width: 560px) {
+  :where(.page-home:not(.planning-active)) .mode {
+    font-size: 8px;
+  }
+}
+@media (max-width: 560px) {
+  :where(.page-home:not(.planning-active)) .hero-copy h1 {
+    font-size: 51px;
+  }
+}
+@media (max-width: 560px) {
+  :where(.page-home:not(.planning-active)) .hero-date {
+    font-size: 10px;
+  }
+}
+@media (max-width: 560px) {
+  :where(.page-home:not(.planning-active)) .home-card h3 {
+    font-size: 14px;
+  }
+}
+@media (max-width: 560px) {
+  :where(.page-home:not(.planning-active)) .home-card p {
+    font-size: 11px;
+  }
+}
+@media (max-width: 560px) {
+  :where(.page-home:not(.planning-active)) .page-head h1 {
+    font-size: 43px;
+  }
+}
+@media (max-width: 560px) {
+  :where(.page-home:not(.planning-active)) .page-head p {
+    font-size: 13px;
+  }
+}
+@media (max-width: 560px) {
+  :where(.page-home:not(.planning-active)) .guest-add button {
+    font-size: 9px;
+  }
+}
+@media (max-width: 560px) {
+  :where(.page-home:not(.planning-active)) .visual-banner h2 {
+    font-size: 35px;
+  }
+}
+@media (max-width: 560px) {
+  :where(.page-home:not(.planning-active)) .day-page h1 {
+    font-size: 48px;
+  }
+}
+@media (max-width: 560px) {
+  :where(.page-home:not(.planning-active)) .day-task {
+    font-size: 17px;
+  }
+}
+@media (max-width: 560px) {
+  :where(.page-home:not(.planning-active)) .day-task b {
+    font-size: 12px;
+  }
+}
+:where(.page-home:not(.planning-active)) .image-edit-heading > span:last-child { color: #bbaa9a; font-family: var(--font-display); font-size: 18px; font-weight: 300; }
+:where(.page-home:not(.planning-active)) .image-edit-grid figcaption { color: #d4c7b9; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; }
+@media (max-width: 560px) {
+  :where(.page-home:not(.planning-active)) .image-edit-heading > span:last-child { font-size: 14px; }
+}
+:where(.page-home:not(.planning-active)) .sidebar-foot span,:where(.page-home:not(.planning-active)) .page-head p,:where(.page-home:not(.planning-active)) .lede,:where(.page-home:not(.planning-active)) .fine { color: var(--stone) !important; }
+:where(.page-home:not(.planning-active)) .topbar > span { color: var(--bone-soft); }
+:where(.page-home:not(.planning-active)) .mode.active,:where(.page-home:not(.planning-active)) .pill:hover,:where(.page-home:not(.planning-active)) .pill.active { color: var(--ink); }
+:where(.page-home:not(.planning-active)) .outline-btn:hover { color: var(--ink); }
+:where(.page-home:not(.planning-active)) .progress-bar span,:where(.page-home:not(.planning-active)) .status-dot.filled,:where(.page-home:not(.planning-active)) .completed .check-circle { color: #101210; }
+:where(.page-home:not(.planning-active)) .move small,:where(.page-home:not(.planning-active)) .field > span:first-child,:where(.page-home:not(.planning-active)) .dish-meta,:where(.page-home:not(.planning-active)) .timeline-simple b,:where(.page-home:not(.planning-active)) .timeline-row > span,:where(.page-home:not(.planning-active)) .shop-group h3,:where(.page-home:not(.planning-active)) .heading-count,:where(.page-home:not(.planning-active)) .shop-item b,:where(.page-home:not(.planning-active)) .numbered span,:where(.page-home:not(.planning-active)) .day-task b { color: #b4b99a; }
+:where(.page-home:not(.planning-active)) .home-card p,:where(.page-home:not(.planning-active)) .panel p,:where(.page-home:not(.planning-active)) .dish-card > p,:where(.page-home:not(.planning-active)) .recipe-details p,:where(.page-home:not(.planning-active)) .experience-card p,:where(.page-home:not(.planning-active)) .image-edit-grid figcaption { color: #c8c7bf; }
+:where(.page-home:not(.planning-active)) .field input,:where(.page-home:not(.planning-active)) .field select,:where(.page-home:not(.planning-active)) .guest-add input,:where(.page-home:not(.planning-active)) .guest-row input,:where(.page-home:not(.planning-active)) .guest-row select,:where(.page-home:not(.planning-active)) .seat select,:where(.page-home:not(.planning-active)) .missing-row select,:where(.page-home:not(.planning-active)) .panel textarea { color: var(--bone); }
+:where(.page-home:not(.planning-active)) .text-link { color: #d9ddc5; }
+:where(.page-home:not(.planning-active)) .alert small { color: #d8c2b8; }
+:where(.page-home:not(.planning-active)) .dish-actions button { color: #d4d8c1; }
+:where(.page-home:not(.planning-active)) .guest-add button { color: #101210; }
+:where(.page-home:not(.planning-active)) .over { color: var(--oxide-soft); }
+:where(.page-home:not(.planning-active)) .paper { color: #20221f; }
+:where(.page-home:not(.planning-active)) .image-edit-heading > span:last-child { color: #b9bda8; }
+:where(.page-home:not(.planning-active)) .room-math b {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 200;
+}
+:where(.page-home:not(.planning-active)) .room-math span {
+  color: var(--stone);
+  font-size: 8px;
+  letter-spacing: .13em;
+}
+:where(.page-home:not(.planning-active)) .table-shape span {
+  font-size: 9px;
+  letter-spacing: .14em;
+}
+:where(.page-home:not(.planning-active)) .table-shape small {
+  color: var(--stone);
+  font-size: 8px;
+}
+:where(.page-home:not(.planning-active)) .shop-product-list a {
+  color: var(--bone);
+  font-size: 10px;
+  line-height: 1.35;
+}
+:where(.page-home:not(.planning-active)) .shop-product-list a:hover {
+  color: #fff;
+}
+:where(.page-home:not(.planning-active)) .shop-product-list small {
+  color: var(--stone);
+  font-size: 8px;
+  letter-spacing: .08em;
+}
+:where(.page-home:not(.planning-active)) .shop-all-link {
+  color: #d8dcc5;
+  font-size: 9px;
+  letter-spacing: .12em;
+}
+:where(.page-home:not(.planning-active)) .shop-look-card {
+  color: var(--bone);
+}
+:where(.page-home:not(.planning-active)) .shop-look-card h3 {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: 19px;
+}
+:where(.page-home:not(.planning-active)) .shop-look-card small {
+  color: var(--stone);
+  font-size: 8px;
+  letter-spacing: .12em;
+}
+:where(.page-home:not(.planning-active)) .upload-inspiration {
+  font-size: 9px;
+  letter-spacing: .12em;
+}
+:where(.page-home:not(.planning-active)) .inspiration-empty {
+  color: var(--stone);
+  font-size: 12px;
+}
+:where(.page-home:not(.planning-active)) .add-recipe-button,:where(.page-home:not(.planning-active)) .save-recipe-button {
+  color: var(--ink);
+  font-size: 9px;
+  letter-spacing: .13em;
+}
+:where(.page-home:not(.planning-active)) .remove-recipe-link {
+  color: #a99d93;
+  font-size: 8px;
+  letter-spacing: .12em;
+}
+:where(.page-home:not(.planning-active)) .remove-recipe-link:hover {
+  color: var(--oxide-soft);
+}
+:where(.page-home:not(.planning-active)) .custom-recipe-options > span {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: .16em;
+  color: #c2b5a8;
+}
+:where(.page-home:not(.planning-active)) .tag-chip,:where(.page-home:not(.planning-active)) .filter-chip {
+  color: #c9cbc3;
+  font-size: 8px;
+  letter-spacing: .09em;
+}
+:where(.page-home:not(.planning-active)) .tag-chip.active,:where(.page-home:not(.planning-active)) .filter-chip.active {
+  color: #111411;
+}
+:where(.page-home:not(.planning-active)) .plan-board-head h2,:where(.page-home:not(.planning-active)) .plan-missing h2 {
+  font-family: var(--font-display);
+  font-size: 27px;
+  font-weight: 300;
+}
+:where(.page-home:not(.planning-active)) .plan-board-head span {
+  color: var(--stone);
+  font-size: 10px;
+}
+:where(.page-home:not(.planning-active)) .plan-dish-list button {
+  font-size: 11px;
+}
+:where(.page-home:not(.planning-active)) .plan-dish-list button small {
+  color: #989d8d;
+  font-size: 7px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+:where(.page-home:not(.planning-active)) .plan-gap-row {
+  font-size: 11px;
+}
+:where(.page-home:not(.planning-active)) .plan-gap-row span {
+  color: var(--oxide-soft);
+}
+:where(.page-home:not(.planning-active)) .allergy-note {
+  color: #aaa79d;
+  font-size: 9px;
+  line-height: 1.45;
+}
+:where(.page-home:not(.planning-active)) .recipe-badges span {
+  color: #aeb3a2;
+  font-size: 7px;
+  letter-spacing: .07em;
+}
+:where(.page-home:not(.planning-active)) .recipe-badges .rating-badge {
+  color: #ded7cb;
+}
+:where(.page-home:not(.planning-active)) .recipe-source-link {
+  color: #d7dcc3;
+  font-size: 8px;
+  letter-spacing: .1em;
+}
+:where(.page-home:not(.planning-active)) .menu-guide {
+  color: var(--stone);
+  font-size: 11px;
+  letter-spacing: .04em;
+}
+:where(.page-home:not(.planning-active)) .menu-guide strong {
+  color: var(--bone);
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 300;
+}
+:where(.page-home:not(.planning-active)) .dish-card.compact h2 {
+  font-size: 20px;
+  line-height: 1.15;
+}
+:where(.page-home:not(.planning-active)) .dish-card.compact .dish-meta {
+  color: #bfc3b2;
+}
+:where(.page-home:not(.planning-active)) .dish-card.compact .mini-toggle.active {
+  color: #111411;
+}
+:where(.page-home:not(.planning-active)) .recipe-link {
+  color: var(--bone-soft);
+  font-size: 9px;
+  letter-spacing: .13em;
+}
+:where(.page-home:not(.planning-active)) .recipe-link:hover {
+  color: #fff;
+}
+@media (max-width: 650px) {
+  :where(.page-home:not(.planning-active)) .dish-card.compact h2 {
+    font-size: 17px;
+  }
+}
+:where(.page-home:not(.planning-active)) .plan-dish-name small { font-size: 9px; letter-spacing: .13em; text-transform: uppercase; }
+:where(.page-home:not(.planning-active)) .plan-dish-row select {
+  font-size: 10px;
+  letter-spacing: .08em;
+}
+:where(.page-home:not(.planning-active)) .menu-owner-note { font-size: 11px; line-height: 1.55; }
+:where(.page-home:not(.planning-active)) .shopping-summary-strip b,:where(.page-home:not(.planning-active)) .chair-logic b { font-size: 24px; font-weight: 400; }
+:where(.page-home:not(.planning-active)) .shopping-summary-strip span,:where(.page-home:not(.planning-active)) .chair-logic span { font-size: 9px; letter-spacing: .13em; }
+:where(.page-home:not(.planning-active)) .shop-item-name small { font-size: 8px; letter-spacing: .12em; }
+:where(.page-home:not(.planning-active)) .qty-stepper button { font-size: 16px; }
+:where(.page-home:not(.planning-active)) .qty-stepper b { font-size: 11px; font-weight: 500; }
+:where(.page-home:not(.planning-active)) .qty-stepper small { font-size: 9px; font-weight: 400; }
+:where(.page-home:not(.planning-active)) .qty-reset { font-size: 8px; letter-spacing: .12em; }
+:where(.page-home:not(.planning-active)) .guest-provided-row b { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; }
+:where(.page-home:not(.planning-active)) .inventory-head { font-size: 8px; letter-spacing: .13em; }
+:where(.page-home:not(.planning-active)) .inventory-row > span { font-size: 11px; }
+:where(.page-home:not(.planning-active)) .inventory-row > b { font-size: 11px; font-weight: 500; }
+:where(.page-home:not(.planning-active)) .inventory-row strong { font-size: 9px; letter-spacing: .08em; font-weight: 500; }
+:where(.page-home:not(.planning-active)) .brand { font-size: 12px; line-height: 1.5; letter-spacing: .32em; }
+:where(.page-home:not(.planning-active)) .nav-phase { color: #686f67; font-size: 7px; letter-spacing: .2em; text-transform: uppercase; }
+:where(.page-home:not(.planning-active)) .sidebar nav button { font-size: 9px; letter-spacing: .15em; font-weight: 400; }
+:where(.page-home:not(.planning-active)) .nav-index { color: #70766b; font-size: 8px; letter-spacing: .08em; }
+:where(.page-home:not(.planning-active)) .sidebar nav button.active .nav-index { color: #b7bd96; }
+:where(.page-home:not(.planning-active)) .sidebar-foot { font-size: 9px; }
+:where(.page-home:not(.planning-active)) .topbar > span { color: #aeb2a8; font-size: 8px; letter-spacing: .24em; }
+:where(.page-home:not(.planning-active)) .mode { font-size: 8px; }
+:where(.page-home:not(.planning-active)) .workflow-rail-copy b { font-size: 13px; font-weight: 300; }
+:where(.page-home:not(.planning-active)) .workflow-rail-copy small { font-size: 8px; color: #858b83; }
+:where(.page-home:not(.planning-active)) .workflow-rail-actions button { font-size: 8px; letter-spacing: .08em; }
+:where(.page-home:not(.planning-active)) .workflow-rail-actions button.primary { color: #f1efe8; }
+:where(.page-home:not(.planning-active)) .hero-copy h1 { font-size: clamp(64px,8vw,116px); font-weight: 200; letter-spacing: .055em; }
+:where(.page-home:not(.planning-active)) .hero-date { font-size: 10px; line-height: 1.9; letter-spacing: .22em; }
+:where(.page-home:not(.planning-active)) .outline-btn { font-size: 9px; }
+:where(.page-home:not(.planning-active)) .home-status-strip span { color: #7e857b; font-size: 8px; letter-spacing: .18em; }
+:where(.page-home:not(.planning-active)) .home-status-strip b { font-family: var(--font-display); font-size: clamp(18px,2vw,28px); font-weight: 300; color: #f0eee7; }
+:where(.page-home:not(.planning-active)) .home-plan-index > h2,:where(.page-home:not(.planning-active)) .home-now > h2 { font-family: var(--font-display); font-weight: 200; letter-spacing: .01em; line-height: 1.08; }
+:where(.page-home:not(.planning-active)) .home-plan-index > h2 { font-size: clamp(42px,5vw,68px); }
+:where(.page-home:not(.planning-active)) .home-plan-index > p,:where(.page-home:not(.planning-active)) .home-now > p { color: #aeb2aa; font-size: 12px; line-height: 1.7; }
+:where(.page-home:not(.planning-active)) .workflow-phase-head > span { color: #c0c59f; font-size: 9px; letter-spacing: .2em; }
+:where(.page-home:not(.planning-active)) .workflow-phase-head > small { color: #686f67; font-size: 7px; letter-spacing: .16em; }
+:where(.page-home:not(.planning-active)) .workflow-home-list > button { color: #f3f0e8; }
+:where(.page-home:not(.planning-active)) .workflow-step-number { color: #8f9677; font-size: 9px; letter-spacing: .14em; }
+:where(.page-home:not(.planning-active)) .workflow-step-copy b { font-size: 15px; font-weight: 300; color: #f1efe8; }
+:where(.page-home:not(.planning-active)) .workflow-step-copy small { color: #898f87; font-size: 10px; line-height: 1.45; }
+:where(.page-home:not(.planning-active)) .workflow-home-list > button svg { color: #e9e6dc; }
+:where(.page-home:not(.planning-active)) .home-now > h2 { font-size: 34px; }
+:where(.page-home:not(.planning-active)) .editorial-move > span { color: #8f9677; font-size: 8px; }
+:where(.page-home:not(.planning-active)) .editorial-move b { font-size: 12px; font-weight: 400; }
+:where(.page-home:not(.planning-active)) .editorial-move small { color: #858b83; font-size: 8px; letter-spacing: .12em; }
+:where(.page-home:not(.planning-active)) .home-continue { font-size: 8px; letter-spacing: .14em; }
+:where(.page-home:not(.planning-active)) .page-head h1 { font-size: clamp(48px,5vw,72px); letter-spacing: .018em; line-height: 1; }
+:where(.page-home:not(.planning-active)) .page-head p { color: #969c94 !important; font-size: 13px; line-height: 1.7; }
+:where(.page-home:not(.planning-active)) .eyebrow { color: #aab08c; font-size: 9px; letter-spacing: .27em; font-weight: 400; }
+:where(.page-home:not(.planning-active)) .panel h2,:where(.page-home:not(.planning-active)) .dish-card h2,:where(.page-home:not(.planning-active)) .experience-card h2 { font-size: 24px; font-weight: 300; letter-spacing: .01em; }
+:where(.page-home:not(.planning-active)) .panel p { color: #9ca199; font-size: 12px; line-height: 1.7; }
+:where(.page-home:not(.planning-active)) .field > span:first-child { color: #b1b6ab; font-size: 9px; letter-spacing: .15em; }
+:where(.page-home:not(.planning-active)) .input-kicker { color: #b6bc94; font-size: 8px; letter-spacing: .2em; text-transform: uppercase; }
+:where(.page-home:not(.planning-active)) .field input,:where(.page-home:not(.planning-active)) .field select,:where(.page-home:not(.planning-active)) .guest-add input,:where(.page-home:not(.planning-active)) .guest-row input,:where(.page-home:not(.planning-active)) .guest-row select,:where(.page-home:not(.planning-active)) .seat select,:where(.page-home:not(.planning-active)) .missing-row select,:where(.page-home:not(.planning-active)) .panel textarea { color: #f3f0e9; -webkit-text-fill-color: #f3f0e9; caret-color: #c1c79e; }
+:where(.page-home:not(.planning-active)) .field input::placeholder,:where(.page-home:not(.planning-active)) .guest-add input::placeholder,:where(.page-home:not(.planning-active)) .guest-row input::placeholder,:where(.page-home:not(.planning-active)) .panel textarea::placeholder { color: #737970; -webkit-text-fill-color: #737970; }
+:where(.page-home:not(.planning-active)) .select-wrap svg { color: #8f958c; }
+:where(.page-home:not(.planning-active)) .section-image figcaption { color: #f3f0e8; }
+:where(.page-home:not(.planning-active)) .section-image figcaption .eyebrow { color: #f3f0e8; }
+:where(.page-home:not(.planning-active)) .section-image figcaption p { color: #f3f0e8; font-size: 11px; line-height: 1.5; }
+:where(.page-home:not(.planning-active)) .plan-dish-row select { color: #f5f2ea; -webkit-text-fill-color: #f5f2ea; font-size: 10px; letter-spacing: .08em; }
+:where(.page-home:not(.planning-active)) .plan-dish-row select option { color: #151815; -webkit-text-fill-color: #151815; }
+:where(.page-home:not(.planning-active)) .room-zone { color: #d5d7cf; font-size: 9px; letter-spacing: .06em; }
+@media (max-width: 850px) {
+  :where(.page-home:not(.planning-active)) .hero-copy h1 { font-size: clamp(52px,16vw,72px); }
+}
+@media (max-width: 850px) {
+  :where(.page-home:not(.planning-active)) .hero-date { font-size: 9px; letter-spacing: .16em; }
+}
+@media (max-width: 850px) {
+  :where(.page-home:not(.planning-active)) .home-plan-index > h2 { font-size: 43px; }
+}
+@media (max-width: 850px) {
+  :where(.page-home:not(.planning-active)) .workflow-step-copy b { font-size: 14px; }
+}
+@media (max-width: 850px) {
+  :where(.page-home:not(.planning-active)) .workflow-step-copy small { font-size: 10px; }
+}
+@media (max-width: 850px) {
+  :where(.page-home:not(.planning-active)) .page-head h1 { font-size: 44px; line-height: 1.02; }
+}
+@media (max-width: 850px) {
+  :where(.page-home:not(.planning-active)) .page-head p { font-size: 12px; }
+}
+@media (max-width: 850px) {
+  :where(.page-home:not(.planning-active)) .field input,:where(.page-home:not(.planning-active)) .field select,:where(.page-home:not(.planning-active)) .guest-add input,:where(.page-home:not(.planning-active)) .guest-row input,:where(.page-home:not(.planning-active)) .guest-row select,:where(.page-home:not(.planning-active)) .seat select,:where(.page-home:not(.planning-active)) .missing-row select,:where(.page-home:not(.planning-active)) .panel textarea { font-size: 16px; }
+}
+@media (max-width: 850px) {
+  :where(.page-home:not(.planning-active)) .section-image figcaption p { font-size: 10px; }
+}
+@media (max-width: 850px) {
+  :where(.page-home:not(.planning-active)) .plan-dish-row select { font-size: 9px; letter-spacing: .04em; }
+}
+:where(.page-home:not(.planning-active)) .planning-source-note b {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 300;
+}
+:where(.page-home:not(.planning-active)) .planning-source-note span {
+  color: var(--stone);
+  font-size: 10px;
+  line-height: 1.45;
+}
+:where(.page-home:not(.planning-active)) .derived-field > span {
+  color: #b1b6ab;
+  font-size: 9px;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+}
+:where(.page-home:not(.planning-active)) .derived-field b {
+  font-size: 15px;
+  font-weight: 400;
+}
+:where(.page-home:not(.planning-active)) .derived-field small {
+  color: var(--stone);
+  font-size: 9px;
+  line-height: 1.4;
+}
+@media (max-width: 850px) {
+  :where(.page-home:not(.planning-active)) .sidebar-close {
+    color: #f3f0e8;
+  }
+}
+@media (max-width: 560px) {
+  :where(.page-home:not(.planning-active)) .stat-row b {
+    font-size: 32px;
+  }
+}
+@media (max-width: 560px) {
+  :where(.page-home:not(.planning-active)) .stat-row span {
+    font-size: 8px;
+    letter-spacing: .11em;
+  }
+}
+@media (max-width: 850px) {
+  :where(.page-home:not(.planning-active)) .dish-card.compact h2 {
+    font-size: 18px;
+    line-height: 1.18;
+  }
+}
+@media (max-width: 850px) {
+  :where(.page-home:not(.planning-active)) .dish-card.compact .recipe-badges > span {
+    font-size: 7px;
+  }
+}
+@media (max-width: 390px) {
+  :where(.page-home:not(.planning-active)) .dish-card.compact h2 {
+    font-size: 17px;
+  }
+}
+:where(.page-home:not(.planning-active)) .home-status-strip span { color: #b5c0b3; font-size: 10px; }
+:where(.page-home:not(.planning-active)) .home-status-strip b { color: #f1f3eb; }
+:where(.page-home:not(.planning-active)) .home-plan-index {
+  color: #202820;
+}
+:where(.page-home:not(.planning-active)) .home-plan-index > h2 { color: #202820; }
+:where(.page-home:not(.planning-active)) .home-plan-index > p { color: #4f5b50; font-size: 14px; line-height: 1.7; }
+:where(.page-home:not(.planning-active)) .home-plan-index .eyebrow,:where(.page-home:not(.planning-active)) .home-plan-index .workflow-phase-head > span { color: #536654; }
+:where(.page-home:not(.planning-active)) .home-plan-index .workflow-phase-head > small { color: #657468; }
+:where(.page-home:not(.planning-active)) .home-plan-index .workflow-home-list > button {
+  color: #202820;
+}
+:where(.page-home:not(.planning-active)) .home-plan-index .workflow-step-number { color: #566b58; font-size: 11px; }
+:where(.page-home:not(.planning-active)) .home-plan-index .workflow-step-copy b { color: #202820; font-size: 18px; font-weight: 400; }
+:where(.page-home:not(.planning-active)) .home-plan-index .workflow-step-copy small { color: #536154; font-size: 12px; }
+:where(.page-home:not(.planning-active)) .home-plan-index .workflow-home-list > button svg { color: #455748; }
+:where(.page-home:not(.planning-active)) .home-now .eyebrow { color: #b8c8b7; }
+:where(.page-home:not(.planning-active)) .home-now > h2 { color: #f2f3ed; line-height: 1.14; }
+:where(.page-home:not(.planning-active)) .home-now > p { color: #b9c3b9; font-size: 14px; line-height: 1.7; }
+:where(.page-home:not(.planning-active)) .editorial-move > span,:where(.page-home:not(.planning-active)) .editorial-move small { color: #b5c3b3; }
+:where(.page-home:not(.planning-active)) .editorial-move b,:where(.page-home:not(.planning-active)) .editorial-move svg { color: #f1f2ea; }
+:where(.page-home:not(.planning-active)) .editorial-move b { font-size: 14px; font-weight: 400; }
+:where(.page-home:not(.planning-active)) .editorial-move small { font-size: 10px; }
+:where(.page-home:not(.planning-active)) .home-continue {
+  color: #202820;
+  font-size: 11px;
+}
+@media (max-width: 850px) {
+  :where(.page-home:not(.planning-active)) .hero-copy h1 { font-size: clamp(52px,13vw,74px); }
+}
+@media (max-width: 850px) {
+  :where(.page-home:not(.planning-active)) .home-hero .outline-btn {
+    color: #202820;
+  }
+}
+@media (max-width: 850px) {
+  :where(.page-home:not(.planning-active)) .home-plan-index > h2 { font-size: clamp(35px,9vw,46px); }
+}
+@media (max-width: 850px) {
+  :where(.page-home:not(.planning-active)) .home-now > h2 { font-size: clamp(36px,9vw,50px); }
+}
+:where(.page-home:not(.planning-active)) .plan-utility{color:#f4f1eb;font-size:13px;line-height:1.5}
+:where(.page-home:not(.planning-active)) .plan-utility button,:where(.page-home:not(.planning-active)) .import-plan{color:inherit;font-size:12px}
+:where(.page-home:not(.planning-active)) .warning-summary{color:#231d18}
+:where(.page-home:not(.planning-active)) .warning-summary p{font-size:14px;line-height:1.5}
+:where(.page-home:not(.planning-active)) .dish-controls label{font-size:13px}
+:where(.page-home:not(.planning-active)) .dish-controls small{font-size:12px}
+:where(.page-home:not(.planning-active)) .guest-contribution{font-size:14px}
+:where(.page-home:not(.planning-active)) .guest-contribution small{font-size:12px}
+:where(.page-home:not(.planning-active)) .dietary-options legend{font-size:13px}
+:where(.page-home:not(.planning-active)) .dietary-options label{font-size:13px}
+:where(.page-home:not(.planning-active)) .shopping-controls label{font-size:12px}
+:where(.page-home:not(.planning-active)) .shopping-controls select{font-size:12px}
+:where(.page-home:not(.planning-active)) .shopping-controls button{font-size:11px}
+:where(.page-home:not(.planning-active)) .shopping-controls small{color:#8a2e20}
+:where(.page-home:not(.planning-active)) .field textarea{color:inherit;font:inherit}
+:where(.page-home:not(.planning-active)) .seat small{font-size:13px}
+@media (max-width:700px) {:where(.page-home:not(.planning-active)) .field input,:where(.page-home:not(.planning-active)) .field select,:where(.page-home:not(.planning-active)) .guest-row input,:where(.page-home:not(.planning-active)) .guest-row select{font-size:16px}
+}
+@media (max-width:700px) {:where(.page-home:not(.planning-active)) .plan-utility span{font-size:12px}
+}
+@media (max-width: 850px) {
+  :where(.page-home:not(.planning-active)) .mobile-menu,:where(.page-home:not(.planning-active)) .avatar {
+    color: #111411;
+  }
+}
+@media (max-width: 850px) {
+  :where(.page-home:not(.planning-active)) .sidebar {
+    color: #f2efeb;
+  }
+}
+@media (max-width: 850px) {
+  :where(.page-home:not(.planning-active)) .sidebar .brand { color: #f4f1ed; font-size: 17px; font-weight: 300; }
+}
+@media (max-width: 850px) {
+  :where(.page-home:not(.planning-active)) .sidebar nav button { color: #f4f0ed; font-size: 11px; }
+}
+@media (max-width: 850px) {
+  :where(.page-home:not(.planning-active)) .sidebar .nav-index,:where(.page-home:not(.planning-active)) .sidebar .nav-phase { color: #ded9d1; }
+}
+@media (max-width: 850px) {
+  :where(.page-home:not(.planning-active)) .sidebar .nav-phase { font-size: 9px; }
+}
+@media (max-width: 850px) {
+  :where(.page-home:not(.planning-active)) .sidebar .sidebar-foot { color: #f3efeb; }
+}
+@media (max-width: 850px) {
+  :where(.page-home:not(.planning-active)) .sidebar .sidebar-foot span { color: #d0c9c2; }
+}
+@media (max-width: 850px) {
+  :where(.page-home:not(.planning-active)) .workflow-rail-copy b { font-size: 17px; }
+}
+@media (max-width: 850px) {
+  :where(.page-home:not(.planning-active)) .workflow-rail-copy small { font-size: 10px; }
+}
+@media (max-width: 850px) {
+  :where(.page-home:not(.planning-active)) .workflow-rail-actions button.primary { color: #151915; }
+}
+:where(.page-home:not(.planning-active)) button,:where(.page-home:not(.planning-active)) input,:where(.page-home:not(.planning-active)) select,:where(.page-home:not(.planning-active)) textarea{font-family: var(--font-display)}
+:where(.page-home:not(.planning-active)) .mobile-menu{color:var(--bone);font-size:12px;letter-spacing:.27em}
+:where(.page-home:not(.planning-active)) .header-monogram{font-size:20px;font-weight:200;letter-spacing:.3em}
+:where(.page-home:not(.planning-active)) .mode{font-size:8px;letter-spacing:.13em;color:#a6a39b}
+:where(.page-home:not(.planning-active)) .mode.active{color:#111}
+:where(.page-home:not(.planning-active)) .sidebar{color:#e7e6dd}
+:where(.page-home:not(.planning-active)) .sidebar .brand{font-size:13px;font-weight:300;letter-spacing:.24em}
+:where(.page-home:not(.planning-active)) .sidebar nav button{color:#d7d6cf;font-size:11px;font-weight:300}
+:where(.page-home:not(.planning-active)) .sidebar .nav-phase,:where(.page-home:not(.planning-active)) .sidebar .nav-index{color:#96938b}
+:where(.page-home:not(.planning-active)) .sidebar .sidebar-foot{color:#d7d6cf}
+:where(.page-home:not(.planning-active)) .sidebar .sidebar-foot span{color:#96938b}
+:where(.page-home:not(.planning-active)) .sidebar-close{color:#e7e6dd}
+:where(.page-home:not(.planning-active)) .page-head h1{font-weight:200;letter-spacing:.055em;line-height:1.12}
+:where(.page-home:not(.planning-active)) .page-head .eyebrow{font-weight:300;color:#aaa89f;font-size:11px;letter-spacing:.24em}
+:where(.page-home:not(.planning-active)) .page-head p{font-weight:300;color:#c2c0b8!important}
+:where(.page-home:not(.planning-active)) .panel h2{font-weight:300}
+:where(.page-home:not(.planning-active)) .panel p{color:#c8c6bd}
+:where(.page-home:not(.planning-active)) .field input,:where(.page-home:not(.planning-active)) .field select,:where(.page-home:not(.planning-active)) .guest-add input,:where(.page-home:not(.planning-active)) .guest-row input,:where(.page-home:not(.planning-active)) .guest-row select,:where(.page-home:not(.planning-active)) .seat select,:where(.page-home:not(.planning-active)) .missing-row select,:where(.page-home:not(.planning-active)) .panel textarea{color:#e7e6dd;-webkit-text-fill-color:#e7e6dd}
+:where(.page-home:not(.planning-active)) .field>span:first-child,:where(.page-home:not(.planning-active)) .dish-meta,:where(.page-home:not(.planning-active)) .heading-count,:where(.page-home:not(.planning-active)) .shop-item b,:where(.page-home:not(.planning-active)) .shop-group h3,:where(.page-home:not(.planning-active)) .timeline-row>span,:where(.page-home:not(.planning-active)) .input-kicker,:where(.page-home:not(.planning-active)) .text-link{color:#bbb8b0}
+:where(.page-home:not(.planning-active)) .workflow-rail-copy .eyebrow{color:#aaa89f}
+:where(.page-home:not(.planning-active)) .workflow-rail-actions button.primary{color:#e7e6dd}
+:where(.page-home:not(.planning-active)) .home-plan-index{color:#191817}
+:where(.page-home:not(.planning-active)) .home-plan-index :is(h2,p,.eyebrow,.workflow-step-copy b,.workflow-step-copy small,.workflow-step-number){color:#34322e}
+:where(.page-home:not(.planning-active)) .home-now :is(h2,p,.eyebrow),:where(.page-home:not(.planning-active)) .editorial-move :is(span,small,b,svg){color:#d7d6cf}
+:where(.page-home:not(.planning-active)) .home-continue{color:#191817}
+:where(.page-home:not(.planning-active)) .warning-summary,:where(.page-home:not(.planning-active)) .note-banner,:where(.page-home:not(.planning-active)) .alert{color:#e7e6dd}
+:where(.page-home:not(.planning-active)) .prep-start-card>span{color:#aaa89f}
+:where(.page-home:not(.planning-active)) .menu-intro .page-head h1{font-size:clamp(42px,5.2vw,66px)}
+:where(.page-home:not(.planning-active)) .menu-intro .page-head p{font-size:22px;letter-spacing:.025em}
+:where(.page-home:not(.planning-active)) .planning-tabs button{color:#aaa89f;letter-spacing:.24em;font-size:11px;font-weight:300}
+:where(.page-home:not(.planning-active)) .planning-tabs button.active{color:#e7e6dd}
+:where(.page-home:not(.planning-active)) .add-recipe-button{color:#d7d6cf;font-weight:300}
+:where(.page-home:not(.planning-active)) .reference-menu .menu-plan-board{color:#171615}
+:where(.page-home:not(.planning-active)) .reference-menu .plan-board-head h2{font-size:30px;letter-spacing:.09em;font-weight:300}
+:where(.page-home:not(.planning-active)) .headcount-link{font-size:11px;letter-spacing:.16em;color:#57554f;font-weight:300}
+:where(.page-home:not(.planning-active)) .reference-menu .plan-dish-name{text-transform:uppercase;font-size:22px;line-height:1.3;font-weight:300;letter-spacing:.015em}
+:where(.page-home:not(.planning-active)) .selected-dish-meta{font-size:11px;letter-spacing:.09em;color:#77746e;text-transform:uppercase}
+:where(.page-home:not(.planning-active)) .reference-menu .plan-dish-list .selected-recipe-link{color:#252420;font-size:11px;font-weight:300;letter-spacing:.06em}
+:where(.page-home:not(.planning-active)) .reference-menu .plan-dish-list .plan-remove{color:#5b5850}
+:where(.page-home:not(.planning-active)) .dish-assignment{font-size:10px;color:#64615a}
+:where(.page-home:not(.planning-active)) .dish-assignment summary{font-size:9px;letter-spacing:.12em}
+:where(.page-home:not(.planning-active)) .reference-menu .plan-dish-row select{color:#252420;-webkit-text-fill-color:#252420;font-size:11px}
+:where(.page-home:not(.planning-active)) .reference-menu .dish-controls label{font-size:12px}
+:where(.page-home:not(.planning-active)) .reference-menu .dish-controls small{font-size:11px;color:#77746e}
+:where(.page-home:not(.planning-active)) .selected-recipe-details h3{font-size:11px;letter-spacing:.13em;font-weight:400}
+:where(.page-home:not(.planning-active)) .selected-recipe-details p{font-size:14px;line-height:1.5;color:#45433d}
+:where(.page-home:not(.planning-active)) .selected-recipe-details a{color:#34322e;font-size:11px;letter-spacing:.09em}
+:where(.page-home:not(.planning-active)) .menu-connected-summary button{color:#252420}
+:where(.page-home:not(.planning-active)) .menu-connected-summary button span{font-size:14px;letter-spacing:.08em}
+:where(.page-home:not(.planning-active)) .menu-connected-summary button b{font-size:22px;font-weight:300;line-height:1.2}
+:where(.page-home:not(.planning-active)) .menu-connected-summary p{color:#77746e;font-size:11px;letter-spacing:.07em}
+:where(.page-home:not(.planning-active)) .menu-connected-summary>small{font-size:9px;letter-spacing:.18em;color:#77746e}
+:where(.page-home:not(.planning-active)) .reference-menu .plan-missing{color:#252420}
+:where(.page-home:not(.planning-active)) .reference-menu .plan-missing h2{font-size:19px}
+:where(.page-home:not(.planning-active)) .reference-menu .plan-missing .eyebrow,:where(.page-home:not(.planning-active)) .reference-menu .plan-missing .fine,:where(.page-home:not(.planning-active)) .reference-menu .fine{color:#64615a!important}
+:where(.page-home:not(.planning-active)) .reference-menu .plan-gap-row{font-size:13px}
+:where(.page-home:not(.planning-active)) .reference-menu .plan-gap-row span{color:#64615a}
+:where(.page-home:not(.planning-active)) .reference-menu .allergy-note{color:#64615a}
+:where(.page-home:not(.planning-active)) .reference-menu .dish-card.compact h2{font-size:23px;font-weight:300;text-transform:uppercase}
+:where(.page-home:not(.planning-active)) .reference-menu .recipe-badges>span{color:#aaa89f}
+:where(.page-home:not(.planning-active)) .recipe-source-link{color:#d7d6cf}
+:where(.page-home:not(.planning-active)) .filter-chip{color:#bbb8b0}
+:where(.page-home:not(.planning-active)) .filter-chip.active{color:#191817}
+@media (max-width:850px) {:where(.page-home:not(.planning-active)) .mobile-menu{color:#e7e6dd;font-size:11px}
+}
+@media (max-width:850px) {:where(.page-home:not(.planning-active)) .mode{font-size:7px}
+}
+@media (max-width:850px) {:where(.page-home:not(.planning-active)) .menu-intro .page-head h1{font-size:clamp(36px,6vw,54px)}
+}
+@media (max-width:850px) {:where(.page-home:not(.planning-active)) .menu-intro .page-head p{font-size:20px}
+}
+@media (max-width:850px) {:where(.page-home:not(.planning-active)) .planning-tabs button{font-size:10px}
+}
+@media (max-width:850px) {:where(.page-home:not(.planning-active)) .reference-menu .plan-dish-name{font-size:19px}
+}
+@media (max-width:850px) {:where(.page-home:not(.planning-active)) .selected-dish-meta{font-size:10px}
+}
+@media (max-width:850px) {:where(.page-home:not(.planning-active)) .reference-menu .plan-dish-list .selected-recipe-link{font-size:10px}
+}
+@media (max-width:850px) {:where(.page-home:not(.planning-active)) .menu-connected-summary button b{font-size:21px}
+}
+@media (max-width:560px) {:where(.page-home:not(.planning-active)) .mobile-menu{font-size:10px}
+}
+@media (max-width:560px) {:where(.page-home:not(.planning-active)) .header-monogram{font-size:18px}
+}
+@media (max-width:560px) {:where(.page-home:not(.planning-active)) .mode{font-size:6px}
+}
+@media (max-width:560px) {:where(.page-home:not(.planning-active)) .menu-intro .page-head .eyebrow{font-size:9px}
+}
+@media (max-width:560px) {:where(.page-home:not(.planning-active)) .menu-intro .page-head h1{font-size:38px;letter-spacing:.06em}
+}
+@media (max-width:560px) {:where(.page-home:not(.planning-active)) .menu-intro .page-head p{font-size:18px}
+}
+@media (max-width:560px) {:where(.page-home:not(.planning-active)) .reference-menu .plan-board-head h2{font-size:25px}
+}
+@media (max-width:560px) {:where(.page-home:not(.planning-active)) .headcount-link{font-size:9px}
+}
+@media (max-width:560px) {:where(.page-home:not(.planning-active)) .reference-menu .plan-dish-name{font-size:16px;line-height:1.25}
+}
+@media (max-width:560px) {:where(.page-home:not(.planning-active)) .selected-dish-meta{font-size:9px}
+}
+@media (max-width:560px) {:where(.page-home:not(.planning-active)) .reference-menu .plan-dish-list .selected-recipe-link{font-size:9px}
+}
+@media (max-width:560px) {:where(.page-home:not(.planning-active)) .dish-assignment summary{font-size:8px}
+}
+@media (max-width:560px) {:where(.page-home:not(.planning-active)) .menu-connected-summary button span{font-size:11px}
+}
+@media (max-width:560px) {:where(.page-home:not(.planning-active)) .menu-connected-summary button b{font-size:19px}
+}
+@media (max-width:560px) {:where(.page-home:not(.planning-active)) .menu-connected-summary p{font-size:9px}
+}
+@media (max-width:560px) {:where(.page-home:not(.planning-active)) .reference-menu .dish-card.compact h2{font-size:18px}
+}
+@media (max-width:560px) {:where(.page-home:not(.planning-active)) .reference-menu .dish-meta{font-size:10px}
+}
+@media (max-width:560px) {:where(.page-home:not(.planning-active)) .page-head h1{font-size:38px}
+}
+:where(.page-home:not(.planning-active)) .hosting-title{color:#f1f1f1}
+:where(.page-home:not(.planning-active)) .hosting-title .eyebrow{font-size:10px;letter-spacing:.28em;font-weight:300;color:#d6d6d3}
+:where(.page-home:not(.planning-active)) .hosting-title h1{font-family: var(--font-display);font-weight:200;font-size:clamp(44px,7.8vw,118px);letter-spacing:.045em;line-height:1.1}
+:where(.page-home:not(.planning-active)) .hosting-counts{font-size:11px;letter-spacing:.17em;font-weight:300}
+:where(.page-home:not(.planning-active)) .hosting-counts span{color:#a39b91}
+:where(.page-home:not(.planning-active)) .hosting-navigation button{color:#f1f1f1}
+:where(.page-home:not(.planning-active)) .hosting-navigation small{font-size:9px;letter-spacing:.18em;font-weight:300;color:#cdcac6}
+:where(.page-home:not(.planning-active)) .hosting-navigation span{font-size:20px;letter-spacing:.13em;font-weight:300}
+:where(.page-home:not(.planning-active)) .hosting-footer{font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:#d6d6d3}
+:where(.page-home:not(.planning-active)) .sidebar .brand{font-size:22px;font-weight:200;letter-spacing:.3em}
+:where(.page-home:not(.planning-active)) .sidebar .primary-nav{font-size:15px;letter-spacing:.18em}
+:where(.page-home:not(.planning-active)) .sidebar .drawer-subnav button{font-size:12px;letter-spacing:.03em;text-transform:none}
+:where(.page-home:not(.planning-active)) .sidebar-foot{font-size:9px}
+:where(.page-home:not(.planning-active)) .destination-tabs button{color:#a39b91;font-size:11px;letter-spacing:.19em;font-weight:300}
+:where(.page-home:not(.planning-active)) .destination-tabs button.active{color:#f1f1f1}
+:where(.page-home:not(.planning-active)) .module-tabs button{color:#a39b91;font-size:12px;font-weight:300}
+:where(.page-home:not(.planning-active)) .module-tabs button.active{color:#f1f1f1}
+:where(.page-home:not(.planning-active)) .topbar .mode{color:#cdcac6}
+:where(.page-home:not(.planning-active)) .topbar .header-monogram{color:#f1f1f1}
+@media (max-width:850px) {:where(.page-home:not(.planning-active)) .hosting-title h1{font-size:clamp(38px,8vw,65px);letter-spacing:.02em}
+}
+@media (max-width:850px) {:where(.page-home:not(.planning-active)) .hosting-navigation span{font-size:16px;letter-spacing:.09em}
+}
+@media (max-width:560px) {:where(.page-home:not(.planning-active)) .hosting-title h1{font-size:clamp(31px,8.2vw,46px);letter-spacing:.01em}
+}
+@media (max-width:560px) {:where(.page-home:not(.planning-active)) .hosting-title .eyebrow{font-size:8px}
+}
+@media (max-width:560px) {:where(.page-home:not(.planning-active)) .hosting-counts{font-size:8px;letter-spacing:.08em}
+}
+@media (max-width:560px) {:where(.page-home:not(.planning-active)) .hosting-navigation span{font-size:11px;letter-spacing:.08em}
+}
+@media (max-width:560px) {:where(.page-home:not(.planning-active)) .hosting-navigation small{font-size:8px}
+}
+@media (max-width:560px) {:where(.page-home:not(.planning-active)) .hosting-footer{font-size:8px;letter-spacing:.08em}
+}
+@media (max-width:560px) {:where(.page-home:not(.planning-active)) .destination-tabs button{font-size:9px;letter-spacing:.1em}
+}
+@media (max-width:560px) {:where(.page-home:not(.planning-active)) .module-tabs button{font-size:11px}
+}
+:where(.page-home:not(.planning-active)) .recipe-sheet.glass-light{color:#292725!important}
+:where(.page-home:not(.planning-active)) .recipe-sheet.glass-light :is(h2,h3,p,b,span,small,a,button){color:#393630!important;-webkit-text-fill-color:currentColor}
+:where(.page-home:not(.planning-active)) .working-shortcuts button{color:#f1f1f1;font-size:10px;letter-spacing:.12em;font-weight:300}
+:where(.page-home:not(.planning-active)) .working-shortcuts span{color:#a39b91;font-size:8px}
+:where(.page-home:not(.planning-active)) .menu-view-switch button{color:#cdcac6;font-size:11px;letter-spacing:.1em;font-weight:300}
+:where(.page-home:not(.planning-active)) .menu-view-switch button[aria-pressed=true]{color:#292725}
+:where(.page-home:not(.planning-active)) .library-heading h2{font-size:32px;font-weight:200;letter-spacing:.04em}
+:where(.page-home:not(.planning-active)) .library-heading p{font-size:13px;line-height:1.6;color:#d6d6d3}
+:where(.page-home:not(.planning-active)) .dish-plan-status,:where(.page-home:not(.planning-active)) .recipe-completeness{font-size:9px;letter-spacing:.07em;line-height:1.5}
+:where(.page-home:not(.planning-active)) .recipe-completeness{color:#a39b91;font-size:8px}
+:where(.page-home:not(.planning-active)) .recipe-reader-header{font-size:10px;letter-spacing:.13em}
+:where(.page-home:not(.planning-active)) .recipe-reader-intro h2{font-size:clamp(30px,3.5vw,47px);font-weight:200;line-height:1.1;letter-spacing:.025em}
+:where(.page-home:not(.planning-active)) .recipe-reader-intro p{font-size:13px;line-height:1.6}
+:where(.page-home:not(.planning-active)) .recipe-plan-action{letter-spacing:.12em;font-size:10px}
+:where(.page-home:not(.planning-active)) .recipe-reader-columns h3{font-size:12px;letter-spacing:.15em;font-weight:400}
+:where(.page-home:not(.planning-active)) .recipe-reader-columns p{font-size:15px;line-height:1.75}
+:where(.page-home:not(.planning-active)) .recipe-scale-note{font-size:12px!important}
+:where(.page-home:not(.planning-active)) .reader-ingredients li{font-size:15px;line-height:1.5}
+:where(.page-home:not(.planning-active)) .reader-ingredients b{font-weight:400}
+:where(.page-home:not(.planning-active)) .reader-method{line-height:1.8;font-size:16px}
+:where(.page-home:not(.planning-active)) .recipe-source-note a{font-size:11px;letter-spacing:.1em}
+:where(.page-home:not(.planning-active)) .recipe-source-note button{font-size:10px;letter-spacing:.06em}
+:where(.page-home:not(.planning-active)) .guest-core>input{font-size:20px;font-weight:300}
+:where(.page-home:not(.planning-active)) .guest-core>select{font-size:12px}
+:where(.page-home:not(.planning-active)) .guest-core>span{font-size:10px;color:#706457!important}
+:where(.page-home:not(.planning-active)) .guest-details-label{letter-spacing:.1em}
+:where(.page-home:not(.planning-active)) .guest-contribution h3{font-size:17px;font-weight:300}
+:where(.page-home:not(.planning-active)) .guest-contribution>select{font-size:13px}
+:where(.page-home:not(.planning-active)) .dietary-picker>summary{font-size:12px}
+:where(.page-home:not(.planning-active)) .guest-remove{font-size:9px;letter-spacing:.13em}
+:where(.page-home:not(.planning-active)) .activity-plan-row{font-size:16px}
+:where(.page-home:not(.planning-active)) .activity-plan-row button{font-size:9px;letter-spacing:.1em}
+:where(.page-home:not(.planning-active)) .sidebar .drawer-subnav button{font-size:11px}
+@media (max-width:560px) {:where(.page-home:not(.planning-active)) .working-shortcuts button{font-size:8px;letter-spacing:.09em}
+}
+@media (max-width:560px) {:where(.page-home:not(.planning-active)) .menu-view-switch button{font-size:9px;letter-spacing:.04em}
+}
+@media (max-width:560px) {:where(.page-home:not(.planning-active)) .dish-plan-status{font-size:8px}
+}
+@media (max-width:560px) {:where(.page-home:not(.planning-active)) .guest-core>input{font-size:18px}
+}
+@media (max-width:560px) {:where(.page-home:not(.planning-active)) .guest-core>select{font-size:12px}
+}
+@media (max-width:560px) {:where(.page-home:not(.planning-active)) .guest-details-label{font-size:8px!important}
+}
+@media (max-width:560px) {:where(.page-home:not(.planning-active)) .recipe-reader-header{font-size:8px}
+}
+@media (max-width:560px) {:where(.page-home:not(.planning-active)) .recipe-reader-intro h2{font-size:27px}
+}
+@media (max-width:560px) {:where(.page-home:not(.planning-active)) .recipe-reader-intro p{font-size:11px}
+}
+@media (max-width:560px) {:where(.page-home:not(.planning-active)) .recipe-reader-intro .eyebrow{font-size:8px}
+}
+@media (max-width:560px) {:where(.page-home:not(.planning-active)) .recipe-plan-action{font-size:9px}
+}
+@media (max-width:560px) {:where(.page-home:not(.planning-active)) .reader-ingredients li{font-size:14px}
+}
+@media (max-width:560px) {:where(.page-home:not(.planning-active)) .reader-method{font-size:15px}
+}
+@media (max-width:560px) {:where(.page-home:not(.planning-active)) .recipe-reader-columns p{font-size:14px}
+}
+@media (max-width:560px) {:where(.page-home:not(.planning-active)) .sidebar .drawer-subnav button{font-size:10px}
+}
+@media (max-width:560px) {:where(.page-home:not(.planning-active)) .sidebar .primary-nav{font-size:13px}
+}
+:where(.page-home:not(.planning-active)) .plan-tool-links b{font-size:19px;font-weight:300}
+:where(.page-home:not(.planning-active)) .plan-tool-links span{font-size:12px}
+@media (max-width:700px) {:where(.page-home:not(.planning-active)) .plan-tool-links b{font-size:17px}
+}
+:where(.page-home:not(.planning-active)) .ingredient-editor h3{font-size:17px;font-weight:300}
+@media (max-width:650px) {:where(.page-home:not(.planning-active)) .ingredient-editor-row .field input,:where(.page-home:not(.planning-active)) .ingredient-editor-row .field select{font-size:14px!important}
+}
+@media (max-width:650px) {:where(.page-home:not(.planning-active)) .ingredient-editor-row .field span{font-size:8px}
+}
+:where(.page-home:not(.planning-active)) .recipe-edit-action{letter-spacing:.08em;font-size:9px}
+:where(.page-home:not(.planning-active)) .source-recipe-row h3{font-size:19px;font-weight:300}
+:where(.page-home:not(.planning-active)) .source-recipe-row p{font-size:13px!important}
+:where(.page-home:not(.planning-active)) .source-recipe-row a{font-size:10px;letter-spacing:.07em}
+:where(.page-home:not(.planning-active)) .source-recipe-row button,:where(.page-home:not(.planning-active)) .equipment-guide-row>button{font-size:9px;letter-spacing:.08em}
+:where(.page-home:not(.planning-active)) .station-guide-list h3,:where(.page-home:not(.planning-active)) .advance-guide h3{font-weight:300;font-size:19px}
+:where(.page-home:not(.planning-active)) .staging-sheet>div{font-size:13px}
+:where(.page-home:not(.planning-active)) .staging-sheet b{font-size:18px;font-weight:300}
+:where(.page-home:not(.planning-active)) .staging-sheet a{font-size:10px;letter-spacing:.08em}
+:where(.page-home:not(.planning-active)) .guide-source-links a{font-size:12px}
+:where(.page-home:not(.planning-active)) .guest-journey{font-size:15px;line-height:1.5}
+@media (max-width:560px) {:where(.page-home:not(.planning-active)) .equipment-guide-row button{font-size:8px}
+}
+:where(.page-home:not(.planning-active)) .workspace-location{font-size:9px;letter-spacing:.09em;color:#a39b91}
+:where(.page-home:not(.planning-active)) .workspace-location button{font-size:9px;letter-spacing:.09em;color:#cdcac6}
+:where(.page-home:not(.planning-active)) .workspace-location strong{color:#f1f1f1;font-weight:300}
+@media (max-width:560px) {:where(.page-home:not(.planning-active)) .workspace-location{font-size:8px}
+}
+@media (max-width:560px) {:where(.page-home:not(.planning-active)) .workspace-location button{font-size:8px}
+}
+:where(.page-home:not(.planning-active)) .guide-recipe-card h3{font-size:23px;font-weight:300}
+:where(.page-home:not(.planning-active)) .guide-recipe-card p,:where(.page-home:not(.planning-active)) .guide-recipe-card>span{font-size:13px;line-height:1.6}
+:where(.page-home:not(.planning-active)) .guide-recipe-card button{font-size:12px;font-weight:300}
+:where(.page-home:not(.planning-active)) .recipe-integrity-notice{color:#252320;font-size:14px;line-height:1.6}
+:where(.page-home:not(.planning-active)) .recipe-integrity-notice b{font-weight:300}
+:where(.page-home:not(.planning-active)) .recipe-integrity-notice button{color:#252320;font-weight:300}
+:where(.page-home:not(.planning-active)) .recipe-sheet :is(p,li){color:#393630;font-weight:300}
+:where(.page-home:not(.planning-active)) .recipe-sheet button{font-size:13px;font-weight:300}
+:where(.page-home:not(.planning-active)) .recipe-sheet .fine{color:#45413d!important}
+:where(.page-home:not(.planning-active)) .recipe-batch-field{font-size:14px;line-height:1.5}
+:where(.page-home:not(.planning-active)) .guided-step-label{font-size:12px;letter-spacing:.09em;font-weight:300}
+:where(.page-home:not(.planning-active)) .guided-step-copy p{font-size:14px;line-height:1.6;color:#d6d6d3}
+:where(.page-home:not(.planning-active)) .guided-step-copy small{font-size:12px;color:#a39b91}
+:where(.page-home:not(.planning-active)) .guided-next{color:#f1f1f1;font-size:14px;font-weight:300}
+:where(.page-home:not(.planning-active)) .drawer-heading{font-size:10px;letter-spacing:.15em;color:#a39b91}
+:where(.page-home:not(.planning-active)) .sidebar .drawer-subnav button{font-size:16px}
+:where(.page-home:not(.planning-active)) .sidebar .drawer-subnav .nav-index{font-size:11px;color:#a39b91}
+@media (max-width:650px) {:where(.page-home:not(.planning-active)) .guided-step-copy p{font-size:14px}
+}
+:where(.page-home:not(.planning-active)) .guided-step-label{letter-spacing:.15em;font-weight:300;font-size:11px}
+:where(.page-home:not(.planning-active)) .guest-count-line{letter-spacing:.04em}
+:where(.page-home:not(.planning-active)) .guest-list-heading h2{font-size:28px;font-weight:200}
+:where(.page-home:not(.planning-active)) .guest-list-heading>span{font-size:12px;letter-spacing:.08em}
+:where(.page-home:not(.planning-active)) .guest-identity small{font-size:12px;line-height:1.5;color:#5a534c!important}
+:where(.page-home:not(.planning-active)) .guest-rsvp>span{font-size:10px;letter-spacing:.15em}
+:where(.page-home:not(.planning-active)) .guest-profile>h3{font-size:22px;font-weight:200}
+:where(.page-home:not(.planning-active)) .guest-profile .field>span{letter-spacing:.02em!important;font-size:13px!important}
+:where(.page-home:not(.planning-active)) .guest-headcount-settings>summary{font-size:14px!important;line-height:1.5}
+:where(.page-home:not(.planning-active)) .guest-headcount-settings>summary span{font-size:12px;color:#cdcac6}
+:where(.page-home:not(.planning-active)) .guest-headcount-settings>p{line-height:1.6}
+:where(.page-home:not(.planning-active)) .guest-headcount-settings .planning-source-note span{font-size:13px}
+@media (max-width:650px) {:where(.page-home:not(.planning-active)) .guest-count-line{font-size:12px}
+}
+@media (max-width:650px) {:where(.page-home:not(.planning-active)) .guest-list-heading h2{font-size:26px}
+}
+:where(.page-home:not(.planning-active)) .recipe-reader-header{font-size:11px;letter-spacing:.1em}
+:where(.page-home:not(.planning-active)) .recipe-reader-intro h2{font-size:30px;line-height:1.2}
+:where(.page-home:not(.planning-active)) .recipe-facts dt{font-family:var(--font-body);font-size:11px;color:#585653}
+:where(.page-home:not(.planning-active)) .recipe-facts dd{font-family:var(--font-body);font-size:16px;font-weight:400}
+:where(.page-home:not(.planning-active)) .recipe-reader-actions button{font-size:11px;letter-spacing:.08em}
+:where(.page-home:not(.planning-active)) .recipe-reader-actions .recipe-plan-action{color:#f4f2ed!important}
+:where(.page-home:not(.planning-active)) .recipe-section-heading>span{font-size:10px;color:#686560!important;letter-spacing:.1em}
+:where(.page-home:not(.planning-active)) .recipe-sheet .recipe-section-heading h3{font-family:var(--font-display);font-weight:300;font-size:18px;letter-spacing:.02em;text-transform:none}
+:where(.page-home:not(.planning-active)) .recipe-sheet .recipe-scale-note{font-size:12px!important;line-height:1.6}
+:where(.page-home:not(.planning-active)) .reader-ingredients li{font-size:14px;line-height:1.6}
+:where(.page-home:not(.planning-active)) .reader-ingredients b{font-weight:400}
+:where(.page-home:not(.planning-active)) .recipe-sheet .recipe-incomplete-note{font-size:13px;line-height:1.6}
+:where(.page-home:not(.planning-active)) .recipe-scaling-details summary{font-size:12px}
+:where(.page-home:not(.planning-active)) .recipe-sheet .recipe-scaling-details p{font-size:12px;line-height:1.6}
+:where(.page-home:not(.planning-active)) .reader-method{font-size:15px;line-height:1.8}
+:where(.page-home:not(.planning-active)) .reader-method li::before{font-size:11px;line-height:2.5;color:#686560}
+:where(.page-home:not(.planning-active)) .recipe-finishing-notes p{font-size:14px;line-height:1.75}
+:where(.page-home:not(.planning-active)) .recipe-vessel{font-size:12px!important}
+:where(.page-home:not(.planning-active)) .recipe-reader-footer a{font-size:11px;letter-spacing:.08em;color:#393630}
+@media (max-width:650px) {:where(.page-home:not(.planning-active)) .recipe-reader-header{font-size:10px}
+}
+@media (max-width:650px) {:where(.page-home:not(.planning-active)) .recipe-reader-intro h2{font-size:26px}
+}
+@media (max-width:650px) {:where(.page-home:not(.planning-active)) .reader-method li{font-size:14px}
+}
+:where(.page-home:not(.planning-active)) .shopping-category-heading>span{font-size:11px}
+:where(.page-home:not(.planning-active)) .shopping-workspace .shop-item-name{font-size:15px;line-height:1.5}
+:where(.page-home:not(.planning-active)) .shopping-workspace .shop-item-name small{font-size:11px;letter-spacing:0;color:#68645e!important}
+:where(.page-home:not(.planning-active)) .shopping-row-quantity{font-size:15px;line-height:1.5}
+:where(.page-home:not(.planning-active)) .shopping-row-quantity small{font-size:12px}
+:where(.page-home:not(.planning-active)) .shopping-item-details>summary{font-size:11px;line-height:1.5;color:#57534e!important}
+:where(.page-home:not(.planning-active)) .shopping-quantity-edit{font-size:12px}
+:where(.page-home:not(.planning-active)) .shopping-workspace .shop-item.completed .check-circle{color:#f4f2ed!important}
+@media (max-width:800px) {:where(.page-home:not(.planning-active)) .shopping-row-quantity{font-size:14px}
+}
+@media (max-width:800px) {:where(.page-home:not(.planning-active)) .shopping-workspace .shop-item-name{font-size:14px}
+}
+@media (max-width:800px) {:where(.page-home:not(.planning-active)) .shopping-category-heading>span{font-size:10px}
+}
+:where(.page-home:not(.planning-active)) .shopping-list-toolbar p{font-size:17px;line-height:1.5}
+:where(.page-home:not(.planning-active)) .shopping-list-toolbar p b{font-family:var(--font-display);font-weight:300;font-size:21px}
+:where(.page-home:not(.planning-active)) .shopping-list-toolbar p span{font-size:13px;color:#c8c5bf}
+:where(.page-home:not(.planning-active)) .shopping-list-filters button{color:#dedbd5;font-size:12px}
+:where(.page-home:not(.planning-active)) .shopping-list-filters button[aria-pressed=true]{color:#292725}
+:where(.page-home:not(.planning-active)) .shopping-column-head{font-size:9px;letter-spacing:.12em}
+:where(.page-home:not(.planning-active)) .shopping-workspace .shop-item-name{font-size:15px;line-height:1.5}
+:where(.page-home:not(.planning-active)) .shopping-row-quantity{font-size:15px;color:#292725!important}
+:where(.page-home:not(.planning-active)) .shopping-row-quantity small{font-size:13px}
+:where(.page-home:not(.planning-active)) .shopping-item-origin{font-size:12px!important;line-height:1.5}
+:where(.page-home:not(.planning-active)) .shopping-support summary{font-family:var(--font-display);font-size:16px;line-height:1.5}
+:where(.page-home:not(.planning-active)) .shopping-support summary span{font-size:12px}
+:where(.page-home:not(.planning-active)) .shopping-empty{font-size:15px;line-height:1.7}
+:where(.page-home:not(.planning-active)) .shopping-support-row>summary{font-size:16px;line-height:1.5}
+@media (max-width:650px) {:where(.page-home:not(.planning-active)) .shopping-workspace .shop-item-name{font-size:14px}
+}
+@media (max-width:650px) {:where(.page-home:not(.planning-active)) .shopping-row-quantity{font-size:14px}
+}
+@media (max-width:650px) {:where(.page-home:not(.planning-active)) .shopping-row-quantity small{font-size:12px}
+}
+@media (max-width:650px) {:where(.page-home:not(.planning-active)) .shopping-column-head{font-size:8px;letter-spacing:.07em}
+}
+body :where(.page-home:not(.planning-active)) :is(p,li,label,small,span,summary,input,select,textarea,button,b,strong){font-family:var(--font-body)}
+body :where(.page-home:not(.planning-active)) :is(h1,h2,h3,h4),body :where(.page-home:not(.planning-active)) :is(.brand,.hosting-title h1,.hero-copy h1,.plan-dish-name,.dish-name){font-family:var(--font-display)}
+body :where(.page-home:not(.planning-active)) :is(p,li,input,select,textarea){font-weight:400}
+body :where(.page-home:not(.planning-active)) :is(button,label,summary){font-weight:400}
+body :where(.page-home:not(.planning-active)) :is(h1,h2){font-weight:200}
+body :where(.page-home:not(.planning-active)) :is(h3,h4){font-weight:300}
+body :where(.page-home:not(.planning-active)) :is(.eyebrow,.input-kicker,.nav-phase){font-family:var(--font-display);font-weight:400}
+body :where(.page-home:not(.planning-active)) :is(.stat-row b,.budget-head b,.shopping-summary-strip b,.chair-logic b,.home-status-strip b){font-family:var(--font-display)}
+
+/* Sole owner of planning-screen typography and text colors. Home is scoped above. */
+.planning-active{
+ --text-primary:#f1f1f1;--text-muted:#cdcac6;--text-on-fill:#1d1b1b;
+ --type-title:30px;--type-heading:18px;--type-subheading:14px;--type-body:13px;--type-label:11px;
+ color:var(--text-primary);font-family:var(--font-body);font-size:var(--type-body);font-weight:400;line-height:1.6;letter-spacing:0;
+}
+.planning-active :where(*){font-family:inherit;font-size:inherit;font-weight:inherit;font-style:normal;line-height:inherit;letter-spacing:inherit;color:inherit;-webkit-text-fill-color:currentColor}
+.planning-active :is(.glass-light,.paper,.recipe-integrity-notice,.guide-recipe-card){--text-primary:#292725;--text-muted:#595650;--text-on-fill:#f1f1f1;color:var(--text-primary)}
+.planning-active :is(h1,.recipe-reader-intro h2){font-family:var(--font-display);font-size:var(--type-title);font-weight:200;line-height:1.2;letter-spacing:.01em;color:var(--text-primary)}
+.planning-active h2{font-family:var(--font-display);font-size:var(--type-heading);font-weight:200;line-height:1.35;letter-spacing:.025em;color:var(--text-primary)}
+.planning-active :is(h3,h4,.panel>summary,.shopping-support summary,.shopping-support-row>summary){font-family:var(--font-display);font-size:var(--type-subheading);font-weight:300;line-height:1.45;letter-spacing:.02em;color:var(--text-primary)}
+.planning-active :is(p,li,.check-row,.shop-item-name,.timeline-row,.budget-line,.summary-line,.guest-contribution){font-family:var(--font-body);font-size:var(--type-body);font-weight:400;line-height:1.6;color:var(--text-primary)}
+.planning-active :is(.plan-dish-name,.dish-name){font-family:var(--font-display);font-size:var(--type-subheading);font-weight:200;line-height:1.45;letter-spacing:.015em}
+.planning-active :is(.guest-identity input,.staging-sheet b){font-family:var(--font-display);font-size:var(--type-subheading);font-weight:300;line-height:1.45;letter-spacing:.015em}
+.planning-active :is(small,.fine,.eyebrow,.input-kicker,.field>span:first-child,.dish-meta,.selected-dish-meta,.selected-dish-source,.recipe-completeness,.dish-plan-status,.recipe-scale-note,.recipe-facts dt,.recipe-reader-header,.recipe-section-heading>span,.recipe-vessel,.recipe-scaling-details p,.shopping-item-origin,.shopping-category-heading>span,.shopping-column-head,.shopping-quantity-warning,.guided-step-label,.guided-step-copy small){font-family:var(--font-body);font-size:var(--type-label);font-weight:300;line-height:1.5;color:var(--text-muted);opacity:1}
+.planning-active :is(.eyebrow,.input-kicker){font-family:var(--font-display);font-weight:400}
+.planning-active :is(.eyebrow,.input-kicker,.guided-step-label,.shopping-column-head){letter-spacing:.1em}
+.planning-active :is(button,a,summary){font-family:var(--font-body);font-size:var(--type-label);font-weight:400;line-height:1.5;letter-spacing:.04em;color:var(--text-primary)}
+.planning-active :is(.panel>summary,.shopping-support summary,.shopping-support-row>summary){font-family:var(--font-display);font-size:var(--type-subheading);letter-spacing:.02em}
+.planning-active :is(input,select,textarea){font-family:var(--font-body);font-size:var(--type-body);font-weight:400;line-height:1.4;color:var(--text-primary);caret-color:var(--text-primary)}
+.planning-active :is(input,textarea)::placeholder{color:var(--text-muted);-webkit-text-fill-color:currentColor;opacity:1}
+.planning-active :is(.stat-row b,.budget-head b,.shopping-summary-strip b,.chair-logic b,.shopping-list-toolbar p b){font-family:var(--font-display);font-size:21px;font-weight:200;line-height:1.25;letter-spacing:0}
+.planning-active :is(.shopping-row-quantity,.reader-ingredients b,.recipe-facts dd,.qty-stepper b){font-family:var(--font-body);font-size:var(--type-body);font-weight:400;font-variant-numeric:tabular-nums;line-height:1.5;color:var(--text-primary)}
+.planning-active .recipe-source-label{font-size:var(--type-label);color:var(--text-muted)}
+.planning-active .reference-menu .dish-assignment-fields label{font-family:var(--font-body);font-size:var(--type-label);font-weight:400;color:var(--text-muted)}
+.planning-active .recipe-section-heading h3{font-size:var(--type-heading)}
+.planning-active .reader-method li{line-height:1.8}
+.planning-active .reader-method li::before{font-family:var(--font-body);font-size:var(--type-label);line-height:2.3;color:var(--text-muted)}
+.planning-active :is(.add-dish-action,.save-recipe-button,.mini-toggle,.recipe-reader-actions .recipe-plan-action){background:var(--text-primary);color:var(--text-on-fill)}
+.planning-active :is(.filter-chip.active,.shopping-list-filters button[aria-pressed=true]){background:var(--text-primary);color:var(--text-on-fill)}
+.planning-active .shop-item.completed .check-circle{background:var(--text-primary);color:var(--text-on-fill)}
+.planning-active :is(.recipe-section-heading>span,.shopping-support summary span){font-size:var(--type-label);color:var(--text-muted)}
+.planning-active .topbar .mode.active{background:var(--text-primary);color:var(--text-on-fill)}
+.planning-active .sidebar{font-family:var(--font-body);font-size:var(--type-label);color:var(--text-primary)}
+.planning-active .sidebar .brand{font-family:var(--font-display);font-size:18px;font-weight:200;letter-spacing:.2em}
+.planning-active .sidebar .drawer-heading{font-size:var(--type-label);color:var(--text-muted);letter-spacing:.1em}
+.planning-active .sidebar nav button{font-size:var(--type-body);font-weight:400;letter-spacing:.025em}
+.planning-active .sidebar .nav-index{font-size:var(--type-label);color:var(--text-muted)}
+.planning-active :is(button:disabled,input:disabled,select:disabled){opacity:.5}
+@media(max-width:767px){.planning-active{--type-title:26px;--type-heading:17px}.planning-active :is(input,select,textarea){font-size:16px}.planning-active .topbar .mode{font-size:10px}}

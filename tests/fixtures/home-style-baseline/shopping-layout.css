@@ -1,0 +1,62 @@
+.planning-active .shopping-workspace .shopping-summary-strip{margin-bottom:28px;border-radius:12px;overflow:hidden}
+.planning-active .shopping-workspace .shopping-summary-strip>div{padding:18px 20px;gap:8px}
+.planning-active .shopping-workspace .shopping-summary-strip span{opacity:1}
+.planning-active .shopping-workspace .shopping-layout{grid-template-columns:minmax(0,1.7fr) minmax(260px,1fr);gap:28px}
+.planning-active .shopping-workspace .shopping-list-panel{padding:28px}
+.shopping-category-heading{display:flex;align-items:baseline;justify-content:space-between;gap:16px;padding:24px 0 12px;border-bottom:1px solid #b6b3ad}
+.planning-active .shopping-workspace .shopping-category-heading h3{margin:0}
+.shopping-category-heading>span{white-space:nowrap}
+.planning-active .shopping-workspace .shop-group{margin:0 0 12px}
+.planning-active .shopping-workspace .shop-item-smart{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:8px 14px;align-items:start;padding:18px 0;border-bottom:1px solid #ccc9c3}
+.planning-active .shopping-workspace .check-circle{width:24px;height:24px;margin-top:1px;background:transparent;border:1px solid #77736d}
+.shopping-workspace .shop-item-name{gap:5px}
+.shopping-workspace .shop-item-name small{opacity:1}
+.shopping-row-quantity{text-align:right;max-width:130px}
+.shopping-item-details{grid-column:2/-1;min-width:0}
+.shopping-item-details>summary{padding:4px 0;cursor:pointer;min-height:28px}
+.shopping-item-editor{margin-top:12px;padding:18px;background:rgba(255,255,255,.38);border:1px solid #c8c5be;border-radius:8px;display:grid;gap:16px}
+.shopping-quantity-edit{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.planning-active .shopping-workspace .qty-stepper{grid-column:auto;display:flex;align-items:center;gap:12px;border:1px solid #aaa69e;border-radius:6px;overflow:hidden}
+.planning-active .shopping-workspace .qty-stepper button{width:40px;min-height:40px;background:transparent;border:0}
+.planning-active .shopping-workspace .qty-stepper b{min-width:62px;text-align:center}
+.planning-active .shopping-workspace .shopping-controls{display:grid;grid-template-columns:1fr;gap:14px;grid-column:auto;min-width:0}
+.shopping-controls label{justify-content:space-between;gap:12px}
+.planning-active .shopping-workspace .shopping-controls input{width:110px}
+.planning-active .shopping-workspace .shopping-controls select{width:100%;max-width:none;min-height:44px;border-radius:6px}
+.planning-active .shopping-workspace :is(.shopping-controls button,.qty-reset,.manual-remove){position:static;min-height:40px;justify-self:start;padding:10px 12px;border:1px solid #aaa69e;border-radius:6px;background:transparent}
+.planning-active .shopping-workspace .shopping-quantity-warning{grid-column:2/-1}
+.shopping-workspace .shop-item.completed{opacity:1}.shopping-workspace .shop-item.completed .shop-item-name{opacity:.6}.shopping-workspace .shop-item.completed .shop-item-name small{text-decoration:none}.shopping-workspace .shop-item.completed .check-circle{background:#292725}
+.shopping-workspace .custom-shopping-panel .field{margin-top:18px}.shopping-workspace .custom-shopping-panel .save-recipe-button{width:100%;margin-top:20px;min-height:44px}
+@media(max-width:800px){.planning-active .shopping-workspace .shopping-layout{grid-template-columns:1fr}.planning-active .shopping-workspace .shopping-list-panel{padding:22px 18px}.planning-active .shopping-workspace .shopping-summary-strip{grid-template-columns:repeat(2,minmax(0,1fr))}.planning-active .shopping-workspace .shopping-summary-strip>div{padding:16px}.planning-active .shopping-workspace .shop-item-smart{grid-template-columns:24px minmax(0,1fr) auto;gap:8px 10px}.shopping-row-quantity{max-width:100px}.shopping-item-editor{padding:14px}}
+@media print{.shopping-item-details,.shopping-quantity-warning{display:none}.planning-active .shopping-workspace .shopping-layout{display:block}.shopping-workspace .shopping-layout>div:last-child{display:none}}
+/* A single reading surface, with supporting tools below the list. */
+.shopping-list-toolbar{display:flex;justify-content:space-between;align-items:end;gap:24px;margin:0 0 24px}
+.shopping-list-toolbar p{margin:10px 0 0}
+.shopping-list-filters{display:flex;gap:4px;padding:4px;border:1px solid #706b64;border-radius:8px;background:rgba(29,27,27,.4)}
+.shopping-list-filters button{min-height:40px;padding:10px 16px;border:0;border-radius:5px;background:transparent}
+.shopping-list-filters button[aria-pressed=true]{background:#eeede9}
+.planning-active .shopping-workspace .shopping-layout{display:block}
+.planning-active .shopping-workspace .shopping-list-panel{padding:24px 32px 32px;border-radius:14px}
+.shopping-column-head{display:flex;justify-content:space-between;padding:6px 0 16px;border-bottom:1px solid #b6b3ad}
+.shopping-category-heading{padding:30px 0 12px;border-bottom:1px solid #aaa69e}
+.planning-active .shopping-workspace .shop-item-smart{position:relative;grid-template-columns:32px minmax(0,1fr);column-gap:12px;row-gap:0;padding:16px 0;min-height:68px}
+.shopping-workspace .shop-item-name{grid-column:2;padding-right:140px;align-self:center}
+.planning-active .shopping-workspace .check-circle{width:32px;height:32px;margin:0;border-radius:7px}
+.shopping-item-details{grid-column:2/-1}
+.shopping-item-details>summary{position:absolute;right:0;top:12px;padding:10px 0 10px 12px;min-height:44px;list-style:none;max-width:135px;text-align:right}
+.shopping-item-details>summary::-webkit-details-marker{display:none}
+.shopping-item-details>summary:hover .shopping-row-quantity{text-decoration:underline;text-underline-offset:4px}
+.shopping-item-details>summary:focus-visible{outline:1px solid #706b64;outline-offset:3px;border-radius:4px}
+.shopping-item-details[open] .shopping-item-editor{margin-top:16px}
+.shopping-row-quantity{max-width:none}
+.shopping-item-origin{margin:0!important}
+.shopping-support{display:grid;grid-template-columns:1fr 1fr;gap:0 24px;margin-top:32px}
+.planning-active .shopping-workspace .shopping-support .panel,.planning-active .shopping-workspace .shopping-support-row{padding:18px 0;border-radius:0;background:transparent!important;border:0!important;border-top:1px solid #77716a!important;box-shadow:none;margin:0;backdrop-filter:none}
+.shopping-support summary{display:flex;align-items:center;justify-content:space-between;gap:16px;cursor:pointer;min-height:32px;list-style:none}
+.shopping-support summary::-webkit-details-marker{display:none}
+.shopping-support details[open]>summary{margin-bottom:20px}
+.shopping-support .custom-shopping-panel .save-recipe-button{width:auto;padding:12px 20px}
+.shopping-empty{padding:32px 0}
+.shopping-support-row>summary{cursor:pointer;min-height:32px}
+@media(max-width:650px){.shopping-list-toolbar{align-items:start;flex-direction:column;gap:18px;margin-bottom:20px}.shopping-list-filters{width:100%}.shopping-list-filters button{flex:1;padding:10px}.planning-active .shopping-workspace .shopping-list-panel{padding:20px 18px}.shopping-support{grid-template-columns:1fr;margin-top:24px}.shopping-workspace .shop-item-name{padding-right:106px}.shopping-item-details>summary{max-width:100px}.shopping-category-heading{padding-top:24px}}
+@media print{.shopping-list-toolbar,.shopping-support,.shopping-column-head{display:none}.shopping-item-details{display:block}.shopping-item-details>summary{display:block}.shopping-item-editor{display:none!important}}

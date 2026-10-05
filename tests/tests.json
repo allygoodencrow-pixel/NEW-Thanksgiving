@@ -1,0 +1,141 @@
+[
+  {
+    "name": "Mobile guided flow, hero and persistence",
+    "sanity": true,
+    "viewport": "mobile",
+    "covers": [
+      "uploaded homepage hero",
+      "editorial home structure",
+      "obvious editable input surfaces",
+      "numbered nine-step plan index",
+      "Define Prepare Host phase grouping",
+      "Budget Spend utility outside workflow",
+      "high-contrast mobile plan flow",
+      "workflow step navigation",
+      "party-plan persistence after reload",
+      "mobile navigation"
+    ],
+    "description": "Verifies the primary mobile planning flow is readable, navigable and durable after refresh.",
+    "steps": [
+      "Open HOME and confirm the dark candlelit table photograph is the full-width hero, followed by a four-part status strip and a nine-step THE PLAN index grouped into DEFINE THE PARTY, PREPARE and HOST",
+      "Tap OPEN THE PLAN and confirm the START page clearly shows a YOUR INPUT working area with visible boxed fields, then change Total budget to 1350 and Dinner time to 5:15 PM",
+      "Use NEXT · Guests, then use the mobile navigation and confirm DEFINE THE PARTY contains Start, Guests, Menu, Experience and Table; PREPARE contains Shopping and Prep; HOST contains Schedule and Printables; and BUDGET / SPEND appears separately under UTILITY",
+      "Return to START and confirm Total budget is 1350 and Dinner time is 5:15 PM, then advance Menu → Experience → Table to confirm the new dependency order"
+    ],
+    "expected": "The app presents a readable nine-step Define → Prepare → Host workflow, Budget / Spend remains accessible as a separate utility, Menu advances to Experience before Table, and edited party basics persist after refresh."
+  },
+  {
+    "name": "Planning headcount follows guest status and guest type",
+    "viewport": "mobile",
+    "covers": [
+      "estimated expected confirmed custom planning modes",
+      "adult child guest types",
+      "alcohol preference",
+      "planning-headcount propagation",
+      "mobile guest editing"
+    ],
+    "description": "Verifies there is one explicit quantity source of truth and that guest-list modes derive it from RSVP records.",
+    "steps": [
+      "Open GUESTS and confirm Estimated, Expected, Confirmed and Planning For totals are visible",
+      "Set Plan quantities for to Expected and confirm Planning For equals Attending plus Pending guests",
+      "Change one Pending guest to Declined and confirm Planning For drops immediately",
+      "Change an attending guest from Adult to Child and confirm the Table screen updates adult and child counts",
+      "Mark an adult No alcohol and confirm drink-glass and alcohol planning no longer assumes that guest drinks",
+      "Switch Plan quantities for to Custom, enter 10, and confirm Table, Shopping and Printables use 10 as the planning headcount"
+    ],
+    "expected": "Expected and Confirmed modes derive quantities from the live guest list; Custom and Estimated remain manually controlled; guest type and alcohol preference affect downstream calculations."
+  },
+  {
+    "name": "Menu, guests, table and shopping stay synchronized",
+    "viewport": "desktop",
+    "covers": [
+      "dietary recipe filters",
+      "custom recipe creation",
+      "guest menu responsibility",
+      "declined-guest responsibility fallback",
+      "guest-count scaling",
+      "table inventory gaps",
+      "shopping synchronization",
+      "editable shopping quantities"
+    ],
+    "description": "Verifies the dependent planning systems share the same guest, menu, inventory and responsibility data.",
+    "steps": [
+      "Open MENU, choose the VEGETARIAN filter and confirm tagged vegetarian recipes remain visible",
+      "Add a custom recipe named Family Cornbread using the default Type and confirm it appears in the menu without an invalid category",
+      "Assign Pumpkin pie to Sarah, then open GUESTS and change Sarah to Declined",
+      "Open SHOPPING and confirm Pumpkin pie is no longer treated as a guest-provided item and the host shopping plan includes it",
+      "Open TABLE, set Total guests to 12 and Dinner plates you have to 6, then open SHOPPING",
+      "Confirm the dinner-plate shortage is present and automatic food/table quantities reflect the 12-person plan",
+      "Increase one automatic shopping quantity, refresh, and confirm the override persists"
+    ],
+    "expected": "Dietary filters work, custom recipes use a valid category, declined guests cannot silently own menu items, table shortages flow into Shopping, quantities scale with guest count, and quantity overrides persist."
+  },
+  {
+    "name": "Prep and complete day schedule include non-food work",
+    "viewport": "desktop",
+    "covers": [
+      "whole-house prep checklist",
+      "custom prep task creation",
+      "connected day schedule",
+      "dessert scheduling",
+      "activity scheduling",
+      "house task scheduling",
+      "custom timeline item creation",
+      "party-day mode"
+    ],
+    "description": "Verifies prep and the run of show cover the house, food, activities and custom events rather than cooking alone.",
+    "steps": [
+      "Open PREP and confirm bathroom, entry, dishwasher, coffee station, trash, house reset and food-prep tasks are present",
+      "Add Put extra towels in powder room as a FINAL 60 MINUTES custom prep task",
+      "Open EXPERIENCE and select Gratitude cards and After-dinner game",
+      "Open TIMELINE and confirm the custom prep task, selected activities, house-reset tasks, dessert service and coffee service appear",
+      "Add Family photo before dinner at 4:00 PM",
+      "Turn on PARTY-DAY MODE and confirm the chronological task list is usable"
+    ],
+    "expected": "Prep covers whole-house readiness, schedule content includes food and non-food event work, custom tasks and activities feed the timeline, and Party-Day Mode shows the resulting run of show."
+  },
+  {
+    "name": "Guest edits drive seating and printables",
+    "viewport": "desktop",
+    "covers": [
+      "guest creation and editing",
+      "guest-name propagation",
+      "seating assignment",
+      "automatic printables generation",
+      "menu-driven food labels",
+      "guest-driven name tags",
+      "dietary note population",
+      "activity printable population"
+    ],
+    "description": "Verifies guest data propagates into seating and printables without duplicate data entry.",
+    "steps": [
+      "Open GUESTS, add Jordan, mark Jordan Attending and add Dairy-free as a dietary note",
+      "Open TABLE and assign Jordan a seat",
+      "Return to GUESTS and rename Jordan to Jordan C",
+      "Open TABLE and confirm the seat assignment follows the renamed guest",
+      "Open PRINTABLES and confirm there is a Name tag for Jordan C with the dietary note, food labels for selected menu items and activity printables for selected activities"
+    ],
+    "expected": "Renaming a guest preserves their seating assignment, and printables reflect the current attending guest names, dietary data, menu and activities."
+  },
+  {
+    "name": "Shopping accepts practical custom supplies and supports completion",
+    "viewport": "mobile",
+    "covers": [
+      "household shopping suggestions",
+      "manual shopping item creation",
+      "one-tap add to shopping",
+      "purchased-state tracking",
+      "custom item deletion",
+      "empty-input guardrail"
+    ],
+    "description": "Verifies the shopping list handles both suggested hosting essentials and arbitrary household items on mobile.",
+    "steps": [
+      "Open SHOPPING and tap ADD for Toilet paper, Coffee and Dish soap",
+      "Add Batteries as a custom item with quantity 2 each",
+      "Mark Batteries purchased and confirm its completed state is visible",
+      "Remove Batteries and confirm it disappears",
+      "Leave the custom Item field empty and tap ADD TO SHOPPING LIST"
+    ],
+    "expected": "Suggested essentials can be added, custom household items can be created, completed and removed, and an empty custom item does not create a blank shopping record."
+  }
+]
