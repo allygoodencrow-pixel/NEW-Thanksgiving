@@ -13,15 +13,15 @@ input,select,textarea{max-width:100%;box-sizing:border-box}
 .planning-active .sidebar nav{overflow:visible;max-height:none;flex-shrink:0}
 .planning-active .sidebar .sidebar-foot{padding-bottom:24px}
 .planning-active .sidebar-close{top:calc(20px + env(safe-area-inset-top))}
-.planning-active .main .content{width:calc(100% - 64px);max-width:1280px}
-.planning-active .main>:is(.section-navigation,.plan-settings,.warning-summary,.recipe-integrity-notice){width:calc(100% - 64px);max-width:1280px}
+.planning-active .main .content{width:calc(100% - 64px);max-width:1120px}
+.planning-active .main>:is(.section-navigation,.plan-settings,.warning-summary,.recipe-integrity-notice){width:calc(100% - 64px);max-width:1120px}
 .planning-active .main>.guided-workflow{position:relative;top:auto;flex-wrap:wrap}
 .planning-active .guided-step-copy{min-width:0}.planning-active .guided-step-copy small{display:block}
 .planning-active .main :is(.two-col,.guided-prep-grid,.shopping-layout,.timeline-layout,.table-planner-grid,.experience-grid,.print-grid){align-items:start;min-width:0}
 .planning-active .form-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 .recipe-sheet{max-height:calc(100dvh - 64px);overflow-y:auto;overscroll-behavior:contain}
 .recipe-overlay{padding:32px;overflow:hidden;display:flex;align-items:center;justify-content:center}
-.recipe-sheet{width:min(100%,1100px);margin:0}
+.recipe-sheet{width:min(100%,980px);margin:0}
 .recipe-reader-header{position:sticky;top:-28px;background:#efeeeb;z-index:2}
 .recipe-reader-header button{flex:none}
 .planning-active .equipment-guide-row,.planning-active .guest-provided-row{gap:16px;flex-wrap:wrap}

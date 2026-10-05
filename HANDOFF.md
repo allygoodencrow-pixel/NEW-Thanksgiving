@@ -39,10 +39,14 @@ Backend is the existing Supabase thanksgiving project almqseeccuohdmlsjnhi. cc_p
 
 The schema is already applied through migration crow_crown_private_party_plans; supabase/schema.sql records it. Do not apply creation again blindly. supabase/verify-rls.sql passed on the real database: owner access, anonymous/cross-user denial, forged ownership rejection, immutable owner, revision increment and stale-save rejection. Test identities/data were rolled back. Security/performance advisors returned no notices. tests/cloud.cjs validates queued saves, retry/recovery, conflicts and the React account flow with a fake transport. Production email delivery and a live customer session remain unverified.
 
-## Remaining hosting steps
+## Current hosting and remaining account setup
 
-Vercel account is allygoodencrow-8547; team is muse (team_XWguvIFPrY3F6BbC8GN3JPLa). Project listing returned none. Git-linked and direct project creation both returned HTTP 403: You don't have permission to create the project. No Vercel project/deployment exists from this migration yet. vercel.json is ready for Vite, npm ci, npm run build, dist and SPA routing. Public Supabase browser config is included; no secret environment variable is required. Use Node 22+.
+Production is now deployed at https://new-thanksgiving-hfo8.vercel.app.
+Vercel project: new-thanksgiving-hfo8 / prj_CpGLBG93oh7q2Jx094n2jzpMCygQ.
+The owner's manual GitHub import succeeded. Explicit teamId queries incorrectly returned no projects; omitting teamId exposed the deployed projects. Use this exact project, not the other similarly named imports. Vercel sign-in protection remains enabled.
 
-Finish by obtaining project-create access or—with user approval for browser fallback—importing this repository in Vercel's dashboard. Connect main, deploy and verify the actual production URL. Then set Supabase Auth Site URL/allowed redirects to that URL. Current Supabase tools do not expose Auth configuration. Verify customer email delivery/custom SMTP, confirmation, sign-in, password reset and cross-device saving before calling this customer-ready. Do not disable confirmation to bypass setup.
+Finish Supabase Auth Site URL/allowed redirects and verify confirmation, password recovery, customer email delivery and cross-device saving. These live flows remain unverified. Current Supabase tools do not expose Auth configuration. Do not disable email confirmation to bypass setup.
 
-An old Site's local plan cannot be read from a new Vercel origin. Export it on the old app and import under Party plan → Plan settings while signed in on the new app. On the same origin, Account → Save device plan as a party creates a separate cloud party without replacing an existing one.
+October 5 responsive correction: planning content/navigation capped at 1120px (previously 1280px); recipe reader capped at 980px. Content heading scale is 36px/18px for larger screens. Phone titles remain 31px/16px, inputs remain 16px. Menu desktop photos are restrained. Home typography, photos and planning logic are unchanged. Browser visual review is still not claimed.
+
+An old Site's local plan cannot be read from a new Vercel origin. Export it on the old app and import under Party plan → Plan settings while signed in on the new app.

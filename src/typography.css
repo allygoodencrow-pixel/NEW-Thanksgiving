@@ -167,7 +167,7 @@ body :where(.page-home:not(.planning-active)) :is(.eyebrow,.input-kicker,.nav-ph
 .planning-active{
  --font-body:Lato,'Helvetica Neue',Arial,sans-serif;
  --text-primary:#f1f1f1;--text-muted:#cdcac6;--text-on-fill:#1d1b1b;
- --type-title:44px;--type-heading:20px;--type-subheading:14px;--type-body:13px;--type-label:11px;
+ --type-title:36px;--type-heading:18px;--type-subheading:14px;--type-body:13px;--type-label:11px;
  color:var(--text-primary);font-family:var(--font-body);font-size:var(--type-body);font-weight:300;line-height:1.6;letter-spacing:0;
 }
 .planning-active :where(*){font-family:inherit;font-size:inherit;font-weight:inherit;font-style:normal;line-height:inherit;letter-spacing:inherit;color:inherit;-webkit-text-fill-color:currentColor}

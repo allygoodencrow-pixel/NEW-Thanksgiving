@@ -36,8 +36,10 @@ Signed-out plans still save locally under cc-thanksgiving-v4. Account adds email
 
 Backend is the existing thanksgiving Supabase project almqseeccuohdmlsjnhi. Browser configuration contains only a public publishable key. supabase/schema.sql records the already-applied schema; supabase/verify-rls.sql verifies privacy/revision rules with rolled-back fixtures. Never put an admin/service-role key in browser code.
 
-## Hosting migration status
+## Hosting
 
-Vercel configuration is ready in vercel.json. Creating a project through the connected muse team currently fails with HTTP 403 project-create permission denial. No Vercel production URL exists yet. Once access is corrected, import this repository/main using Node 22+, deploy and verify the URL. Set that URL as Supabase Auth's Site URL/allowed redirect; verify customer SMTP/email delivery and end-to-end authentication before launch.
+Current Vercel app: https://new-thanksgiving-hfo8.vercel.app
+Project: new-thanksgiving-hfo8 (prj_CpGLBG93oh7q2Jx094n2jzpMCygQ).
+The owner's GitHub import succeeded; Vercel sign-in protection remains enabled. Configure Supabase Auth redirects to this URL and verify customer email delivery/sign-in/password recovery before launch.
 
-Device-local plans do not transfer across origins automatically. Export from the old app, then import under Party plan → Plan settings in the new signed-in app. Keep the original Site available during migration. Older repository implementations remain in Git history.
+Device-local plans do not transfer across origins automatically. Export from the old app, then import under Party plan → Plan settings in the new signed-in app. Keep the original Site available during migration.

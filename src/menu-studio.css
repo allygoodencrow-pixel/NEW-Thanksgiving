@@ -51,7 +51,7 @@
 @media(min-width:768px){
  .menu-dishes{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
  .menu-dish{grid-template-columns:1fr 1fr;grid-template-areas:'photo photo' 'copy copy' 'recipe settings' 'selection selection';padding:16px;gap:12px}
- .menu-dish-photo{width:100%;height:190px}
+ .menu-dish-photo{width:100%;height:170px}
  .menu-dish-copy{padding:8px 2px;min-height:126px}
  .menu-dish-title{max-width:28ch}
  .menu-support{grid-template-columns:1fr 1fr;align-items:start}
@@ -60,7 +60,7 @@
  .menu-composition{grid-template-columns:minmax(0,1fr) 260px;gap:28px}
  .menu-support{grid-template-columns:1fr;position:sticky;top:24px}
  .menu-dish:first-child{grid-column:1/-1;grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-areas:'photo copy' 'photo recipe' 'photo settings' 'photo selection';gap:12px 24px;padding:18px}
- .menu-dish:first-child .menu-dish-photo{height:100%;min-height:280px}
+ .menu-dish:first-child .menu-dish-photo{height:100%;min-height:240px;max-height:360px}
  .menu-dish:first-child .menu-dish-copy{padding:20px 8px 0;min-height:0}
  .menu-dish:first-child .menu-dish-recipe{margin:0 8px;align-self:end}
  .menu-dish:first-child .menu-dish-settings{margin:0 8px}
