@@ -31,7 +31,7 @@ The fixes below are implemented and pass automated checks. They remain **In prog
 | T21 save status | P1 / T00 | In progress | Local/cloud/pending/error destination exposed; existing queued saves/revision/recovery/isolation preserved; fake transport tests pass | Live authenticated save and recovery |
 | T22 next action | P2 / T01–10,21 | In progress | Party plan links unresolved work; existing Home utility labels show review count/readiness; approved composition/fonts/photos preserved; Home regression passes | Before/after Home visual comparison |
 | T23 day mode | P2 / T01–04,18,20 | In progress | Event-date local clock, effective adjusted now/next and explicit future-event preview; UI checks pass | Phone day execution and refresh |
-| T24 customer email | P0 / T00 | Blocked | Latest main retains purchase invitations/password setup and signed order handler; purchase/account tests pass. Latest handoff records real SMTP 535 invalid credentials | Secure owner SMTP credential correction, fresh verification of the replaced Shopify signing secret, external delivery/password setup/recovery and returning-buyer checks; latest main handoff records secret replacement, gateway/webhook configuration and both branded templates completed; follow PURCHASE_SETUP.md |
+| T24 customer email | P0 / T00 | Blocked | Latest main retains purchase invitations/password setup and signed order handler; purchase/account tests pass. Latest handoff records real SMTP 535 invalid credentials | Secure owner SMTP credential correction, repair of the live signature mismatch followed by a fresh passing test, external delivery/password setup/recovery and returning-buyer checks; latest main handoff records secret replacement, gateway/webhook configuration and both branded templates completed; follow PURCHASE_SETUP.md |
 | T25 release journey | Gate / all applicable | Blocked | Combined latest main plus fix branch passes `npm run typecheck`, `npm test`, `npm run build`; purchase, cloud, domain, UI, print structure, responsive and Home checks included | Protected preview sign-in was canceled; browser hosting journey, actual phones, native outputs, live accounts/two-device persistence remain unverified |
 
 ## Audit coverage
@@ -65,6 +65,6 @@ All 32 findings are assigned; none is declared fully verified solely from source
 | 31 | T22 |
 | 32 | T23 |
 
-Current access: Supabase log connector returned MCP -32600, You do not have permission to perform this action. This chat has only an about:blank browser tab, so no signed-in dashboard session was inherited. No live webhook or email result was verified in this continuation.
+Current access: Supabase connector remains denied, but secure browser sign-in now verifies the correct dashboard. Live logs show invalid_signature at 14:20:01 PDT after the replacement secret was saved at 14:19:16. The replacement test was rejected. SMTP settings are enabled but delivery remains unverified; secure owner credential correction is pending. See HANDOFF.md for exact evidence.
 
 Next work: review the same branch on the correct existing Vercel preview, complete browser/mobile/output acceptance checks, and repair/verify customer email. Keep the PR draft and the Shopify product draft until their release gates pass. No new app, hosting project or backend was created for these fixes. No preview protection was weakened.
