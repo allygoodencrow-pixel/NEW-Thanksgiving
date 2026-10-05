@@ -68,6 +68,22 @@ const deferred=()=>{let resolve,reject;const promise=new Promise((a,b)=>{resolve
  assert(!writes.some(p=>p.user_id==='owner-b'));
  cleanup();cloud.supabase.auth.stopAutoRefresh();
  console.log('PASS real React sign-in, cloud hydration, explicit device import, sign-out isolation and failed-load protection');
+ // A purchase invitation opens password setup after Supabase authenticates the link.
+ failLoad=false;currentUser='owner-a';window.history.replaceState(null,'','/?setup=1');
+ cloud.supabase.auth.onAuthStateChange=fn=>{authListener=fn;queueMicrotask(()=>fn('SIGNED_IN',session(currentUser)));return {data:{subscription:{unsubscribe(){}}}};};
+ let updatedPassword;
+ cloud.supabase.auth.updateUser=async values=>{updatedPassword=values.password;return {data:{user:session(currentUser).user},error:null};};
+ render(React.createElement(CloudApp));
+ await waitFor(()=>assert(screen.getByRole('heading',{name:'Set your password'})));
+ assert.equal(screen.queryByRole('button',{name:'CREATE ACCOUNT',exact:true}),null);
+ fireEvent.change(screen.getByLabelText('NEW PASSWORD'),{target:{value:'synthetic-test-password'}});
+ fireEvent.submit(screen.getByLabelText('NEW PASSWORD').closest('form'));
+ await waitFor(()=>assert.equal(updatedPassword,'synthetic-test-password'));
+ await waitFor(()=>assert(screen.getByRole('heading',{name:'Your parties'})));
+ assert.equal(new URL(window.location.href).searchParams.has('setup'),false);
+ assert(rows.some(p=>p.id==='party-a'&&p.state.notes==='Private account A'));
+ cleanup();
+ console.log('PASS purchase invite sets a buyer-selected password and preserves existing private parties');
  // Supabase opens a BroadcastChannel for browser tabs. No pending assertions remain.
  process.exit(0);
 })().catch(error=>{console.error(error);cleanup();cloud.supabase.auth.stopAutoRefresh();process.exit(1);});
