@@ -4,7 +4,8 @@ Updated October 5, 2026. Continue this existing implementation in GitHub. The ow
 
 - Project: `appgprj_6ab9b5c406b88191835e71782dd05346`
 - Project link: `sites-project://appgprj_6ab9b5c406b88191835e71782dd05346`
-- Published app: https://crow-crown-thanksgiving-hosting.allygoodencrow.chatgpt.site
+- Production app: https://new-thanksgiving-hfo8.vercel.app
+- Original Site, retained for exporting device-local plans: https://crow-crown-thanksgiving-hosting.allygoodencrow.chatgpt.site
 - Read `AGENTS.md` and `DESIGN_DIRECTION.md` before editing. Open the current source in allygoodencrow-pixel/NEW-Thanksgiving; GitHub now contains newer account integration than the original Site.
 
 ## Owner's design requirements
@@ -43,7 +44,7 @@ The schema is already applied through migration crow_crown_private_party_plans; 
 
 Production is now deployed at https://new-thanksgiving-hfo8.vercel.app.
 Vercel project: new-thanksgiving-hfo8 / prj_CpGLBG93oh7q2Jx094n2jzpMCygQ.
-The owner's manual GitHub import succeeded. Explicit teamId queries incorrectly returned no projects; omitting teamId exposed the deployed projects. Use this exact project, not the other similarly named imports. Vercel sign-in protection remains enabled.
+The owner's manual GitHub import succeeded. In the migration session, explicit teamId queries returned no projects, while omitting teamId exposed the deployed projects. Use this exact project, not the other similarly named imports. Protection was reported enabled, but this continuation verified that the production root is publicly reachable without a Vercel login; preview protection settings remain uninspected. Do not blindly disable protection.
 
 Finish Supabase Auth Site URL/allowed redirects and verify confirmation, password recovery, customer email delivery and cross-device saving. These live flows remain unverified. Current Supabase tools do not expose Auth configuration. Do not disable email confirmation to bypass setup.
 
@@ -52,3 +53,33 @@ October 5 responsive correction: planning content/navigation capped at 1120px (p
 An old Site's local plan cannot be read from a new Vercel origin. Export it on the old app and import under Party plan → Plan settings while signed in on the new app.
 
 October 5 explicit Home-title correction: owner says THANKSGIVING is too heavy. Only that title now uses genuine Metropolis Thin (100); its size, tracking, color and all other Home roles remain unchanged. Home regression permits this specific approved weight change.
+
+
+## Verification continuation — October 5, 2026
+
+The repository was updated by another chat during verification. Its compact-layout commit `faa2e05` and subsequent owner-approved Home-title correction `092749c` were fetched and preserved. This continuation changes only this handoff; it does not replace any interface, change recipes or reapply the database schema.
+
+Verified:
+
+- The production root returned HTTP 200 with no authentication headers or bypass URL. A fresh signed-out browser rendered Home, the account dialog and Menu without a Vercel sign-in wall.
+- GitHub's `Vercel – new-thanksgiving-hfo8` deployment status is `success` for both the initial cloud commit `4dd12deb78250642efab7a118b3f8a82a1335488` and the newer Home-title commit `092749c`. The latter links to `https://vercel.com/muse-8194/new-thanksgiving-hfo8/7AziRkYRJ8zVgyeUkgk9mSdjKycA`. This verifies Git-associated deployments for the existing repository; exact production-branch/protection settings still need admin inspection.
+- A build of latest checked main `092749c5c30dc8f4609e942c005913d71bb1b4d3` produced JavaScript `index-CdcEhzU3.js` and CSS `index-YUl_fobQ.css`; both were verified byte-for-byte identical to the live production assets. The responsive correction and owner-approved thin Home title are present in main and production; do not restore the earlier 1280px/44px layout.
+- After reloading the latest publication, Home's THANKSGIVING title was verified as Metropolis weight 100 without horizontal overflow. Desktop Menu was inspected at 1363 × 936: Metropolis headings, loaded food photos and no horizontal overflow. This is limited visual verification, not owner approval or an iPhone browser test.
+- The live Supabase Auth settings endpoint returned HTTP 200 with email enabled, signup enabled and `mailer_autoconfirm: false`; confirmation remains required. An anonymous request for one party ID returned HTTP 401 / Postgres `42501`, `permission denied for table cc_party_plans`. This verifies anonymous denial only; the earlier real-database ownership/revision checks were not repeated.
+
+`npm test`, `npm run typecheck` and `npm run build` all passed on latest checked main, including domain/UI/cloud tests, responsive cascade, single typography ownership and the updated Home baseline. Cloud/account tests use a fake transport and do not establish live customer authentication.
+
+Current access blockers:
+
+- Initial Vercel calls used account `help-2458`, whose project/team lists were empty; the specified project/deployment returned 404. After the owner retried the connection, Vercel calls returned MCP `-32001: Unknown tool`. The expected migration account is `allygoodencrow-8547`, with team muse / `team_XWguvIFPrY3F6BbC8GN3JPLa`.
+- Supabase returns MCP `-32600: You do not have permission to perform this action` for `almqseeccuohdmlsjnhi`. Its project list exposes only a different inactive project, `eiahzsvbeogddpuasnbz`.
+- These connector failures do not mean the deployed app or its public Auth endpoint is down. Reconnect the correct accounts, or obtain approval for dashboard browser fallback. Never request or paste access tokens.
+
+Remaining work, using only the existing projects:
+
+1. Inspect Vercel's Git connection and production branch (`allygoodencrow-pixel/NEW-Thanksgiving`, `main`). Preserve the public customer URL and appropriate preview protection.
+2. Verify/set Supabase Auth Site URL to `https://new-thanksgiving-hfo8.vercel.app/` and allow that exact production redirect. Signup and recovery send the origin plus `/`. Preserve necessary development redirects; do not add a broad Vercel wildcard. Reference: https://supabase.com/docs/guides/auth/redirect-urls.
+3. Inspect custom SMTP and verify confirmation delivery to an external customer test address. Supabase's default SMTP is limited to organization members and is not intended for production customer mail. Reference: https://supabase.com/docs/guides/auth/auth-smtp. Do not disable confirmation to bypass setup.
+4. Complete live signup/confirmation, email/password sign-in, password reset and saving/loading the same test party in two independent sessions. Verify stale-revision protection and recovery without overwriting an actual customer's party. Record results here.
+
+Production email delivery, successful customer sign-in/reset, authenticated cross-device saving and mobile visual browser checks remain unverified. Do not call the migration customer-ready until those checks pass.
