@@ -10,9 +10,13 @@ export type PurchaseDependencies = {
   fail(lease: Lease, code: string): Promise<void>;
 };
 
-const json = (status: number, result: string) => new Response(JSON.stringify({result}), {
+const json = (status: number, result: string) => {
+  // Generic rejection codes only: no request headers, secrets, identities or payloads.
+  if (status === 401) console.warn('purchase_webhook_rejected', result);
+  return new Response(JSON.stringify({result}), {
   status, headers: {'Content-Type': 'application/json', 'Cache-Control': 'no-store', ...(status === 503 ? {'Retry-After': '5'} : {})},
-});
+  });
+};
 const id = (value: unknown) => typeof value === 'string' && /^[1-9]\d{0,19}$/.test(value) ? value
   : typeof value === 'number' && Number.isSafeInteger(value) && value > 0 ? String(value) : null;
 

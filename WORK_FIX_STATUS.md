@@ -3,7 +3,7 @@
 Updated October 5, 2026. Existing app: https://thanksgiving.thecrowandcrown.com/
 Work branch: `codex/work-fix-checklist`; draft PR: https://github.com/allygoodencrow-pixel/NEW-Thanksgiving/pull/13
 
-The fixes below are implemented and pass automated checks. They remain **In progress** until the appropriate browser/device/output acceptance checks pass. Production has not received this fix branch. The latest main purchase-account implementation and its documentation are preserved, including main `0b72e13e1cf6d5100495acb18b6e7a730d9d5915`.
+The fixes below are implemented and pass automated checks. They remain **In progress** until the appropriate browser/device/output acceptance checks pass. Production has not received this fix branch. The latest main purchase-account implementation and its documentation are preserved, including main `74e55fce0f349cd184daec78a9e8d99d0bbd06c0`.
 
 | Task | Priority / dependency | Status | Implementation and automated evidence | Remaining verification |
 |---|---|---|---|---|
@@ -31,7 +31,7 @@ The fixes below are implemented and pass automated checks. They remain **In prog
 | T21 save status | P1 / T00 | In progress | Local/cloud/pending/error destination exposed; existing queued saves/revision/recovery/isolation preserved; fake transport tests pass | Live authenticated save and recovery |
 | T22 next action | P2 / T01–10,21 | In progress | Party plan links unresolved work; existing Home utility labels show review count/readiness; approved composition/fonts/photos preserved; Home regression passes | Before/after Home visual comparison |
 | T23 day mode | P2 / T01–04,18,20 | In progress | Event-date local clock, effective adjusted now/next and explicit future-event preview; UI checks pass | Phone day execution and refresh |
-| T24 customer email | P0 / T00 | Blocked | Latest main retains purchase invitations/password setup and signed order handler; purchase/account tests pass. Latest handoff records real SMTP 535 invalid credentials | Secure owner SMTP credential and Shopify signing-secret entry, external delivery/password setup/recovery and returning-buyer checks; latest main handoff records gateway/webhook configuration completed; follow PURCHASE_SETUP.md |
+| T24 customer email | P0 / T00 | Blocked | Latest main retains purchase invitations/password setup and signed order handler; purchase/account tests pass. Latest handoff records real SMTP 535 invalid credentials | Secure owner SMTP credential correction, fresh verification of the replaced Shopify signing secret, external delivery/password setup/recovery and returning-buyer checks; latest main handoff records secret replacement, gateway/webhook configuration and both branded templates completed; follow PURCHASE_SETUP.md |
 | T25 release journey | Gate / all applicable | Blocked | Combined latest main plus fix branch passes `npm run typecheck`, `npm test`, `npm run build`; purchase, cloud, domain, UI, print structure, responsive and Home checks included | Protected preview sign-in was canceled; browser hosting journey, actual phones, native outputs, live accounts/two-device persistence remain unverified |
 
 ## Audit coverage
@@ -64,5 +64,7 @@ All 32 findings are assigned; none is declared fully verified solely from source
 | 30 | T21 |
 | 31 | T22 |
 | 32 | T23 |
+
+Current access: Supabase log connector returned MCP -32600, You do not have permission to perform this action. This chat has only an about:blank browser tab, so no signed-in dashboard session was inherited. No live webhook or email result was verified in this continuation.
 
 Next work: review the same branch on the correct existing Vercel preview, complete browser/mobile/output acceptance checks, and repair/verify customer email. Keep the PR draft and the Shopify product draft until their release gates pass. No new app, hosting project or backend was created for these fixes. No preview protection was weakened.
