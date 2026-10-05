@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useRef, useState, type FormEvent } from 'react';
 import type { Session } from '@supabase/supabase-js';
-import App, { initial, type State } from './App';
+import App, { initial, freshPlan, type State } from './App';
 import { cacheKey, createParty, listParties, PartySaver, recoveryKey, retainRecovery, supabase, type Party, type SaveStatus } from './cloud';
 
 // Suggested menu/setup is retained, but example guests must not become customer data.
-const newPartyState: State = {...initial, guests: [], seating: {}, menuPlan: {}, menuOwners: {}, planningMode: 'Estimated'};
+const newPartyState: State = freshPlan('suggested');
 
 function downloadBackup(state: State) {
   const url = URL.createObjectURL(new Blob([JSON.stringify(state, null, 2)], {type: 'application/json'}));

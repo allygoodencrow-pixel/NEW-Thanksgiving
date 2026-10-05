@@ -122,6 +122,29 @@
 /* Guest entry is visible before the list, with a single primary action. */
 .planning-active .guest-entry{padding:24px;margin-bottom:24px}
 .guest-entry .guest-add{display:flex;align-items:stretch;gap:12px;margin-top:16px}
-.guest-entry .guest-add input{flex:1;min-width:0;min-height:48px}
+.guest-entry .guest-add input{flex:1 1 auto;min-width:0;min-height:48px;height:48px}
 .planning-active .guest-entry .guest-add button{display:flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:12px 20px;background:#080808b3;border:1px solid #ffffff60;border-radius:24px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
-@media(max-width:560px){.planning-active .guest-entry{padding:20px 18px}.guest-entry .guest-add{flex-direction:column}.guest-entry .guest-add button{width:100%}}
+@media(max-width:560px){.planning-active .guest-entry{padding:20px 18px}.guest-entry .guest-add{flex-direction:column}.planning-active .guest-entry .guest-add input{flex:0 0 48px;width:100%;height:48px}.guest-entry .guest-add button{width:100%}}
+
+/* Scope clarity repairs to planning pages; preserve the Home baseline. */
+.planning-active .guest-entry .guest-add button{background:#1d1b1b!important;color:#f1f1f1!important}
+.planning-active .reference-menu .add-dish-action{background:rgba(12,12,12,.85);color:#f1f1f1}
+.planning-active .shopping-workspace .shop-item.completed{opacity:1}
+.planning-active .shopping-workspace .shop-item.completed .shop-item-name{opacity:1}
+.planning-active .shopping-workspace .shop-item.completed .shopping-edit-trigger{opacity:1;color:#1d1b1b}
+.planning-active :is(button,a,input,select,textarea):focus-visible{outline:2px solid currentColor;outline-offset:3px}
+.holding-plan{display:grid;gap:14px;margin-bottom:24px}
+.setup-backdrop{position:fixed;inset:0;z-index:250;background:rgba(0,0,0,.6);display:grid;place-items:center;padding:20px}
+.setup-dialog{width:min(540px,100%);background:#eeefed;color:#171717;border-radius:20px;padding:30px;display:grid;gap:18px;max-height:90vh;overflow:auto}
+.setup-dialog button{background:#1d1b1b;color:#f1f1f1;border:1px solid #777;border-radius:24px;padding:14px 18px;min-height:48px}
+.room-layout{position:relative;width:100%;border:1px solid #999;background:rgba(255,255,255,.08);overflow:hidden;min-height:200px;margin:24px 0}
+.room-layout .room-table{position:absolute;touch-action:none;padding:4px;background:#ddd;color:#161616;border:1px solid #161616;border-radius:6px;min-height:0;min-width:0}
+.room-layout .room-table.round{border-radius:50%}
+.planning-active .table-visual{align-items:start;grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+.planning-active .table-visual .table-shape{height:auto;min-height:160px;width:100%;padding:18px;border-radius:18px;display:block}
+.table-visual ol{padding-left:22px;text-align:left;margin-top:14px}
+.look-products{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.look-product{border:1px solid #777;padding:20px;border-radius:14px;overflow-wrap:anywhere}
+.look-product button,.look-product a{display:block;min-height:44px;padding:12px 0}
+@media(max-width:560px){.look-products{grid-template-columns:1fr}.setup-dialog{padding:24px 20px}}
+@media(max-width:560px){.planning-active .shopping-workspace .page-head{min-height:0;margin-bottom:20px}.planning-active .shopping-workspace .section-image{display:none}.planning-active .mode{min-height:44px;min-width:44px}}
