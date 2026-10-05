@@ -6,12 +6,13 @@ assert.equal(doc.querySelectorAll(".placemat-page").length,1);assert.equal(doc.q
 // Missing original designs must never download a different generated template.
 const {printableCollections}=require('../.qa/printable-collections.cjs');
 const fs=require('node:fs');
-assert.equal(printableCollections.length,8);
-assert.equal(new Set(printableCollections.map(c=>c.id)).size,8);
-assert.equal(new Set(printableCollections.map(c=>c.image)).size,8);
+assert.equal(printableCollections.length,11);
+assert.equal(new Set(printableCollections.map(c=>c.id)).size,11);
+assert.equal(new Set(printableCollections.map(c=>c.image)).size,11);
 for(const c of printableCollections){
  assert(fs.existsSync('public/resources/printables/'+c.image),c.id+' thumbnail missing');
  assert(c.alt.length>20);
+ for(const view of c.alternateImages||[])assert(fs.existsSync('public/resources/printables/'+view.image));
  assert.equal(c.download,undefined,'No original design file has been supplied');
 }
 assert(printableCollections.find(c=>c.id==='napkin-bands').contents.includes('napkin bands'));
@@ -19,4 +20,4 @@ assert(printableCollections.find(c=>c.id==='take-home-favors').contents.includes
 assert(!printableCollections.find(c=>c.id==='take-home-favors').contents.includes('leftover'));
 assert(printableCollections.find(c=>c.id==='cider-bar-sign').contents.includes('standalone'));
 assert(printableCollections.find(c=>c.id==='cider-menus').contents.includes('Seasonal Sips'));
-console.log('PASS eight distinct existing thumbnail assets; favors and cider variants remain separate; absent originals never get substituted downloads');
+console.log('PASS eleven distinct collections with verified primary/alternate assets; favors and cider variants remain separate; absent originals never get substituted downloads');
