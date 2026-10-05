@@ -4,7 +4,8 @@ Updated October 5, 2026. Continue this existing implementation in GitHub. The ow
 
 - Project: `appgprj_6ab9b5c406b88191835e71782dd05346`
 - Project link: `sites-project://appgprj_6ab9b5c406b88191835e71782dd05346`
-- Production app: https://new-thanksgiving-hfo8.vercel.app
+- Production app: https://thanksgiving.thecrowandcrown.com/
+- Vercel production alias: https://new-thanksgiving-hfo8.vercel.app/
 - Original Site, retained for exporting device-local plans: https://crow-crown-thanksgiving-hosting.allygoodencrow.chatgpt.site
 - Read `AGENTS.md` and `DESIGN_DIRECTION.md` before editing. Open the current source in allygoodencrow-pixel/NEW-Thanksgiving; GitHub now contains newer account integration than the original Site.
 
@@ -42,11 +43,11 @@ The schema is already applied through migration crow_crown_private_party_plans; 
 
 ## Current hosting and remaining account setup
 
-Production is now deployed at https://new-thanksgiving-hfo8.vercel.app.
+Production is deployed at https://thanksgiving.thecrowandcrown.com/ on the existing Vercel project; https://new-thanksgiving-hfo8.vercel.app/ remains available.
 Vercel project: new-thanksgiving-hfo8 / prj_CpGLBG93oh7q2Jx094n2jzpMCygQ.
 The owner's manual GitHub import succeeded. In the migration session, explicit teamId queries returned no projects, while omitting teamId exposed the deployed projects. Use this exact project, not the other similarly named imports. Dashboard verification now confirms Vercel Authentication is enabled with Standard Protection. The production root is publicly reachable without a Vercel login; previews remain protected. No protection settings were changed.
 
-Supabase Auth Site URL is now https://new-thanksgiving-hfo8.vercel.app/ and that exact URL is in the redirect allowlist. Existing older migration redirects were preserved; no new wildcard was added. Custom SMTP is disabled, so customer email delivery is blocked until a production email provider is configured. Confirmation, password recovery and cross-device saving still need live verification. Do not disable email confirmation to bypass setup.
+Supabase Auth Site URL is now https://thanksgiving.thecrowandcrown.com/ and that exact URL is in the redirect allowlist. The existing hfo8 production alias remains allowed. Existing older migration redirects were preserved; no new wildcard was added. Custom SMTP is disabled, so customer email delivery is blocked until a production email provider is configured. Confirmation, password recovery and cross-device saving still need live verification. Do not disable email confirmation to bypass setup.
 
 October 5 responsive correction: planning content/navigation capped at 1120px (previously 1280px); recipe reader capped at 980px. Content heading scale is 36px/18px for larger screens. Phone titles remain 31px/16px, inputs remain 16px. Menu desktop photos are restrained. Home typography, photos and planning logic are unchanged. Browser visual review is still not claimed.
 
@@ -94,13 +95,20 @@ Production URL configuration, public access, Git deployment connection and deskt
 
 ## Custom domain and email continuation — October 5, 2026
 
-The owner requested adding the domain for both the app and authentication emails. They approved `thanksgiving.thecrowandcrown.com` for the app and a separate email sending subdomain, and report managing the domain in Shopify.
+The owner requested both an app domain and a separate authentication-email sending domain. These changes use the existing Vercel project and Supabase backend. Application code, Home, typography, photos, planning logic and database schema are unchanged.
 
-- Added `thanksgiving.thecrowandcrown.com` to the existing Vercel project `new-thanksgiving-hfo8`, connected to Production. Vercel lists the domain but currently reports Invalid Configuration because DNS is not yet set.
-- Required DNS record shown by Vercel: type `CNAME`, name `thanksgiving`, target `c1839bb0870d3c68.vercel-dns-017.com.`.
-- Vercel identifies the current authoritative provider as Google Cloud DNS. Shopify domain management has not yet been inspected because its dashboard requires sign-in. Check whether Shopify actually hosts these DNS records before making changes; do not change nameservers or the storefront's root/www records.
-- Keep `https://new-thanksgiving-hfo8.vercel.app/` as the working Supabase Site URL until the custom domain is DNS/TLS verified. After verification, add the exact custom-domain redirect and then switch Site URL. A new browser origin requires sign-in; existing cloud parties remain under the same account.
-- Vercel's installed integrations show Supabase only, with no connected email provider. Resend's official Supabase integration can automatically configure custom SMTP without manually copying an API key. The selected proposed sender domain is `mail.thecrowandcrown.com`; it has not yet been added or verified.
-- Resend and Shopify dashboards require sign-in and display terms acceptance. No sign-in, provider account creation, contract acceptance or authorization to Resend was completed in this continuation. Obtain action-time confirmation for displayed terms, use secure browser authentication for existing accounts, and manual handoff for new account creation.
-- If connecting Resend, inspect and obtain confirmation for the actual integration permission grant before authorizing it. Use the free plan unless the owner approves a paid plan. Add only provider-generated records under the sending subdomain; preserve existing mailbox MX records. Verify sender, external delivery, signup/reset and private saving afterwards.
-- No app source, typography, photos, planning logic, customer data, database schema, storefront DNS or existing mailbox DNS changed. The domain is attached in Vercel but is not live yet.
+Verified results:
+
+- Shopify DNS management for `thecrowandcrown.com` is accessible. Added CNAME `thanksgiving` → `c1839bb0870d3c68.vercel-dns-017.com`. Vercel now shows Valid Configuration for this Production domain.
+- https://thanksgiving.thecrowandcrown.com/ loads the existing Home over HTTPS. An independent request without authentication headers returned HTTP 200. Vercel Standard Protection was not changed.
+- Created the sending domain `mail.thecrowandcrown.com` in the existing Resend account, region `us-east-1`. Resend domain ID: `e2b9137c-4af2-4f34-be6f-6fd54a7cda66`. The dashboard now reports Verified and “Your domain is ready to send emails.”
+- Added provider-generated CNAME `rsend.mail` → `rsend.forge.rmta.net`, CNAME `send.mail` → `send.forge.rmta.net`, and TXT `resend._domainkey.mail` with the exact public DKIM value from Resend. All three saved values were checked in Shopify. Existing storefront root/www records, nameservers and Zoho mailbox MX records were preserved. Receiving remains disabled in Resend.
+- Saved Supabase Auth Site URL as `https://thanksgiving.thecrowandcrown.com/` and added that exact redirect URL. Reloading the dashboard verified persistence: six redirect URLs, including the hfo8 alias and four older migration entries. No new wildcard was added.
+- A new app origin requires sign-in; existing private cloud parties remain associated with their existing accounts. Device-local plans require explicit export/import.
+- `npm test` and `npm run typecheck` passed again on the local application source. No application source was modified in this continuation.
+
+Pending email connection:
+
+Resend’s native Supabase integration is prepared but NOT authorized. Its actual consent page requests READ + WRITE for Auth and Projects across the selected existing Supabase organization, rather than permission limited to this one project. Obtain explicit action-time confirmation for that access grant before clicking Authorize Resend. The owner already approved the earlier sign-in/terms steps; that does not authorize this new permission scope.
+
+Custom SMTP is still disabled until the integration is authorized and configured for `almqseeccuohdmlsjnhi`. Use the verified `mail.thecrowandcrown.com` sender domain and the existing free plan; do not copy keys into chat or repository files. Preserve email confirmation. Then verify delivery to an owner-approved external test inbox, confirmation/sign-in, password recovery and private cross-device saving. None of those live customer flows is claimed as verified.
