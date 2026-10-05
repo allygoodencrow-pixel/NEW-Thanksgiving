@@ -91,3 +91,16 @@ Remaining work, using only the existing projects:
 5. Complete mobile visual browser checks. Existing responsive and typography tests passed, but no iPhone visual check is claimed.
 
 Production URL configuration, public access, Git deployment connection and desktop visual checks are verified. Customer email delivery, successful live customer sign-in/reset, authenticated cross-device saving and mobile visual browser checks remain unverified. Do not call the migration customer-ready until those checks pass.
+
+## Custom domain and email continuation — October 5, 2026
+
+The owner requested adding the domain for both the app and authentication emails. They approved `thanksgiving.thecrowandcrown.com` for the app and a separate email sending subdomain, and report managing the domain in Shopify.
+
+- Added `thanksgiving.thecrowandcrown.com` to the existing Vercel project `new-thanksgiving-hfo8`, connected to Production. Vercel lists the domain but currently reports Invalid Configuration because DNS is not yet set.
+- Required DNS record shown by Vercel: type `CNAME`, name `thanksgiving`, target `c1839bb0870d3c68.vercel-dns-017.com.`.
+- Vercel identifies the current authoritative provider as Google Cloud DNS. Shopify domain management has not yet been inspected because its dashboard requires sign-in. Check whether Shopify actually hosts these DNS records before making changes; do not change nameservers or the storefront's root/www records.
+- Keep `https://new-thanksgiving-hfo8.vercel.app/` as the working Supabase Site URL until the custom domain is DNS/TLS verified. After verification, add the exact custom-domain redirect and then switch Site URL. A new browser origin requires sign-in; existing cloud parties remain under the same account.
+- Vercel's installed integrations show Supabase only, with no connected email provider. Resend's official Supabase integration can automatically configure custom SMTP without manually copying an API key. The selected proposed sender domain is `mail.thecrowandcrown.com`; it has not yet been added or verified.
+- Resend and Shopify dashboards require sign-in and display terms acceptance. No sign-in, provider account creation, contract acceptance or authorization to Resend was completed in this continuation. Obtain action-time confirmation for displayed terms, use secure browser authentication for existing accounts, and manual handoff for new account creation.
+- If connecting Resend, inspect and obtain confirmation for the actual integration permission grant before authorizing it. Use the free plan unless the owner approves a paid plan. Add only provider-generated records under the sending subdomain; preserve existing mailbox MX records. Verify sender, external delivery, signup/reset and private saving afterwards.
+- No app source, typography, photos, planning logic, customer data, database schema, storefront DNS or existing mailbox DNS changed. The domain is attached in Vercel but is not live yet.
