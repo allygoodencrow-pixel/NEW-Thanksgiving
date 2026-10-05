@@ -1,6 +1,7 @@
 import {tablesFor,clothSize,activityContent,type TableDetail} from './hostingTools';
 import {tableProducts,productRecommendations} from './tableProducts';
 import {printCards,downloadCardImage} from './printables';
+import PrintableGallery from './PrintableGallery';
 import { guideRecipes } from './guideRecipes';
 import { equipmentChecklist, advanceWindows, stationGuides, tableChecklist, guestJourney, guideLinks } from './hostingGuide';
 import { normalizeState, planningContext, uid, nextThanksgiving, preparation, responsibility, derivePlan, dishPortions, recipeQuantityServings, recipeIngredientQuantity, formatRecipeAmount, guestDietaryNeeds, buyingAmount, recipeReady, completeMealCoverage, timelineWarnings, buildTimeline, parseIngredients, printOne, printableCards as selectPrintableCards, reconcileState } from './domain';
@@ -3209,13 +3210,18 @@ C | C
               <div className="content">
                 <Section
                   eyebrow="09 / THE FINISHING TOUCHES"
-                  title="Print only what helps"
+                  title="Printables for your gathering"
                 >
-                  Ready-to-use details drawn from your actual plan.
+                  Explore the collection, then print the details from your own plan.
                 </Section>
+                <PrintableGallery />
+                <section className="plan-printable-heading" aria-labelledby="plan-printable-heading">
+                  <span className="eyebrow">FROM YOUR PLAN</span>
+                  <h2 id="plan-printable-heading">Your personalized printables</h2>
+                  <p>Simple Crow &amp; Crown templates using your menu, guest names and activities. These exports use the designs shown below, rather than the styled collection above.</p>
+                </section>
                 <details className="panel glass-light"><summary>Print + staging checklist</summary><p>Print menus after dishes are confirmed. Place cards use guest names. Dish labels should show the actual dish and ingredient-checked allergens.</p><CheckRow id="guide-print-menu">Confirm the menu before printing</CheckRow><CheckRow id="guide-print-labels">Check ingredients before adding dietary labels</CheckRow><CheckRow id="guide-print-leftovers">Prepare leftover labels with dish, packed date/time and relevant allergens</CheckRow><CheckRow id="guide-print-run-sheet">Keep the kitchen run sheet private for the host and helpers</CheckRow></details>
-                <SectionImage image={asset.placeSetting} alt="Thanksgiving place setting with printed details" eyebrow="FROM THE PLAN" caption="Menus, food labels and name tags should come from information you already entered—not another round of typing." position="center 58%" />
-                <div className="panel"><p>Print at 100% scale. Place and food cards: 3.5 × 2 inches; tent cards fold at the dotted center line. Menu and activity sheets: letter size. Use landscape for the kids placemat.</p><button onClick={()=>printCards(printableCards)}>PRINT ALL / SAVE PDF</button><button onClick={()=>printCards(printableCards.filter(c=>c.id.startsWith('guest-')))}>PRINT PLACE CARDS</button></div>
+                <div className="panel"><p>Print at 100% scale. Place and food cards: 3.5 × 2 inches; tent cards fold at the dotted center line. Menu and activity sheets: letter size. Use landscape for the kids placemat.</p><div className="plan-printable-toolbar"><button onClick={()=>printCards(printableCards)}>PRINT ALL / SAVE PDF</button><button onClick={()=>printCards(printableCards.filter(c=>c.id.startsWith('guest-')))}>PRINT PLACE CARDS</button></div></div>
                 <div className="print-grid">
                   {printableCards.map(({ id, name, desc }) => (
                     <article className="print-card" key={id}>
@@ -3225,9 +3231,11 @@ C | C
                         <p>{desc}</p>
                         <small>THANKSGIVING AT HOME · {thanksgiving.getFullYear()}</small>
                       </div>
-                      <label className="field"><span>Title override</span><input aria-label={`Title for ${id}`} value={name} onChange={e=>update('printableOverrides',{...s.printableOverrides,[id]:{...s.printableOverrides[id],name:e.target.value}})}/></label>
+                      <details className="printable-editor"><summary>Personalize this printable</summary>
+                      <label className="field"><span>Title</span><input aria-label={`Title for ${id}`} value={name} onChange={e=>update('printableOverrides',{...s.printableOverrides,[id]:{...s.printableOverrides[id],name:e.target.value}})}/></label>
                       <label className="field"><span>Detail override</span><textarea aria-label={`Detail for ${id}`} value={desc} onChange={e=>update('printableOverrides',{...s.printableOverrides,[id]:{...s.printableOverrides[id],desc:e.target.value}})}/></label>
                       <button onClick={()=>{const next={...s.printableOverrides};delete next[id];update('printableOverrides',next);}}>RESET TO PLAN</button>
+                      </details>
                       <button onClick={() => printOne({id,name,desc})}>
                         <Printer size={16} /> PRINT / SAVE PDF
                       </button><button onClick={()=>void downloadCardImage({id,name,desc})}>DOWNLOAD PNG</button>

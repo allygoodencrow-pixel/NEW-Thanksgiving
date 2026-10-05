@@ -26,4 +26,5 @@ import './responsive-app.css';
 
 import './menu-studio.css';
 import './account.css';
+import './printable-gallery.css';
 import './typography.css';

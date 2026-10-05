@@ -213,6 +213,7 @@ body :where(.page-home:not(.planning-active)) :is(.eyebrow,.input-kicker,.nav-ph
 .planning-active :is(.menu-totals button span,.library-recipe-card p,.recipe-library-toolbar p){font-size:var(--type-label);color:var(--text-muted)}
 .planning-active :is(.recipe-add-button,.recipe-remove-button,.recipe-added,.menu-recipe-status,.menu-library-entry button){font-family:var(--font-body);font-size:var(--type-label);font-weight:300;line-height:1.5;letter-spacing:.15em;text-transform:uppercase}
 .planning-active .recipe-reader-intro h2{font-size:30px;letter-spacing:.045em;text-transform:uppercase}
+.planning-active .printable-design-status{font-family:var(--font-body);font-size:var(--type-label);font-weight:300;line-height:1.5;letter-spacing:.15em}
 .planning-active .topbar .mobile-menu{font-size:12px;letter-spacing:.27em;font-weight:300}
 .planning-active .topbar .header-monogram{font-family:var(--font-display);font-size:20px;font-weight:200;letter-spacing:.3em}
 .planning-active .topbar .mode{font-size:8px;letter-spacing:.13em;font-weight:300}

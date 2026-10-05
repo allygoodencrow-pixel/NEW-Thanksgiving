@@ -2,3 +2,21 @@ const assert=require('node:assert/strict'),{JSDOM}=require('jsdom');const {print
 const {pngAt300Dpi}=require('../.qa/printables.cjs');const tiny=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aZWQAAAAASUVORK5CYII=','base64');const dpi=pngAt300Dpi(tiny),view=new DataView(dpi.buffer);assert.equal(String.fromCharCode(...dpi.slice(37,41)),'pHYs');assert.equal(view.getUint32(41),11811);assert.equal(view.getUint32(45),11811);assert.equal(dpi[49],1);assert.equal(pngAt300Dpi(dpi).length,dpi.length);console.log('PASS exported PNGs carry 300 DPI metadata without duplicate density chunks');
 
 assert.equal(doc.querySelectorAll(".placemat-page").length,1);assert.equal(doc.querySelector(".placemat-page .placemat").parentElement.className,"print-sheet placemat-page");assert(doc.head.textContent.includes("@page kids-placemat{size:letter landscape"));assert(doc.head.textContent.includes(".print-sheet.placemat-page{page:kids-placemat"));assert(!doc.querySelector(".tent-page").classList.contains("placemat-page"));console.log("PASS mixed batches assign landscape only to kids placemats and retain portrait cards/sheets");
+
+// Missing original designs must never download a different generated template.
+const {printableCollections}=require('../.qa/printable-collections.cjs');
+const fs=require('node:fs');
+assert.equal(printableCollections.length,8);
+assert.equal(new Set(printableCollections.map(c=>c.id)).size,8);
+assert.equal(new Set(printableCollections.map(c=>c.image)).size,8);
+for(const c of printableCollections){
+ assert(fs.existsSync('public/resources/printables/'+c.image),c.id+' thumbnail missing');
+ assert(c.alt.length>20);
+ assert.equal(c.download,undefined,'No original design file has been supplied');
+}
+assert(printableCollections.find(c=>c.id==='napkin-bands').contents.includes('napkin bands'));
+assert(printableCollections.find(c=>c.id==='take-home-favors').contents.includes('bag toppers'));
+assert(!printableCollections.find(c=>c.id==='take-home-favors').contents.includes('leftover'));
+assert(printableCollections.find(c=>c.id==='cider-bar-sign').contents.includes('standalone'));
+assert(printableCollections.find(c=>c.id==='cider-menus').contents.includes('Seasonal Sips'));
+console.log('PASS eight distinct existing thumbnail assets; favors and cider variants remain separate; absent originals never get substituted downloads');
