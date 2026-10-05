@@ -1,6 +1,6 @@
 # Crow & Crown — Thanksgiving at Home
 
-This repository contains the exact application implementation synced from the existing Crow & Crown Thanksgiving Site on October 5, 2026. Continue this app; do not create a replacement.
+This is the current Crow & Crown Thanksgiving implementation, synchronized from Sites and extended with Supabase accounts/private cloud plans at the owner's request. Continue this implementation; do not revive older code.
 
 - Existing Site project: `appgprj_6ab9b5c406b88191835e71782dd05346`
 - Live app: https://crow-crown-thanksgiving-hosting.allygoodencrow.chatgpt.site
@@ -28,10 +28,16 @@ The app uses React, TypeScript and Vite. Source is in `src/`, all images and fon
 
 ## Continue from another chat
 
-Enable GitHub and provide this repository link. Ask the chat to edit `main` and read the handoff first. GitHub access permits source editing; it does not by itself fix the separate Sites project access error or publish edits to the live app. Publish only to the existing Site after resolving that access and verifying the source. Do not deploy a new app as a workaround.
+Enable GitHub and provide this repository link. Ask the chat to edit main and read HANDOFF.md first. The owner authorized migrating hosting to Vercel. Once a Git-linked project exists, validated main pushes can publish there. GitHub does not update the original Site automatically.
 
-## Persistence
+## Accounts and persistence
 
-Party plans save in the current browser/device under `cc-thanksgiving-v4`. Export/import moves saved plans between browsers. Source synchronization does not transfer a person's local plan or add cloud account storage.
+Signed-out plans still save locally under cc-thanksgiving-v4. Account adds email/password sign-in, signup, password recovery, multiple named parties, explicit device-plan import and cloud autosaving. Supabase ownership policies keep each account's parties private. Revision comparisons prevent silent cross-device overwrites; failures have retry/export/recovery controls.
 
-Prior repository implementations remain in Git history. The previous README's different Site is superseded by the exact project above for this owner-authorized synchronization.
+Backend is the existing thanksgiving Supabase project almqseeccuohdmlsjnhi. Browser configuration contains only a public publishable key. supabase/schema.sql records the already-applied schema; supabase/verify-rls.sql verifies privacy/revision rules with rolled-back fixtures. Never put an admin/service-role key in browser code.
+
+## Hosting migration status
+
+Vercel configuration is ready in vercel.json. Creating a project through the connected muse team currently fails with HTTP 403 project-create permission denial. No Vercel production URL exists yet. Once access is corrected, import this repository/main using Node 22+, deploy and verify the URL. Set that URL as Supabase Auth's Site URL/allowed redirect; verify customer SMTP/email delivery and end-to-end authentication before launch.
+
+Device-local plans do not transfer across origins automatically. Export from the old app, then import under Party plan → Plan settings in the new signed-in app. Keep the original Site available during migration. Older repository implementations remain in Git history.

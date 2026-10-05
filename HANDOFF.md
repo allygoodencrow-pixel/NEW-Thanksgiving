@@ -1,11 +1,11 @@
 # Crow & Crown Thanksgiving — continuation handoff
 
-Updated October 5, 2026. Continue this existing Sites project; do not create or switch to another Thanksgiving app.
+Updated October 5, 2026. Continue this existing implementation in GitHub. The owner authorized moving its hosting to Vercel and adding Supabase. Do not switch to a different Thanksgiving implementation.
 
 - Project: `appgprj_6ab9b5c406b88191835e71782dd05346`
 - Project link: `sites-project://appgprj_6ab9b5c406b88191835e71782dd05346`
 - Published app: https://crow-crown-thanksgiving-hosting.allygoodencrow.chatgpt.site
-- Read `AGENTS.md` and `DESIGN_DIRECTION.md` before editing. Open the current project source through Sites; do not assume this handoff describes a later version.
+- Read `AGENTS.md` and `DESIGN_DIRECTION.md` before editing. Open the current source in allygoodencrow-pixel/NEW-Thanksgiving; GitHub now contains newer account integration than the original Site.
 
 ## Owner's design requirements
 
@@ -21,14 +21,28 @@ Expected counts Attending + Pending; Confirmed counts Attending. Estimated and C
 
 Shopping rows have a full-row Edit control, a direct quantity field, decimal quantity/price drafts, stepper controls, reset, quantity mode and Done. Guest entry is a labelled section immediately under the Guests heading. The guest-name font exception was removed because it defeated mobile input sizing. Quantity displays preserve decimals rather than rounding amounts above ten to whole numbers.
 
-Plans currently save on the same browser/device in localStorage (`cc-thanksgiving-v4`). Project-source access in another chat does not transfer a person's saved plan or provide cross-device account storage.
+The original Site saves locally in cc-thanksgiving-v4. The newer GitHub source adds Supabase accounts and private cloud plans. A device-local plan does not transfer automatically across origins.
 
 ## Validation and limits
 
 The last application change was published as version 44, source `f64e49f5368ee3faac9d98c489ec0e25bf4aa95e`. Domain, UI, responsive cascade, Home baseline, type checks and production build passed. UI checks include adding/declining a guest and observing changed mapped shopping ingredients, decimal quantity/price editing and menu/library selection synchronization.
 
-Visual browser review was unavailable in that session. Do not claim screenshot verification or owner approval of the newest styling. Preserve Home and investigate concrete reported issues before adding more style overrides. Run the required checks after application changes and publish back to this same project.
+Visual browser review was unavailable in that session. Do not claim screenshot verification or owner approval of the newest styling. Preserve Home and investigate concrete reported issues before adding more style overrides. Run required checks before deployment.
 
-## GitHub continuation
+## GitHub and cloud continuation
 
-The owner authorized syncing this exact app into `allygoodencrow-pixel/NEW-Thanksgiving` on October 5. GitHub main now carries the application source, assets and standalone regression fixtures. GitHub chats can edit that repository after reading these instructions. Publishing to the existing Site still requires Sites access; GitHub commits do not automatically publish this Site. Do not create another app to bypass the Sites access problem.
+The owner authorized syncing this app into [allygoodencrow-pixel/NEW-Thanksgiving](https://github.com/allygoodencrow-pixel/NEW-Thanksgiving), then moving it to Vercel and adding Supabase on October 5. Other chats can continue in that repository. GitHub commits do not update the original Site. Once Vercel is connected to main, validated pushes should publish there. Keep the original Site available during migration so local plans can be exported.
+
+CloudApp.tsx wraps the preserved planner: email/password sign-in, signup, password recovery, multiple named parties, explicit device-plan import and sign-out. cloud.ts serializes autosaves and compares server revisions so a stale device cannot overwrite another device. Account changes/load failures never fall back to a previous user's cached party. Unsaved changes retain user/party-specific recovery backups. Account UI uses the existing font families and sole typography owner.
+
+Backend is the existing Supabase thanksgiving project almqseeccuohdmlsjnhi. cc_party_plans stores canonical planner JSON, preserving recipes, guests, assignments, quantities and overrides. Owner-only RLS covers every operation; anonymous access is revoked. Clients update only name/state; the server owns revision/timestamps/identity. src/supabase-config.ts contains public browser configuration only. Never add service-role keys, database passwords or management tokens there.
+
+The schema is already applied through migration crow_crown_private_party_plans; supabase/schema.sql records it. Do not apply creation again blindly. supabase/verify-rls.sql passed on the real database: owner access, anonymous/cross-user denial, forged ownership rejection, immutable owner, revision increment and stale-save rejection. Test identities/data were rolled back. Security/performance advisors returned no notices. tests/cloud.cjs validates queued saves, retry/recovery, conflicts and the React account flow with a fake transport. Production email delivery and a live customer session remain unverified.
+
+## Remaining hosting steps
+
+Vercel account is allygoodencrow-8547; team is muse (team_XWguvIFPrY3F6BbC8GN3JPLa). Project listing returned none. Git-linked and direct project creation both returned HTTP 403: You don't have permission to create the project. No Vercel project/deployment exists from this migration yet. vercel.json is ready for Vite, npm ci, npm run build, dist and SPA routing. Public Supabase browser config is included; no secret environment variable is required. Use Node 22+.
+
+Finish by obtaining project-create access or—with user approval for browser fallback—importing this repository in Vercel's dashboard. Connect main, deploy and verify the actual production URL. Then set Supabase Auth Site URL/allowed redirects to that URL. Current Supabase tools do not expose Auth configuration. Verify customer email delivery/custom SMTP, confirmation, sign-in, password reset and cross-device saving before calling this customer-ready. Do not disable confirmation to bypass setup.
+
+An old Site's local plan cannot be read from a new Vercel origin. Export it on the old app and import under Party plan → Plan settings while signed in on the new app. On the same origin, Account → Save device plan as a party creates a separate cloud party without replacing an existing one.

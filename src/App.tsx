@@ -1270,13 +1270,22 @@ const dishThumb: Record<string, string> = {
   'fn-citrus-cranberry': asset.cranberryDish,
 };
 
-function App() {
+type AppProps = {
+  seed?: unknown;
+  storageKey?: string;
+  onPlanChange?: (state: State) => void;
+  onAccount?: () => void;
+  saveStatus?: string;
+};
+
+function App({seed, storageKey = 'cc-thanksgiving-v4', onPlanChange, onAccount, saveStatus}: AppProps = {}) {
   const [loadResult] = useState(() => {
-    try { const raw = localStorage.getItem('cc-thanksgiving-v4') || localStorage.getItem('cc-thanksgiving-v3') || localStorage.getItem('cc-thanksgiving-v1');
-      return {state: normalizeState(raw ? JSON.parse(raw) : initial, initial, dishes), error: ''};
+    try { const raw = seed === undefined ? localStorage.getItem(storageKey) || (storageKey === 'cc-thanksgiving-v4' ? localStorage.getItem('cc-thanksgiving-v3') || localStorage.getItem('cc-thanksgiving-v1') : null) : null;
+      return {state: normalizeState(seed ?? (raw ? JSON.parse(raw) : initial), initial, dishes), error: ''};
     } catch { return {state: normalizeState(initial, initial, dishes), error: 'Saved plan could not be read. The original saved data has been left untouched. Export this plan before making changes.'}; }
   });
   const [s, setS] = useState<State>(loadResult.state);
+  const accountPlan = seed !== undefined;
   const [storageError, setStorageError] = useState(loadResult.error);
   const [canSave,setCanSave]=useState(!loadResult.error);
   const draft = s.drafts.recipe || {};
@@ -1336,9 +1345,10 @@ function App() {
   const [newTimelineCategory, setNewTimelineCategory] = useState('Activity');
   useEffect(() => {
     if (!canSave) return;
-    try { localStorage.setItem('cc-thanksgiving-v4', JSON.stringify(s)); setStorageError(''); }
-    catch { setStorageError('Changes are not saved: browser storage is unavailable or full. Export your plan now.'); }
-  }, [s,canSave]);
+    try { localStorage.setItem(storageKey, JSON.stringify(s)); setStorageError(''); }
+    catch { setStorageError(accountPlan ? 'Device backup is unavailable. Check your account save status before leaving.' : 'Changes are not saved: browser storage is unavailable or full. Export your plan now.'); }
+    onPlanChange?.(s);
+  }, [s,canSave,storageKey,onPlanChange,accountPlan]);
   useEffect(() => {
     if (!mobileNav) return;
     const previousFocus = document.activeElement as HTMLElement | null;
@@ -1705,6 +1715,7 @@ C | C
           </button>
           <button className="header-monogram" aria-label="Crow and Crown home" onClick={() => navigate('HOME')}>C | C</button>
           <div className="top-actions">
+            {onAccount && <button className="account-control" onClick={onAccount} aria-label="Account and saved parties">ACCOUNT</button>}
             <button
               onClick={() => update('dayMode', !s.dayMode)}
               className={s.dayMode ? 'mode active' : 'mode'}
@@ -3242,7 +3253,7 @@ C | C
             )}
           </>
         )}
-        {(tab === 'PARTY PLAN' || s.dayMode) && <details className="plan-settings"><summary>PLAN SETTINGS · IMPORT / EXPORT</summary><div className="plan-utility"><span>{s.planningMode}: {planningCount} people · {adults} adults · {kids} children · {adultDrinkers} drinkers</span><span>{storageError ? 'NOT SAVED' : 'Saved on this device'}</span>
+        {(tab === 'PARTY PLAN' || s.dayMode) && <details className="plan-settings"><summary>PLAN SETTINGS · IMPORT / EXPORT</summary><div className="plan-utility"><span>{s.planningMode}: {planningCount} people · {adults} adults · {kids} children · {adultDrinkers} drinkers</span><span>{saveStatus || (storageError ? 'NOT SAVED' : 'Saved on this device')}</span>
           <button onClick={() => {const blob=new Blob([JSON.stringify(s,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='Crow-Crown-Thanksgiving-Plan.json';a.click();URL.revokeObjectURL(a.href);}}>EXPORT PLAN</button>
           <label className="import-plan">IMPORT PLAN<input type="file" accept=".json" onChange={async e=>{const f=e.target.files?.[0];if(!f)return;try {const restored=normalizeState(JSON.parse(await f.text()),initial,dishes);if(confirm('Replace this device’s current plan with the imported plan? Export your current plan first if you want to keep it.')){setS(restored);setCanSave(true);setStorageError('');}}catch {setStorageError('Import failed. Your current plan was not changed. Use a valid plan JSON file.');}e.target.value='';}} /></label>
         </div></details>}

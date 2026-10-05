@@ -2,7 +2,7 @@
 
 The Home screen is the user-confirmed typography reference. Preserve its layout and source fonts.
 
-For continuation in another chat, read `HANDOFF.md` and `DESIGN_DIRECTION.md` and inspect the current source before editing. Continue the project identified in `.openai/hosting.json`; do not create a replacement app.
+For continuation in another chat, read `HANDOFF.md` and `DESIGN_DIRECTION.md` and inspect the current source before editing. Continue `allygoodencrow-pixel/NEW-Thanksgiving`. The owner authorized moving this same implementation to Vercel and adding Supabase on October 5, 2026. `.openai/hosting.json` identifies the original Site; it is not a requirement to keep hosting there. Do not create a different Thanksgiving implementation.
 
 `src/typography.css` is the sole owner of screen font families, sizes, weights, line heights and tracking. Do not put font declarations in component/layout CSS or React inline styles. The regression suite enforces this. Print-only rules may remain separate.
 

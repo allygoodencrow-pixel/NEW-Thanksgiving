@@ -1,11 +1,11 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import App from './App';
+import CloudApp from './CloudApp';
 import './index.css';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    <CloudApp />
   </StrictMode>
 );
 
@@ -25,4 +25,5 @@ import './shopping-layout.css';
 import './responsive-app.css';
 
 import './menu-studio.css';
+import './account.css';
 import './typography.css';

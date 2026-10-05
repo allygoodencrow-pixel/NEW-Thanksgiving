@@ -223,3 +223,15 @@ body :where(.page-home:not(.planning-active)) :is(.eyebrow,.input-kicker,.nav-ph
 .planning-active :is(.guest-entry .guest-add button,.guest-list-panel .guest-add button,.shopping-item-editor .shopping-save,.shopping-item-editor .qty-reset,.shopping-item-editor .manual-remove,.shopping-item-editor .shopping-controls button,.shopping-workspace .save-recipe-button){--text-primary:#f1f1f1;--text-muted:#d6d6d3;color:var(--text-primary)}
 .planning-active .shopping-list-filters button{color:#f1f1f1}.planning-active .shopping-list-filters button[aria-pressed=true]{color:#292725}
 .planning-active .shopping-workspace .shop-item.completed .check-circle{color:#f1f1f1}
+
+/* Account UI uses the same two font families and functional hierarchy. */
+.account-sheet{font-family:var(--font-body);font-size:13px;font-weight:300;line-height:1.6;letter-spacing:0;color:#292725}
+.account-sheet :where(*){font-family:inherit;font-size:inherit;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit}
+.account-sheet h2{font-family:var(--font-display);font-size:26px;font-weight:200;line-height:1.35;letter-spacing:.09em;text-transform:uppercase}
+.account-sheet :is(button,label,small,.account-kicker){font-size:11px;line-height:1.5;letter-spacing:.15em;text-transform:uppercase}
+.account-sheet button{color:#f1f1f1}.account-sheet :is(header button,.account-text-action,.account-party-list button){color:#292725}
+.account-sheet .account-tabs button[aria-pressed=false]{color:#292725}
+.account-sheet input{font-family:var(--font-body);font-size:16px;font-weight:300;line-height:1.4;letter-spacing:0;color:#292725}
+body .shell .topbar .account-control,.cloud-status{font-family:var(--font-body);font-size:8px;font-weight:300;line-height:1.5;letter-spacing:.13em;color:#f1f1f1;text-transform:uppercase}
+.cloud-status{font-size:11px}
+@media(max-width:560px){body .shell .topbar .account-control{font-size:7px}.account-sheet h2{font-size:22px}}

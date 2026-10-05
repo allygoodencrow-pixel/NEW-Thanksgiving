@@ -1,7 +1,9 @@
-Crow & Crown Thanksgiving at Home — GitHub synchronization
-Runtime source: Sites project appgprj_6ab9b5c406b88191835e71782dd05346
-Source commit: 2db787cf0541eb82f5743818b659ae3425630a25 (version 45)
-Runtime: src/, public/, package.json, package-lock.json, index.html and Vite configuration copied unchanged.
-Developer-only adjustments: standalone Home baseline fixtures, updated continuation documentation and GitHub checks.
+Crow & Crown Thanksgiving — authorized Vercel/Supabase migration
+Original app: Sites appgprj_6ab9b5c406b88191835e71782dd05346
+Baseline source: 2db787cf0541eb82f5743818b659ae3425630a25 (version 45)
 Repository: allygoodencrow-pixel/NEW-Thanksgiving, main
-Do not create another Thanksgiving app.
+Preserved: planning/recipe engine, photos/fonts and existing page typography/layout.
+Added: accounts, private cloud parties, revision conflicts/recovery and Vercel configuration.
+Backend: existing thanksgiving project almqseeccuohdmlsjnhi; cc_party_plans schema applied.
+Hosting: Vercel project creation blocked by connected-team HTTP 403; deployment not completed.
+Do not revive an older implementation or duplicate the app.
