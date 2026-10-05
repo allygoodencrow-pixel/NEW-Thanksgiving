@@ -150,6 +150,21 @@ October 5 signing-secret test: SHOPIFY_WEBHOOK_SECRET was saved by the owner at 
 October 5, 14:19 continuation: the owner's replacement SHOPIFY_WEBHOOK_SECRET save timestamp is 14:19:16 PDT. Sent another Shopify sample; the dashboard has not yet shown its invocation after several refreshes. Only the older failed samples are visible, so do not claim that the replacement validated or failed. No further signing-secret change is requested until the fresh result is available. Custom SMTP was reloaded and remains enabled, but the prior invalid-credential error is still unresolved. Saved the Magic link/OTP template with subject Open your CROW & CROWN Thanksgiving planner, branded existing-account sign-in copy and the required ConfirmationURL token. Save is disabled and Reset template is available after submission. Secure handoff is now prepared on SMTP Settings for the owner to replace its Password with a complete valid generated Resend API key and Save changes. No actual credential has been read/copied by the agent.
 
 
+
+## Current continuation checkpoint — October 5, 2026, after 14:43 PDT
+
+This section supersedes the 14:24 checkpoint where noted.
+
+- The Supabase connector now successfully accesses the correct existing project `almqseeccuohdmlsjnhi` (name thanksgiving, ACTIVE_HEALTHY). Do not assume the earlier account/permission failure still applies.
+- Fresh unified logs queried from 21:19:16 UTC onward show `purchase_webhook_rejected invalid_signature` at **2026-10-05 21:20:01.672 UTC / 14:20:01.672 PDT**, after the owner's 14:19:16 secret replacement. The replacement therefore did not pass that sample. This is a current result, not the older 14:15 failure.
+- Read the deployed `shopify-purchase` function through the connector: ACTIVE, version 5, `verify_jwt: false`. Its code still verifies SHA-256 HMAC over raw body bytes using `SHOPIFY_WEBHOOK_SECRET`, before JSON parsing or purchase processing. No secret values were requested/read/copied, no authentication checks were weakened and no function deployment was made in this continuation.
+- Shopify's live product read unexpectedly returned **ACTIVE** for `gid://shopify/Product/10788940677414`. Restored it to **DRAFT** under the owner's explicit keep-unpublished instruction; the successful update response verifies DRAFT. Price 28.99, thumbnail, description and existing product identity were preserved. The cause of the prior Active status was not established.
+- Read-only database check confirmed `relrowsecurity: true` on both `cc_party_plans` and `cc_purchase_fulfillments`. This checks RLS enabled status only, not a repeat of the earlier ownership/revision tests.
+- This chat's cloud browser has no continued dashboard authentication; the existing-project Supabase URL redirects to sign-in. A secure browser-auth sign-in is needed before dashboard-only SMTP/secret preparation. Do not request credentials in chat.
+- No new SMTP success, external email delivery, password setup, live sign-in/reset or cross-device save is verified. The last known SMTP failure remains 535 Authentication credentials invalid. No app code, design, planning mapping or schema was changed.
+
+Next: sign in securely to the existing Supabase dashboard; owner must enter/save corrected webhook and Resend SMTP credentials directly. Use the Shopify Notifications → Webhooks signing value for this manually registered webhook, not an API/access token. Preserve HMAC and this endpoint's existing gateway setting. Verify a fresh signed sample after correction. Complete owner-approved external inbox, account and two-session private saving tests; keep product Draft until verified.
+
 ## New-chat checkpoint — October 5, 2026, 14:24 PDT
 
 Read this section first for current status; earlier sections are chronological and contain superseded settings.
