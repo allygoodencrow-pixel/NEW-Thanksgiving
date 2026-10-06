@@ -6,6 +6,7 @@ for(const [source,name] of [['src/App.tsx','app'],['src/domain.ts','domain'],['s
 await build({entryPoints:['supabase/functions/shopify-purchase/core.ts'],bundle:true,platform:'node',format:'cjs',outfile:'.qa/purchase.cjs'});
 await build({entryPoints:['src/CloudApp.tsx'],bundle:true,platform:'node',format:'cjs',packages:'external',outfile:'.qa/cloud-app.cjs',jsx:'automatic',plugins:[{name:'shared-cloud-client',setup(b){b.onResolve({filter:/^\.\/cloud$/},()=>({path:'./cloud.cjs',external:true}));}}]});
 execFileSync(process.execPath,['tests/domain.cjs'],{stdio:'inherit'});
+execFileSync(process.execPath,['tests/recipe-audit.cjs'],{stdio:'inherit'});
 execFileSync(process.execPath,['tests/ui.cjs'],{stdio:'inherit'});
 execFileSync(process.execPath,['tests/cloud.cjs'],{stdio:'inherit'});
 execFileSync(process.execPath,['tests/purchase.cjs'],{stdio:'inherit'});

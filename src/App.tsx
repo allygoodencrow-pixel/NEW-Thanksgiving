@@ -1,3 +1,4 @@
+import { completeRecipe } from './completeRecipes';
 import { groupPrintables } from './printableCategories';
 import { guideRecipes } from './guideRecipes';
 import { moreReviewedRecipes } from './moreReviewedRecipes';
@@ -46,6 +47,11 @@ export type Dish = {
   batchMode?: 'whole' | 'half';
   ingredientSteps?: Record<string, number>;
   seasoning?: string;
+  servingPlan?: boolean;
+  pantryChecks?: string[];
+  ingredientNotes?: Record<string,string>;
+  prepPhases?: { label: string; offsetMinutes: number }[];
+  advanceTasks?: { label: string; minutesBeforeCooking: number }[];
   sourceYield?: string;
   prepMinutes?: number;
   restMinutes?: number;
@@ -801,7 +807,7 @@ const legacyDishes: Dish[] = [
     audience: 'adults',
   },
 ];
-export const dishes: Dish[] = [...legacyDishes.filter(d=>!guideRecipes.some(r=>r.id===d.id)).map(d=>({...d,...auditedRecipes.find(r=>r.id===d.id)})), ...guideRecipes, pecanRecipe, ...moreReviewedRecipes, ...expandedRecipes].map(d=>({...d,image:d.image || dishThumb[d.id]}));
+export const dishes: Dish[] = [...legacyDishes.filter(d=>!guideRecipes.some(r=>r.id===d.id)).map(d=>({...d,...auditedRecipes.find(r=>r.id===d.id)})), ...guideRecipes, pecanRecipe, ...moreReviewedRecipes, ...expandedRecipes].map(completeRecipe).map(d=>({...d,image:d.image || dishThumb[d.id]}));
 const presets: Record<string, string[]> = {
   'THE CLASSIC': [
     'turkey',
@@ -1680,9 +1686,9 @@ C | C
       )}
       {openDish && (()=>{const d=allDishes.find(x=>x.id===openDish);if(!d)return null;const included=s.selections.includes(d.id);return <div className="recipe-overlay" onClick={()=>setOpenDish(null)}><section className="recipe-sheet glass-light" role="dialog" aria-modal="true" aria-labelledby="recipe-reader-title" onClick={e=>e.stopPropagation()}>
         <header className="recipe-reader-header"><span>{included?'IN YOUR PLAN':'RECIPE PREVIEW · NOT IN YOUR PLAN'}</span><button aria-label="Close recipe" onClick={()=>setOpenDish(null)}><X size={22}/></button></header>
-        <div className="recipe-reader-intro"><img src={d.image||dishThumb[d.id]||asset.tableLight} alt={d.name}/><div><span className="eyebrow">{d.group}</span><h2 id="recipe-reader-title">{d.name}</h2><dl className="recipe-facts"><div><dt>{included?'Planned portions':'Base servings'}</dt><dd>{included?qty(dishPortions(s,d)):d.serves||'—'}</dd></div><div><dt>Original yield</dt><dd>{d.sourceYield || (d.serves ? `${d.serves} servings` : 'Not recorded')}</dd></div><div><dt>Recipe time</dt><dd>{d.minutes} min</dd></div>{Boolean(d.oven)&&<div><dt>Oven</dt><dd>{d.temp}°F</dd></div>}</dl>{d.rating&&<p>{d.rating} · checked October 6, 2026</p>}<p className="recipe-source-label">{d.sourceUrl ? <a href={d.sourceUrl} target="_blank" rel="noreferrer">{d.source || 'Original recipe'} · View source →</a> : recipeReady(d) ? 'Your saved recipe' : 'Incomplete recipe'}</p><div className="recipe-reader-actions"><button className="recipe-plan-action" onClick={()=>toggleSelection(d.id)}>{included?'Remove from menu':'Add to menu'}</button><button className="recipe-edit-action" onClick={()=>editFullRecipe(d)}>EDIT RECIPE</button></div></div></div>
-        <div className="recipe-reader-columns"><section className="recipe-ingredient-section"><div className="recipe-section-heading"><span>01</span><h3>Ingredients</h3></div><p className="recipe-scale-note">{included ? d.batchMode ? `${formatRecipeAmount(recipeQuantityServings(s,d)/(d.serves||1))} ${recipeQuantityServings(s,d)<=(d.serves||1)?'batch':'batches'} · capacity ${formatRecipeAmount(recipeQuantityServings(s,d))} servings for ${qty(dishPortions(s,d))} planned portions.` : `Amounts scaled to ${qty(dishPortions(s,d))} planned portions.` : 'Amounts for one original batch.'}</p>{!recipeReady(d)&&<p className="recipe-incomplete-note">Recipe incomplete. These quantities are not used in shopping.</p>}<ul className="reader-ingredients">{d.ingredients.map(([name,n,unit],i)=><li key={name+unit+i}><span>{name}</span><b>{formatRecipeAmount(included?recipeIngredientQuantity(s,d,name,n):n*(d.serves||1))} {unit}</b></li>)}</ul>{d.seasoning&&<p className="recipe-seasoning">{d.seasoning}</p>}<details className="recipe-scaling-details"><summary>Quantity details</summary><p>{d.recipeVerified?'Source-checked quantities.':recipeReady(d)?'Saved quantities.':'Incomplete outline.'} Base yield: {d.sourceYield||d.serves||'not saved'}. {d.batchMode==='whole'?'Whole batches are rounded up.':d.batchMode==='half'?'Use half or full batches; eggs are rounded up as specified by the source.':''} {included?`Shopping: ${preparation(s,d)}.`:'Preview only — nothing added to shopping.'}</p></details></section>
-        <section className="recipe-method-section"><div className="recipe-section-heading"><span>02</span><h3>Method</h3></div>{d.recipeVerified&&<p className="recipe-scale-note">Planning summary of the original method. {d.sourceUrl&&<a href={d.sourceUrl} target="_blank" rel="noreferrer">Read the complete source recipe →</a>}</p>}{d.instructions?.trim()?<ol className="reader-method">{d.instructions.split(/\n+/).filter(Boolean).map((step,i)=><li key={i}><span>{step.replace(/^\s*\d+[.)]\s+/, '')}</span></li>)}</ol>:<div className="recipe-source-note"><p>{d.sourceUrl?'This record contains planning quantities and notes. Use the original recipe for the complete cooking method.':'A complete cooking method has not been saved for this dish.'}</p>{d.sourceUrl&&<a href={d.sourceUrl} target="_blank" rel="noreferrer">OPEN ORIGINAL RECIPE →</a>}<button onClick={()=>editFullRecipe(d)}>COMPLETE THIS RECIPE</button></div>}</section></div>
+        <div className="recipe-reader-intro"><img src={d.image||dishThumb[d.id]||asset.tableLight} alt={d.name}/><div><span className="eyebrow">{d.group}</span><h2 id="recipe-reader-title">{d.name}</h2><dl className="recipe-facts"><div><dt>{included?'Planned portions':'Base servings'}</dt><dd>{included?qty(dishPortions(s,d)):d.serves||'—'}</dd></div><div><dt>Original yield</dt><dd>{d.sourceYield || (d.serves ? `${d.serves} servings` : 'Not recorded')}</dd></div><div><dt>Recipe time</dt><dd>{d.minutes} min</dd></div>{Boolean(d.oven)&&<div><dt>Oven</dt><dd>{d.temp}°F</dd></div>}</dl>{d.rating&&<p>{d.rating} · checked October 6, 2026</p>}<p className="recipe-source-label">{d.sourceUrl ? <a href={d.sourceUrl} target="_blank" rel="noreferrer">{d.source || 'Original recipe'} · View source →</a> : d.servingPlan ? 'Serving plan · package directions apply' : recipeReady(d) ? 'Your saved recipe' : 'Incomplete recipe'}</p><div className="recipe-reader-actions"><button className="recipe-plan-action" onClick={()=>toggleSelection(d.id)}>{included?'Remove from menu':'Add to menu'}</button><button className="recipe-edit-action" onClick={()=>editFullRecipe(d)}>EDIT RECIPE</button></div></div></div>
+        <div className="recipe-reader-columns"><section className="recipe-ingredient-section"><div className="recipe-section-heading"><span>01</span><h3>Ingredients</h3></div><p className="recipe-scale-note">{included ? d.batchMode ? `${formatRecipeAmount(recipeQuantityServings(s,d)/(d.serves||1))} ${recipeQuantityServings(s,d)<=(d.serves||1)?'batch':'batches'} · capacity ${formatRecipeAmount(recipeQuantityServings(s,d))} servings for ${qty(dishPortions(s,d))} planned portions.` : `Amounts scaled to ${qty(dishPortions(s,d))} planned portions.` : 'Amounts for one original batch.'}</p>{!recipeReady(d)&&<p className="recipe-incomplete-note">Recipe incomplete. These quantities are not used in shopping.</p>}<ul className="reader-ingredients">{d.ingredients.map(([name,n,unit],i)=><li key={name+unit+i}><span>{name}{d.ingredientNotes?.[name]&&<small style={{display:'block'}}>{d.ingredientNotes[name]}</small>}</span><b>{formatRecipeAmount(included?recipeIngredientQuantity(s,d,name,n):n*(d.serves||1))} {unit}</b></li>)}</ul>{Boolean(d.pantryChecks?.length)&&<div className="recipe-seasoning"><b>Check pantry / supplies</b><ul>{d.pantryChecks!.map(item=><li key={item}>{item} · to taste or as needed</li>)}</ul><p>These checks also appear in Shopping; no guessed quantity is added.</p></div>}{d.seasoning&&<p className="recipe-seasoning">{d.seasoning}</p>}<details className="recipe-scaling-details"><summary>Quantity details</summary><p>{d.recipeVerified?'Source-checked quantities.':recipeReady(d)?'Saved quantities.':'Incomplete outline.'} Base yield: {d.sourceYield||d.serves||'not saved'}. {d.batchMode==='whole'?'Whole batches are rounded up.':d.batchMode==='half'?'Use half or full batches; eggs are rounded up as specified by the source.':''} {included?`Shopping: ${preparation(s,d)}.`:'Preview only — nothing added to shopping.'}</p></details></section>
+        <section className="recipe-method-section"><div className="recipe-section-heading"><span>02</span><h3>Method</h3></div>{d.recipeVerified&&<p className="recipe-scale-note">Cooking steps adapted from the linked source. Quantities above are planned totals; divide them among source-size batches. Cooking and cooling times stay the same per batch. {d.sourceUrl&&<a href={d.sourceUrl} target="_blank" rel="noreferrer">Read the publisher’s recipe →</a>}</p>}{d.instructions?.trim()?<ol className="reader-method">{d.instructions.split(/\n+/).filter(Boolean).map((step,i)=><li key={i}><span>{step.replace(/^\s*\d+[.)]\s+/, '')}</span></li>)}</ol>:<div className="recipe-source-note"><p>{d.sourceUrl?'This record contains planning quantities and notes. Use the original recipe for the complete cooking method.':'A complete cooking method has not been saved for this dish.'}</p>{d.sourceUrl&&<a href={d.sourceUrl} target="_blank" rel="noreferrer">OPEN ORIGINAL RECIPE →</a>}<button onClick={()=>editFullRecipe(d)}>COMPLETE THIS RECIPE</button></div>}</section></div>
         {(d.makeAhead||d.finish||d.vessel)&&<div className="recipe-finishing-notes">{d.makeAhead&&<section><div className="recipe-section-heading"><span>03</span><h3>Make ahead</h3></div><p>{d.makeAhead}</p></section>}{(d.finish||d.vessel)&&<section><div className="recipe-section-heading"><span>04</span><h3>Serving</h3></div>{d.finish&&<p>{d.finish}</p>}{d.vessel&&<p className="recipe-vessel">{d.vessel}</p>}</section>}</div>}
         {d.sourceUrl&&d.instructions?.trim()&&<footer className="recipe-reader-footer"><a href={d.sourceUrl} target="_blank" rel="noreferrer">OPEN ORIGINAL RECIPE →</a></footer>}
       </section></div>})()}
@@ -1955,7 +1961,7 @@ C | C
                           style: 'custom',
                           minutes: Math.max(0, Number(customMinutes) || 0),
                           oven: customStages.length?customStages.reduce((n,x)=>n+x.minutes,0):Math.max(0,Number(customOven)||0),
-                          batchMode:customWhole?'whole':allDishes.find(d=>d.id===recipeReplacement)?.batchMode==='half'?'half':undefined,ingredientSteps:allDishes.find(d=>d.id===recipeReplacement)?.ingredientSteps,prepMinutes:Math.max(0,Number(customPrepMinutes)||0),restMinutes:Math.max(0,Number(customRestMinutes)||0),ovenStages:customStages,seasoning:allDishes.find(d=>d.id===recipeReplacement)?.seasoning,
+                          batchMode:customWhole?'whole':allDishes.find(d=>d.id===recipeReplacement)?.batchMode==='half'?'half':undefined,ingredientSteps:allDishes.find(d=>d.id===recipeReplacement)?.ingredientSteps,prepMinutes:Math.max(0,Number(customPrepMinutes)||0),restMinutes:Math.max(0,Number(customRestMinutes)||0),ovenStages:customStages,pantryChecks:allDishes.find(d=>d.id===recipeReplacement)?.pantryChecks,ingredientNotes:allDishes.find(d=>d.id===recipeReplacement)?.ingredientNotes,prepPhases:customInstructions.trim()===allDishes.find(d=>d.id===recipeReplacement)?.instructions?.trim()&&Number(customPrepMinutes)===allDishes.find(d=>d.id===recipeReplacement)?.prepMinutes?allDishes.find(d=>d.id===recipeReplacement)?.prepPhases:undefined,advanceTasks:customInstructions.trim()===allDishes.find(d=>d.id===recipeReplacement)?.instructions?.trim()?allDishes.find(d=>d.id===recipeReplacement)?.advanceTasks:undefined,seasoning:allDishes.find(d=>d.id===recipeReplacement)?.seasoning,
                           temp: Math.max(0,Number(customTemp)||0),
                           cost: Math.max(0,Number(customCost)||0)*18/Math.max(1,Number(customServes)||1),
                           portion: `Recipe serves ${Math.max(1, Number(customServes) || Math.max(1, planningCount))}`,
@@ -2015,7 +2021,7 @@ C | C
                             <div className="menu-dish-copy">
                               <span className="menu-dish-title">{d.name}</span>
                               <small className="menu-dish-meta">{d.group} · {qty(dishPortions(s,d))} planned portions</small>
-                              <small className="menu-dish-source">{d.sourceUrl ? `${d.source || 'Source recipe'}${recipeReady(d) ? '' : ' · Recipe incomplete'}` : recipeReady(d) ? 'Your saved recipe' : 'Recipe incomplete'}</small>
+                              <small className="menu-dish-source">{d.sourceUrl ? `${d.source || 'Source recipe'}${recipeReady(d) ? '' : ' · Recipe incomplete'}` : d.servingPlan ? 'Serving plan · package directions apply' : recipeReady(d) ? 'Your saved recipe' : 'Recipe incomplete'}</small>
                               <span className="menu-dish-status">{ownerLabel(d)} · {preparation(s,d)}</span>{!recipeReady(d)&&preparation(s,d)==='Homemade'&&<p className="recipe-blocker">RECIPE INCOMPLETE · Ingredients and cooking tasks are not generated. Complete this recipe or select a measured recipe from your guide.</p>}
                             </div>
                             <button className="menu-dish-recipe" aria-expanded={openDish === d.id} onClick={() => setOpenDish(openDish === d.id ? null : d.id)}>View recipe <ArrowRight size={14}/></button>
@@ -2105,7 +2111,7 @@ C | C
                     <div className="library-recipe-copy">
                       <span className="eyebrow">{d.group}{d.source ? ` · ${d.source}` : ''}</span><h3>{d.name}</h3>
                       <p>{d.sourceYield ? `Original yield: ${d.sourceYield} · ` : ''}{d.minutes} min</p>
-                      {!d.recipeVerified&&<span className="recipe-completeness">{d.instructions?.trim()?'YOUR SAVED RECIPE':'SERVING PLAN'}</span>}
+                      {!d.recipeVerified&&<span className="recipe-completeness">{d.servingPlan?'SERVING PLAN':recipeReady(d)?'YOUR SAVED RECIPE':'INCOMPLETE RECIPE'}</span>}
                       {d.rating&&<p>{d.rating} · checked October 6, 2026</p>}
                       <button className="library-view-recipe" onClick={()=>setOpenDish(d.id)}>Recipe & ingredients <ArrowRight size={14}/></button>
                       {d.id.startsWith('custom-')&&<button className="remove-recipe-link" onClick={()=>setS(v=>reconcileState({...v,customRecipes:v.customRecipes.filter(r=>r.id!==d.id),selections:v.selections.filter(id=>id!==d.id)},dishes))}>Remove saved recipe</button>}
@@ -2222,7 +2228,7 @@ C | C
                     <CheckRow id="prep-day-lighting">Set music, lamps + candles before the kitchen gets busy</CheckRow>
                     {[...purchasedDishes,...guestProvidedSelected].map(d=><CheckRow key={d.id} id={`receive-${d.id}`} note={ownerLabel(d)}>{preparation(s,d)==='Purchased'?'Collect / stage':'Receive from provider'} · {d.name}</CheckRow>)}
                     {hostPrepared.map(d => (
-                      <CheckRow
+                      <div key={d.id}><CheckRow
                         key={d.id}
                         id={`prep-day-${d.id}`}
                         note={
@@ -2232,8 +2238,9 @@ C | C
                         }
                       >
                         {d.name}
-                      </CheckRow>
+                      </CheckRow><button type="button" onClick={()=>setOpenDish(d.id)}>View cooking steps for {d.name}</button></div>
                     ))}
+                    {buildTimeline(s,plan).filter(row=>/^recipe-(phase|advance)-/.test(row[2])).map(([time,label,id])=><CheckRow key={id} id={id} note={clock(time)}>{label}</CheckRow>)}
                   </div>
                   <div className="panel">
                     <span className="eyebrow">FINAL 60 MINUTES</span>
@@ -2344,6 +2351,7 @@ C | C
                       return items.length ? (
                         <div className="shop-group" key={cat}>
                           <div className="shopping-category-heading"><h3>{cat}</h3><span>{items.length} {items.length===1?'item':'items'}</span></div>
+                          {cat==='Pantry checks'&&<p>Unmeasured additions and supplies. Check stock; add an item with a quantity if you need to buy it.</p>}
                           {items.map(item => {
                             const currentQty = shoppingQty(item.key, item.count);
                             const saveQuantity = () => {
@@ -2359,6 +2367,10 @@ C | C
                             const step = item.unit.includes('lb') || item.unit.includes('cup') || item.unit.includes('bottle')
                               ? 0.5
                               : 1;
+                            if(item.unit==='check pantry')return <div className={`shop-item shop-item-smart ${s.purchased.includes(item.key)?'completed':''}`} key={item.key}>
+                              <button className="check-circle" aria-label={`${s.purchased.includes(item.key)?'Mark unchecked':'Mark checked'}: ${item.name}`} aria-pressed={s.purchased.includes(item.key)} onClick={()=>update('purchased',s.purchased.includes(item.key)?s.purchased.filter(x=>x!==item.key):[...s.purchased,item.key])}>{s.purchased.includes(item.key)&&<Check size={13}/>}</button>
+                              <span className="shop-item-name">{item.name}<small>{item.source}</small></span><span>Check stock · as needed</span>
+                            </div>;
                             return (
                               <div
                                 className={`shop-item shop-item-smart ${s.purchased.includes(item.key) ? 'completed' : ''}`}

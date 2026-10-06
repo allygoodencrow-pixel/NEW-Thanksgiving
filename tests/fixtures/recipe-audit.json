@@ -1,0 +1,3204 @@
+{
+  "checked": "2026-10-06",
+  "description": "Source-batch measurements checked against the linked publishers. Serving plans use per-person amounts.",
+  "recipes": [
+    {
+      "id": "rolls",
+      "serves": 1,
+      "ingredients": [
+        {
+          "name": "Dinner rolls",
+          "quantity": 1.5,
+          "unit": "each",
+          "category": "Bakery"
+        },
+        {
+          "name": "Butter",
+          "quantity": 0.03,
+          "unit": "lb",
+          "category": "Dairy"
+        }
+      ]
+    },
+    {
+      "id": "mac",
+      "sourceUrl": "https://www.allrecipes.com/recipe/11679/homemade-mac-and-cheese/",
+      "serves": 4,
+      "batchMode": "whole",
+      "ingredients": [
+        {
+          "name": "Elbow macaroni",
+          "quantity": 8,
+          "unit": "oz",
+          "category": "Pantry"
+        },
+        {
+          "name": "Butter",
+          "quantity": 6,
+          "unit": "tbsp",
+          "category": "Dairy"
+        },
+        {
+          "name": "Flour",
+          "quantity": 3,
+          "unit": "tbsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Milk",
+          "quantity": 3,
+          "unit": "cup",
+          "category": "Dairy"
+        },
+        {
+          "name": "Cheddar cheese",
+          "quantity": 2,
+          "unit": "cup",
+          "category": "Dairy"
+        },
+        {
+          "name": "Parmesan",
+          "quantity": 0.5,
+          "unit": "cup",
+          "category": "Dairy"
+        },
+        {
+          "name": "Bread crumbs",
+          "quantity": 0.5,
+          "unit": "cup",
+          "category": "Bakery"
+        }
+      ]
+    },
+    {
+      "id": "app",
+      "sourceUrl": "https://www.forkinthekitchen.com/whipped-ricotta-with-herbs-and-honey/",
+      "serves": 6,
+      "ingredients": [
+        {
+          "name": "Ricotta",
+          "quantity": 1,
+          "unit": "cup",
+          "category": "Dairy"
+        },
+        {
+          "name": "Mint",
+          "quantity": 2,
+          "unit": "tbsp",
+          "category": "Produce"
+        },
+        {
+          "name": "Parsley",
+          "quantity": 1,
+          "unit": "tsp",
+          "category": "Produce"
+        },
+        {
+          "name": "Lemon zest",
+          "quantity": 0.5,
+          "unit": "tsp",
+          "category": "Produce"
+        },
+        {
+          "name": "Olive oil",
+          "quantity": 1,
+          "unit": "tbsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Honey",
+          "quantity": 3,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Baguette",
+          "quantity": 1,
+          "unit": "each",
+          "category": "Bakery"
+        }
+      ]
+    },
+    {
+      "id": "ba-dry-turkey",
+      "sourceUrl": "https://www.bonappetit.com/recipe/dry-rubbed-roast-turkey",
+      "serves": 8,
+      "batchMode": "whole",
+      "ingredients": [
+        {
+          "name": "Turkey",
+          "quantity": 1,
+          "unit": "12–14 lb bird",
+          "category": "Meat"
+        },
+        {
+          "name": "Diamond Crystal kosher salt",
+          "quantity": 0.5,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Brown sugar",
+          "quantity": 1,
+          "unit": "tbsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Butter",
+          "quantity": 12,
+          "unit": "tbsp",
+          "category": "Dairy"
+        },
+        {
+          "name": "Sherry vinegar",
+          "quantity": 0.25,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Honey",
+          "quantity": 2,
+          "unit": "tbsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Worcestershire sauce",
+          "quantity": 4,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Rosemary",
+          "quantity": 3,
+          "unit": "sprig",
+          "category": "Produce"
+        },
+        {
+          "name": "Garlic",
+          "quantity": 3,
+          "unit": "clove",
+          "category": "Produce"
+        },
+        {
+          "name": "Orange zest",
+          "quantity": 2,
+          "unit": "strip",
+          "category": "Produce"
+        },
+        {
+          "name": "Water",
+          "quantity": 1,
+          "unit": "cup",
+          "category": "Kitchen"
+        }
+      ]
+    },
+    {
+      "id": "ba-simple-stuffing",
+      "sourceUrl": "https://www.bonappetit.com/recipe/simple-is-best-stuffing-dressing",
+      "serves": 8,
+      "batchMode": "whole",
+      "ingredients": [
+        {
+          "name": "Butter",
+          "quantity": 0.75,
+          "unit": "cup",
+          "category": "Dairy"
+        },
+        {
+          "name": "Bread",
+          "quantity": 1,
+          "unit": "lb",
+          "category": "Bakery"
+        },
+        {
+          "name": "Onions",
+          "quantity": 2.5,
+          "unit": "cup",
+          "category": "Produce"
+        },
+        {
+          "name": "Celery",
+          "quantity": 1.5,
+          "unit": "cup",
+          "category": "Produce"
+        },
+        {
+          "name": "Parsley",
+          "quantity": 0.5,
+          "unit": "cup",
+          "category": "Produce"
+        },
+        {
+          "name": "Sage",
+          "quantity": 2,
+          "unit": "tbsp",
+          "category": "Produce"
+        },
+        {
+          "name": "Rosemary",
+          "quantity": 1,
+          "unit": "tbsp",
+          "category": "Produce"
+        },
+        {
+          "name": "Thyme",
+          "quantity": 1,
+          "unit": "tbsp",
+          "category": "Produce"
+        },
+        {
+          "name": "Kosher salt",
+          "quantity": 2,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Black pepper",
+          "quantity": 1,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Chicken broth",
+          "quantity": 2.5,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Eggs",
+          "quantity": 2,
+          "unit": "each",
+          "category": "Dairy"
+        }
+      ]
+    },
+    {
+      "id": "ba-mashed",
+      "sourceUrl": "https://www.bonappetit.com/recipe/best-mashed-potatoes",
+      "serves": 8,
+      "ingredients": [
+        {
+          "name": "Yukon Gold potatoes",
+          "quantity": 4,
+          "unit": "lb",
+          "category": "Produce"
+        },
+        {
+          "name": "Diamond Crystal kosher salt",
+          "quantity": 4,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Milk",
+          "quantity": 1.5,
+          "unit": "cup",
+          "category": "Dairy"
+        },
+        {
+          "name": "Cream",
+          "quantity": 0.5,
+          "unit": "cup",
+          "category": "Dairy"
+        },
+        {
+          "name": "Garlic",
+          "quantity": 1,
+          "unit": "head",
+          "category": "Produce"
+        },
+        {
+          "name": "Rosemary",
+          "quantity": 3,
+          "unit": "sprig",
+          "category": "Produce"
+        },
+        {
+          "name": "Butter",
+          "quantity": 1,
+          "unit": "cup",
+          "category": "Dairy"
+        }
+      ]
+    },
+    {
+      "id": "ba-honey-brussels",
+      "sourceUrl": "https://www.bonappetit.com/recipe/roasted-brussels-sprouts-with-warm-honey-glaze",
+      "serves": 4,
+      "ingredients": [
+        {
+          "name": "Brussels sprouts",
+          "quantity": 1.5,
+          "unit": "lb",
+          "category": "Produce"
+        },
+        {
+          "name": "Olive oil",
+          "quantity": 0.25,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Kosher salt",
+          "quantity": 0.5,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Honey",
+          "quantity": 0.25,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Sherry vinegar",
+          "quantity": 0.3333333333333333,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Butter",
+          "quantity": 3,
+          "unit": "tbsp",
+          "category": "Dairy"
+        },
+        {
+          "name": "Scallions",
+          "quantity": 3,
+          "unit": "each",
+          "category": "Produce"
+        },
+        {
+          "name": "Lemon zest",
+          "quantity": 1,
+          "unit": "tsp",
+          "category": "Produce"
+        }
+      ]
+    },
+    {
+      "id": "ba-greenbeans",
+      "sourceUrl": "https://www.bonappetit.com/recipe/green-beans-and-mushrooms-with-crispy-shallots",
+      "serves": 8,
+      "ingredients": [
+        {
+          "name": "Green beans",
+          "quantity": 1.5,
+          "unit": "lb",
+          "category": "Produce"
+        },
+        {
+          "name": "Diamond Crystal kosher salt",
+          "quantity": 1.5,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Vegetable oil",
+          "quantity": 0.3333333333333333,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Shallots",
+          "quantity": 3,
+          "unit": "each",
+          "category": "Produce"
+        },
+        {
+          "name": "Mushrooms",
+          "quantity": 1,
+          "unit": "lb",
+          "category": "Produce"
+        },
+        {
+          "name": "Butter",
+          "quantity": 4,
+          "unit": "tbsp",
+          "category": "Dairy"
+        },
+        {
+          "name": "Sherry vinegar",
+          "quantity": 2,
+          "unit": "tbsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Parmesan",
+          "quantity": 2,
+          "unit": "oz",
+          "category": "Dairy"
+        }
+      ]
+    },
+    {
+      "id": "ba-pumpkin-pie",
+      "sourceUrl": "https://www.bonappetit.com/recipe/best-pumpkin-pie",
+      "serves": 8,
+      "batchMode": "whole",
+      "ingredients": [
+        {
+          "name": "Pie crust",
+          "quantity": 1,
+          "unit": "9 inch unbaked crust",
+          "category": "Frozen"
+        },
+        {
+          "name": "Eggs",
+          "quantity": 4,
+          "unit": "each",
+          "category": "Dairy"
+        },
+        {
+          "name": "Sugar",
+          "quantity": 0.3333333333333333,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Cinnamon",
+          "quantity": 1,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Diamond Crystal kosher salt",
+          "quantity": 0.75,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Ginger",
+          "quantity": 0.5,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Cloves",
+          "quantity": 0.25,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Nutmeg",
+          "quantity": 0.25,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Pumpkin purée",
+          "quantity": 2,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Sweetened condensed milk",
+          "quantity": 0.6666666666666666,
+          "unit": "cup",
+          "category": "Dairy"
+        },
+        {
+          "name": "Cream",
+          "quantity": 0.3333333333333333,
+          "unit": "cup",
+          "category": "Dairy"
+        },
+        {
+          "name": "Maple syrup",
+          "quantity": 2,
+          "unit": "tbsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Vanilla extract",
+          "quantity": 2,
+          "unit": "tsp",
+          "category": "Pantry"
+        }
+      ]
+    },
+    {
+      "id": "ba-parker-rolls",
+      "sourceUrl": "https://sallysbakingaddiction.com/soft-dinner-rolls/",
+      "serves": 7,
+      "batchMode": "whole",
+      "ingredients": [
+        {
+          "name": "Milk",
+          "quantity": 1,
+          "unit": "cup",
+          "category": "Dairy"
+        },
+        {
+          "name": "Instant yeast",
+          "quantity": 2.25,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Sugar",
+          "quantity": 2,
+          "unit": "tbsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Eggs",
+          "quantity": 1,
+          "unit": "each",
+          "category": "Dairy"
+        },
+        {
+          "name": "Butter",
+          "quantity": 0.25,
+          "unit": "cup",
+          "category": "Dairy"
+        },
+        {
+          "name": "Salt",
+          "quantity": 1,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Flour",
+          "quantity": 3,
+          "unit": "cup",
+          "category": "Pantry"
+        }
+      ]
+    },
+    {
+      "id": "ba-roasted-sweet",
+      "sourceUrl": "https://cookieandkate.com/roasted-sweet-potatoes-recipe/",
+      "serves": 4,
+      "ingredients": [
+        {
+          "name": "Sweet potatoes",
+          "quantity": 2,
+          "unit": "lb",
+          "category": "Produce"
+        },
+        {
+          "name": "Olive oil",
+          "quantity": 2,
+          "unit": "tbsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Sea salt",
+          "quantity": 0.25,
+          "unit": "tsp",
+          "category": "Pantry"
+        }
+      ]
+    },
+    {
+      "id": "ba-fancy-cranberry",
+      "sourceUrl": "https://www.bonappetit.com/recipe/fancy-cranberry-sauce",
+      "serves": 8,
+      "batchMode": "whole",
+      "ingredients": [
+        {
+          "name": "Gelatin",
+          "quantity": 1.5,
+          "unit": "tbsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Water",
+          "quantity": 0.5,
+          "unit": "cup",
+          "category": "Kitchen"
+        },
+        {
+          "name": "Cranberries",
+          "quantity": 1.5,
+          "unit": "lb",
+          "category": "Produce"
+        },
+        {
+          "name": "Cardamom pods",
+          "quantity": 4,
+          "unit": "each",
+          "category": "Pantry"
+        },
+        {
+          "name": "Bay leaves",
+          "quantity": 3,
+          "unit": "each",
+          "category": "Produce"
+        },
+        {
+          "name": "Cranberry juice",
+          "quantity": 1,
+          "unit": "cup",
+          "category": "Beverages"
+        },
+        {
+          "name": "Sugar",
+          "quantity": 1.6875,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Orange zest",
+          "quantity": 2,
+          "unit": "strip",
+          "category": "Produce"
+        }
+      ]
+    },
+    {
+      "id": "allrecipes-corn",
+      "sourceUrl": "https://www.allrecipes.com/recipe/18906/awesome-and-easy-creamy-corn-casserole/",
+      "serves": 8,
+      "batchMode": "whole",
+      "ingredients": [
+        {
+          "name": "Whole kernel corn",
+          "quantity": 1,
+          "unit": "15 oz can",
+          "category": "Pantry"
+        },
+        {
+          "name": "Creamed corn",
+          "quantity": 1,
+          "unit": "14.75 oz can",
+          "category": "Pantry"
+        },
+        {
+          "name": "Cornbread mix",
+          "quantity": 1,
+          "unit": "8.5 oz package",
+          "category": "Bakery"
+        },
+        {
+          "name": "Sour cream",
+          "quantity": 1,
+          "unit": "cup",
+          "category": "Dairy"
+        },
+        {
+          "name": "Butter",
+          "quantity": 0.5,
+          "unit": "cup",
+          "category": "Dairy"
+        },
+        {
+          "name": "Eggs",
+          "quantity": 2,
+          "unit": "each",
+          "category": "Dairy"
+        }
+      ]
+    },
+    {
+      "id": "allrecipes-broccoli-cheese",
+      "sourceUrl": "https://www.allrecipes.com/recipe/13606/awesome-broccoli-cheese-casserole/",
+      "serves": 8,
+      "batchMode": "whole",
+      "ingredients": [
+        {
+          "name": "Cream of mushroom soup",
+          "quantity": 1,
+          "unit": "10.5 oz can",
+          "category": "Pantry"
+        },
+        {
+          "name": "Mayonnaise",
+          "quantity": 1,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Eggs",
+          "quantity": 1,
+          "unit": "each",
+          "category": "Dairy"
+        },
+        {
+          "name": "Onions",
+          "quantity": 0.25,
+          "unit": "cup",
+          "category": "Produce"
+        },
+        {
+          "name": "Frozen broccoli",
+          "quantity": 30,
+          "unit": "oz",
+          "category": "Frozen"
+        },
+        {
+          "name": "Cheddar cheese",
+          "quantity": 8,
+          "unit": "oz",
+          "category": "Dairy"
+        }
+      ]
+    },
+    {
+      "id": "fn-vegan-greenbean",
+      "sourceUrl": "https://minimalistbaker.com/vegan-green-bean-casserole/",
+      "serves": 4,
+      "ingredients": [
+        {
+          "name": "Green beans",
+          "quantity": 1,
+          "unit": "lb",
+          "category": "Produce"
+        },
+        {
+          "name": "Olive oil",
+          "quantity": 2,
+          "unit": "tbsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Shallots",
+          "quantity": 1,
+          "unit": "each",
+          "category": "Produce"
+        },
+        {
+          "name": "Garlic",
+          "quantity": 2,
+          "unit": "clove",
+          "category": "Produce"
+        },
+        {
+          "name": "Mushrooms",
+          "quantity": 1,
+          "unit": "cup",
+          "category": "Produce"
+        },
+        {
+          "name": "Flour",
+          "quantity": 2,
+          "unit": "tbsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Vegetable broth",
+          "quantity": 0.75,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Unsweetened almond milk",
+          "quantity": 1,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Vegan crispy onions",
+          "quantity": 1.5,
+          "unit": "cup",
+          "category": "Pantry"
+        }
+      ]
+    },
+    {
+      "id": "fn-gf-cornbread",
+      "sourceUrl": "https://www.dishbydish.net/gluten-free-skillet-cornbread/",
+      "serves": 8,
+      "batchMode": "whole",
+      "ingredients": [
+        {
+          "name": "Gluten-free cornmeal",
+          "quantity": 1.25,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Gluten-free flour",
+          "quantity": 0.75,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Xanthan gum",
+          "quantity": 0.5,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Brown sugar",
+          "quantity": 0.25,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Salt",
+          "quantity": 1,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Gluten-free baking powder",
+          "quantity": 3,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Unsweetened almond milk",
+          "quantity": 1.3333333333333333,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Eggs",
+          "quantity": 2,
+          "unit": "each",
+          "category": "Dairy"
+        },
+        {
+          "name": "Coconut oil",
+          "quantity": 0.5,
+          "unit": "cup",
+          "category": "Pantry"
+        }
+      ]
+    },
+    {
+      "id": "ew-stuffed-squash",
+      "sourceUrl": "https://www.budgetbytes.com/wild-rice-stuffed-acorn-squash/",
+      "serves": 4,
+      "batchMode": "whole",
+      "ingredients": [
+        {
+          "name": "Acorn squash",
+          "quantity": 2,
+          "unit": "each",
+          "category": "Produce",
+          "step": 1
+        },
+        {
+          "name": "Wild rice blend",
+          "quantity": 0.5,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Vegetable broth",
+          "quantity": 1,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Vegan butter",
+          "quantity": 2,
+          "unit": "tbsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Onions",
+          "quantity": 1,
+          "unit": "each",
+          "category": "Produce"
+        },
+        {
+          "name": "Celery",
+          "quantity": 3,
+          "unit": "stalk",
+          "category": "Produce"
+        },
+        {
+          "name": "Apples",
+          "quantity": 1,
+          "unit": "each",
+          "category": "Produce"
+        },
+        {
+          "name": "Dried sage",
+          "quantity": 0.5,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Dried thyme",
+          "quantity": 0.5,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Salt",
+          "quantity": 0.375,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Black pepper",
+          "quantity": 0.375,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Walnuts",
+          "quantity": 0.25,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Dried cranberries",
+          "quantity": 0.25,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Parsley",
+          "quantity": 1,
+          "unit": "tbsp",
+          "category": "Produce"
+        }
+      ]
+    },
+    {
+      "id": "fn-citrus-cranberry",
+      "sourceUrl": "https://www.onceuponachef.com/recipes/cranberry-sauce.html",
+      "serves": 9,
+      "ingredients": [
+        {
+          "name": "Water",
+          "quantity": 0.5,
+          "unit": "cup",
+          "category": "Kitchen"
+        },
+        {
+          "name": "Oranges",
+          "quantity": 2,
+          "unit": "each",
+          "category": "Produce"
+        },
+        {
+          "name": "Sugar",
+          "quantity": 0.875,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Cranberries",
+          "quantity": 12,
+          "unit": "oz",
+          "category": "Produce"
+        }
+      ]
+    },
+    {
+      "id": "sparkling-water",
+      "serves": 1,
+      "ingredients": [
+        {
+          "name": "Still water",
+          "quantity": 1.25,
+          "unit": "servings",
+          "category": "Beverages"
+        },
+        {
+          "name": "Sparkling water",
+          "quantity": 1,
+          "unit": "servings",
+          "category": "Beverages"
+        }
+      ]
+    },
+    {
+      "id": "wine",
+      "serves": 1,
+      "ingredients": [
+        {
+          "name": "Wine",
+          "quantity": 0.5,
+          "unit": "bottles",
+          "category": "Beverages"
+        }
+      ]
+    },
+    {
+      "id": "signature-cocktail",
+      "sourceUrl": "https://www.pookspantry.com/apple-cider-bourbon-cocktail/",
+      "serves": 2,
+      "ingredients": [
+        {
+          "name": "Apple cider",
+          "quantity": 1,
+          "unit": "cup",
+          "category": "Beverages"
+        },
+        {
+          "name": "Bourbon",
+          "quantity": 3,
+          "unit": "fl oz",
+          "category": "Beverages"
+        },
+        {
+          "name": "Nutmeg",
+          "quantity": 0.25,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Sugar",
+          "quantity": 1,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Brown sugar",
+          "quantity": 1,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Cinnamon",
+          "quantity": 0.25,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Lemon juice",
+          "quantity": 1,
+          "unit": "tsp",
+          "category": "Produce"
+        }
+      ]
+    },
+    {
+      "id": "kids-cider",
+      "serves": 1,
+      "ingredients": [
+        {
+          "name": "Apple cider / juice",
+          "quantity": 2,
+          "unit": "servings",
+          "category": "Beverages"
+        }
+      ]
+    },
+    {
+      "id": "coffee-tea",
+      "serves": 1,
+      "ingredients": [
+        {
+          "name": "Coffee",
+          "quantity": 0.08,
+          "unit": "lb",
+          "category": "Beverages"
+        },
+        {
+          "name": "Tea bags",
+          "quantity": 0.5,
+          "unit": "each",
+          "category": "Beverages"
+        },
+        {
+          "name": "Coffee cream",
+          "quantity": 0.08,
+          "unit": "cup",
+          "category": "Dairy"
+        }
+      ]
+    },
+    {
+      "id": "turkey",
+      "sourceUrl": "https://www.seriouseats.com/butterfiled-roast-turkey-with-gravy-recipe",
+      "serves": 10,
+      "batchMode": "whole",
+      "ingredients": [
+        {
+          "name": "Turkey",
+          "quantity": 1,
+          "unit": "12–14 lb bird",
+          "category": "Meat"
+        },
+        {
+          "name": "Onions",
+          "quantity": 3,
+          "unit": "each",
+          "category": "Produce"
+        },
+        {
+          "name": "Carrots",
+          "quantity": 3,
+          "unit": "each",
+          "category": "Produce"
+        },
+        {
+          "name": "Celery",
+          "quantity": 4,
+          "unit": "stalk",
+          "category": "Produce"
+        },
+        {
+          "name": "Thyme",
+          "quantity": 12,
+          "unit": "sprig",
+          "category": "Produce"
+        },
+        {
+          "name": "Vegetable oil",
+          "quantity": 2,
+          "unit": "tbsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Stock",
+          "quantity": 6,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Bay leaves",
+          "quantity": 2,
+          "unit": "each",
+          "category": "Pantry"
+        },
+        {
+          "name": "Butter",
+          "quantity": 3,
+          "unit": "tbsp",
+          "category": "Dairy"
+        },
+        {
+          "name": "Flour",
+          "quantity": 4,
+          "unit": "tbsp",
+          "category": "Pantry"
+        }
+      ]
+    },
+    {
+      "id": "guide-breast",
+      "sourceUrl": "https://www.seriouseats.com/roast-turkey-breast-stuffing-recipe",
+      "serves": 6,
+      "batchMode": "whole",
+      "ingredients": [
+        {
+          "name": "Butter",
+          "quantity": 8,
+          "unit": "tbsp",
+          "category": "Dairy"
+        },
+        {
+          "name": "Sage sausage",
+          "quantity": 1.5,
+          "unit": "lb",
+          "category": "Meat"
+        },
+        {
+          "name": "Onions",
+          "quantity": 1,
+          "unit": "each",
+          "category": "Produce"
+        },
+        {
+          "name": "Celery",
+          "quantity": 4,
+          "unit": "stalk",
+          "category": "Produce"
+        },
+        {
+          "name": "Garlic",
+          "quantity": 4,
+          "unit": "clove",
+          "category": "Produce"
+        },
+        {
+          "name": "Sage",
+          "quantity": 0.25,
+          "unit": "cup",
+          "category": "Produce"
+        },
+        {
+          "name": "Stock",
+          "quantity": 4,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Eggs",
+          "quantity": 3,
+          "unit": "each",
+          "category": "Dairy"
+        },
+        {
+          "name": "Bread",
+          "quantity": 2.5,
+          "unit": "lb",
+          "category": "Bakery"
+        },
+        {
+          "name": "Parsley",
+          "quantity": 0.5,
+          "unit": "cup",
+          "category": "Produce"
+        },
+        {
+          "name": "Oregano",
+          "quantity": 2,
+          "unit": "tbsp",
+          "category": "Produce"
+        },
+        {
+          "name": "Turkey breast",
+          "quantity": 1,
+          "unit": "4–5 lb breast",
+          "category": "Meat"
+        },
+        {
+          "name": "Kosher salt",
+          "quantity": 1,
+          "unit": "tbsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Black pepper",
+          "quantity": 0.5,
+          "unit": "tsp",
+          "category": "Pantry"
+        }
+      ]
+    },
+    {
+      "id": "stuffing",
+      "sourceUrl": "https://www.seriouseats.com/classic-sage-and-sausage-stuffing-or-dressing-recipe",
+      "serves": 10,
+      "batchMode": "half",
+      "ingredients": [
+        {
+          "name": "Bread",
+          "quantity": 2.5,
+          "unit": "lb",
+          "category": "Bakery"
+        },
+        {
+          "name": "Butter",
+          "quantity": 8,
+          "unit": "tbsp",
+          "category": "Dairy"
+        },
+        {
+          "name": "Sage sausage",
+          "quantity": 1.5,
+          "unit": "lb",
+          "category": "Meat"
+        },
+        {
+          "name": "Onions",
+          "quantity": 1,
+          "unit": "each",
+          "category": "Produce"
+        },
+        {
+          "name": "Celery",
+          "quantity": 4,
+          "unit": "stalk",
+          "category": "Produce"
+        },
+        {
+          "name": "Garlic",
+          "quantity": 2,
+          "unit": "clove",
+          "category": "Produce"
+        },
+        {
+          "name": "Sage",
+          "quantity": 0.25,
+          "unit": "cup",
+          "category": "Produce"
+        },
+        {
+          "name": "Stock",
+          "quantity": 4,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Eggs",
+          "quantity": 3,
+          "unit": "each",
+          "category": "Dairy",
+          "step": 1
+        },
+        {
+          "name": "Parsley",
+          "quantity": 0.25,
+          "unit": "cup",
+          "category": "Produce"
+        }
+      ]
+    },
+    {
+      "id": "greens",
+      "sourceUrl": "https://www.seriouseats.com/homemade-green-bean-casserole-recipe",
+      "serves": 8,
+      "ingredients": [
+        {
+          "name": "Shallots",
+          "quantity": 1,
+          "unit": "lb",
+          "category": "Produce"
+        },
+        {
+          "name": "Canola oil",
+          "quantity": 2,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Mushrooms",
+          "quantity": 1.5,
+          "unit": "lb",
+          "category": "Produce"
+        },
+        {
+          "name": "Soy sauce",
+          "quantity": 2,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Lemon juice",
+          "quantity": 2,
+          "unit": "tsp",
+          "category": "Produce"
+        },
+        {
+          "name": "Stock",
+          "quantity": 2,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Cream",
+          "quantity": 1.5,
+          "unit": "cup",
+          "category": "Dairy"
+        },
+        {
+          "name": "Butter",
+          "quantity": 2,
+          "unit": "tbsp",
+          "category": "Dairy"
+        },
+        {
+          "name": "Garlic",
+          "quantity": 2,
+          "unit": "clove",
+          "category": "Produce"
+        },
+        {
+          "name": "Flour",
+          "quantity": 0.25,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Green beans",
+          "quantity": 2,
+          "unit": "lb",
+          "category": "Produce"
+        }
+      ]
+    },
+    {
+      "id": "cranberry",
+      "sourceUrl": "https://www.seriouseats.com/the-food-lab-thanksgiving-special-the-worlds-easiest-cranberry-sauce",
+      "serves": 8,
+      "ingredients": [
+        {
+          "name": "Cranberries",
+          "quantity": 12,
+          "unit": "oz",
+          "category": "Produce"
+        },
+        {
+          "name": "Sugar",
+          "quantity": 1,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Water",
+          "quantity": 0.5,
+          "unit": "cup",
+          "category": "Kitchen"
+        },
+        {
+          "name": "Orange juice",
+          "quantity": 2,
+          "unit": "tbsp",
+          "category": "Produce"
+        },
+        {
+          "name": "Orange zest",
+          "quantity": 2,
+          "unit": "strip",
+          "category": "Produce"
+        },
+        {
+          "name": "Cinnamon stick",
+          "quantity": 1,
+          "unit": "each",
+          "category": "Pantry"
+        }
+      ]
+    },
+    {
+      "id": "potatoes",
+      "sourceUrl": "https://www.seriouseats.com/ultra-fluffy-mashed-potatoes-recipe",
+      "serves": 4,
+      "ingredients": [
+        {
+          "name": "Russet potatoes",
+          "quantity": 2,
+          "unit": "lb",
+          "category": "Produce"
+        },
+        {
+          "name": "Milk",
+          "quantity": 0.5,
+          "unit": "cup",
+          "category": "Dairy"
+        },
+        {
+          "name": "Butter",
+          "quantity": 6,
+          "unit": "tbsp",
+          "category": "Dairy"
+        }
+      ]
+    },
+    {
+      "id": "gravy",
+      "sourceUrl": "https://www.seriouseats.com/basic-turkey-gravy-thanksgiving-recipe",
+      "serves": 12,
+      "ingredients": [
+        {
+          "name": "Butter",
+          "quantity": 0.25,
+          "unit": "cup",
+          "category": "Dairy"
+        },
+        {
+          "name": "Flour",
+          "quantity": 0.25,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Stock",
+          "quantity": 4,
+          "unit": "cup",
+          "category": "Pantry"
+        }
+      ]
+    },
+    {
+      "id": "salad",
+      "sourceUrl": "https://www.seriouseats.com/salt-wilted-brussels-sprout-salad-recipe-8746808",
+      "serves": 4,
+      "ingredients": [
+        {
+          "name": "Brussels sprouts",
+          "quantity": 1.75,
+          "unit": "lb",
+          "category": "Produce"
+        },
+        {
+          "name": "Kosher salt",
+          "quantity": 2,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Tangerine",
+          "quantity": 1,
+          "unit": "each",
+          "category": "Produce"
+        },
+        {
+          "name": "Shallots",
+          "quantity": 0.5,
+          "unit": "each",
+          "category": "Produce"
+        },
+        {
+          "name": "Dijon mustard",
+          "quantity": 1,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "White wine vinegar",
+          "quantity": 2,
+          "unit": "tbsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Olive oil",
+          "quantity": 6,
+          "unit": "tbsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Hazelnuts",
+          "quantity": 0.75,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Goat cheese",
+          "quantity": 4,
+          "unit": "oz",
+          "category": "Dairy"
+        }
+      ]
+    },
+    {
+      "id": "pie",
+      "sourceUrl": "https://www.seriouseats.com/extra-smooth-pumpkin-pie-recipe",
+      "serves": 8,
+      "batchMode": "whole",
+      "ingredients": [
+        {
+          "name": "Pie dough",
+          "quantity": 1,
+          "unit": "9 inch crust",
+          "category": "Bakery"
+        },
+        {
+          "name": "Sugar",
+          "quantity": 6,
+          "unit": "oz",
+          "category": "Pantry"
+        },
+        {
+          "name": "Kosher salt",
+          "quantity": 0.5,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Cinnamon",
+          "quantity": 1,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Ground ginger",
+          "quantity": 1,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Nutmeg",
+          "quantity": 0.5,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Cream cheese",
+          "quantity": 8,
+          "unit": "oz",
+          "category": "Dairy"
+        },
+        {
+          "name": "Pumpkin purée",
+          "quantity": 15,
+          "unit": "oz",
+          "category": "Pantry"
+        },
+        {
+          "name": "Butter",
+          "quantity": 4,
+          "unit": "tbsp",
+          "category": "Dairy"
+        },
+        {
+          "name": "Eggs",
+          "quantity": 3,
+          "unit": "each",
+          "category": "Dairy"
+        }
+      ]
+    },
+    {
+      "id": "guide-roast-sprouts",
+      "sourceUrl": "https://www.seriouseats.com/easy-roasted-brussels-sprouts-food-lab-recipe",
+      "serves": 4,
+      "ingredients": [
+        {
+          "name": "Brussels sprouts",
+          "quantity": 1.5,
+          "unit": "lb",
+          "category": "Produce"
+        },
+        {
+          "name": "Olive oil",
+          "quantity": 3,
+          "unit": "tbsp",
+          "category": "Pantry"
+        }
+      ]
+    },
+    {
+      "id": "sweet",
+      "sourceUrl": "https://www.seriouseats.com/the-best-roasted-sweet-potatoes-thanksgiving-sides-the-food-lab-recipe",
+      "serves": 6,
+      "ingredients": [
+        {
+          "name": "Sweet potatoes",
+          "quantity": 3,
+          "unit": "lb",
+          "category": "Produce"
+        },
+        {
+          "name": "Olive oil",
+          "quantity": 6,
+          "unit": "tbsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Parsley",
+          "quantity": 2,
+          "unit": "tbsp",
+          "category": "Produce"
+        },
+        {
+          "name": "Honey",
+          "quantity": 1,
+          "unit": "tbsp",
+          "category": "Pantry"
+        }
+      ]
+    },
+    {
+      "id": "guide-apple",
+      "sourceUrl": "https://www.bonappetit.com/recipe/best-apple-pie",
+      "serves": 8,
+      "batchMode": "whole",
+      "ingredients": [
+        {
+          "name": "Flour",
+          "quantity": 3.5,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Sugar",
+          "quantity": 0.375,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Kosher salt",
+          "quantity": 2,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Butter",
+          "quantity": 1.625,
+          "unit": "cup",
+          "category": "Dairy"
+        },
+        {
+          "name": "Apple cider vinegar",
+          "quantity": 2,
+          "unit": "tbsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Apples",
+          "quantity": 4,
+          "unit": "lb",
+          "category": "Produce"
+        },
+        {
+          "name": "Brown sugar",
+          "quantity": 0.3333333333333333,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Lemon juice",
+          "quantity": 2,
+          "unit": "tbsp",
+          "category": "Produce"
+        },
+        {
+          "name": "Cinnamon",
+          "quantity": 2,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Allspice",
+          "quantity": 0.25,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Cardamom",
+          "quantity": 0.25,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Apple cider",
+          "quantity": 1.5,
+          "unit": "cup",
+          "category": "Beverages"
+        },
+        {
+          "name": "Vanilla bean",
+          "quantity": 1,
+          "unit": "each",
+          "category": "Pantry"
+        },
+        {
+          "name": "Cornstarch",
+          "quantity": 2,
+          "unit": "tbsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Eggs",
+          "quantity": 1,
+          "unit": "each",
+          "category": "Dairy"
+        },
+        {
+          "name": "Water",
+          "quantity": 0.7708333333333334,
+          "unit": "cup",
+          "category": "Pantry"
+        }
+      ]
+    },
+    {
+      "id": "guide-sweet-mash",
+      "sourceUrl": "https://www.seriouseats.com/the-best-mashed-sweet-potatoes-recipe",
+      "serves": 8,
+      "ingredients": [
+        {
+          "name": "Sweet potatoes",
+          "quantity": 4,
+          "unit": "lb",
+          "category": "Produce"
+        },
+        {
+          "name": "Thyme",
+          "quantity": 8,
+          "unit": "sprig",
+          "category": "Produce"
+        },
+        {
+          "name": "Butter",
+          "quantity": 6,
+          "unit": "tbsp",
+          "category": "Dairy"
+        },
+        {
+          "name": "Maple syrup",
+          "quantity": 0.25,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Kosher salt",
+          "quantity": 0.5,
+          "unit": "tsp",
+          "category": "Pantry"
+        }
+      ]
+    },
+    {
+      "id": "guide-gratin",
+      "sourceUrl": "https://www.seriouseats.com/classic-potato-gratin-recipe",
+      "serves": 6,
+      "ingredients": [
+        {
+          "name": "Cream",
+          "quantity": 2,
+          "unit": "cup",
+          "category": "Dairy"
+        },
+        {
+          "name": "Milk",
+          "quantity": 1,
+          "unit": "cup",
+          "category": "Dairy"
+        },
+        {
+          "name": "Garlic",
+          "quantity": 2,
+          "unit": "clove",
+          "category": "Produce"
+        },
+        {
+          "name": "Shallots",
+          "quantity": 2,
+          "unit": "each",
+          "category": "Produce"
+        },
+        {
+          "name": "Nutmeg",
+          "quantity": 0.125,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Thyme",
+          "quantity": 6,
+          "unit": "sprig",
+          "category": "Produce"
+        },
+        {
+          "name": "Black peppercorns",
+          "quantity": 2,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Kosher salt",
+          "quantity": 1.5,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Russet potatoes",
+          "quantity": 1.75,
+          "unit": "lb",
+          "category": "Produce"
+        },
+        {
+          "name": "Parmesan",
+          "quantity": 2,
+          "unit": "oz",
+          "category": "Dairy"
+        },
+        {
+          "name": "Gruyère",
+          "quantity": 4,
+          "unit": "oz",
+          "category": "Dairy"
+        },
+        {
+          "name": "Butter",
+          "quantity": 1,
+          "unit": "tbsp",
+          "category": "Dairy"
+        }
+      ]
+    },
+    {
+      "id": "guide-mushroom",
+      "sourceUrl": "https://www.seriouseats.com/vegetarian-mushroom-pot-pie-recipe-11847075",
+      "serves": 6,
+      "ingredients": [
+        {
+          "name": "Mushrooms",
+          "quantity": 1.5,
+          "unit": "lb",
+          "category": "Produce"
+        },
+        {
+          "name": "Vegetable oil",
+          "quantity": 3,
+          "unit": "tbsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Water",
+          "quantity": 2.5,
+          "unit": "cup",
+          "category": "Kitchen"
+        },
+        {
+          "name": "Dried porcini",
+          "quantity": 0.5,
+          "unit": "oz",
+          "category": "Pantry"
+        },
+        {
+          "name": "Butter",
+          "quantity": 0.25,
+          "unit": "cup",
+          "category": "Dairy"
+        },
+        {
+          "name": "Pearl onions",
+          "quantity": 1,
+          "unit": "cup",
+          "category": "Frozen"
+        },
+        {
+          "name": "Carrots",
+          "quantity": 2,
+          "unit": "each",
+          "category": "Produce"
+        },
+        {
+          "name": "Parsnips",
+          "quantity": 1,
+          "unit": "each",
+          "category": "Produce"
+        },
+        {
+          "name": "Thyme",
+          "quantity": 1,
+          "unit": "tbsp",
+          "category": "Produce"
+        },
+        {
+          "name": "White miso",
+          "quantity": 1,
+          "unit": "tbsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Oregano",
+          "quantity": 2,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Kosher salt",
+          "quantity": 2,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Black pepper",
+          "quantity": 1,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Flour",
+          "quantity": 0.25,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Milk",
+          "quantity": 1.5,
+          "unit": "cup",
+          "category": "Dairy"
+        },
+        {
+          "name": "Puff pastry",
+          "quantity": 1,
+          "unit": "9.5 × 9 inch sheet",
+          "category": "Frozen"
+        },
+        {
+          "name": "Eggs",
+          "quantity": 1,
+          "unit": "each",
+          "category": "Dairy"
+        },
+        {
+          "name": "Water for egg wash",
+          "quantity": 1,
+          "unit": "tsp",
+          "category": "Pantry"
+        }
+      ]
+    },
+    {
+      "id": "guide-pecan",
+      "sourceUrl": "https://www.allrecipes.com/recipe/18433/irresistible-pecan-pie/",
+      "serves": 8,
+      "batchMode": "whole",
+      "ingredients": [
+        {
+          "name": "Flour",
+          "quantity": 1.5,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Salt",
+          "quantity": 0.5,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Sugar",
+          "quantity": 2,
+          "unit": "tbsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Butter",
+          "quantity": 11,
+          "unit": "tbsp",
+          "category": "Dairy"
+        },
+        {
+          "name": "Water",
+          "quantity": 0.25,
+          "unit": "cup",
+          "category": "Kitchen"
+        },
+        {
+          "name": "Eggs",
+          "quantity": 3,
+          "unit": "each",
+          "category": "Dairy"
+        },
+        {
+          "name": "Light corn syrup",
+          "quantity": 0.75,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Dark corn syrup",
+          "quantity": 2,
+          "unit": "tbsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Brown sugar",
+          "quantity": 0.75,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Pecans",
+          "quantity": 2.5,
+          "unit": "cup",
+          "category": "Pantry"
+        }
+      ]
+    },
+    {
+      "id": "reviewed-honey-carrots",
+      "sourceUrl": "https://www.allrecipes.com/recipe/214079/honey-roasted-carrots/",
+      "serves": 4,
+      "ingredients": [
+        {
+          "name": "Carrots",
+          "quantity": 8,
+          "unit": "each",
+          "category": "Produce"
+        },
+        {
+          "name": "Olive oil",
+          "quantity": 3,
+          "unit": "tbsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Honey",
+          "quantity": 0.25,
+          "unit": "cup",
+          "category": "Pantry"
+        }
+      ]
+    },
+    {
+      "id": "reviewed-asparagus",
+      "sourceUrl": "https://www.allrecipes.com/recipe/214931/oven-roasted-asparagus/",
+      "serves": 4,
+      "ingredients": [
+        {
+          "name": "Asparagus",
+          "quantity": 1,
+          "unit": "bunch",
+          "category": "Produce"
+        },
+        {
+          "name": "Olive oil",
+          "quantity": 3,
+          "unit": "tbsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Parmesan",
+          "quantity": 1.5,
+          "unit": "tbsp",
+          "category": "Dairy"
+        },
+        {
+          "name": "Garlic",
+          "quantity": 1,
+          "unit": "clove",
+          "category": "Produce"
+        },
+        {
+          "name": "Sea salt",
+          "quantity": 0.25,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Black pepper",
+          "quantity": 0.5,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Lemon juice",
+          "quantity": 1,
+          "unit": "tbsp",
+          "category": "Produce"
+        }
+      ]
+    },
+    {
+      "id": "reviewed-sausage-mushrooms",
+      "sourceUrl": "https://www.allrecipes.com/recipe/234844/easy-sausage-stuffed-mushrooms/",
+      "serves": 12,
+      "batchMode": "whole",
+      "ingredients": [
+        {
+          "name": "Mushrooms",
+          "quantity": 24,
+          "unit": "each",
+          "category": "Produce",
+          "step": 1
+        },
+        {
+          "name": "Italian sausage",
+          "quantity": 1,
+          "unit": "lb",
+          "category": "Meat"
+        },
+        {
+          "name": "Onions",
+          "quantity": 1,
+          "unit": "each",
+          "category": "Produce"
+        },
+        {
+          "name": "Parmesan",
+          "quantity": 4,
+          "unit": "oz",
+          "category": "Dairy"
+        },
+        {
+          "name": "Italian bread crumbs",
+          "quantity": 0.25,
+          "unit": "cup",
+          "category": "Bakery"
+        },
+        {
+          "name": "Garlic",
+          "quantity": 1,
+          "unit": "tsp",
+          "category": "Produce"
+        },
+        {
+          "name": "Parsley",
+          "quantity": 1,
+          "unit": "tsp",
+          "category": "Produce"
+        }
+      ]
+    },
+    {
+      "id": "reviewed-cranberry-brie",
+      "sourceUrl": "https://www.melskitchencafe.com/cranberry-brie-bites/",
+      "serves": 12,
+      "batchMode": "whole",
+      "ingredients": [
+        {
+          "name": "Puff pastry",
+          "quantity": 1,
+          "unit": "sheet",
+          "category": "Frozen"
+        },
+        {
+          "name": "Brie",
+          "quantity": 8,
+          "unit": "oz",
+          "category": "Dairy"
+        },
+        {
+          "name": "Cranberry sauce",
+          "quantity": 1.25,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Pecans",
+          "quantity": 0.25,
+          "unit": "cup",
+          "category": "Pantry"
+        }
+      ]
+    },
+    {
+      "id": "expanded-deviled-eggs",
+      "sourceUrl": "https://www.allrecipes.com/recipe/222589/simple-deviled-eggs/",
+      "serves": 6,
+      "batchMode": "whole",
+      "ingredients": [
+        {
+          "name": "Eggs",
+          "quantity": 6,
+          "unit": "each",
+          "category": "Dairy"
+        },
+        {
+          "name": "Mayonnaise",
+          "quantity": 2,
+          "unit": "tbsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Sugar",
+          "quantity": 1,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "White vinegar",
+          "quantity": 1,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Yellow mustard",
+          "quantity": 1,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Onions",
+          "quantity": 1,
+          "unit": "tbsp",
+          "category": "Produce"
+        },
+        {
+          "name": "Celery",
+          "quantity": 1,
+          "unit": "tbsp",
+          "category": "Produce"
+        },
+        {
+          "name": "Salt",
+          "quantity": 0.5,
+          "unit": "tsp",
+          "category": "Pantry"
+        }
+      ]
+    },
+    {
+      "id": "expanded-spinach-dip",
+      "sourceUrl": "https://www.allrecipes.com/recipe/26819/hot-artichoke-and-spinach-dip-ii/",
+      "serves": 12,
+      "batchMode": "whole",
+      "ingredients": [
+        {
+          "name": "Cream cheese",
+          "quantity": 8,
+          "unit": "oz",
+          "category": "Dairy"
+        },
+        {
+          "name": "Mayonnaise",
+          "quantity": 0.25,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Parmesan",
+          "quantity": 0.25,
+          "unit": "cup",
+          "category": "Dairy"
+        },
+        {
+          "name": "Romano cheese",
+          "quantity": 0.25,
+          "unit": "cup",
+          "category": "Dairy"
+        },
+        {
+          "name": "Garlic",
+          "quantity": 1,
+          "unit": "clove",
+          "category": "Produce"
+        },
+        {
+          "name": "Dried basil",
+          "quantity": 0.5,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Garlic salt",
+          "quantity": 0.25,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Artichoke hearts",
+          "quantity": 1,
+          "unit": "14 oz can",
+          "category": "Pantry"
+        },
+        {
+          "name": "Frozen chopped spinach",
+          "quantity": 0.5,
+          "unit": "cup",
+          "category": "Frozen"
+        },
+        {
+          "name": "Mozzarella",
+          "quantity": 0.25,
+          "unit": "cup",
+          "category": "Dairy"
+        }
+      ]
+    },
+    {
+      "id": "expanded-soup",
+      "sourceUrl": "https://www.onceuponachef.com/recipes/butternut-squash-soup.html",
+      "serves": 6,
+      "ingredients": [
+        {
+          "name": "Butternut squash",
+          "quantity": 2.5,
+          "unit": "lb",
+          "category": "Produce"
+        },
+        {
+          "name": "Red bell pepper",
+          "quantity": 1,
+          "unit": "each",
+          "category": "Produce"
+        },
+        {
+          "name": "Onions",
+          "quantity": 1,
+          "unit": "each",
+          "category": "Produce"
+        },
+        {
+          "name": "Garlic",
+          "quantity": 3,
+          "unit": "clove",
+          "category": "Produce"
+        },
+        {
+          "name": "Water",
+          "quantity": 7,
+          "unit": "cup",
+          "category": "Kitchen"
+        },
+        {
+          "name": "Salt",
+          "quantity": 1,
+          "unit": "tbsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Sugar",
+          "quantity": 2,
+          "unit": "tbsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Heavy cream",
+          "quantity": 0.75,
+          "unit": "cup",
+          "category": "Dairy"
+        },
+        {
+          "name": "Thyme",
+          "quantity": 1,
+          "unit": "tsp",
+          "category": "Produce"
+        }
+      ]
+    },
+    {
+      "id": "expanded-ham",
+      "sourceUrl": "https://www.allrecipes.com/recipe/14745/honey-glazed-ham/",
+      "serves": 15,
+      "batchMode": "whole",
+      "ingredients": [
+        {
+          "name": "Fully cooked ham",
+          "quantity": 1,
+          "unit": "5 lb ham",
+          "category": "Meat"
+        },
+        {
+          "name": "Whole cloves",
+          "quantity": 0.25,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Honey",
+          "quantity": 2,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Butter",
+          "quantity": 0.6666666666666666,
+          "unit": "cup",
+          "category": "Dairy"
+        },
+        {
+          "name": "Dark corn syrup",
+          "quantity": 0.25,
+          "unit": "cup",
+          "category": "Pantry"
+        }
+      ]
+    },
+    {
+      "id": "expanded-sweet-casserole",
+      "sourceUrl": "https://www.allrecipes.com/recipe/21261/yummy-sweet-potato-casserole/",
+      "serves": 12,
+      "batchMode": "whole",
+      "ingredients": [
+        {
+          "name": "Sweet potatoes",
+          "quantity": 4,
+          "unit": "cup",
+          "category": "Produce"
+        },
+        {
+          "name": "Eggs",
+          "quantity": 2,
+          "unit": "each",
+          "category": "Dairy"
+        },
+        {
+          "name": "Sugar",
+          "quantity": 0.5,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Milk",
+          "quantity": 0.5,
+          "unit": "cup",
+          "category": "Dairy"
+        },
+        {
+          "name": "Butter",
+          "quantity": 7,
+          "unit": "tbsp",
+          "category": "Dairy"
+        },
+        {
+          "name": "Vanilla extract",
+          "quantity": 0.5,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Salt",
+          "quantity": 0.5,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Brown sugar",
+          "quantity": 0.5,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Flour",
+          "quantity": 0.3333333333333333,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Pecans",
+          "quantity": 0.5,
+          "unit": "cup",
+          "category": "Pantry"
+        }
+      ]
+    },
+    {
+      "id": "expanded-cauliflower",
+      "sourceUrl": "https://www.allrecipes.com/recipe/54675/roasted-garlic-cauliflower/",
+      "serves": 6,
+      "ingredients": [
+        {
+          "name": "Olive oil",
+          "quantity": 3,
+          "unit": "tbsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Garlic",
+          "quantity": 2,
+          "unit": "tbsp",
+          "category": "Produce"
+        },
+        {
+          "name": "Cauliflower",
+          "quantity": 1,
+          "unit": "large head",
+          "category": "Produce"
+        },
+        {
+          "name": "Parmesan",
+          "quantity": 0.3333333333333333,
+          "unit": "cup",
+          "category": "Dairy"
+        },
+        {
+          "name": "Parsley",
+          "quantity": 1,
+          "unit": "tbsp",
+          "category": "Produce"
+        }
+      ]
+    },
+    {
+      "id": "expanded-spinach",
+      "sourceUrl": "https://www.allrecipes.com/recipe/234938/fast-and-easy-creamed-spinach/",
+      "serves": 6,
+      "ingredients": [
+        {
+          "name": "Olive oil",
+          "quantity": 2,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Spinach",
+          "quantity": 32,
+          "unit": "oz",
+          "category": "Produce"
+        },
+        {
+          "name": "Butter",
+          "quantity": 1,
+          "unit": "tbsp",
+          "category": "Dairy"
+        },
+        {
+          "name": "Shallots",
+          "quantity": 2,
+          "unit": "tbsp",
+          "category": "Produce"
+        },
+        {
+          "name": "Heavy cream",
+          "quantity": 0.75,
+          "unit": "cup",
+          "category": "Dairy"
+        },
+        {
+          "name": "Lemon zest",
+          "quantity": 1,
+          "unit": "tsp",
+          "category": "Produce"
+        },
+        {
+          "name": "Parmesan",
+          "quantity": 2,
+          "unit": "tbsp",
+          "category": "Dairy"
+        }
+      ]
+    },
+    {
+      "id": "expanded-almondine",
+      "sourceUrl": "https://www.melskitchencafe.com/easy-green-beans-almondine/",
+      "serves": 8,
+      "ingredients": [
+        {
+          "name": "Water",
+          "quantity": 1,
+          "unit": "cup",
+          "category": "Kitchen"
+        },
+        {
+          "name": "Salt",
+          "quantity": 1,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Green beans",
+          "quantity": 1,
+          "unit": "lb",
+          "category": "Produce"
+        },
+        {
+          "name": "Butter",
+          "quantity": 3,
+          "unit": "tbsp",
+          "category": "Dairy"
+        },
+        {
+          "name": "Shallots",
+          "quantity": 0.25,
+          "unit": "cup",
+          "category": "Produce"
+        },
+        {
+          "name": "Garlic",
+          "quantity": 3,
+          "unit": "clove",
+          "category": "Produce"
+        },
+        {
+          "name": "Brown sugar",
+          "quantity": 1,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Sliced almonds",
+          "quantity": 0.5,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Lemon juice",
+          "quantity": 1,
+          "unit": "tbsp",
+          "category": "Produce"
+        }
+      ]
+    },
+    {
+      "id": "expanded-rice-salad",
+      "sourceUrl": "https://www.onceuponachef.com/recipes/wild-rice-salad-with-dried-cranberries-apples-orange-vinaigrette.html",
+      "serves": 6,
+      "ingredients": [
+        {
+          "name": "Wild rice",
+          "quantity": 1,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Water",
+          "quantity": 4,
+          "unit": "cup",
+          "category": "Kitchen"
+        },
+        {
+          "name": "Salt",
+          "quantity": 1.25,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Orange zest",
+          "quantity": 0.5,
+          "unit": "tsp",
+          "category": "Produce"
+        },
+        {
+          "name": "Orange juice",
+          "quantity": 0.25,
+          "unit": "cup",
+          "category": "Beverages"
+        },
+        {
+          "name": "Olive oil",
+          "quantity": 0.25,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Apple cider vinegar",
+          "quantity": 3,
+          "unit": "tbsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Honey",
+          "quantity": 2,
+          "unit": "tbsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Dijon mustard",
+          "quantity": 1,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Black pepper",
+          "quantity": 0.25,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Pecans",
+          "quantity": 1,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Dried cranberries",
+          "quantity": 0.5,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Parsley",
+          "quantity": 0.5,
+          "unit": "cup",
+          "category": "Produce"
+        },
+        {
+          "name": "Celery",
+          "quantity": 2,
+          "unit": "stalk",
+          "category": "Produce"
+        },
+        {
+          "name": "Apples",
+          "quantity": 1,
+          "unit": "each",
+          "category": "Produce"
+        },
+        {
+          "name": "Roasted pepitas",
+          "quantity": 0.25,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Scallions",
+          "quantity": 2,
+          "unit": "each",
+          "category": "Produce"
+        }
+      ]
+    },
+    {
+      "id": "expanded-muffins",
+      "sourceUrl": "https://www.onceuponachef.com/recipes/cornbread-muffins.html",
+      "serves": 12,
+      "batchMode": "whole",
+      "ingredients": [
+        {
+          "name": "Flour",
+          "quantity": 1.25,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Cornmeal",
+          "quantity": 0.75,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Sugar",
+          "quantity": 0.375,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Baking powder",
+          "quantity": 1,
+          "unit": "tbsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Salt",
+          "quantity": 1,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Eggs",
+          "quantity": 2,
+          "unit": "each",
+          "category": "Dairy"
+        },
+        {
+          "name": "Honey",
+          "quantity": 2,
+          "unit": "tbsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Milk",
+          "quantity": 0.75,
+          "unit": "cup",
+          "category": "Dairy"
+        },
+        {
+          "name": "Butter",
+          "quantity": 0.5,
+          "unit": "cup",
+          "category": "Dairy"
+        }
+      ]
+    },
+    {
+      "id": "expanded-cranberry-bread",
+      "sourceUrl": "https://www.onceuponachef.com/recipes/cranberry-nut-bread.html",
+      "serves": 12,
+      "batchMode": "whole",
+      "ingredients": [
+        {
+          "name": "Buttermilk",
+          "quantity": 0.6666666666666666,
+          "unit": "cup",
+          "category": "Dairy"
+        },
+        {
+          "name": "Orange zest",
+          "quantity": 2,
+          "unit": "tsp",
+          "category": "Produce"
+        },
+        {
+          "name": "Orange juice",
+          "quantity": 0.3333333333333333,
+          "unit": "cup",
+          "category": "Beverages"
+        },
+        {
+          "name": "Butter",
+          "quantity": 6,
+          "unit": "tbsp",
+          "category": "Dairy"
+        },
+        {
+          "name": "Eggs",
+          "quantity": 1,
+          "unit": "each",
+          "category": "Dairy"
+        },
+        {
+          "name": "Flour",
+          "quantity": 2,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Sugar",
+          "quantity": 1.125,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Salt",
+          "quantity": 0.75,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Cinnamon",
+          "quantity": 1,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Baking powder",
+          "quantity": 1,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Baking soda",
+          "quantity": 0.25,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Cranberries",
+          "quantity": 1,
+          "unit": "cup",
+          "category": "Produce"
+        },
+        {
+          "name": "Walnuts",
+          "quantity": 0.5,
+          "unit": "cup",
+          "category": "Pantry"
+        }
+      ]
+    },
+    {
+      "id": "expanded-apple-crisp",
+      "sourceUrl": "https://www.allrecipes.com/recipe/12409/apple-crisp-ii/",
+      "serves": 12,
+      "batchMode": "whole",
+      "ingredients": [
+        {
+          "name": "Apples",
+          "quantity": 10,
+          "unit": "cup",
+          "category": "Produce"
+        },
+        {
+          "name": "Sugar",
+          "quantity": 1,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Flour",
+          "quantity": 1.0625,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Cinnamon",
+          "quantity": 1,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Water",
+          "quantity": 3,
+          "unit": "tbsp",
+          "category": "Kitchen"
+        },
+        {
+          "name": "Quick oats",
+          "quantity": 1,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Brown sugar",
+          "quantity": 1,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Baking powder",
+          "quantity": 0.25,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Baking soda",
+          "quantity": 0.25,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Butter",
+          "quantity": 0.5,
+          "unit": "cup",
+          "category": "Dairy"
+        }
+      ]
+    },
+    {
+      "id": "expanded-bread-pudding",
+      "sourceUrl": "https://www.allrecipes.com/recipe/7177/bread-pudding-ii/",
+      "serves": 12,
+      "batchMode": "whole",
+      "ingredients": [
+        {
+          "name": "Day-old bread",
+          "quantity": 6,
+          "unit": "slice",
+          "category": "Bakery"
+        },
+        {
+          "name": "Butter",
+          "quantity": 2,
+          "unit": "tbsp",
+          "category": "Dairy"
+        },
+        {
+          "name": "Raisins",
+          "quantity": 0.5,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Milk",
+          "quantity": 2,
+          "unit": "cup",
+          "category": "Dairy"
+        },
+        {
+          "name": "Sugar",
+          "quantity": 0.75,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Eggs",
+          "quantity": 4,
+          "unit": "each",
+          "category": "Dairy"
+        },
+        {
+          "name": "Cinnamon",
+          "quantity": 1,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Vanilla extract",
+          "quantity": 1,
+          "unit": "tsp",
+          "category": "Pantry"
+        }
+      ]
+    },
+    {
+      "id": "expanded-cheesecake",
+      "sourceUrl": "https://www.allrecipes.com/recipe/13477/double-layer-pumpkin-cheesecake/",
+      "serves": 8,
+      "batchMode": "whole",
+      "ingredients": [
+        {
+          "name": "Cream cheese",
+          "quantity": 16,
+          "unit": "oz",
+          "category": "Dairy"
+        },
+        {
+          "name": "Sugar",
+          "quantity": 0.5,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Vanilla extract",
+          "quantity": 0.5,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Eggs",
+          "quantity": 2,
+          "unit": "each",
+          "category": "Dairy"
+        },
+        {
+          "name": "Graham cracker crust",
+          "quantity": 1,
+          "unit": "9 inch crust",
+          "category": "Bakery"
+        },
+        {
+          "name": "Pumpkin puree",
+          "quantity": 0.5,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Cinnamon",
+          "quantity": 0.5,
+          "unit": "tsp",
+          "category": "Pantry"
+        }
+      ]
+    },
+    {
+      "id": "expanded-mousse",
+      "sourceUrl": "https://www.onceuponachef.com/recipes/chocolate-mousse.html",
+      "serves": 6,
+      "ingredients": [
+        {
+          "name": "Butter",
+          "quantity": 3,
+          "unit": "tbsp",
+          "category": "Dairy"
+        },
+        {
+          "name": "Semisweet chocolate",
+          "quantity": 6,
+          "unit": "oz",
+          "category": "Pantry"
+        },
+        {
+          "name": "Pasteurized eggs",
+          "quantity": 3,
+          "unit": "each",
+          "category": "Dairy"
+        },
+        {
+          "name": "Cream of tartar",
+          "quantity": 0.5,
+          "unit": "tsp",
+          "category": "Pantry"
+        },
+        {
+          "name": "Sugar",
+          "quantity": 0.4166666666666667,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Heavy cream",
+          "quantity": 1,
+          "unit": "cup",
+          "category": "Dairy"
+        },
+        {
+          "name": "Vanilla extract",
+          "quantity": 0.5,
+          "unit": "tsp",
+          "category": "Pantry"
+        }
+      ]
+    },
+    {
+      "id": "expanded-hot-cider",
+      "sourceUrl": "https://www.allrecipes.com/recipe/9501/hot-apple-cider/",
+      "serves": 6,
+      "ingredients": [
+        {
+          "name": "Apple cider",
+          "quantity": 6,
+          "unit": "cup",
+          "category": "Beverages"
+        },
+        {
+          "name": "Maple syrup",
+          "quantity": 0.25,
+          "unit": "cup",
+          "category": "Pantry"
+        },
+        {
+          "name": "Cinnamon sticks",
+          "quantity": 2,
+          "unit": "each",
+          "category": "Pantry"
+        },
+        {
+          "name": "Whole cloves",
+          "quantity": 6,
+          "unit": "each",
+          "category": "Pantry"
+        },
+        {
+          "name": "Allspice berries",
+          "quantity": 6,
+          "unit": "each",
+          "category": "Pantry"
+        },
+        {
+          "name": "Oranges",
+          "quantity": 1,
+          "unit": "each",
+          "category": "Produce"
+        },
+        {
+          "name": "Lemons",
+          "quantity": 1,
+          "unit": "each",
+          "category": "Produce"
+        }
+      ]
+    }
+  ]
+}
