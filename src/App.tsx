@@ -1,11 +1,12 @@
 import { completeRecipe } from './completeRecipes';
 import { groupPrintables } from './printableCategories';
+import { referenceRecipes } from './referenceRecipes';
 import { guideRecipes } from './guideRecipes';
 import { moreReviewedRecipes } from './moreReviewedRecipes';
 import { expandedRecipes } from './expandedRecipes';
 import { recipePhotos as dishThumb } from './recipePhotos';
 import { auditedRecipes, pecanRecipe } from './auditedRecipes';
-import { recipeSources, equipmentChecklist, advanceWindows, stationGuides, tableChecklist, guestJourney, guideLinks } from './hostingGuide';
+import { equipmentChecklist, advanceWindows, stationGuides, tableChecklist, guestJourney, guideLinks } from './hostingGuide';
 import { normalizeState, planningContext, uid, nextThanksgiving, preparation, responsibility, derivePlan, dishPortions, recipeQuantityServings, recipeIngredientQuantity, formatRecipeAmount, recipeReady, completeMealCoverage, timelineWarnings, buildTimeline, parseIngredients, printOne, printableCards as selectPrintableCards, reconcileState } from './domain';
 import { useEffect, useRef, useState } from 'react';
 import {
@@ -807,7 +808,7 @@ const legacyDishes: Dish[] = [
     audience: 'adults',
   },
 ];
-export const dishes: Dish[] = [...legacyDishes.filter(d=>!guideRecipes.some(r=>r.id===d.id)).map(d=>({...d,...auditedRecipes.find(r=>r.id===d.id)})), ...guideRecipes, pecanRecipe, ...moreReviewedRecipes, ...expandedRecipes].map(completeRecipe).map(d=>({...d,image:d.image || dishThumb[d.id]}));
+export const dishes: Dish[] = [...legacyDishes.filter(d=>!guideRecipes.some(r=>r.id===d.id)).map(d=>({...d,...auditedRecipes.find(r=>r.id===d.id)})), ...guideRecipes, pecanRecipe, ...moreReviewedRecipes, ...expandedRecipes].map(completeRecipe).concat(referenceRecipes).map(d=>({...d,image:d.image || dishThumb[d.id]}));
 const presets: Record<string, string[]> = {
   'THE CLASSIC': [
     'turkey',
@@ -2118,7 +2119,6 @@ C | C
                       {recipeMenuAction(d)}
                     </div>
                   </article>)}</div>
-                <section className="panel glass-light source-library" aria-label="Additional source references"><h2>More recommendations from your file</h2><p>Your original links are retained here. Measured imports appear above. Other ideas remain source references until a specific complete recipe is available.</p>{recipeSources.map(r=><div className="source-recipe-row" key={r.name}><div><h3>{r.name}</h3><p>{r.note}</p><a href={r.url} target="_blank" rel="noreferrer">OPEN {r.publisher.toUpperCase()} →</a></div></div>)}</section>
                 </section>}
               </div>
             )}

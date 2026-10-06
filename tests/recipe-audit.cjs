@@ -39,3 +39,19 @@ console.log('PASS all 59 source/serving records: exact and overflow shopping, ba
  const d=dishes.find(x=>x.id==='wine'),s=base(['wine'],4);const p=derivePlan(s,[{...d,instructions:''}]);assert.equal(p.incompleteRecipes.length,1);assert(!p.shoppingEntries.some(x=>x.name==='Wine'));assert(!buildTimeline(s,p).some(x=>x[2]==='menu-wine'));console.log('PASS incomplete drinks cannot bypass recipe readiness');
 }
 console.log('RECIPE AUDIT: catalogue mapping checks passed');
+
+// Independent base/overflow checks for the completed recipe ideas.
+for(const [id,count,ingredient,expected] of [
+ ['reference-brined-turkey',11,'Vegetable broth',32],
+ ['reference-vegetarian-dressing',11,'Toasted pecans',12],
+ ['reference-tarragon-beans',16,'Green beans',64],
+ ['reference-apple-galette',9,'Eggs',4],
+]) {
+ const d=dishes.find(x=>x.id===id);assert(recipeReady(d));assert(d.instructions.split('\n').length>=4);
+ const s=base([id],count),p=derivePlan(s,dishes);near(p.shoppingEntries.find(x=>x.name===ingredient).count,expected,id+' overflow');
+ assert(buildTimeline(s,p).some(x=>x[1].includes(d.name)));
+ if(id==='reference-brined-turkey'){assert(p.turkeyActive);assert.equal(p.bird,32);assert.equal(p.schedule.slots.length,4);assert(buildTimeline(s,p).some(x=>x[1].includes('refrigerate 12 hours')));}
+ if(id==='reference-apple-galette')assert(buildTimeline(s,p).some(x=>x[1].includes('Chill dough 2 hours')));
+ s.menuPlan[id]={owner:'Other',status:'Confirmed',preparation:'Homemade'};assert(!derivePlan(s,dishes).shoppingEntries.some(x=>x.source===d.name));
+}
+console.log('PASS completed ideas scale, schedule brining/chilling, and respect guest contributions');

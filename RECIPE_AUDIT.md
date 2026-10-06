@@ -81,3 +81,12 @@ Ratings remain dated snapshots of publisher scores and review counts, not live r
 | expanded-hot-cider | [Maple + citrus spiced cider](https://www.allrecipes.com/recipe/9501/hot-apple-cider/) |
 
 Five source-free serving plans: rolls, sparkling-water, wine, kids-cider, coffee-tea. They retain per-person quantities and explicitly defer package/brewing directions where product-specific details vary.
+
+
+### Completed reference ideas — October 6
+Four additional operational recipes live in referenceRecipes.ts; previously imported ideas are retained once in the unified library. Ingredient measurements were checked against the linked publisher recipes on October 6. Recipe prose is a concise original adaptation, not copied publisher directions. Whole batches retain source-size oven durations; source yield, equipment, dietary labels, pantry checks and advance phases are included. Illustrations are generated dish depictions, not publisher photographs. No kitchen-testing claim.
+
+- Brined roast turkey: https://altonbrown.com/recipes/good-eats-roast-thanksgiving-turkey/ — one 14–16 lb turkey/10 planned servings; full diluted brine; poultry adaptation to 165°F. Source method's cinnamon is omitted because not in its ingredient list. Brine times sit outside the 210-minute day-of estimate.
+- Vegetarian dressing: https://www.seriouseats.com/best-vegan-stuffing-thanksgiving-recipe-vegetarian — 10 planned servings; source 10–14; pecans/wheat flagged; ready-made vegetable stock selected as adaptation. Oven drying and final casserole baking are separate stages.
+- Tarragon beans: https://frostedkale.com/tarragon-green-beans/ — 8 side servings; attribution retained to reproduced Martha Stewart recipe. Original Martha menu's green-bean link currently redirects to caramelized shallots, which is not this dish.
+- Galette: https://www.bonappetit.com/recipe/salted-butter-apple-galette-with-maple-whipped-cream plus https://www.bonappetit.com/recipe/basic-tart-dough — one galette/8 servings; 4.0/405 ratings checked; dough included and 2-hour chilling scheduled.

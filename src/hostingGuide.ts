@@ -1,19 +1,3 @@
-export const recipeSources = [
- {name:'Dry-brined spatchcock turkey',group:'Main',publisher:'Serious Eats',url:'https://www.seriouseats.com/classic-thanksgiving-recipes-11854728',note:'Choose one turkey method; follow its exact yield and brining schedule.'},
- {name:'Herb-roasted turkey breast',group:'Main',publisher:'Serious Eats',url:'https://www.seriouseats.com/thanksgiving-meal-for-two-8748303',note:'A smaller-table option, paired with stuffing.'},
- {name:'Vegetarian centerpiece',group:'Main',publisher:'Serious Eats',url:'https://www.seriouseats.com/vegetarian-thanksgiving-menu',note:'Choose a real meat-free main and compatible stock, gravy and sides.'},
- {name:'Sage and sausage dressing',group:'Starch',publisher:'Serious Eats',url:'https://www.seriouseats.com/classic-sage-and-sausage-stuffing-or-dressing-recipe',note:'Bake separately; stage a shallow baker and serving spoon.'},
- {name:'Homemade green bean casserole',group:'Fresh',publisher:'Serious Eats',url:'https://www.seriouseats.com/homemade-green-bean-casserole-recipe',note:'Fresh beans, mushroom sauce and shallots; check the recipe’s advance work.'},
- {name:'Cranberry sauce',group:'Sauce',publisher:'Serious Eats',url:'https://www.seriouseats.com/the-food-lab-thanksgiving-special-the-worlds-easiest-cranberry-sauce',note:'A tart contrast; use a small bowl and spoon.'},
- {name:'Pumpkin pie',group:'Dessert',publisher:'Serious Eats',url:'https://www.seriouseats.com/thanksgiving-meal-for-two-8748303',note:'Pair with an apple dessert when two desserts suit your headcount.'},
- {name:'Apple pie',group:'Dessert',publisher:'Bon Appétit',url:'https://www.bonappetit.com/recipe/bas-best-apple-pie',note:'Keep dessert and coffee separate from the main food line.'},
- {name:'Arrival appetizers',group:'Appetizer',publisher:'Bon Appétit',url:'https://www.bonappetit.com/gallery/best-thanksgiving-appetizers',note:'Choose a modest opening bite; keep the drinks station away from dinner.'},
- {name:'Classic brined roast turkey',group:'Main',publisher:'Martha Stewart',url:'https://www.marthastewart.com/353177/perfect-roast-turkey',note:'Traditional whole-bird alternative from your file.'},
- {name:'Stuffed roast pumpkins or squash lasagna',group:'Main',publisher:'Serious Eats',url:'https://www.seriouseats.com/vegetarian-thanksgiving-menu',note:'Your file recommends these alternatives; the linked collection could not be retrieved for a measured import.'},
- {name:'Vegetarian dressing',group:'Starch',publisher:'Serious Eats',url:'https://www.seriouseats.com/vegetarian-thanksgiving-menu',note:'Choose a specific meat-free dressing recipe before generating quantities.'},
- {name:'Tarragon green beans',group:'Fresh',publisher:'Martha Stewart',url:'https://www.marthastewart.com/1532456/classic-thanksgiving-dinner-menu',note:'Stovetop alternative from the linked classic menu.'},
- {name:'Salted-butter apple galette',group:'Dessert',publisher:'Bon Appétit',url:'https://www.bonappetit.com/recipes/holidays-recipes/article/apple-galette-thanksgiving',note:'The other apple dessert option in your supplied file.'},
-];
 export const equipmentChecklist = ['Food thermometer','Carving board and knife','Oven mitts','Sheet pans','Parchment','Storage containers','Label marker','Kitchen towels','Gravy pitcher','Salad tongs','Pie server'];
 export const advanceWindows = [
  {when:'2–3 weeks out',tasks:['Confirm guests, dietary needs and contributions.','Choose the serving format and exact menu.','Check table space, chairs and serving pieces.']},
