@@ -16,3 +16,5 @@ October 5 shopping/guests: Shopping uses a single pale translucent sheet inspire
 
 Final correction audit: removed the guest-name display-font override because it defeated the 16px mobile input role and could trigger Safari zoom. Shopping quantity and price inputs now retain string drafts while typing decimals, commit on leaving the field, and have an explicit Done action. Shared typography remains the sole owner.
 Quantity display preserves two decimal places, including amounts above ten, so edited or scaled quantities are not visually rounded to whole numbers.
+
+October 6 recipe photo references: owner supplied rainbow roasted carrots on pale speckled stoneware and roast chicken in black cast iron. New recipe illustrations follow their close editorial composition, dark natural side light, deep shadows, veined grey marble and tactile olive/slate linen. This is a photo direction, not an interface palette or filter. Retain truthful dish subjects and natural colors; avoid bright showroom kitchen backdrops. Home and existing suitable food photos remain unchanged.

@@ -1,8 +1,8 @@
 # Recipe photo manifest
 
-The built-in image generation tool produced 25 separate dish/drink illustrations. Existing suitable app photos are preserved; Home assets are untouched. No publisher recipe photographs are copied. New assets are local JPEGs sized to 960px, without color/filter changes.
+The built-in image generation tool produced 25 separate dish/drink illustrations, then a reference-led editorial revision of all 25. Existing suitable app photos are preserved; Home assets are untouched. No publisher recipe photographs are copied. Current editorial assets are local portrait JPEGs at 960px wide, without post-generation color/filter changes. The earlier square assets are retained as unused siblings for recovery.
 
-Generation brief: one square close editorial photograph of the named dish or drink, neutral white-grey marble, softly blurred dark modern kitchen, natural side window light, realistic irregular food texture and restrained styling. Preserve natural food colors and neutral whites. No text, people, collage, amber/sepia cast, beige filter, haze or global color grading. Each subject is generated separately. These pictures illustrate the dish; publisher links provide the actual cooking authority.
+Current generation brief (photorealistic-natural): one portrait 4:5 close editorial photograph of the named dish or drink. Use the owner’s rainbow-carrot and cast-iron chicken images as style references only: dark natural directional side light, rich shadows, intimate high-oblique crops, veined marble, imperfect stoneware/cast iron and restrained olive/slate linen. Center each dish for recognizable square thumbnail crops. Food dominates; avoid showroom kitchen panoramas, visible cabinetry handles, distant small bowls and excessive props. Preserve realistic irregular food texture, natural food colors and neutral whites. No text, people, collage, amber/sepia cast, beige filter, haze or global color grading. Each subject is generated separately; chicken must not appear in the turkey-breast illustration. These pictures illustrate the dish; publisher links provide the actual cooking authority. Exact per-image subject and prompt are recorded in RECIPE_PHOTO_PROMPTS.json.
 
 | Catalog ID / subject | Final project path |
 |---|---|
@@ -22,32 +22,32 @@ Generation brief: one square close editorial photograph of the named dish or dri
 | ba-parker-rolls | public/resources/dinner-rolls.png |
 | ba-roasted-sweet | public/resources/sweet-potatoes.png |
 | fn-citrus-cranberry | public/resources/cranberry-sauce.png |
-| greens | public/resources/recipes/green-bean-casserole.jpeg |
-| fn-vegan-greenbean | public/resources/recipes/green-bean-casserole.jpeg |
-| ba-greenbeans | public/resources/recipes/green-beans-mushrooms.jpeg |
-| ba-honey-brussels | public/resources/recipes/brussels-sprouts.jpeg |
-| guide-roast-sprouts | public/resources/recipes/brussels-sprouts.jpeg |
-| allrecipes-corn | public/resources/recipes/corn-casserole.jpeg |
-| allrecipes-broccoli-cheese | public/resources/recipes/broccoli-cheese.jpeg |
-| fn-gf-cornbread | public/resources/recipes/skillet-cornbread.jpeg |
-| ew-stuffed-squash | public/resources/recipes/stuffed-acorn-squash.jpeg |
-| guide-apple | public/resources/recipes/apple-pie.jpeg |
-| guide-sweet-mash | public/resources/recipes/sweet-potato-mash.jpeg |
-| guide-gratin | public/resources/recipes/potato-gratin.jpeg |
-| guide-mushroom | public/resources/recipes/mushroom-pot-pie.jpeg |
-| guide-pecan | public/resources/recipes/pecan-pie.jpeg |
-| guide-breast | public/resources/recipes/turkey-breast.jpeg |
-| app | public/resources/recipes/ricotta-crostini.jpeg |
-| signature-cocktail | public/resources/recipes/bourbon-cider.jpeg |
-| kids-cider | public/resources/recipes/kids-cider.jpeg |
-| sparkling-water | public/resources/recipes/water.jpeg |
-| wine | public/resources/recipes/wine.jpeg |
-| coffee-tea | public/resources/recipes/coffee-tea.jpeg |
-| salad | public/resources/recipes/brussels-salad.jpeg |
-| ba-fancy-cranberry | public/resources/recipes/jellied-cranberry.jpeg |
-| reviewed-honey-carrots | public/resources/recipes/honey-carrots.jpeg |
-| reviewed-asparagus | public/resources/recipes/roasted-asparagus.jpeg |
-| reviewed-sausage-mushrooms | public/resources/recipes/sausage-mushrooms.jpeg |
-| reviewed-cranberry-brie | public/resources/recipes/cranberry-brie-bites.jpeg |
+| greens | public/resources/recipes/green-bean-casserole-editorial.jpeg |
+| fn-vegan-greenbean | public/resources/recipes/green-bean-casserole-editorial.jpeg |
+| ba-greenbeans | public/resources/recipes/green-beans-mushrooms-editorial.jpeg |
+| ba-honey-brussels | public/resources/recipes/brussels-sprouts-editorial.jpeg |
+| guide-roast-sprouts | public/resources/recipes/brussels-sprouts-editorial.jpeg |
+| allrecipes-corn | public/resources/recipes/corn-casserole-editorial.jpeg |
+| allrecipes-broccoli-cheese | public/resources/recipes/broccoli-cheese-editorial.jpeg |
+| fn-gf-cornbread | public/resources/recipes/skillet-cornbread-editorial.jpeg |
+| ew-stuffed-squash | public/resources/recipes/stuffed-acorn-squash-editorial.jpeg |
+| guide-apple | public/resources/recipes/apple-pie-editorial.jpeg |
+| guide-sweet-mash | public/resources/recipes/sweet-potato-mash-editorial.jpeg |
+| guide-gratin | public/resources/recipes/potato-gratin-editorial.jpeg |
+| guide-mushroom | public/resources/recipes/mushroom-pot-pie-editorial.jpeg |
+| guide-pecan | public/resources/recipes/pecan-pie-editorial.jpeg |
+| guide-breast | public/resources/recipes/turkey-breast-editorial.jpeg |
+| app | public/resources/recipes/ricotta-crostini-editorial.jpeg |
+| signature-cocktail | public/resources/recipes/bourbon-cider-editorial.jpeg |
+| kids-cider | public/resources/recipes/kids-cider-editorial.jpeg |
+| sparkling-water | public/resources/recipes/water-editorial.jpeg |
+| wine | public/resources/recipes/wine-editorial.jpeg |
+| coffee-tea | public/resources/recipes/coffee-tea-editorial.jpeg |
+| salad | public/resources/recipes/brussels-salad-editorial.jpeg |
+| ba-fancy-cranberry | public/resources/recipes/jellied-cranberry-editorial.jpeg |
+| reviewed-honey-carrots | public/resources/recipes/honey-carrots-editorial.jpeg |
+| reviewed-asparagus | public/resources/recipes/roasted-asparagus-editorial.jpeg |
+| reviewed-sausage-mushrooms | public/resources/recipes/sausage-mushrooms-editorial.jpeg |
+| reviewed-cranberry-brie | public/resources/recipes/cranberry-brie-bites-editorial.jpeg |
 
 Check every catalog photo path in tests/domain.cjs; custom image uploads retain precedence. Main image consumers are the selected menu, source library and recipe reader.
