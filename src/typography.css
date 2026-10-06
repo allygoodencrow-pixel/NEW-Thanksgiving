@@ -183,7 +183,7 @@ body :where(.page-home:not(.planning-active)) :is(.eyebrow,.input-kicker,.nav-ph
 .planning-active :is(.eyebrow,.input-kicker){font-family:var(--font-body);font-weight:300;letter-spacing:.28em;text-transform:uppercase}
 .planning-active :is(.guided-step-label,.shopping-column-head,.field>span:first-child,.recipe-facts dt,.menu-dish-meta){letter-spacing:.17em;text-transform:uppercase}
 .planning-active :is(button,a,summary){font-family:var(--font-body);font-size:var(--type-label);font-weight:300;line-height:1.5;letter-spacing:.15em;text-transform:uppercase;color:var(--text-primary)}
-.planning-active :is(.panel>summary,.shopping-support summary,.shopping-support-row>summary){font-family:var(--font-display);font-size:var(--type-subheading);letter-spacing:.09em;text-transform:uppercase}
+.planning-active :is(.panel>summary,.shopping-support summary,.shopping-support-row>summary){font-family:var(--font-body);font-size:var(--type-label);font-weight:300;line-height:1.5;letter-spacing:.12em;text-transform:uppercase}
 .planning-active :is(input,select,textarea){font-family:var(--font-body);font-size:var(--type-body);font-weight:300;line-height:1.4;color:var(--text-primary);caret-color:var(--text-primary)}
 .planning-active :is(input,textarea)::placeholder{color:var(--text-muted);-webkit-text-fill-color:currentColor;opacity:1}
 .planning-active :is(.stat-row b,.budget-head b,.shopping-summary-strip b,.chair-logic b,.shopping-list-toolbar p b){font-family:var(--font-display);font-size:21px;font-weight:200;line-height:1.25;letter-spacing:0}
@@ -204,7 +204,7 @@ body :where(.page-home:not(.planning-active)) :is(.eyebrow,.input-kicker,.nav-ph
 .planning-active .sidebar nav button{font-size:16px;font-weight:300;letter-spacing:.03em}
 .planning-active .sidebar .nav-index{font-size:var(--type-label);color:var(--text-muted)}
 .planning-active :is(button:disabled,input:disabled,select:disabled){opacity:.5}
-@media(max-width:767px){.planning-active{--type-title:31px;--type-heading:16px}.planning-active :is(input,select,textarea){font-size:16px}}
+@media(max-width:767px){.planning-active{--type-title:24px;--type-heading:15px}.planning-active :is(input,select,textarea){font-size:16px}}
 
 
 /* Shared content roles, including the menu and recipe library. */
@@ -217,7 +217,7 @@ body :where(.page-home:not(.planning-active)) :is(.eyebrow,.input-kicker,.nav-ph
 .planning-active .topbar .header-monogram{font-family:var(--font-display);font-size:20px;font-weight:200;letter-spacing:.3em}
 .planning-active .topbar .mode{font-size:8px;letter-spacing:.13em;font-weight:300}
 @media(max-width:850px){.planning-active .topbar .mobile-menu{font-size:11px}.planning-active .topbar .mode{font-size:7px}}
-@media(max-width:560px){.planning-active .topbar .mobile-menu{font-size:10px}.planning-active .topbar .header-monogram{font-size:18px}.planning-active .topbar .mode{font-size:6px}.planning-active .recipe-reader-intro h2{font-size:26px}}
+@media(max-width:560px){.planning-active .topbar .mobile-menu{font-size:10px}.planning-active .topbar .header-monogram{font-size:18px}.planning-active .topbar .mode{font-size:6px}}
 
 /* Functional rows retain body type even though the entire row is a button. */
 .planning-active .shopping-edit-trigger{letter-spacing:0;text-transform:none}
@@ -237,3 +237,13 @@ body :where(.page-home:not(.planning-active)) :is(.eyebrow,.input-kicker,.nav-ph
 body .shell .topbar .account-control,.cloud-status{font-family:var(--font-body);font-size:8px;font-weight:300;line-height:1.5;letter-spacing:.13em;color:#f1f1f1;text-transform:uppercase}
 .cloud-status{font-size:11px}
 @media(max-width:560px){body .shell .topbar .account-control{font-size:7px}.account-sheet h2{font-size:22px}}
+
+/* Compact shared utility roles; Home remains frozen above. */
+.planning-active .sidebar .sidebar-foot{font-size:9px;line-height:1.6;letter-spacing:.12em;color:var(--text-muted)}
+@media(max-width:767px){
+ .planning-active .recipe-reader-intro h2{font-size:var(--type-title)}
+ .planning-active .sidebar nav button{font-size:13px}
+ .planning-active .guided-step-label{font-size:10px;letter-spacing:.12em}
+ .planning-active .guided-next{font-size:10px;letter-spacing:.1em}
+ .planning-active .sidebar .drawer-heading{font-size:10px;letter-spacing:.12em}
+}

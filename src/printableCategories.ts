@@ -5,9 +5,9 @@ const categories = [
   { id: 'menus', name: 'Menus', description: 'Dinner, harvest and drink menus.', photo: 'menu-place-setting.jpeg' },
   { id: 'labels', name: 'Labels + tent cards', description: 'Buffet labels, dessert stickers, drink labels and allergy notes.', photo: 'food-labels.jpeg' },
   { id: 'places', name: 'Place cards', description: 'Personalized cards for the guests in your plan.', photo: 'menu-place-setting.jpeg' },
-  { id: 'toppers', name: 'Toppers + flags', description: 'Food picks, straw flags, round toppers and treat-bag toppers.', photo: 'collection/page-34.png' },
+  { id: 'toppers', name: 'Toppers + flags', description: 'Food picks, straw flags, round toppers and treat-bag toppers.', photo: 'food-labels-close.jpeg' },
   { id: 'wraps', name: 'Wraps + bands', description: 'Napkin bands, cup sleeves and food and drink wraps.', photo: 'napkin-wraps.jpeg' },
-  { id: 'tags', name: 'Tags + charms', description: 'Drink charms, Charm Bar and Build a Charm.', photo: 'collection/page-54.png' },
+  { id: 'tags', name: 'Tags + charms', description: 'Drink charms, Charm Bar and Build a Charm.', photo: 'menu-place-setting.jpeg' },
   { id: 'activities', name: 'Activities + kids', description: 'Gratitude, coloring, sketching, memory and gift-bag station signs.', photo: 'gratitude-cards.jpeg' },
   { id: 'take-home', name: 'Take-home + favors', description: 'Please Take One, A Little Thanks, Thank You and leftover details.', photo: 'take-home.jpeg' },
 ];

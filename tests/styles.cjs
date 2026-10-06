@@ -52,6 +52,24 @@ function value(el,prop,width){
 }
 const doc=new JSDOM(`<body><div class="shell reference-shell planning-active page-menu"><div class="recipe-overlay"><section class="recipe-sheet glass-light"><div class="recipe-reader-header"><button>Close</button></div><div class="recipe-reader-intro"><h2>Recipe</h2></div><div class="recipe-reader-columns"><section class="recipe-section-heading"><h3>Ingredients</h3></section><section><ol class="reader-method"><li><span>Method</span></li></ol></section></div></section></div><main class="main"><div class="planning-backdrop"></div><header class="topbar"><button class="mobile-menu">Menu</button></header><div class="content menu-studio"><div class="page-head"><h1>Menu</h1></div><div class="reference-menu"><div class="menu-composition"><aside class="menu-support"></aside><div class="menu-dishes"><div class="menu-dish"><img class="menu-dish-photo"><div class="menu-dish-copy"><span class="menu-dish-title">Turkey</span><button class="menu-dish-recipe">View recipe</button></div><details class="menu-dish-settings"><summary>Manage dish</summary><div class="menu-dish-fields"><label>Responsible<select><option>You (host)</option></select></label></div></details></div></div></div></div><div class="two-col"><div class="panel"><h2>Section</h2><p>Body</p><input></div></div></div></main></div></body>`).window.document;
 const q=s=>doc.querySelector(s);
+// Exercise shared roles in every planning route, including intrinsic drawer flow.
+const drawer=doc.createElement('aside');drawer.className='sidebar';drawer.innerHTML='<nav><div class="drawer-subnav"><button>Party plan</button></div></nav><div class="sidebar-foot">Thanksgiving</div>';q('.shell').append(drawer);
+const disclosure=doc.createElement('details');disclosure.className='panel';disclosure.innerHTML='<summary>Checklist</summary>';q('.content').append(disclosure);
+for(const page of ['plan','guests','menu','shopping','prep','timeline','experiences','tables','budget','printables']){
+ q('.shell').className=`shell reference-shell planning-active page-${page}`;
+ for(const width of [375,390,650,767,768,1100]){
+  assert.equal(value(q('.page-head h1'),'font-size',width),width<768?'24px':'36px',`${page} title at ${width}`);
+  assert.equal(value(q('.sidebar nav'),'flex',width),'0 0 auto',`${page} drawer must occupy its content height`);
+  assert.equal(value(q('.sidebar nav'),'min-height',width),'auto');
+  assert.equal(value(q('.sidebar-foot'),'position',width),'static');
+  assert(value(disclosure.querySelector('summary'),'font-family',width).startsWith('Lato'));
+  assert.equal(value(disclosure.querySelector('summary'),'font-size',width),'11px');
+  assert.equal(value(disclosure,'padding',width),'12px 16px');
+  assert.equal(value(q('.sidebar button'),'min-height',width),'44px');
+ }
+}
+q('.shell').className='shell reference-shell planning-active page-menu';
+console.log('PASS shared compact mobile roles on ten planning routes and intrinsic drawer flow');
 for(const width of [375,390,560,650,767,768,850,1099,1100,1440]){
  const phone=width<768;
  assert.equal(value(q('.topbar'),'position',width),'relative',`header position at ${width}`);
@@ -61,7 +79,7 @@ for(const width of [375,390,560,650,767,768,850,1099,1100,1440]){
  assert.equal(value(q('.recipe-reader-columns'),'grid-template-columns',width),phone?'1fr':width>=1100?'minmax(260px,.8fr) minmax(0,1.3fr)':'minmax(0,.9fr) minmax(0,1.35fr)');
  assert(value(q('.recipe-reader-intro h2'),'font-family',width).startsWith('Metropolis'));
  assert.equal(value(q('.recipe-reader-intro h2'),'font-weight',width),'200');
- assert.equal(value(q('.recipe-reader-intro h2'),'font-size',width),width<=560?'26px':'30px');
+ assert.equal(value(q('.recipe-reader-intro h2'),'font-size',width),phone?'24px':'30px');
  assert(value(q('.reader-method li span'),'font-family',width).startsWith('Lato'));
  assert.equal(value(q('.reader-method li span'),'color',width),'#292725');
  assert.equal(value(q('.panel p'),'color',width),'#f1f1f1');
