@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState, type FormEvent } from 'react';
 import type { Session } from '@supabase/supabase-js';
 import App, { initial, type State } from './App';
-import { cacheKey, createParty, listParties, PartySaver, recoveryKey, retainRecovery, supabase, type Party, type SaveStatus } from './cloud';
+import { cacheKey, createParty, initialAuthSetupIntent, listParties, PartySaver, readAuthSetupIntent, recoveryKey, retainRecovery, supabase, type AuthSetupIntent, type Party, type SaveStatus } from './cloud';
 
 // Suggested menu/setup is retained, but example guests must not become customer data.
 const newPartyState: State = {...initial, guests: [], seating: {}, menuPlan: {}, menuOwners: {}, planningMode: 'Estimated'};
@@ -19,8 +19,7 @@ export default function CloudApp() {
   const [epoch, setEpoch] = useState(0);
   const [loading, setLoading] = useState(false);
   const [accountOpen, setAccountOpen] = useState(false);
-  const [recovery, setRecovery] = useState(false);
-  const [inviteSetup, setInviteSetup] = useState(false);
+  const [setupIntent, setSetupIntent] = useState<AuthSetupIntent>(() => initialAuthSetupIntent || readAuthSetupIntent(window.location.href));
   const [mode, setMode] = useState<'signin' | 'reset'>('signin');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -35,7 +34,10 @@ export default function CloudApp() {
   const generation = useRef(0);
   const accountDialog = useRef<HTMLElement>(null);
   const userId = session?.user.id;
-  const passwordSetup = recovery || inviteSetup;
+  const recovery = setupIntent === 'recovery';
+  const inviteSetup = setupIntent === 'invite';
+  const passwordSetup = Boolean(session && setupIntent);
+  const needsSetupLink = session === null && Boolean(setupIntent);
 
   const activate = useCallback((party: Party) => {
     saver.current?.stop();
@@ -50,13 +52,21 @@ export default function CloudApp() {
   useEffect(() => {
     const {data: {subscription}} = supabase.auth.onAuthStateChange((event, next) => {
       // Keep this callback synchronous; Supabase API work happens in effects.
-      if (event === 'PASSWORD_RECOVERY') {setRecovery(true); setAccountOpen(true);}
-      if (next && new URL(window.location.href).searchParams.get('setup') === '1') {setInviteSetup(true); setAccountOpen(true);}
+      if (event === 'PASSWORD_RECOVERY') {setSetupIntent('recovery'); setAccountOpen(true);}
+      if (next && new URL(window.location.href).searchParams.get('setup') === '1' && event !== 'PASSWORD_RECOVERY') {setSetupIntent(intent => intent || 'invite'); setAccountOpen(true);}
       setSession(next);
       if (event === 'SIGNED_IN' || event === 'SIGNED_OUT' || event === 'PASSWORD_RECOVERY') setPassword('');
     });
     return () => subscription.unsubscribe();
   }, []);
+
+  useEffect(() => {
+    if (!session || !setupIntent) return;
+    // Keep the screen available if the buyer reloads before saving a password.
+    const url = new URL(window.location.href);
+    url.searchParams.set('setup', '1');
+    window.history.replaceState(null, '', `${url.pathname}${url.search}${url.hash}`);
+  }, [session?.user.id, setupIntent]);
 
   useEffect(() => {
     const token = ++generation.current;
@@ -106,7 +116,7 @@ export default function CloudApp() {
   }, [userId, active?.id]);
   const showAccount = useCallback(() => {setAccountOpen(true);}, []);
   const mustChooseParty = Boolean(session && !active);
-  const showDialog = accountOpen || mustChooseParty || session === undefined;
+  const showDialog = accountOpen || mustChooseParty || session === undefined || Boolean(setupIntent);
 
   useEffect(() => {
     if (!showDialog) return;
@@ -114,7 +124,7 @@ export default function CloudApp() {
     const overflow = document.body.style.overflow; document.body.style.overflow = 'hidden';
     accountDialog.current?.querySelector<HTMLElement>('input,button')?.focus();
     const handleKeys = (event: KeyboardEvent) => {
-      if (event.key === 'Escape' && !mustChooseParty && !passwordSetup && session !== undefined) setAccountOpen(false);
+      if (event.key === 'Escape' && !mustChooseParty && !setupIntent && session !== undefined) setAccountOpen(false);
       if (event.key !== 'Tab') return;
       const controls = accountDialog.current?.querySelectorAll<HTMLElement>('button:not(:disabled),input:not(:disabled),a');
       if (!controls?.length) return;
@@ -124,7 +134,7 @@ export default function CloudApp() {
     };
     window.addEventListener('keydown', handleKeys);
     return () => {document.body.style.overflow = overflow; window.removeEventListener('keydown', handleKeys); if (previous?.isConnected) previous.focus();};
-  }, [showDialog, mustChooseParty, passwordSetup, session === undefined]);
+  }, [showDialog, mustChooseParty, setupIntent, passwordSetup, session === undefined]);
 
   async function run(action: () => Promise<void>) {
     setBusy(true); setError(''); setMessage('');
@@ -138,12 +148,12 @@ export default function CloudApp() {
         const {error: failure} = await supabase.auth.updateUser({password}); if (failure) throw failure;
         const url = new URL(window.location.href); url.searchParams.delete('setup');
         window.history.replaceState(null, '', `${url.pathname}${url.search}${url.hash}`);
-        setRecovery(false); setInviteSetup(false); setPassword(''); setMessage('Password saved.'); return;
+        setSetupIntent(null); setPassword(''); setMessage('Password saved.'); return;
       }
-      const redirectTo = `${window.location.origin}/`;
-      if (mode === 'reset') {
+      const redirectTo = `${window.location.origin}/${needsSetupLink ? '?setup=1' : ''}`;
+      if (needsSetupLink || mode === 'reset') {
         const {error: failure} = await supabase.auth.resetPasswordForEmail(email.trim(), {redirectTo}); if (failure) throw failure;
-        setMessage('If an account exists for this email, a password reset link has been sent.'); return;
+        setMessage(needsSetupLink ? 'If an account exists for this email, a fresh password setup link has been sent. Check your inbox and spam.' : 'If an account exists for this email, a password reset link has been sent.'); return;
       }
       const result = await supabase.auth.signInWithPassword({email: email.trim(), password});
       if (result.error) throw result.error;
@@ -172,7 +182,7 @@ export default function CloudApp() {
     if (backup) downloadBackup(latest.current);
     else if (saver.current && !await saver.current.flush()) throw new Error('Your changes have not reached your account. Retry saving, or use Download & sign out.');
     const {error: failure} = await supabase.auth.signOut({scope: 'local'}); if (failure) throw failure;
-    setAccountOpen(false); setRecovery(false); setInviteSetup(false); setMessage('');
+    setAccountOpen(false); setSetupIntent(null); setMessage('');
   }
 
   return <>
@@ -183,23 +193,31 @@ export default function CloudApp() {
     </div>
     {session && active && !loading && saveStatus !== 'Saved to account' && <button className="cloud-status" onClick={showAccount} aria-live="polite">{saveStatus}</button>}
     {showDialog && <div className="account-overlay"><section ref={accountDialog} className="account-sheet" role="dialog" aria-modal="true" aria-labelledby="account-title">
-      <header><span className="account-kicker">CROW & CROWN · AT HOME</span>{session !== undefined && !mustChooseParty && !passwordSetup && <button aria-label="Close account" onClick={() => setAccountOpen(false)}>CLOSE ×</button>}</header>
-      <h2 id="account-title">{session === undefined ? 'Opening your account' : recovery ? 'A new password' : inviteSetup ? 'Set your password' : session ? 'Your parties' : 'Make yourself at home'}</h2>
-      {session === undefined || loading ? <p role="status">Loading saved parties…</p> : <>
+      <header><span className="account-kicker">CROW & CROWN · AT HOME</span>{session !== undefined && !mustChooseParty && !setupIntent && <button aria-label="Close account" onClick={() => setAccountOpen(false)}>CLOSE ×</button>}</header>
+      <h2 id="account-title">{session === undefined ? 'Opening your account' : needsSetupLink ? 'Finish account setup' : recovery ? 'A new password' : inviteSetup ? 'Set your password' : session ? 'Your parties' : 'Make yourself at home'}</h2>
+      {session === undefined || (loading && !passwordSetup) ? <p role="status">Loading saved parties…</p> : <>
         {error && <p role="alert" className="account-message">{error}</p>}
         {message && <p role="status" className="account-message">{message}</p>}
         {(!session || passwordSetup) && <>
-          <p>{inviteSetup ? 'Your purchase created your account. Choose a password to continue on your phone and computer.' : 'Your account setup link is emailed after purchase. Sign in with the email you used at checkout to open your saved parties.'}</p>
+          <p>{needsSetupLink ? 'Open the setup email in this browser to choose your password. If your link expired or opened elsewhere, request a fresh link below.' : passwordSetup ? 'Choose a password to continue on your phone and computer.' : 'Your account setup link is emailed after purchase. Sign in with the email you used at checkout to open your saved parties.'}</p>
           <form onSubmit={authenticate}>
             {!passwordSetup && <label>EMAIL<input type="email" autoComplete="email" required value={email} onChange={e => setEmail(e.target.value)} /></label>}
-            {(passwordSetup || mode !== 'reset') && <label>{passwordSetup ? 'NEW PASSWORD' : 'PASSWORD'}<input type="password" autoComplete={passwordSetup ? 'new-password' : 'current-password'} minLength={passwordSetup ? 8 : 1} required value={password} onChange={e => setPassword(e.target.value)} /></label>}
-            <button type="submit" disabled={busy}>{busy ? 'PLEASE WAIT…' : passwordSetup ? 'SAVE PASSWORD' : mode === 'reset' ? 'SEND RESET LINK' : 'SIGN IN'}</button>
+            {(passwordSetup || (!needsSetupLink && mode !== 'reset')) && <label>{passwordSetup ? 'NEW PASSWORD' : 'PASSWORD'}<input type="password" autoComplete={passwordSetup ? 'new-password' : 'current-password'} minLength={passwordSetup ? 8 : 1} required value={password} onChange={e => setPassword(e.target.value)} /></label>}
+            <button type="submit" disabled={busy}>{busy ? 'PLEASE WAIT…' : passwordSetup ? 'SAVE PASSWORD' : needsSetupLink ? 'SEND SETUP LINK' : mode === 'reset' ? 'SEND RESET LINK' : 'SIGN IN'}</button>
           </form>
-          {!passwordSetup && <button className="account-text-action" onClick={() => {setMode(mode === 'reset' ? 'signin' : 'reset'); setError(''); setMessage('');}}>{mode === 'reset' ? 'BACK TO SIGN IN' : 'FORGOT PASSWORD?'}</button>}
-          {!session && !passwordSetup && <button className="account-text-action" onClick={() => setAccountOpen(false)}>CONTINUE ON THIS DEVICE</button>}
+          {!passwordSetup && <button className="account-text-action" onClick={() => {
+            if (needsSetupLink) {
+              setSetupIntent(null); setMode('signin'); setAccountOpen(true);
+              const url = new URL(window.location.href); url.searchParams.delete('setup');
+              window.history.replaceState(null, '', `${url.pathname}${url.search}${url.hash}`);
+            } else setMode(mode === 'reset' ? 'signin' : 'reset');
+            setError(''); setMessage('');
+          }}>{needsSetupLink || mode === 'reset' ? 'BACK TO SIGN IN' : 'FORGOT PASSWORD?'}</button>}
+          {!session && !setupIntent && <button className="account-text-action" onClick={() => setAccountOpen(false)}>CONTINUE ON THIS DEVICE</button>}
         </>}
         {session && !passwordSetup && <>
           <p>{session.user.email}</p><p className="account-save-status" role="status">{active ? saveStatus : 'Choose a saved party or start a new one.'}</p>
+          <button className="account-text-action" onClick={() => {setSetupIntent('invite'); setPassword(''); setError(''); setMessage('');}}>SET OR CHANGE PASSWORD</button>
           {active && saveStatus !== 'Saved to account' && <div className="account-actions"><button disabled={busy} onClick={() => void run(async () => {if (!await saver.current?.flush()) throw new Error('Save failed. Download a backup before reloading the saved party.');})}>RETRY SAVE</button><button onClick={() => downloadBackup(latest.current)}>DOWNLOAD BACKUP</button></div>}
           {active && (hasBackup || saveStatus === 'Changed on another device — review') && <div className="account-recovery"><p>A local backup or newer device version needs review. Download your current changes before replacing this view.</p><div className="account-actions"><button onClick={() => downloadBackup(latest.current)}>DOWNLOAD THIS VIEW</button>{hasBackup && <button onClick={() => {try {const raw = localStorage.getItem(recoveryKey(active.user_id, active.id)); if (raw) downloadBackup(JSON.parse(raw));} catch {setError('The local backup could not be read.');}}}>DOWNLOAD LOCAL BACKUP</button>}<button disabled={busy} onClick={() => void run(async () => {
             const rows = await listParties(userId!); const party = rows.find(p => p.id === active.id); if (!party) throw new Error('Saved party unavailable.');

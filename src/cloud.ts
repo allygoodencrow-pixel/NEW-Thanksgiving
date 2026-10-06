@@ -2,6 +2,17 @@ import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 import type { State } from './App';
 import { supabaseUrl, supabasePublishableKey } from './supabase-config';
 
+export type AuthSetupIntent = 'invite' | 'recovery' | null;
+export function readAuthSetupIntent(href: string): AuthSetupIntent {
+  const url = new URL(href);
+  const type = new URLSearchParams(url.hash.slice(1)).get('type');
+  if (type === 'recovery' || new URLSearchParams(url.hash.slice(1)).get('error_code') === 'otp_expired') return 'recovery';
+  if (type === 'invite' || url.searchParams.get('setup') === '1') return 'invite';
+  return null;
+}
+// Capture only the purpose before the auth client consumes/clears the URL hash.
+// Tokens stay with Supabase and are never copied into app state or storage.
+export const initialAuthSetupIntent = typeof window === 'undefined' ? null : readAuthSetupIntent(window.location.href);
 export const supabase = createClient(supabaseUrl, supabasePublishableKey);
 export type Party = {id: string; user_id: string; name: string; state: State; revision: number; updated_at: string};
 export const pendingKey = (user: string, party: string) => `cc-cloud-pending:${user}:${party}`;

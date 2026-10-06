@@ -33,6 +33,8 @@ Configure a JSON Order payment webhook in the existing Shopify store to `https:/
 
 Supabase Auth Site URL stays the production app root. Add the exact redirect `https://thanksgiving.thecrowandcrown.com/?setup=1`; preserve existing redirects. Invite and magic-link templates must retain Supabase's `{{ .ConfirmationURL }}` token. Set customer-friendly invite/access subjects and copy before launch.
 
+Manual dashboard invitation tests must also use that setup redirect. The app captures invitation/recovery purpose before Supabase consumes the URL hash, and keeps the setup flag until a password is saved. A setup URL without an authenticated session shows Finish account setup and offers a fresh recovery link; it never attempts an unauthenticated password change. Already signed-in customers can use Account → SET OR CHANGE PASSWORD. Password setup is available even if private party loading fails. Do not treat email confirmation or a magic-link sign-in as proof that the buyer chose a password.
+
 SMTP host `smtp.resend.com`, port 465, username `resend`; sender `no-reply@mail.thecrowandcrown.com` / CROW & CROWN. The SMTP password must be a valid complete generated Resend API key with sending access to that verified domain. The owner must enter/save it directly, never paste it in chat. The October 5 signup test failed with SMTP 535 Authentication credentials invalid; a settings save does not resolve this failure.
 
 ## Database and verification

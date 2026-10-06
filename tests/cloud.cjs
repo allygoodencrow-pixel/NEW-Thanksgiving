@@ -84,6 +84,65 @@ const deferred=()=>{let resolve,reject;const promise=new Promise((a,b)=>{resolve
  assert(rows.some(p=>p.id==='party-a'&&p.state.notes==='Private account A'));
  cleanup();
  console.log('PASS purchase invite sets a buyer-selected password and preserves existing private parties');
+ // A setup URL without a session must show a fresh-link form, not silently show Home.
+ currentUser=null;window.history.replaceState(null,'','/?setup=1');
+ cloud.supabase.auth.onAuthStateChange=fn=>{authListener=fn;queueMicrotask(()=>fn('INITIAL_SESSION',null));return {data:{subscription:{unsubscribe(){}}}};};
+ let resetRequest,unauthenticatedUpdate=false;
+ cloud.supabase.auth.resetPasswordForEmail=async(email,options)=>{resetRequest={email,options};return {data:{},error:null};};
+ cloud.supabase.auth.updateUser=async()=>{unauthenticatedUpdate=true;throw new Error('Must authenticate first');};
+ render(React.createElement(CloudApp));
+ await waitFor(()=>assert(screen.getByRole('heading',{name:'Finish account setup'})));
+ assert.equal(screen.queryByLabelText('NEW PASSWORD'),null);
+ assert.equal(screen.queryByLabelText('PASSWORD'),null);
+ fireEvent.change(screen.getByLabelText('EMAIL'),{target:{value:'a@example.test'}});
+ fireEvent.submit(screen.getByLabelText('EMAIL').closest('form'));
+ await waitFor(()=>assert.equal(resetRequest?.options.redirectTo,'http://localhost/?setup=1'));
+ assert.equal(resetRequest.email,'a@example.test');assert.equal(unauthenticatedUpdate,false);
+ assert(screen.getByText(/fresh password setup link has been sent/));
+ fireEvent.click(screen.getByRole('button',{name:'BACK TO SIGN IN'}));
+ await waitFor(()=>assert(screen.getByLabelText('PASSWORD')));
+ assert.equal(new URL(window.location.href).searchParams.has('setup'),false);
+ cleanup();
+ console.log('PASS signed-out setup requests offer a secure fresh link without a password write');
+
+ // Supabase can clear the invite hash before emitting the initial session.
+ currentUser='owner-a';failLoad=true;window.history.replaceState(null,'','/#type=invite');
+ cloud.supabase.auth.onAuthStateChange=fn=>{authListener=fn;queueMicrotask(()=>{window.history.replaceState(null,'','/');fn('INITIAL_SESSION',session(currentUser));});return {data:{subscription:{unsubscribe(){}}}};};
+ cloud.supabase.auth.updateUser=async values=>{updatedPassword=values.password;return {data:{user:session(currentUser).user},error:null};};
+ render(React.createElement(CloudApp));
+ await waitFor(()=>assert(screen.getByRole('heading',{name:'Set your password'})));
+ assert(screen.getByLabelText('NEW PASSWORD'),'Party loading failure must not block authenticated password setup');
+ assert.equal(new URL(window.location.href).searchParams.get('setup'),'1','Reload must retain setup purpose');
+ cleanup();
+ assert.equal(cloud.readAuthSetupIntent('http://localhost/#type=recovery'),'recovery');
+ assert.equal(cloud.readAuthSetupIntent('http://localhost/#type=magiclink'),null);
+ assert.equal(cloud.readAuthSetupIntent('http://localhost/#error=access_denied&type=invite'),'invite');
+ assert.equal(cloud.readAuthSetupIntent('http://localhost/#error=access_denied&error_code=otp_expired'),'recovery');
+ console.log('PASS invite hash consumption and party load failures do not hide password setup');
+
+ // An expired recovery link has no session; a valid recovery link gets the password form.
+ currentUser=null;failLoad=false;window.history.replaceState(null,'','/#error=access_denied&type=recovery');
+ cloud.supabase.auth.onAuthStateChange=fn=>{authListener=fn;queueMicrotask(()=>fn('INITIAL_SESSION',null));return {data:{subscription:{unsubscribe(){}}}};};
+ render(React.createElement(CloudApp));
+ await waitFor(()=>assert(screen.getByRole('button',{name:'SEND SETUP LINK'})));
+ assert.equal(screen.queryByLabelText('NEW PASSWORD'),null);
+ await act(async()=>{currentUser='owner-a';authListener('PASSWORD_RECOVERY',session(currentUser));});
+ await waitFor(()=>assert(screen.getByRole('heading',{name:'A new password'})));
+ assert(screen.getByLabelText('NEW PASSWORD'));
+ cleanup();
+ console.log('PASS expired recovery links request fresh authentication; authenticated recovery opens password entry');
+
+ // Already-authenticated invited buyers can choose a password from Account without URL hunting.
+ window.history.replaceState(null,'','/');
+ cloud.supabase.auth.onAuthStateChange=fn=>{authListener=fn;queueMicrotask(()=>fn('INITIAL_SESSION',session(currentUser)));return {data:{subscription:{unsubscribe(){}}}};};
+ render(React.createElement(CloudApp));
+ await waitFor(()=>assert(screen.getByRole('button',{name:'Account and saved parties'})));
+ fireEvent.click(screen.getByRole('button',{name:'Account and saved parties'}));
+ fireEvent.click(screen.getByRole('button',{name:'SET OR CHANGE PASSWORD'}));
+ await waitFor(()=>assert(screen.getByLabelText('NEW PASSWORD')));
+ assert.equal(document.querySelector('.shell').parentElement.getAttribute('inert'),'');
+ cleanup();
+ console.log('PASS authenticated account exposes password setup without changing saved parties');
  // Supabase opens a BroadcastChannel for browser tabs. No pending assertions remain.
  process.exit(0);
 })().catch(error=>{console.error(error);cleanup();cloud.supabase.auth.stopAutoRefresh();process.exit(1);});
