@@ -58,12 +58,12 @@ const disclosure=doc.createElement('details');disclosure.className='panel';discl
 for(const page of ['plan','guests','menu','shopping','prep','timeline','experiences','tables','budget','printables']){
  q('.shell').className=`shell reference-shell planning-active page-${page}`;
  for(const width of [375,390,650,767,768,1100]){
-  assert.equal(value(q('.page-head h1'),'font-size',width),width<768?'24px':'36px',`${page} title at ${width}`);
+  assert.equal(value(q('.page-head h1'),'font-size',width),width<768?'24px':'28px',`${page} title at ${width}`);
   assert.equal(value(q('.sidebar nav'),'flex',width),'0 0 auto',`${page} drawer must occupy its content height`);
   assert.equal(value(q('.sidebar nav'),'min-height',width),'auto');
   assert.equal(value(q('.sidebar-foot'),'position',width),'static');
   assert(value(disclosure.querySelector('summary'),'font-family',width).startsWith('Lato'));
-  assert.equal(value(disclosure.querySelector('summary'),'font-size',width),'11px');
+  assert.equal(value(disclosure.querySelector('summary'),'font-size',width),width<768?'10px':'11px');
   assert.equal(value(disclosure,'padding',width),'12px 16px');
   if(width<768){assert.notEqual(value(disclosure,'background',width),'transparent');assert.notEqual(value(disclosure,'border-radius',width),'0');}
   assert.equal(value(q('.sidebar button'),'min-height',width),'44px');
@@ -75,8 +75,15 @@ console.log('PASS shared compact mobile roles on ten planning routes and intrins
 const nestedSummary=doc.createElement('details');nestedSummary.className='panel printable-category';nestedSummary.innerHTML='<summary><div><h2>Labels</h2><p class="fine">Buffet labels from your plan</p><span class="eyebrow">12 design sheets</span></div></summary>';q('.content').append(nestedSummary);
 const prep=doc.createElement('div');prep.className='prep-start-grid';prep.innerHTML='<button class="prep-start-card">Start prep</button>';q('.main').append(prep);
 const categories=doc.createElement('div');categories.className='printable-categories';q('.content').append(categories);
+const libraryCard=doc.createElement('article');libraryCard.className='library-recipe-card';libraryCard.innerHTML='<span class="eyebrow">Source</span><h3>Recipe title</h3><p>Original measured yield</p><button class="recipe-add-button">Add to menu</button>';q('.content').append(libraryCard);
 const paper=doc.createElement('div');paper.className='paper';paper.innerHTML='<h3>A long family dinner title</h3><p>Full details</p>';q('.content').append(paper);
 for(const width of [320,375,390,560,650,767]){
+ assert.equal(value(libraryCard.querySelector('h3'),'font-size',width),'14px');
+ assert.equal(value(libraryCard.querySelector('h3'),'font-weight',width),'100');
+ assert.equal(value(libraryCard.querySelector('.eyebrow'),'font-size',width),'8px');
+ assert(value(libraryCard.querySelector('.eyebrow'),'font-family',width).startsWith('Metropolis'));
+ assert.equal(value(libraryCard.querySelector('p'),'font-size',width),'12px');
+ assert.equal(value(libraryCard.querySelector('button'),'font-size',width),'10px');
  assert.equal(value(prep,'gap',width),'10px');
  assert.equal(value(categories,'gap',width),'24px');
  assert.equal(value(prep.firstElementChild,'border-radius',width),'18px');
@@ -102,19 +109,19 @@ for(const width of [375,390,560,650,767,768,850,1099,1100,1440]){
  assert.equal(value(q('.recipe-sheet'),'max-height',width),phone?'100dvh':'calc(100dvh - 64px)');
  assert.equal(value(q('.recipe-reader-columns'),'grid-template-columns',width),phone?'1fr':width>=1100?'minmax(260px,.8fr) minmax(0,1.3fr)':'minmax(0,.9fr) minmax(0,1.35fr)');
  assert(value(q('.recipe-reader-intro h2'),'font-family',width).startsWith('Metropolis'));
- assert.equal(value(q('.recipe-reader-intro h2'),'font-weight',width),'200');
- assert.equal(value(q('.recipe-reader-intro h2'),'font-size',width),phone?'24px':'30px');
+ assert.equal(value(q('.recipe-reader-intro h2'),'font-weight',width),'100');
+ assert.equal(value(q('.recipe-reader-intro h2'),'font-size',width),phone?'24px':'28px');
  assert(value(q('.reader-method li span'),'font-family',width).startsWith('Lato'));
  assert.equal(value(q('.reader-method li span'),'color',width),'#292725');
  assert.equal(value(q('.panel p'),'color',width),'#f1f1f1');
  assert.equal(value(q('.panel input'),'font-size',width),phone?'16px':'13px');
  assert.equal(value(q('.recipe-reader-header button'),'font-weight',width),'300');
- assert.equal(value(q('.panel h2'),'font-weight',width),'200');
+ assert.equal(value(q('.panel h2'),'font-weight',width),'100');
  assert.equal(value(q('.menu-dish-fields'),'grid-template-columns',width),width>=1100?'repeat(2,minmax(0,1fr))':'1fr');
  assert.equal(value(q('.menu-dish-recipe'),'border',width),'1px solid #ffffff66');
  assert(value(q('.menu-dish-recipe'),'font-family',width).startsWith('Lato'));
  assert.equal(value(q('.menu-dish-recipe'),'font-weight',width),'300');
- assert.equal(value(q('.menu-dish-title'),'font-weight',width),'200');
+ assert.equal(value(q('.menu-dish-title'),'font-weight',width),'100');
  assert.equal(value(q('.menu-dish-settings select'),'font-size',width),phone?'16px':'13px');
  assert.equal(value(q('.menu-dish-settings select'),'color',width),'#f1f1f1');
  assert.equal(value(q('.menu-composition'),'display',width),'grid');
