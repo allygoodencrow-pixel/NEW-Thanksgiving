@@ -1,4 +1,4 @@
-import { printableThumbnail } from './printableThumbnails';
+import { groupPrintables } from './printableCategories';
 import { guideRecipes } from './guideRecipes';
 import { auditedRecipes, pecanRecipe, isHighlyRated } from './auditedRecipes';
 import { recipeSources, equipmentChecklist, advanceWindows, stationGuides, tableChecklist, guestJourney, guideLinks } from './hostingGuide';
@@ -3178,18 +3178,42 @@ C | C
             )}
             {tab === 'PRINTABLES' && (
               <div className="content">
-                <Section
-                  eyebrow="09 / THE FINISHING TOUCHES"
-                  title="Print only what helps"
-                >
-                  Ready-to-use details drawn from your actual plan. Photos show styling examples; printed titles and details come from your plan below.
+                <Section eyebrow="09 / THE FINISHING TOUCHES" title="Print only what helps">
+                  Browse the complete collection by printable type. Original designs are ready to download; personalized items below use your plan.
                 </Section>
+                <div className="panel printable-collection-intro">
+                  <p>76 original design sheets · Print at 100% / actual size. Download the PDF for full-quality artwork and cutting guides.</p>
+                  <a className="text-link" href="/resources/printables/collection/thanksgiving-collection.pdf" download="Crow-Crown-Thanksgiving-Collection.pdf">DOWNLOAD THE COMPLETE COLLECTION <ArrowRight size={16} /></a>
+                </div>
                 <details className="panel glass-light"><summary>Print + staging checklist</summary><p>Print menus after dishes are confirmed. Place cards use guest names. Dish labels should show the actual dish and ingredient-checked allergens.</p><CheckRow id="guide-print-menu">Confirm the menu before printing</CheckRow><CheckRow id="guide-print-labels">Check ingredients before adding dietary labels</CheckRow><CheckRow id="guide-print-leftovers">Prepare leftover labels with dish, packed date/time and relevant allergens</CheckRow><CheckRow id="guide-print-run-sheet">Keep the kitchen run sheet private for the host and helpers</CheckRow></details>
-                <SectionImage image={asset.placeSetting} alt="Thanksgiving place setting with printed details" eyebrow="FROM THE PLAN" caption="Menus, food labels and name tags should come from information you already entered—not another round of typing." position="center 58%" />
-                <div className="print-grid">
-                  {printableCards.map(({ id, name, desc }) => (
+                <div className="printable-categories">
+                  {groupPrintables(printableCards).map(category => (
+                    <details className="panel printable-category" key={category.id}>
+                      <summary>
+                        <img className="printable-thumbnail" src={category.src} alt={`${category.name} · collection preview`} width={1254} height={1254} loading="lazy" decoding="async" />
+                        <div className="printable-category-copy">
+                          <h2>{category.name}</h2>
+                          <p className="fine">{category.description}</p>
+                          <span className="eyebrow">{category.designs.length ? `${category.designs.length} design sheets` : 'Personalized from your guest list'}{category.cards.length ? ` · ${category.cards.length} from your plan` : ''}</span>
+                        </div>
+                        <ChevronDown className="printable-category-chevron" size={20} aria-hidden="true" />
+                      </summary>
+                      {category.designs.length > 0 && <div className="print-grid printable-design-grid">
+                        {category.designs.map(item => (
+                          <article className="print-card printable-design" key={item.page}>
+                            <img src={item.src} alt={`${item.name} · original sheet ${item.page}`} width={218} height={286} loading="lazy" decoding="async" />
+                            <h3>{item.name}</h3>
+                            <p className="fine">Collection sheet {item.page} · Original artwork</p>
+                            <a className="text-link" href={item.pdf} download={`Crow-Crown-${item.name.replace(/[^a-z0-9]+/gi,'-')}-${item.page}.pdf`}>DOWNLOAD PDF <ArrowRight size={16} /></a>
+                          </article>
+                        ))}
+                      </div>}
+                      {category.cards.length > 0 && <>
+                        <h3 className="printable-plan-heading">Personalized from your plan</h3>
+                        <p className="fine">Edit the details below, then print your personalized card. These use your current menu and guests.</p>
+                        <div className="print-grid">
+                          {category.cards.map(({ id, name, desc }) => (
                     <article className="print-card" key={id}>
-                      <img className="printable-thumbnail" src={printableThumbnail(id, plan.selected).src} alt={printableThumbnail(id, plan.selected).alt} width={1254} height={1254} loading="lazy" decoding="async" />
                       <div className="paper">
                         <span>CROW & CROWN</span>
                         <h3>{name}</h3>
@@ -3203,13 +3227,18 @@ C | C
                         <Printer size={16} /> PRINT / SAVE PDF
                       </button>
                     </article>
+                          ))}
+                        </div>
+                      </>}
+                      {category.id === 'places' && !category.cards.length && <p className="fine">Add guests in Guests to create your place cards.</p>}
+                    </details>
                   ))}
                 </div>
-                <div className="panel">
-                  <h2>After dinner</h2>
+                <details className="panel printable-wrap-up">
+                  <summary>After-party checklist</summary>
                   <div className="two-col">
                     <div>
-                      <span className="eyebrow">LEFTOVERS</span>
+                      <span className="eyebrow">PACKING + STORAGE</span>
                       {[
                         'Pack turkey and sides into shallow containers',
                         'Send guest portions home',
@@ -3254,7 +3283,7 @@ C | C
                   >
                     <RotateCcw size={16} /> USE SAVED PARTY
                   </button>
-                </div>
+                </details>
               </div>
             )}
           </>

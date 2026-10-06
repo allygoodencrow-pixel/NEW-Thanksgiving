@@ -2232,6 +2232,22 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
   .dish-card.compact { border-radius: 25px; }
 }
 
-/* Original printable styling photos; keep the live plan preview and print controls below. */
-.print-card > .printable-thumbnail { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 8px; margin-bottom: 18px; }
-@media print { .print-card > .printable-thumbnail { display: none; } }
+/* Browse by printable type; original collection sheets and live cards stay inside. */
+.printable-categories { display: grid; gap: 24px; margin-bottom: 24px; }
+.planning-active .main .printable-category { margin-bottom: 0; }
+.printable-category > summary { display: grid; grid-template-columns: 120px minmax(0,1fr) auto; align-items: center; gap: 24px; cursor: pointer; list-style: none; }
+.printable-category > summary::-webkit-details-marker { display: none; }
+.printable-category .printable-thumbnail { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: contain; border-radius: 8px; }
+.printable-category-copy h2 { margin: 0 0 10px; }
+.printable-category-copy p { margin: 0 0 12px; }
+.printable-category[open] > summary { margin-bottom: 24px; }
+.printable-category[open] .printable-category-chevron { transform: rotate(180deg); }
+.printable-category > .print-grid { margin-bottom: 0; }
+.printable-design > img { display: block; width: 100%; height: auto; object-fit: contain; border-radius: 6px; }
+.printable-design h3 { margin: 18px 0 10px; }
+.printable-design .text-link,.printable-collection-intro .text-link { display: inline-flex; align-items: center; gap: 10px; }
+.printable-plan-heading { margin-top: 32px; }
+.printable-wrap-up > summary { cursor: pointer; }
+.printable-wrap-up[open] > summary { margin-bottom: 24px; }
+@media(max-width:650px) { .printable-category > summary { grid-template-columns: 84px minmax(0,1fr) auto; gap: 14px; } }
+@media print { .printable-category .printable-thumbnail,.printable-design > img,.printable-category-chevron { display: none; } }
