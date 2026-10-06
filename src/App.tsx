@@ -3,7 +3,7 @@ import { guideRecipes } from './guideRecipes';
 import { moreReviewedRecipes } from './moreReviewedRecipes';
 import { expandedRecipes } from './expandedRecipes';
 import { recipePhotos as dishThumb } from './recipePhotos';
-import { auditedRecipes, pecanRecipe, isHighlyRated } from './auditedRecipes';
+import { auditedRecipes, pecanRecipe } from './auditedRecipes';
 import { recipeSources, equipmentChecklist, advanceWindows, stationGuides, tableChecklist, guestJourney, guideLinks } from './hostingGuide';
 import { normalizeState, planningContext, uid, nextThanksgiving, preparation, responsibility, derivePlan, dishPortions, recipeQuantityServings, recipeIngredientQuantity, formatRecipeAmount, recipeReady, completeMealCoverage, timelineWarnings, buildTimeline, parseIngredients, printOne, printableCards as selectPrintableCards, reconcileState } from './domain';
 import { useEffect, useRef, useState } from 'react';
@@ -1310,7 +1310,6 @@ function App({seed, storageKey = 'cc-thanksgiving-v4', onPlanChange, onAccount, 
   const [recipeError, setRecipeError] = useState('');
   const [spendLabel, setSpendLabel] = useState('');
   const [spendAmount, setSpendAmount] = useState('');
-  const [menuFilter, setMenuFilter] = useState('ALL');
   const [manualItemName, setManualItemName] = useState(String(s.drafts.forms?.manualItemName ?? ''));
   const [manualItemQty, setManualItemQty] = useState(String(s.drafts.forms?.manualItemQty ?? '1'));
   const [manualItemUnit, setManualItemUnit] = useState(String(s.drafts.forms?.manualItemUnit ?? 'each'));
@@ -1374,9 +1373,8 @@ function App({seed, storageKey = 'cc-thanksgiving-v4', onPlanChange, onAccount, 
   const ownerLabel = (d: Dish) => { const owner = responsibility(s,d).owner; return owner === 'Host' ? 'Host' : owner === 'Other' ? 'Someone else' : s.guests.find(g=>g.guestId === owner)?.name || 'Missing guest'; };
   const setResponsibility = (id: string, patch: Partial<State['menuPlan'][string]>) => setS(v=>reconcileState({...v,menuPlan:{...v.menuPlan,[id]:{...responsibility(v,{id} as Dish),...patch}}},dishes));
   const sourceRecipes = allDishes.filter(d=>d.recipeVerified);
-  const matchesRecipeFilter = (d:Dish) => menuFilter === 'ALL' || (menuFilter === 'KID-FRIENDLY' ? isKidDish(d) : menuFilter === 'HIGHLY RATED' ? isHighlyRated(d) : tagsForDish(d).some(tag=>tag.toUpperCase() === menuFilter));
-  const visibleSourceRecipes = sourceRecipes.filter(matchesRecipeFilter);
-  const visibleDishes = allDishes.filter(d=>!d.recipeVerified).filter(matchesRecipeFilter);
+  const visibleSourceRecipes = sourceRecipes;
+  const visibleDishes = allDishes.filter(d=>!d.recipeVerified);
   const shoppingQty = (key: string, automatic: number) => {
     const o=s.shoppingOverrides[key]; return Math.max(0,o ? o.mode === 'locked' ? o.value : automatic+o.value : automatic);
   };
@@ -2095,30 +2093,10 @@ C | C
                     YOUR MENU IS HEAVY · {selected.filter(d => d.group === 'Starch').length} starch-heavy sides. Consider removing one.
                   </div>
                 )}
-                {menuView === 'browse' && <section className="recipe-browser" aria-label="Recipe library">
-                <div className="recipe-library-toolbar"><div><h2>Recipe library · {allDishes.length} dishes</h2><p>{selected.length} in your menu · {sourceRecipes.length} source recipes · {allDishes.length-sourceRecipes.length} other dishes</p></div><button onClick={()=>setMenuView('plan')}>View menu <ArrowRight size={16}/></button></div>
-                <nav className="library-index" aria-label="Recipe collections"><a href="#menu" onClick={e=>{e.preventDefault();document.getElementById('source-recipes')?.scrollIntoView({behavior:'smooth',block:'start'});}}>{sourceRecipes.length} source recipes <ArrowRight size={14}/></a><a href="#menu" onClick={e=>{e.preventDefault();document.getElementById('other-recipes')?.scrollIntoView({behavior:'smooth',block:'start'});}}>{allDishes.length-sourceRecipes.length} other dishes <ArrowRight size={14}/></a></nav>                <div className="recipe-filter-row">
-                  {[
-                    'ALL',
-                    'HIGHLY RATED',
-                    'KID-FRIENDLY',
-                    'VEGETARIAN',
-                    'VEGAN',
-                    'GLUTEN-FREE',
-                    'DAIRY-FREE',
-                    'NUT-FREE',
-                    'EGG-FREE',
-                  ].map(filter => (
-                    <button
-                      key={filter}
-                      className={menuFilter === filter ? 'filter-chip active' : 'filter-chip'}
-                      onClick={() => setMenuFilter(filter)}
-                    >
-                      {filter}
-                    </button>
-                  ))}
-                </div><section className="recipe-collection" id="source-recipes"><h2>Source recipe collection</h2><p className="collection-description">Add a recipe to include it in your menu. Homemade ingredients scale to your guest count.</p>{!visibleSourceRecipes.length&&<p>No source recipes match this filter.</p>}<div className="library-recipe-grid">{visibleSourceRecipes.map(d=><article className="library-recipe-card" key={d.id}><img className="library-recipe-photo" src={d.image || dishThumb[d.id]} alt={d.name} loading="lazy" decoding="async" width={960} height={960}/><div className="library-recipe-copy"><span className="eyebrow">{d.group} · {d.source}</span><h3>{d.name}</h3><p>Original yield: {d.sourceYield} · {d.minutes} min</p>{d.rating&&<p>{d.rating} · checked October 6, 2026</p>}<button className="library-view-recipe" onClick={()=>setOpenDish(d.id)}>Recipe & ingredients <ArrowRight size={14}/></button>{recipeMenuAction(d)}</div></article>)}</div></section>
-                <details className="panel glass-light source-library"><summary>More recommendations from your file</summary><p>Your original links are retained here. Measured imports appear above. Other ideas remain source references until a specific complete recipe is available.</p>{recipeSources.map(r=><div className="source-recipe-row" key={r.name}><div><h3>{r.name}</h3><p>{r.note}</p><a href={r.url} target="_blank" rel="noreferrer">OPEN {r.publisher.toUpperCase()} →</a></div></div>)}</details>
+                <section className="recipe-browser" aria-label="Recipe library">
+                <div className="recipe-library-toolbar"><div><h2>Recipe library · {allDishes.length} dishes</h2><p>{selected.length} in your menu · {sourceRecipes.length} source recipes · {allDishes.length-sourceRecipes.length} other dishes</p></div><button onClick={()=>{setMenuView('plan');window.scrollTo({top:0,behavior:'smooth'});}}>View menu <ArrowRight size={16}/></button></div>
+                <nav className="library-index" aria-label="Recipe collections"><a href="#menu" onClick={e=>{e.preventDefault();document.getElementById('source-recipes')?.scrollIntoView({behavior:'smooth',block:'start'});}}>{sourceRecipes.length} source recipes <ArrowRight size={14}/></a><a href="#menu" onClick={e=>{e.preventDefault();document.getElementById('other-recipes')?.scrollIntoView({behavior:'smooth',block:'start'});}}>{allDishes.length-sourceRecipes.length} other dishes <ArrowRight size={14}/></a></nav>                <section className="recipe-collection" id="source-recipes"><h2>Source recipe collection</h2><p className="collection-description">Add a recipe to include it in your menu. Homemade ingredients scale to your guest count.</p>{!visibleSourceRecipes.length&&<p>No source recipes available.</p>}<div className="library-recipe-grid">{visibleSourceRecipes.map(d=><article className="library-recipe-card" key={d.id}><img className="library-recipe-photo" src={d.image || dishThumb[d.id]} alt={d.name} loading="lazy" decoding="async" width={960} height={960}/><div className="library-recipe-copy"><span className="eyebrow">{d.group} · {d.source}</span><h3>{d.name}</h3><p>Original yield: {d.sourceYield} · {d.minutes} min</p>{d.rating&&<p>{d.rating} · checked October 6, 2026</p>}<button className="library-view-recipe" onClick={()=>setOpenDish(d.id)}>Recipe & ingredients <ArrowRight size={14}/></button>{recipeMenuAction(d)}</div></article>)}</div></section>
+                <section className="panel glass-light source-library" aria-label="Additional source references"><h2>More recommendations from your file</h2><p>Your original links are retained here. Measured imports appear above. Other ideas remain source references until a specific complete recipe is available.</p>{recipeSources.map(r=><div className="source-recipe-row" key={r.name}><div><h3>{r.name}</h3><p>{r.note}</p><a href={r.url} target="_blank" rel="noreferrer">OPEN {r.publisher.toUpperCase()} →</a></div></div>)}</section>
                 <div className="library-heading" id="other-recipes"><h2>Serving plans + your recipes</h2><p>Prepared foods, drink service and your saved recipes. Finish any incomplete personal recipes before relying on their shopping quantities or cooking times.</p></div>
 
                 <div className="menu-guide">
@@ -2131,7 +2109,7 @@ C | C
                     return (
                     <article
                       key={d.id}
-                      className={`dish-card compact ${included ? 'selected' : 'muted'}`}
+                      className={`dish-card compact ${included ? 'selected' : ''}`}
                     >
                       <img
                         className="dish-thumb"
@@ -2194,7 +2172,7 @@ C | C
                     );
                   })}
                 </div>
-                </section>}
+                </section>
               </div>
             )}
             {tab === 'PREP' && (

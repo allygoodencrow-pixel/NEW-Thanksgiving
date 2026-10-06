@@ -54,3 +54,10 @@ Check every catalog photo path in tests/domain.cjs; custom image uploads retain 
 
 
 Recipe expansion adds 15 separate generated editorial illustrations, installed as `public/resources/recipes/*-expansion.jpeg`. The new spiced hot cider uses the existing matching cider illustration. No publisher photographs were copied, and none of these images establishes kitchen testing. Built-in image generation used close food crops, directional natural side light, neutral grey marble and tactile slate/olive linen with no amber/sepia grading. `RECIPE_EXPANSION_IMAGES.json` records each subject, installed path and shared prompt. Original images and Home remain unchanged.
+
+
+## Editorial revision of the expansion images
+
+Owner rejected the repeated centered cookbook composition of the 15 new illustrations. Edited those same dish images with the built-in image tool: asymmetrical crops, cropped plate edges, deliberate negative space, directional daylight/sculptural shadows, restrained ceramic/stone/metal materials, fewer cloths/ingredient bowls/herb props, and varied viewpoints per dish. Food identity remains recognizable; neutral whites/greys, natural food colors and deep blacks are preserved without amber/sepia grading. This does not change Home or the preceding 43 illustrations.
+
+The recipe manifest uses versioned `*-expansion-editorial-v2.jpeg` assets. Earlier expansion images remain as recovery siblings. Exact per-image edit prompts and current installed paths are recorded in `RECIPE_EXPANSION_IMAGES.json`. These remain generated illustrations, not publisher photos or evidence of cooking.
