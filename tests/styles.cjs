@@ -64,7 +64,8 @@ for(const page of ['plan','guests','menu','shopping','prep','timeline','experien
   assert.equal(value(q('.sidebar-foot'),'position',width),'static');
   assert(value(disclosure.querySelector('summary'),'font-family',width).startsWith('Lato'));
   assert.equal(value(disclosure.querySelector('summary'),'font-size',width),'11px');
-  assert.equal(value(disclosure,'padding',width),'12px 16px');
+  assert.equal(value(disclosure,'padding',width),width<768?'12px 0':'12px 16px');
+  if(width<768){assert.equal(value(disclosure,'background',width),'transparent');assert.equal(value(disclosure,'border-radius',width),'0');}
   assert.equal(value(q('.sidebar button'),'min-height',width),'44px');
  }
 }
