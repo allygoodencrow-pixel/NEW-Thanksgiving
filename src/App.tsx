@@ -1,3 +1,4 @@
+import { activities as activityLibrary, activityByName, activityPeople, activitySupplies, printActivity } from './activities';
 import { completeRecipe } from './completeRecipes';
 import { groupPrintables } from './printableCategories';
 import { referenceRecipes } from './referenceRecipes';
@@ -2923,44 +2924,25 @@ C | C
             )}
             {tab === 'EXPERIENCE' && (
               <div className="content">
-                <Section eyebrow="ACTIVITIES / DRINKS" title="Activities + drinks">
-                  Choose none, one or several activities. Anything you add here automatically appears in the day schedule and printables.
+                <Section eyebrow="ACTIVITIES" title="A little more to the night">
+                  Choose a game, a conversation or something for the kids. Open an activity for the instructions and print sheet.
                 </Section>
-                <SectionImage image={asset.table} alt="Thanksgiving table and drinks ready for guests" eyebrow="AFTER DINNER MATTERS TOO" caption="Plan the parts people remember between courses: drinks, conversation, games, kids’ moments, lighting and music." position="center 56%" />
-                <div className="panel glass-light activity-plan"><h2>Activities in your plan</h2>{s.activities.length ? s.activities.map(x=><div className="activity-plan-row" key={x}><span>{x}</span><button aria-label={`Remove activity ${x}`} onClick={()=>toggleActivity(x)}>REMOVE</button></div>):<p>No activities selected yet.</p>}<div className="guest-add"><input aria-label="Custom activity" placeholder="Add your own activity" value={newActivity} onChange={e=>setNewActivity(e.target.value)}/><button onClick={()=>{const name=newActivity.trim();if(name&&!s.activities.includes(name)){update('activities',[...s.activities,name]);setNewActivity('');}}}>ADD ACTIVITY</button></div><button className="text-link" onClick={()=>navigate('TIMELINE','DAY OF')}>OPEN TIMELINE →</button></div>
-                <details className="panel glass-light"><summary>Guest flow + host handoff</summary><ol className="guest-journey">{guestJourney.map(step=><li key={step}>{step}</li>)}</ol><CheckRow id="guide-water-refill">Assign someone to refill water</CheckRow><CheckRow id="guide-coffee-helper">Assign someone to make coffee</CheckRow><CheckRow id="guide-contribution-heat">Ask contributors whether dishes arrive hot, cold, or needing oven space</CheckRow><CheckRow id="guide-label-allergens">Check labels and ingredients before marking finished dishes for dietary needs</CheckRow></details>
-                <div className="experience-grid">
-                  {[
-                    'No activity needed',
-                    'Conversation cards',
-                    'Family questions',
-                    'Gratitude cards',
-                    'Photo prompts',
-                    'After-dinner game',
-                    'Kids’ table sheets',
-                  ].map(x => (
-                    <button
-                      key={x}
-                      className={`experience-card ${x === 'No activity needed' ? (activeActivities.length === 0 ? 'selected' : '') : (activeActivities.includes(x) ? 'selected' : '')}`}
-                      onClick={() => toggleActivity(x)}
-                    >
-                      <span className="eyebrow">
-                        {x === 'No activity needed'
-                          ? (activeActivities.length === 0 ? 'SELECTED' : 'OPTION')
-                          : (activeActivities.includes(x) ? 'SELECTED' : 'OPTION')}
-                      </span>
-                      <h2>{x}</h2>
-                      <p>
-                        {x === 'No activity needed'
-                          ? 'Let dinner itself be enough.'
-                          : x === 'Kids’ table sheets'
-                            ? 'A quiet option for children, when relevant.'
-                            : 'A low-pressure moment to bring the room together.'}
-                      </p>
-                      <ArrowRight size={18} />
-                    </button>
-                  ))}
+                <div className="panel glass-light activity-plan">
+                  <h2>Your activity plan</h2>
+                  {s.activities.length ? s.activities.map(name=>{const activity=activityByName(name);return <div className="activity-plan-row" key={name}><div><h3>{name}</h3><p>{activity ? `${activity.duration} · ${activity.when}` : 'Your own activity'}</p></div><button aria-label={`Remove activity ${name}`} onClick={()=>toggleActivity(name)}>REMOVE</button></div>}) : <p>Choose an activity below, or let dinner be enough.</p>}
+                  <div className="guest-add"><input aria-label="Custom activity" placeholder="Add your own activity" value={newActivity} onChange={e=>setNewActivity(e.target.value)}/><button onClick={()=>{const name=newActivity.trim();if(name&&!s.activities.includes(name)){update('activities',[...s.activities,name]);setNewActivity('');}}}>ADD ACTIVITY</button></div>
+                  <div className="activity-plan-actions"><button className="text-link" onClick={()=>navigate('TIMELINE','DAY OF')}>VIEW TIMELINE</button><button className="text-link" onClick={()=>navigate('PRINTABLES')}>VIEW PRINTABLES</button>{s.activities.length>0&&<button className="text-link" onClick={()=>toggleActivity('No activity needed')}>CLEAR ACTIVITIES</button>}</div>
+                  {activitySupplies(s.activities,adults,kids).length>0&&<div className="activity-supplies"><h3>Supplies for your group</h3>{activitySupplies(s.activities,adults,kids).map(item=><p key={item.name}>{item.count} {item.unit} · {item.name}</p>)}<p className="fine">These supplies are also in Shopping. Pencils are reused between games.</p></div>}
                 </div>
+                <div className="experience-grid activity-library">
+                  {activityLibrary.map(activity=>{const added=activeActivities.includes(activity.name),people=activityPeople(activity,adults,kids);return <article key={activity.name} className={`experience-card activity-card ${added?'selected':''}`}>
+                    <span className="eyebrow">{activity.audience} · {activity.duration}</span>
+                    <h2>{activity.name}</h2><p>{activity.description}</p><p className="fine">{activity.when}{people ? ` · ${people} participants planned` : activity.audience==='Kids' ? ' · Add children in Guests to calculate supplies' : ''}</p>
+                    <button className="activity-toggle" aria-pressed={added} aria-label={`${added?'Remove':'Add'} ${activity.name}${added?' from':' to'} your plan`} onClick={()=>toggleActivity(activity.name)}>{added?'IN YOUR PLAN · REMOVE':'ADD TO YOUR PLAN'}</button>
+                    <details className="activity-details"><summary>How to play + prompts</summary><ol>{activity.instructions.map(step=><li key={step}>{step}</li>)}</ol><h3>{activity.name==='Thanksgiving bingo'?'Bingo squares':'Prompts'}</h3><ul>{activity.prompts.map(prompt=><li key={prompt}>{prompt}</li>)}</ul><h3>What you need</h3>{activity.supplies.map(supply=><p key={supply.name}>{people?supply.quantity(people):'—'} {supply.unit} · {supply.name}</p>)}<button className="text-link" onClick={()=>printActivity(activity)}><Printer size={14}/> PRINT ACTIVITY</button></details>
+                  </article>})}
+                </div>
+                <details className="panel glass-light"><summary>Guest flow + host handoff</summary><ol className="guest-journey">{guestJourney.map(step=><li key={step}>{step}</li>)}</ol><CheckRow id="guide-water-refill">Assign someone to refill water</CheckRow><CheckRow id="guide-coffee-helper">Assign someone to make coffee</CheckRow><CheckRow id="guide-contribution-heat">Ask contributors whether dishes arrive hot, cold, or needing oven space</CheckRow><CheckRow id="guide-label-allergens">Check labels and ingredients before marking finished dishes for dietary needs</CheckRow></details>
                 <div className="two-col">
                   <div className="panel">
                     <h2>Arrival plan</h2>
