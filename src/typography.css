@@ -169,17 +169,17 @@ body :where(.page-home:not(.planning-active)) :is(.eyebrow,.input-kicker,.nav-ph
 .planning-active{
  --font-body:Lato,'Helvetica Neue',Arial,sans-serif;
  --text-primary:#f1f1f1;--text-muted:#cdcac6;--text-on-fill:#1d1b1b;
- --type-title:28px;--type-heading:18px;--type-subheading:14px;--type-body:13px;--type-label:9px;--type-reader:28px;--type-eyebrow:10px;--type-control:11px;
+ --type-title:28px;--type-heading:18px;--type-subheading:14px;--type-body:13px;--type-label:10px;--type-meta:11px;--type-reader:28px;--type-eyebrow:10px;--type-control:11px;
  color:var(--text-primary);font-family:var(--font-body);font-size:var(--type-body);font-weight:300;line-height:1.6;letter-spacing:0;
 }
 .planning-active :where(*){font-family:inherit;font-size:inherit;font-weight:inherit;font-style:normal;line-height:inherit;letter-spacing:inherit;color:inherit;-webkit-text-fill-color:currentColor}
 .planning-active :is(.glass-light,.paper,.recipe-integrity-notice){--text-primary:#292725;--text-muted:#595650;--text-on-fill:#f1f1f1;color:var(--text-primary)}
 .planning-active :is(h1,.recipe-reader-intro h2){font-family:var(--font-display);font-size:var(--type-title);font-weight:100;line-height:1.2;letter-spacing:.045em;text-transform:uppercase;color:var(--text-primary)}
-.planning-active h2{font-family:var(--font-display);font-size:var(--type-heading);font-weight:100;line-height:1.35;letter-spacing:.13em;text-transform:uppercase;color:var(--text-primary)}
+.planning-active h2{font-family:var(--font-display);font-size:var(--type-heading);font-weight:200;line-height:1.35;letter-spacing:.13em;text-transform:uppercase;color:var(--text-primary)}
 .planning-active :is(h3,h4){font-family:var(--font-display);font-size:var(--type-subheading);font-weight:200;line-height:1.45;letter-spacing:.09em;text-transform:uppercase;color:var(--text-primary)}
 .planning-active :is(p,li,.check-row,.shop-item-name,.timeline-row,.budget-line,.summary-line,.guest-contribution){font-family:var(--font-body);font-size:var(--type-body);font-weight:300;line-height:1.6;letter-spacing:0;text-transform:none;color:var(--text-primary)}
 .planning-active .staging-sheet b{font-family:var(--font-display);font-size:var(--type-subheading);font-weight:300;line-height:1.45;letter-spacing:.015em}
-.planning-active :where(small,.fine,.eyebrow,.input-kicker,.field>span:first-child,.dish-meta,.menu-dish-meta,.menu-dish-source,.recipe-completeness,.menu-dish-status,.recipe-scale-note,.recipe-facts dt,.recipe-reader-header,.recipe-section-heading>span,.recipe-vessel,.recipe-scaling-details p,.shopping-item-origin,.shopping-category-heading>span,.shopping-column-head,.shopping-quantity-warning,.guided-step-label,.guided-step-copy small){font-family:var(--font-body);font-size:var(--type-label);font-weight:300;line-height:1.5;color:var(--text-muted);opacity:1}
+.planning-active :where(small,.fine,.eyebrow,.input-kicker,.field>span:first-child,.dish-meta,.recipe-completeness,.recipe-scale-note,.recipe-facts dt,.recipe-reader-header,.recipe-section-heading>span,.recipe-vessel,.recipe-scaling-details p,.shopping-item-origin,.shopping-category-heading>span,.shopping-column-head,.shopping-quantity-warning,.guided-step-label,.guided-step-copy small){font-family:var(--font-body);font-size:var(--type-label);font-weight:300;line-height:1.5;color:var(--text-muted);opacity:1}
 .planning-active :is(.eyebrow,.input-kicker){font-family:var(--font-display);font-size:var(--type-eyebrow);font-weight:300;letter-spacing:.28em;text-transform:uppercase}
 .planning-active :is(.guided-step-label,.shopping-column-head,.field>span:first-child,.recipe-facts dt,.menu-dish-meta){letter-spacing:.17em;text-transform:uppercase}
 .planning-active :is(button,a,summary){font-family:var(--font-body);font-size:var(--type-control);font-weight:300;line-height:1.5;letter-spacing:.15em;text-transform:uppercase;color:var(--text-primary)}
@@ -204,11 +204,16 @@ body :where(.page-home:not(.planning-active)) :is(.eyebrow,.input-kicker,.nav-ph
 .planning-active .sidebar nav button{font-size:16px;font-weight:300;letter-spacing:.03em}
 .planning-active .sidebar .nav-index{font-size:var(--type-label);color:var(--text-muted)}
 .planning-active :is(button:disabled,input:disabled,select:disabled){opacity:.5}
-@media(max-width:767px){.planning-active{--type-title:24px;--type-heading:14px;--type-subheading:12px;--type-body:12px;--type-label:9px;--type-reader:24px;--type-eyebrow:8px;--type-control:10px}.planning-active :is(input,select,textarea){font-size:16px}}
+@media(max-width:767px){.planning-active{--type-title:24px;--type-heading:16px;--type-subheading:14px;--type-body:13px;--type-label:10px;--type-meta:11px;--type-reader:24px;--type-eyebrow:8px;--type-control:11px}.planning-active :is(input,select,textarea){font-size:16px}}
 
 
-/* Shared content roles, including the menu and recipe library. */
-.planning-active :is(.menu-dish-title,.dish-name,.library-recipe-card h3){font-family:var(--font-display);font-size:var(--type-heading);font-weight:100;line-height:1.35;letter-spacing:.09em;text-transform:uppercase}
+/* Shared content roles, including the menu and recipe library.
+   Thin is reserved for large display titles; small functional headings use ExtraLight. */
+.planning-active :is(.menu-dish-meta,.menu-dish-source,.menu-dish-status){font-family:var(--font-body);font-size:var(--type-meta);font-weight:300;line-height:1.5;color:var(--text-muted)}
+/* These surfaces have dark controls: inherit their light ink rather than light-fill ink. */
+.planning-active .menu-studio{--text-on-fill:#f1f1f1}
+.planning-active .menu-studio :is(.add-dish-action,.recipe-add-button,.menu-library-entry button){color:var(--text-primary)}
+.planning-active :is(.menu-dish-title,.dish-name,.library-recipe-card h3){font-family:var(--font-display);font-size:var(--type-heading);font-weight:200;line-height:1.4;letter-spacing:.045em;text-transform:uppercase}
 .planning-active .menu-totals button b{font-family:var(--font-display);font-size:var(--type-heading);font-weight:100;line-height:1.25}
 .planning-active :is(.menu-totals button span,.recipe-library-toolbar p){font-size:var(--type-label);color:var(--text-muted)}
 .planning-active .library-recipe-card p{font-size:var(--type-body);color:var(--text-muted)}
@@ -244,6 +249,6 @@ body .shell .topbar .account-control,.cloud-status{font-family:var(--font-body);
 @media(max-width:767px){
  .planning-active .sidebar nav button{font-size:13px}
  .planning-active .guided-step-label{font-size:10px;letter-spacing:.12em}
- .planning-active .guided-next{font-size:10px;letter-spacing:.1em}
+ .planning-active .guided-next{font-size:var(--type-control);letter-spacing:.1em}
  .planning-active .sidebar .drawer-heading{font-size:10px;letter-spacing:.12em}
 }

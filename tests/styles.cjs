@@ -63,7 +63,7 @@ for(const page of ['plan','guests','menu','shopping','prep','timeline','experien
   assert.equal(value(q('.sidebar nav'),'min-height',width),'auto');
   assert.equal(value(q('.sidebar-foot'),'position',width),'static');
   assert(value(disclosure.querySelector('summary'),'font-family',width).startsWith('Lato'));
-  assert.equal(value(disclosure.querySelector('summary'),'font-size',width),width<768?'10px':'11px');
+  assert.equal(value(disclosure.querySelector('summary'),'font-size',width),'11px');
   assert.equal(value(disclosure,'padding',width),'12px 16px');
   if(width<768){assert.notEqual(value(disclosure,'background',width),'transparent');assert.notEqual(value(disclosure,'border-radius',width),'0');}
   assert.equal(value(q('.sidebar button'),'min-height',width),'44px');
@@ -76,14 +76,21 @@ const nestedSummary=doc.createElement('details');nestedSummary.className='panel 
 const prep=doc.createElement('div');prep.className='prep-start-grid';prep.innerHTML='<button class="prep-start-card">Start prep</button>';q('.main').append(prep);
 const categories=doc.createElement('div');categories.className='printable-categories';q('.content').append(categories);
 const libraryCard=doc.createElement('article');libraryCard.className='library-recipe-card';libraryCard.innerHTML='<span class="eyebrow">Source</span><h3>Recipe title</h3><p>Original measured yield</p><button class="recipe-add-button">Add to menu</button>';q('.content').append(libraryCard);
+const menuActions=doc.createElement('div');menuActions.className='menu-actions';menuActions.innerHTML='<button class="add-dish-action">Add a dish</button><button>Add your own recipe</button>';q('.menu-studio').append(menuActions);
+const menuMeta=doc.createElement('small');menuMeta.className='menu-dish-meta';menuMeta.textContent='Main · 4 planned portions';q('.menu-dish-copy').append(menuMeta);
 const paper=doc.createElement('div');paper.className='paper';paper.innerHTML='<h3>A long family dinner title</h3><p>Full details</p>';q('.content').append(paper);
 for(const width of [320,375,390,560,650,767]){
- assert.equal(value(libraryCard.querySelector('h3'),'font-size',width),'14px');
- assert.equal(value(libraryCard.querySelector('h3'),'font-weight',width),'100');
+ assert.equal(value(libraryCard.querySelector('h3'),'font-size',width),'16px');
+ assert.equal(value(libraryCard.querySelector('h3'),'font-weight',width),'200');
  assert.equal(value(libraryCard.querySelector('.eyebrow'),'font-size',width),'8px');
  assert(value(libraryCard.querySelector('.eyebrow'),'font-family',width).startsWith('Metropolis'));
- assert.equal(value(libraryCard.querySelector('p'),'font-size',width),'12px');
- assert.equal(value(libraryCard.querySelector('button'),'font-size',width),'10px');
+ assert.equal(value(libraryCard.querySelector('p'),'font-size',width),'13px');
+ assert.equal(value(libraryCard.querySelector('button'),'font-size',width),'11px');
+ assert.equal(value(menuMeta,'font-size',width),'11px','recipe details must remain legible on narrow phones');
+ assert.equal(value(menuActions,'grid-template-columns',width),'1fr','long primary actions must not be squeezed into half-width pills');
+ assert.equal(value(menuActions.firstElementChild,'color',width),'#f1f1f1','dark menu controls must have light text');
+ assert.equal(value(libraryCard.querySelector('button'),'color',width),'#f1f1f1');
+ assert.equal(value(q('.menu-dish-title'),'letter-spacing',width),'.045em');
  assert.equal(value(prep,'gap',width),'10px');
  assert.equal(value(categories,'gap',width),'24px');
  assert.equal(value(prep.firstElementChild,'border-radius',width),'18px');
@@ -116,17 +123,17 @@ for(const width of [375,390,560,650,767,768,850,1099,1100,1440]){
  assert.equal(value(q('.panel p'),'color',width),'#f1f1f1');
  assert.equal(value(q('.panel input'),'font-size',width),phone?'16px':'13px');
  assert.equal(value(q('.recipe-reader-header button'),'font-weight',width),'300');
- assert.equal(value(q('.panel h2'),'font-weight',width),'100');
+ assert.equal(value(q('.panel h2'),'font-weight',width),'200');
  assert.equal(value(q('.menu-dish-fields'),'grid-template-columns',width),width>=1100?'repeat(2,minmax(0,1fr))':'1fr');
  assert.equal(value(q('.menu-dish-recipe'),'border',width),'1px solid #ffffff66');
  assert(value(q('.menu-dish-recipe'),'font-family',width).startsWith('Lato'));
  assert.equal(value(q('.menu-dish-recipe'),'font-weight',width),'300');
- assert.equal(value(q('.menu-dish-title'),'font-weight',width),'100');
+ assert.equal(value(q('.menu-dish-title'),'font-weight',width),'200');
  assert.equal(value(q('.menu-dish-settings select'),'font-size',width),phone?'16px':'13px');
  assert.equal(value(q('.menu-dish-settings select'),'color',width),'#f1f1f1');
  assert.equal(value(q('.menu-composition'),'display',width),'grid');
  assert.equal(value(q('.menu-support'),'position',width),width>=1100?'sticky':'');
- assert.equal(value(q('.menu-dish'),'grid-template-columns',width),phone?'108px minmax(0,1fr)':width>=1100?'minmax(0,1fr) minmax(0,1fr)':'1fr 1fr');
+ assert.equal(value(q('.menu-dish'),'grid-template-columns',width),phone?'minmax(80px,30%) minmax(0,1fr)':width>=1100?'minmax(0,1fr) minmax(0,1fr)':'1fr 1fr');
  console.log(`PASS responsive cascade and recipe type at ${width}px`);
 }
 // The same elements outside planning mode retain Home's original header rules.
