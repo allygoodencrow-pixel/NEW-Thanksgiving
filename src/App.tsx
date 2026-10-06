@@ -855,15 +855,16 @@ const presets: Record<string, string[]> = {
 };
 const primaryDestinations = [
   { label: 'PLAN', tab: 'PARTY PLAN', items: [{tab:'PARTY PLAN',label:'Party plan'}, {tab:'TABLE',label:'Tables + chairs'}, {tab:'EXPERIENCE',label:'Activities'}, {tab:'BUDGET',label:'Budget'}, {tab:'PRINTABLES',label:'Printables'}] },
-  { label: 'MENU', tab: 'MENU', items: [{tab:'MENU',label:'Dishes + recipes'}, {tab:'SHOPPING',label:'Shopping'}] },
+  { label: 'PLAN MENU', tab: 'PLAN MENU', items: [{tab:'PLAN MENU',label:'Plan Menu'}, {tab:'MENU',label:'Menu'}, {tab:'SHOPPING',label:'Shopping'}] },
   { label: 'PEOPLE', tab: 'GUESTS', items: [{tab:'GUESTS',label:'Guests'}, {tab:'TABLE',label:'Seating'}] },
   { label: 'DAY OF', tab: 'PREP', items: [{tab:'PREP',label:'Prep'}, {tab:'TIMELINE',label:'Timeline'}] },
 ];
 const planningSteps = [
   {tab:'PARTY PLAN', label:'Party plan', hint:'Set the date, dinner time and estimated headcount. Next, add your guests.', group:'PLAN'},
   {tab:'GUESTS', label:'Guests', hint:'Add names, RSVPs and dietary needs. Your chosen headcount updates recipe quantities.', group:'PEOPLE'},
-  {tab:'MENU', label:'Menu', hint:'Review the dishes in your plan. Add a dish to browse recipes; only selected dishes feed shopping and prep.', group:'MENU'},
-  {tab:'SHOPPING', label:'Shopping', hint:'Check the list built from your menu and headcount. Mark what you have, then plan the prep.', group:'MENU'},
+  {tab:'PLAN MENU', label:'Plan Menu', hint:'Browse all recipes and add dishes to your party. Your selections update shopping and prep.', group:'PLAN MENU'},
+  {tab:'MENU', label:'Menu', hint:'Review the dishes selected for your party, quantities and who is bringing each dish.', group:'PLAN MENU'},
+  {tab:'SHOPPING', label:'Shopping', hint:'Check the list built from your menu and headcount. Mark what you have, then plan the prep.', group:'PLAN MENU'},
   {tab:'PREP', label:'Prep', hint:'Review what to make ahead and what to cook on the day. Then check the timing.', group:'DAY OF'},
   {tab:'TIMELINE', label:'Timeline', hint:'Review cooking, arrivals and activities together. Adjust times around dinner.', group:'DAY OF'},
 ];
@@ -875,7 +876,7 @@ const extraTools = [
 ];
 const readAppRoute = () => {
   const route = window.location.hash.slice(1).replace(/-/g, ' ').toUpperCase();
-  if(route==='RECIPES') return 'MENU';
+  if(route==='RECIPES') return 'PLAN MENU';
   return ['HOME', ...planningSteps.map(x=>x.tab), ...extraTools.map(x=>x.tab)].includes(route) ? route : 'HOME';
 };
 
@@ -1282,11 +1283,10 @@ function App({seed, storageKey = 'cc-thanksgiving-v4', onPlanChange, onAccount, 
   const [customPrepMinutes,setCustomPrepMinutes]=useState(String(draft.customPrepMinutes||0));
   const [customRestMinutes,setCustomRestMinutes]=useState(String(draft.customRestMinutes||0));
   const [customStages,setCustomStages]=useState<NonNullable<Dish['ovenStages']>>(draft.customStages||[]);
-  const [menuView, setMenuViewState] = useState<'plan' | 'browse'>(()=>window.location.hash==='#recipes'?'browse':'plan');
+  const menuView = tab==='PLAN MENU' ? 'browse' : 'plan';
   const setMenuView = (view:'plan'|'browse') => {
-    const hash=view==='browse'?'#recipes':'#menu';
-    if(window.location.hash!==hash)window.history.pushState(null,'',hash);
-    setMenuViewState(view);setOpenDish(null);window.scrollTo({top:0,behavior:'smooth'});
+    navigate(view==='browse'?'PLAN MENU':'MENU','PLAN MENU');
+    setOpenDish(null);
   };
   const [menuCategory,setMenuCategory]=useState('All');
   const menuCategoryFor=(d:Dish)=>d.group.startsWith('Drink')?'Drinks':d.group==='Main'?'Mains':d.group==='Dessert'?'Desserts':d.group==='Appetizer'?'Starters':'Sides';
@@ -1298,7 +1298,7 @@ function App({seed, storageKey = 'cc-thanksgiving-v4', onPlanChange, onAccount, 
   const [mobileNav, setMobileNav] = useState(false);
   const [primarySection, setPrimarySection] = useState(() => primaryDestinations.find(g=>g.items.some(i=>i.tab===readAppRoute()))?.label || 'PLAN');
   useEffect(()=>{
-    const restoreRoute=()=>{const next=readAppRoute();setTab(next);setMenuViewState(window.location.hash==='#recipes'?'browse':'plan');setPrimarySection(primaryDestinations.find(g=>g.items.some(i=>i.tab===next))?.label || 'PLAN');setMobileNav(false);setOpenDish(null);window.scrollTo({top:0,behavior:'instant'});};
+    const restoreRoute=()=>{const next=readAppRoute();setTab(next);setPrimarySection(primaryDestinations.find(g=>g.items.some(i=>i.tab===next))?.label || 'PLAN');setMobileNav(false);setOpenDish(null);window.scrollTo({top:0,behavior:'instant'});};
     window.addEventListener('popstate',restoreRoute);window.addEventListener('hashchange',restoreRoute);
     return()=>{window.removeEventListener('popstate',restoreRoute);window.removeEventListener('hashchange',restoreRoute);};
   },[]);
@@ -1536,7 +1536,7 @@ function App({seed, storageKey = 'cc-thanksgiving-v4', onPlanChange, onAccount, 
     const nextHash='#'+t.toLowerCase().replace(/ /g,'-');
     if(window.location.hash!==nextHash)window.history.pushState(null,'',nextHash);
     setTab(t);
-    if(t==='MENU')setMenuViewState('plan');
+    if(t==='MENU'||t==='PLAN MENU'){setOpenDish(null);setMenuCategory('All');}
     setMobileNav(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -1545,7 +1545,7 @@ function App({seed, storageKey = 'cc-thanksgiving-v4', onPlanChange, onAccount, 
     setOpenDish(null);setShowRecipeForm(true);setRecipeReplacement(d.id);setCustomName(d.name);setCustomWhole(d.batchMode==='whole');setCustomPrepMinutes(String(d.prepMinutes||0));setCustomRestMinutes(String(d.restMinutes||0));setCustomStages(d.ovenStages||[]);
     setCustomIngredients(d.ingredients.map(([name,n,unit,cat])=>`${name} | ${Number((n*baseServings).toFixed(4))} | ${unit} | ${cat}`).join('\n'));
     setCustomServes(String(baseServings));setCustomMinutes(String(d.minutes));setCustomOven(String(d.oven));setCustomTemp(String(d.temp));setCustomAhead(d.makeAhead);setCustomGroup(d.group);setCustomInstructions(d.instructions||'');setCustomCost(String(Number((d.cost*baseServings/18).toFixed(2))));setCustomImage(d.image || dishThumb[d.id] || asset.tableLight);setCustomSource(d.sourceUrl||'');setCustomTags(d.tags||[]);setCustomKid(Boolean(d.kidFriendly));setMenuView('plan');
-    navigate('MENU','MENU');
+    navigate('MENU','PLAN MENU');
   };
   const WorkflowNav = () => {
     const index = planningSteps.findIndex(step=>step.tab===tab);
@@ -1718,7 +1718,7 @@ C | C
         </header>
         {storageError && <div role="alert" className="alert">{storageError}</div>}
         {!s.dayMode && tab !== 'HOME' && <WorkflowNav />}
-        {['SHOPPING','PREP','TIMELINE','BUDGET'].includes(tab) && plan.incompleteRecipes.length>0 && <div className="recipe-integrity-notice" role="status"><b>{plan.incompleteRecipes.length} homemade dishes need complete recipes</b><p>Shopping, budget and cooking schedules exclude these dishes: {plan.incompleteRecipes.map(d=>d.name).join(' · ')}.</p><button onClick={()=>{navigate('MENU','MENU');setMenuView('plan');}}>REVIEW MENU</button></div>}
+        {['SHOPPING','PREP','TIMELINE','BUDGET'].includes(tab) && plan.incompleteRecipes.length>0 && <div className="recipe-integrity-notice" role="status"><b>{plan.incompleteRecipes.length} homemade dishes need complete recipes</b><p>Shopping, budget and cooking schedules exclude these dishes: {plan.incompleteRecipes.map(d=>d.name).join(' · ')}.</p><button onClick={()=>{navigate('MENU','PLAN MENU');setMenuView('plan');}}>REVIEW MENU</button></div>}
 
         {(tab==='TIMELINE' || tab==='PREP' || s.dayMode) && warnings.length>0 && <details className="warning-summary"><summary>{warnings.length} planning items to review</summary>{warnings.map((w,i)=><p key={i}>{w}</p>)}</details>}
         {s.dayMode ? (
@@ -1821,17 +1821,17 @@ C | C
               </div>
             )}
 
-            {tab === 'MENU' && (
+            {(tab === 'MENU' || tab === 'PLAN MENU') && (
               <div className="content reference-menu menu-studio">
                 <div className="menu-intro">
-                  <Section eyebrow={menuView==='plan'?"03 / MENU":"03 / RECIPE LIBRARY"} title={menuView==='plan'?"YOUR MENU":"RECIPE LIBRARY"}>
+                  <Section eyebrow={menuView==='plan'?"03 / MENU":"03 / ALL RECIPES"} title={menuView==='plan'?"YOUR MENU":"PLAN MENU"}>
                     {menuView==='plan'?`${selected.length} dishes in your plan · quantities for ${planningCount}`:`${allDishes.length} dishes to explore · ${selected.length} in your menu`}
                   </Section>
                   <div className="kitchen-reference" role="img" aria-label="Neutral marble kitchen with dark cabinets and natural daylight" />
 
                 </div>
                 <div className="menu-actions">
-                  {menuView==='plan' ? <button className="add-dish-action" onClick={()=>{setMenuView('browse');setMenuCategory('All');setShowRecipeForm(false);}}><Plus size={18}/> ADD A DISH</button> : <button className="add-dish-action" onClick={()=>setMenuView('plan')}>BACK TO YOUR MENU · {selected.length} DISHES</button>}
+                  {menuView==='plan' ? <button className="add-dish-action" onClick={()=>{setMenuView('browse');setMenuCategory('All');setShowRecipeForm(false);}}><Plus size={18}/> ADD A DISH</button> : <button className="add-dish-action" onClick={()=>setMenuView('plan')}>VIEW YOUR MENU · {selected.length} DISHES</button>}
                   <button
                     className="add-recipe-button"
                     onClick={() => {if(!showRecipeForm&&!customName)setCustomServes(String(Math.max(1,planningCount)));setShowRecipeForm(v=>!v);}}
