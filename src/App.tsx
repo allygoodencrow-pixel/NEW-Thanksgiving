@@ -1,3 +1,4 @@
+import { printableThumbnail } from './printableThumbnails';
 import { guideRecipes } from './guideRecipes';
 import { auditedRecipes, pecanRecipe, isHighlyRated } from './auditedRecipes';
 import { recipeSources, equipmentChecklist, advanceWindows, stationGuides, tableChecklist, guestJourney, guideLinks } from './hostingGuide';
@@ -3181,13 +3182,14 @@ C | C
                   eyebrow="09 / THE FINISHING TOUCHES"
                   title="Print only what helps"
                 >
-                  Ready-to-use details drawn from your actual plan.
+                  Ready-to-use details drawn from your actual plan. Photos show styling examples; printed titles and details come from your plan below.
                 </Section>
                 <details className="panel glass-light"><summary>Print + staging checklist</summary><p>Print menus after dishes are confirmed. Place cards use guest names. Dish labels should show the actual dish and ingredient-checked allergens.</p><CheckRow id="guide-print-menu">Confirm the menu before printing</CheckRow><CheckRow id="guide-print-labels">Check ingredients before adding dietary labels</CheckRow><CheckRow id="guide-print-leftovers">Prepare leftover labels with dish, packed date/time and relevant allergens</CheckRow><CheckRow id="guide-print-run-sheet">Keep the kitchen run sheet private for the host and helpers</CheckRow></details>
                 <SectionImage image={asset.placeSetting} alt="Thanksgiving place setting with printed details" eyebrow="FROM THE PLAN" caption="Menus, food labels and name tags should come from information you already entered—not another round of typing." position="center 58%" />
                 <div className="print-grid">
                   {printableCards.map(({ id, name, desc }) => (
                     <article className="print-card" key={id}>
+                      <img className="printable-thumbnail" src={printableThumbnail(id, plan.selected).src} alt={printableThumbnail(id, plan.selected).alt} width={1254} height={1254} loading="lazy" decoding="async" />
                       <div className="paper">
                         <span>CROW & CROWN</span>
                         <h3>{name}</h3>

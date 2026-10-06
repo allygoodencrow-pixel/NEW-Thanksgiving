@@ -2231,3 +2231,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
   .workflow-rail-actions button.primary { padding: 13px 16px; border: 0; border-radius: 17px; background: #f0eee8; }
   .dish-card.compact { border-radius: 25px; }
 }
+
+/* Original printable styling photos; keep the live plan preview and print controls below. */
+.print-card > .printable-thumbnail { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 8px; margin-bottom: 18px; }
+@media print { .print-card > .printable-thumbnail { display: none; } }
