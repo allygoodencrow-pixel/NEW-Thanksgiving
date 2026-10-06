@@ -71,6 +71,18 @@ for(const page of ['plan','guests','menu','shopping','prep','timeline','experien
 }
 q('.shell').className='shell reference-shell planning-active page-menu';
 console.log('PASS shared compact mobile roles on ten planning routes and intrinsic drawer flow');
+
+const nestedSummary=doc.createElement('details');nestedSummary.className='printable-category';nestedSummary.innerHTML='<summary><div><h2>Labels</h2><p class="fine">Buffet labels from your plan</p><span class="eyebrow">12 design sheets</span></div></summary>';q('.content').append(nestedSummary);
+const paper=doc.createElement('div');paper.className='paper';paper.innerHTML='<h3>A long family dinner title</h3><p>Full details</p>';q('.content').append(paper);
+for(const width of [320,375,390,560,650,767]){
+ assert.equal(value(nestedSummary.querySelector('p'),'text-transform',width),'none','summary descriptions must not inherit uppercase utility styling');
+ assert.equal(value(nestedSummary.querySelector('p'),'letter-spacing',width),'0','summary descriptions must not inherit action tracking');
+ assert.equal(value(nestedSummary.querySelector('.eyebrow'),'text-transform',width),'uppercase');
+ assert.equal(value(q('.page-head'),'min-height',width),'0','mobile heading flow must not retain legacy fixed heights');
+ assert.equal(value(paper,'height',width),'auto','personalized previews grow with wrapping text');
+ assert.equal(value(paper.querySelector('p'),'max-height',width),'none');
+}
+console.log('PASS mobile text inheritance and intrinsic long-content geometry');
 for(const width of [375,390,560,650,767,768,850,1099,1100,1440]){
  const phone=width<768;
  assert.equal(value(q('.topbar'),'position',width),'relative',`header position at ${width}`);

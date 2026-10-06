@@ -67,23 +67,6 @@
  .menu-dish:first-child .menu-dish-settings[open]{grid-column:1/-1;margin:0}
  .menu-dish:first-child .menu-dish-fields{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
-@media(max-width:767px){
- .planning-active .main .menu-studio{width:auto;margin:0;padding:20px max(16px,env(safe-area-inset-right)) 40px max(16px,env(safe-area-inset-left));border:0;border-radius:0;background:transparent;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none}
- .planning-active .menu-studio .menu-intro{padding:0 76px 0 4px;margin-bottom:24px}
- .planning-active .menu-studio .kitchen-reference{width:64px;height:88px;border-radius:12px}
- .planning-active .menu-studio .menu-actions{gap:8px;margin-bottom:24px!important;padding-bottom:20px}
- .planning-active .menu-studio .menu-actions button{padding:10px 14px;flex:1;justify-content:center}
- .menu-collection-heading{gap:8px;padding:0 4px}
- .menu-collection-heading .headcount-link{padding:8px 10px}
- .menu-dish{grid-template-columns:108px minmax(0,1fr);padding:12px;gap:12px}
- .menu-dish-photo{width:108px;height:132px}
- .menu-dish-recipe{grid-column:1;min-width:0;padding:10px 6px;gap:4px;white-space:normal}
- .menu-dish-recipe svg{display:none}
- .menu-totals{grid-template-columns:1fr 1fr;padding:20px;gap:16px}
- .menu-totals p{grid-column:1/-1}
- .menu-totals button{padding-right:18px}
-
-}
 @media print{.menu-categories,.menu-dish-recipe,.menu-dish-settings,.menu-dish-remove{display:none}.menu-dishes{display:block}.menu-dish{break-inside:avoid}.menu-support{position:static}}
 
 /* The same add action anchors every recipe card, independent of old mini-toggle styles. */
@@ -102,7 +85,6 @@
 .planning-active .reference-menu .dish-card-body>.recipe-selection{width:100%;margin-top:16px;border-top:1px solid #ffffff20}
 .planning-active .reference-menu .dish-card-body{display:flex;flex-direction:column;min-width:0}
 .menu-recipe-status{display:flex;align-items:center;gap:12px;min-height:44px;border:1px solid #ffffff26;border-radius:12px;background:#ffffff05;padding:10px 16px;margin:0 0 20px}
-@media(max-width:767px){.library-recipe-grid{grid-template-columns:1fr;gap:16px}.library-recipe-card{padding:20px}.recipe-library-toolbar{top:8px;padding:14px;gap:12px}.recipe-library-toolbar>button{padding:10px 12px}.recipe-library-toolbar p{max-width:23ch}}
 
 .menu-dish-selection{grid-area:selection;min-width:0;border-top:1px solid #ffffff33;padding-top:2px}.menu-dish-selection .recipe-selection{padding-top:6px;margin:0;gap:8px}.menu-dish-selection .recipe-added{padding:0 10px;border:1px solid #ffffff50;border-radius:20px;background:#ffffff0a}.menu-dish-selection .recipe-remove-button{border-bottom:0;text-decoration:underline;text-underline-offset:4px}
 
@@ -120,9 +102,24 @@
 .library-recipe-photo{width:100%;height:160px;object-fit:cover;border-radius:10px;display:block}
 .library-recipe-copy{display:flex;flex-direction:column;gap:12px;min-width:0}
 @media(max-width:767px){
+ .planning-active .main .menu-studio{width:auto;margin:0;padding:20px max(16px,env(safe-area-inset-right)) 40px max(16px,env(safe-area-inset-left));border:0;border-radius:0;background:transparent;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none}
+ .planning-active .menu-studio .menu-intro{padding:0 76px 0 4px;margin-bottom:24px}
+ .planning-active .menu-studio .kitchen-reference{width:64px;height:88px;border-radius:12px}
+ .planning-active .menu-studio .menu-actions{gap:8px;margin-bottom:24px!important;padding-bottom:20px}
+ .planning-active .menu-studio .menu-actions button{padding:10px 14px;flex:1;justify-content:center}
+ .menu-collection-heading{gap:8px;padding:0 4px}
+ .menu-collection-heading .headcount-link{padding:8px 10px}
+ .menu-dish{grid-template-columns:108px minmax(0,1fr);padding:12px;gap:12px}
+ .menu-dish-photo{width:108px;height:132px}
+ .menu-dish-recipe{grid-column:1;min-width:0;padding:10px 6px;gap:4px;white-space:normal}
+ .menu-dish-recipe svg{display:none}
+ .menu-totals{grid-template-columns:1fr 1fr;padding:20px;gap:16px}
+ .menu-totals p{grid-column:1/-1}
+ .menu-totals button{padding-right:18px}.library-recipe-grid{grid-template-columns:1fr;gap:16px}.library-recipe-card{padding:20px}.recipe-library-toolbar{top:8px;padding:14px;gap:12px}.recipe-library-toolbar>button{padding:10px 12px}.recipe-library-toolbar p{max-width:23ch}
  .library-recipe-card{display:grid;grid-template-columns:88px minmax(0,1fr);gap:10px 12px;padding:16px}
  .library-recipe-photo{grid-column:1;grid-row:1/span 4;width:88px;height:112px;border-radius:8px}
  .library-recipe-copy{display:contents}
  .library-recipe-copy>:is(span,h3,p){grid-column:2}
  .library-recipe-copy>button{grid-column:1/-1}
+
 }

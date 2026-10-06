@@ -22,8 +22,9 @@ import './recipe-layout.css';
 
 import './shopping-layout.css';
 
-import './responsive-app.css';
 
 import './menu-studio.css';
 import './account.css';
+// Device geometry follows component styles; typography stays the final owner.
+import './responsive-app.css';
 import './typography.css';
