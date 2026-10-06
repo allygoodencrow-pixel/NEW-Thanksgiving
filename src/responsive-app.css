@@ -74,7 +74,7 @@ input,select,textarea{max-width:100%;box-sizing:border-box}
 .planning-active .main details.panel:not(.printable-category):not([open]){padding:12px 16px;min-height:44px}
 .planning-active .main details.panel:not(.printable-category)>summary{padding:0;cursor:pointer}
 
-/* Phone composition: one working surface, with secondary sections as rows. */
+/* Phone composition preserves grouped glass surfaces and intrinsic content flow. */
 @media(max-width:767px){
  .planning-active .main>.topbar{grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);height:calc(72px + env(safe-area-inset-top));padding:env(safe-area-inset-top) max(16px,env(safe-area-inset-right)) 0 max(16px,env(safe-area-inset-left));gap:10px}
  .planning-active .main>.topbar{position:relative;top:auto;background:rgba(17,16,15,.94);backdrop-filter:blur(16px)}
@@ -103,6 +103,7 @@ input,select,textarea{max-width:100%;box-sizing:border-box}
  .planning-active .sidebar nav{margin-top:20px}
  .planning-active .sidebar .brand{padding:24px 28px 0}
  .planning-active .main .content{padding-top:20px}
+ .planning-active .main .content.menu-studio{width:calc(100% - 24px);margin:12px auto 32px;padding:20px 12px;border-radius:22px}
  .planning-active .main .page-head{margin-bottom:20px;padding-bottom:20px}
  .planning-active .main .page-head h1{margin:10px 0 12px}
  .planning-active .main>.guided-workflow{flex-wrap:nowrap;gap:10px;padding:10px 12px}
@@ -119,15 +120,5 @@ input,select,textarea{max-width:100%;box-sizing:border-box}
  .planning-active .main .recipe-library-toolbar{position:static;flex-wrap:wrap}
  .planning-active .main .recipe-library-toolbar>div{min-width:0;flex:1 1 180px}
  .planning-active .main .recipe-library-toolbar>button{white-space:normal;flex:none}
- .planning-active .main>.guided-workflow{border:0;border-bottom:1px solid #ffffff26;border-radius:0;background:transparent;backdrop-filter:none;-webkit-backdrop-filter:none}
- .planning-active .main .content>.panel:not(.glass-light):is(details,.printable-collection-intro),
- .planning-active .main .printable-category{padding:14px 0;border:0;border-top:1px solid #ffffff30;border-radius:0;background:transparent;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none}
- .planning-active .main .content>details.panel:not(.glass-light):not([open]){padding:12px 0}
- .planning-active .main .printable-collection-intro{margin-bottom:16px}
- .planning-active .main .printable-category-copy h2{margin-bottom:6px}
- .planning-active .main .printable-category-copy p{margin-bottom:6px}
- .planning-active .main .printable-categories{gap:0}
- .planning-active .main .prep-start-grid{gap:0;margin-bottom:24px}
- .planning-active .main .prep-start-card{min-height:64px;padding:12px 0;border:0;border-bottom:1px solid #ffffff30;border-radius:0;background:transparent;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none}
- .planning-active .main .panel .panel:not(.glass-light){padding:16px 0;margin-bottom:0;border:0;border-top:1px solid #ffffff30;border-radius:0;background:transparent;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none}
+
 }

@@ -64,17 +64,28 @@ for(const page of ['plan','guests','menu','shopping','prep','timeline','experien
   assert.equal(value(q('.sidebar-foot'),'position',width),'static');
   assert(value(disclosure.querySelector('summary'),'font-family',width).startsWith('Lato'));
   assert.equal(value(disclosure.querySelector('summary'),'font-size',width),'11px');
-  assert.equal(value(disclosure,'padding',width),width<768?'12px 0':'12px 16px');
-  if(width<768){assert.equal(value(disclosure,'background',width),'transparent');assert.equal(value(disclosure,'border-radius',width),'0');}
+  assert.equal(value(disclosure,'padding',width),'12px 16px');
+  if(width<768){assert.notEqual(value(disclosure,'background',width),'transparent');assert.notEqual(value(disclosure,'border-radius',width),'0');}
   assert.equal(value(q('.sidebar button'),'min-height',width),'44px');
  }
 }
 q('.shell').className='shell reference-shell planning-active page-menu';
 console.log('PASS shared compact mobile roles on ten planning routes and intrinsic drawer flow');
 
-const nestedSummary=doc.createElement('details');nestedSummary.className='printable-category';nestedSummary.innerHTML='<summary><div><h2>Labels</h2><p class="fine">Buffet labels from your plan</p><span class="eyebrow">12 design sheets</span></div></summary>';q('.content').append(nestedSummary);
+const nestedSummary=doc.createElement('details');nestedSummary.className='panel printable-category';nestedSummary.innerHTML='<summary><div><h2>Labels</h2><p class="fine">Buffet labels from your plan</p><span class="eyebrow">12 design sheets</span></div></summary>';q('.content').append(nestedSummary);
+const prep=doc.createElement('div');prep.className='prep-start-grid';prep.innerHTML='<button class="prep-start-card">Start prep</button>';q('.main').append(prep);
+const categories=doc.createElement('div');categories.className='printable-categories';q('.content').append(categories);
 const paper=doc.createElement('div');paper.className='paper';paper.innerHTML='<h3>A long family dinner title</h3><p>Full details</p>';q('.content').append(paper);
 for(const width of [320,375,390,560,650,767]){
+ assert.equal(value(prep,'gap',width),'10px');
+ assert.equal(value(categories,'gap',width),'24px');
+ assert.equal(value(prep.firstElementChild,'border-radius',width),'18px');
+ assert.equal(value(prep.firstElementChild,'background',width),'rgba(29,27,27,.72)');
+ assert.notEqual(value(nestedSummary,'background',width),'transparent');
+ assert.notEqual(value(nestedSummary,'border-radius',width),'0');
+ assert.equal(value(q('.menu-studio'),'width',width),'calc(100% - 24px)');
+ assert.equal(value(q('.menu-studio'),'border-radius',width),'22px');
+ assert.equal(value(q('.menu-studio'),'background',width),'rgba(12,12,12,.12)');
  assert.equal(value(nestedSummary.querySelector('p'),'text-transform',width),'none','summary descriptions must not inherit uppercase utility styling');
  assert.equal(value(nestedSummary.querySelector('p'),'letter-spacing',width),'0','summary descriptions must not inherit action tracking');
  assert.equal(value(nestedSummary.querySelector('.eyebrow'),'text-transform',width),'uppercase');
