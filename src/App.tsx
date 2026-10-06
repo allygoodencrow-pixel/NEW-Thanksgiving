@@ -867,6 +867,7 @@ const extraTools = [
 ];
 const readAppRoute = () => {
   const route = window.location.hash.slice(1).replace(/-/g, ' ').toUpperCase();
+  if(route==='RECIPES') return 'MENU';
   return ['HOME', ...planningSteps.map(x=>x.tab), ...extraTools.map(x=>x.tab)].includes(route) ? route : 'HOME';
 };
 
@@ -1273,7 +1274,12 @@ function App({seed, storageKey = 'cc-thanksgiving-v4', onPlanChange, onAccount, 
   const [customPrepMinutes,setCustomPrepMinutes]=useState(String(draft.customPrepMinutes||0));
   const [customRestMinutes,setCustomRestMinutes]=useState(String(draft.customRestMinutes||0));
   const [customStages,setCustomStages]=useState<NonNullable<Dish['ovenStages']>>(draft.customStages||[]);
-  const [menuView, setMenuView] = useState<'plan' | 'browse'>('plan');
+  const [menuView, setMenuViewState] = useState<'plan' | 'browse'>(()=>window.location.hash==='#recipes'?'browse':'plan');
+  const setMenuView = (view:'plan'|'browse') => {
+    const hash=view==='browse'?'#recipes':'#menu';
+    if(window.location.hash!==hash)window.history.pushState(null,'',hash);
+    setMenuViewState(view);setOpenDish(null);window.scrollTo({top:0,behavior:'smooth'});
+  };
   const [menuCategory,setMenuCategory]=useState('All');
   const menuCategoryFor=(d:Dish)=>d.group.startsWith('Drink')?'Drinks':d.group==='Main'?'Mains':d.group==='Dessert'?'Desserts':d.group==='Appetizer'?'Starters':'Sides';
   const [shoppingFilter, setShoppingFilter] = useState<'remaining'|'all'|'bought'>('remaining');
@@ -1284,7 +1290,7 @@ function App({seed, storageKey = 'cc-thanksgiving-v4', onPlanChange, onAccount, 
   const [mobileNav, setMobileNav] = useState(false);
   const [primarySection, setPrimarySection] = useState(() => primaryDestinations.find(g=>g.items.some(i=>i.tab===readAppRoute()))?.label || 'PLAN');
   useEffect(()=>{
-    const restoreRoute=()=>{const next=readAppRoute();setTab(next);setPrimarySection(primaryDestinations.find(g=>g.items.some(i=>i.tab===next))?.label || 'PLAN');setMobileNav(false);setOpenDish(null);window.scrollTo({top:0,behavior:'instant'});};
+    const restoreRoute=()=>{const next=readAppRoute();setTab(next);setMenuViewState(window.location.hash==='#recipes'?'browse':'plan');setPrimarySection(primaryDestinations.find(g=>g.items.some(i=>i.tab===next))?.label || 'PLAN');setMobileNav(false);setOpenDish(null);window.scrollTo({top:0,behavior:'instant'});};
     window.addEventListener('popstate',restoreRoute);window.addEventListener('hashchange',restoreRoute);
     return()=>{window.removeEventListener('popstate',restoreRoute);window.removeEventListener('hashchange',restoreRoute);};
   },[]);
@@ -1373,8 +1379,6 @@ function App({seed, storageKey = 'cc-thanksgiving-v4', onPlanChange, onAccount, 
   const ownerLabel = (d: Dish) => { const owner = responsibility(s,d).owner; return owner === 'Host' ? 'Host' : owner === 'Other' ? 'Someone else' : s.guests.find(g=>g.guestId === owner)?.name || 'Missing guest'; };
   const setResponsibility = (id: string, patch: Partial<State['menuPlan'][string]>) => setS(v=>reconcileState({...v,menuPlan:{...v.menuPlan,[id]:{...responsibility(v,{id} as Dish),...patch}}},dishes));
   const sourceRecipes = allDishes.filter(d=>d.recipeVerified);
-  const visibleSourceRecipes = sourceRecipes;
-  const visibleDishes = allDishes.filter(d=>!d.recipeVerified);
   const shoppingQty = (key: string, automatic: number) => {
     const o=s.shoppingOverrides[key]; return Math.max(0,o ? o.mode === 'locked' ? o.value : automatic+o.value : automatic);
   };
@@ -1524,6 +1528,7 @@ function App({seed, storageKey = 'cc-thanksgiving-v4', onPlanChange, onAccount, 
     const nextHash='#'+t.toLowerCase().replace(/ /g,'-');
     if(window.location.hash!==nextHash)window.history.pushState(null,'',nextHash);
     setTab(t);
+    if(t==='MENU')setMenuViewState('plan');
     setMobileNav(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -1811,8 +1816,8 @@ C | C
             {tab === 'MENU' && (
               <div className="content reference-menu menu-studio">
                 <div className="menu-intro">
-                  <Section eyebrow="03 / MENU" title="YOUR MENU">
-                    {selected.length} dishes in your plan · quantities for {planningCount}
+                  <Section eyebrow={menuView==='plan'?"03 / MENU":"03 / RECIPE LIBRARY"} title={menuView==='plan'?"YOUR MENU":"RECIPE LIBRARY"}>
+                    {menuView==='plan'?`${selected.length} dishes in your plan · quantities for ${planningCount}`:`${allDishes.length} dishes to explore · ${selected.length} in your menu`}
                   </Section>
                   <div className="kitchen-reference" role="img" aria-label="Neutral marble kitchen with dark cabinets and natural daylight" />
 
@@ -2088,91 +2093,27 @@ C | C
 
                   </aside>
                 </div>}
-                {selected.filter(d => d.group === 'Starch').length >= 4 && (
+                {menuView==='plan' && selected.filter(d => d.group === 'Starch').length >= 4 && (
                   <div className="note-banner">
                     YOUR MENU IS HEAVY · {selected.filter(d => d.group === 'Starch').length} starch-heavy sides. Consider removing one.
                   </div>
                 )}
-                <section className="recipe-browser" aria-label="Recipe library">
-                <div className="recipe-library-toolbar"><div><h2>Recipe library · {allDishes.length} dishes</h2><p>{selected.length} in your menu · {sourceRecipes.length} source recipes · {allDishes.length-sourceRecipes.length} other dishes</p></div><button onClick={()=>{setMenuView('plan');window.scrollTo({top:0,behavior:'smooth'});}}>View menu <ArrowRight size={16}/></button></div>
-                <nav className="library-index" aria-label="Recipe collections"><a href="#menu" onClick={e=>{e.preventDefault();document.getElementById('source-recipes')?.scrollIntoView({behavior:'smooth',block:'start'});}}>{sourceRecipes.length} source recipes <ArrowRight size={14}/></a><a href="#menu" onClick={e=>{e.preventDefault();document.getElementById('other-recipes')?.scrollIntoView({behavior:'smooth',block:'start'});}}>{allDishes.length-sourceRecipes.length} other dishes <ArrowRight size={14}/></a></nav>                <section className="recipe-collection" id="source-recipes"><h2>Source recipe collection</h2><p className="collection-description">Add a recipe to include it in your menu. Homemade ingredients scale to your guest count.</p>{!visibleSourceRecipes.length&&<p>No source recipes available.</p>}<div className="library-recipe-grid">{visibleSourceRecipes.map(d=><article className="library-recipe-card" key={d.id}><img className="library-recipe-photo" src={d.image || dishThumb[d.id]} alt={d.name} loading="lazy" decoding="async" width={960} height={960}/><div className="library-recipe-copy"><span className="eyebrow">{d.group} · {d.source}</span><h3>{d.name}</h3><p>Original yield: {d.sourceYield} · {d.minutes} min</p>{d.rating&&<p>{d.rating} · checked October 6, 2026</p>}<button className="library-view-recipe" onClick={()=>setOpenDish(d.id)}>Recipe & ingredients <ArrowRight size={14}/></button>{recipeMenuAction(d)}</div></article>)}</div></section>
+                {menuView==='browse' && <section className="recipe-browser" aria-label="Recipe library">
+                  <p className="collection-description">Browse every dish here. Only dishes marked “In your menu” are included in your plan. Add a dish to update shopping and prep.</p>
+                  <div className="library-recipe-grid">{allDishes.map(d=><article className="library-recipe-card" key={d.id}>
+                    <img className="library-recipe-photo" src={d.image || dishThumb[d.id] || asset.tableLight} alt={d.name} loading="lazy" decoding="async" width={960} height={960}/>
+                    <div className="library-recipe-copy">
+                      <span className="eyebrow">{d.group}{d.source ? ` · ${d.source}` : ''}</span><h3>{d.name}</h3>
+                      <p>{d.sourceYield ? `Original yield: ${d.sourceYield} · ` : ''}{d.minutes} min</p>
+                      {!d.recipeVerified&&<span className="recipe-completeness">{d.instructions?.trim()?'YOUR SAVED RECIPE':'SERVING PLAN'}</span>}
+                      {d.rating&&<p>{d.rating} · checked October 6, 2026</p>}
+                      <button className="library-view-recipe" onClick={()=>setOpenDish(d.id)}>Recipe & ingredients <ArrowRight size={14}/></button>
+                      {d.id.startsWith('custom-')&&<button className="remove-recipe-link" onClick={()=>setS(v=>reconcileState({...v,customRecipes:v.customRecipes.filter(r=>r.id!==d.id),selections:v.selections.filter(id=>id!==d.id)},dishes))}>Remove saved recipe</button>}
+                      {recipeMenuAction(d)}
+                    </div>
+                  </article>)}</div>
                 <section className="panel glass-light source-library" aria-label="Additional source references"><h2>More recommendations from your file</h2><p>Your original links are retained here. Measured imports appear above. Other ideas remain source references until a specific complete recipe is available.</p>{recipeSources.map(r=><div className="source-recipe-row" key={r.name}><div><h3>{r.name}</h3><p>{r.note}</p><a href={r.url} target="_blank" rel="noreferrer">OPEN {r.publisher.toUpperCase()} →</a></div></div>)}</section>
-                <div className="library-heading" id="other-recipes"><h2>Serving plans + your recipes</h2><p>Prepared foods, drink service and your saved recipes. Finish any incomplete personal recipes before relying on their shopping quantities or cooking times.</p></div>
-
-                <div className="menu-guide">
-                  <span><strong>{visibleDishes.length}</strong> recipes showing</span>
-                  <span>Food, appetizers, desserts and drinks live in the same plan. Responsibility controls what lands on your shopping list.</span>
-                </div>
-                <div className="dish-grid">
-                  {visibleDishes.map(d => {
-                    const included = s.selections.includes(d.id);
-                    return (
-                    <article
-                      key={d.id}
-                      className={`dish-card compact ${included ? 'selected' : ''}`}
-                    >
-                      <img
-                        className="dish-thumb"
-                        src={d.image || dishThumb[d.id] || asset.tableLight}
-                        alt={d.name}
-                        loading="lazy"
-                      />
-                      <div className="dish-card-body">
-                        <div className="dish-top">
-                          <span className="eyebrow">{d.group}</span>
-
-                        </div>
-                        <h2>{d.name}</h2>
-                        <span className="recipe-completeness">{d.recipeVerified ? 'MEASURED SOURCE RECIPE' : d.instructions?.trim() ? 'YOUR SAVED RECIPE' : 'INCOMPLETE PLANNING OUTLINE'}</span>
-                        <div className="recipe-badges">
-                          {d.rating && <span className="rating-badge">{d.rating}</span>}
-                          {isKidDish(d) && <span>KID-FRIENDLY</span>}
-                          {tagsForDish(d).slice(0, 3).map(tag => (
-                            <span key={tag}>{tag.toUpperCase()}</span>
-                          ))}
-                        </div>
-                        <div className="dish-meta">
-                          <span>{preparation(s,d)==='Guest-provided' ? 'Guest-provided' : preparation(s,d)==='Purchased' ? 'Purchased' : `${d.minutes} min`}</span>
-                          <span>
-                            {money(
-                              Math.round(
-                                ((preparation(s,d)==='Guest-provided' ? 0 : preparation(s,d)==='Purchased' ? d.easyCost : d.cost) *
-                                  dishPortions(s,d)) /
-                                  18
-                              )
-                            )}{' '}
-                            est.
-                          </span>
-                          <span>{planningCount} guests</span>
-                        </div>
-                        <div className="recipe-card-actions">
-                          <button
-                            className="recipe-link"
-                            onClick={() =>
-                              setOpenDish(openDish === d.id ? null : d.id)
-                            }
-                          >
-                            {openDish === d.id ? 'CLOSE RECIPE' : 'VIEW RECIPE'}
-                            <ArrowRight size={14} />
-                          </button>
-                          {d.id.startsWith('custom-') && (
-                            <button
-                              className="remove-recipe-link"
-                              onClick={() =>
-                                setS(v => reconcileState({...v,customRecipes:v.customRecipes.filter(r=>r.id!==d.id),selections:v.selections.filter(id=>id!==d.id)},dishes))
-                              }
-                            >
-                              REMOVE
-                            </button>
-                          )}
-                        </div>
-                        {recipeMenuAction(d)}
-                      </div>
-                    </article>
-                    );
-                  })}
-                </div>
-                </section>
+                </section>}
               </div>
             )}
             {tab === 'PREP' && (
