@@ -60,3 +60,35 @@ Deployment result is recorded in HANDOFF.md after publishing the single tested c
 Scores/sample sizes checked directly on publisher pages. The smaller brie sample is disclosed. Source-size ingredient quantities normalize once; mushroom and pastry trays use whole batches. Mushroom page lists 25 minutes cooking, including stovetop browning, but its actual oven steps total 15 minutes; oven allocation uses 15 with 30 minutes pre-oven work. Prepared cranberry sauce follows the brie publisher's supported option; optional asparagus cheese/garlic/lemon are included in shopping. Costs remain unpriced rather than fabricated. Original summaries link to full source methods.
 
 All 43 catalog entries receive a local dish-specific picture, including beverage serving plans. Preserved suitable existing food images; new generated images replace table fallbacks and mismatched gratin/rolls/beans images. These are illustrative styled images, not publisher recipe photographs. Home photography and custom image uploads are untouched. See RECIPE_PHOTOS.md for the photo manifest and generation brief.
+
+
+## Expanded collection — October 5 evening PDT / October 6 UTC
+
+Added 16 distinct measured recipes in `src/expandedRecipes.ts`, expanding the saved catalogue from 43 to 59 entries (54 source recipes plus 5 serving plans). Existing selections, IDs, custom recipes, overrides, photography and mobile/printable work are retained. Source ratings were checked directly; every addition is at least 4.5/5, with smaller samples visible. No claim of personal kitchen testing is made.
+
+| Addition | Publisher | Rating / sample | Planned batch |
+|---|---|---|---|
+| Classic deviled eggs | Allrecipes | 4.5 / 372 ratings | 12 halves, 6 portions |
+| Hot spinach + artichoke dip | Allrecipes | 4.7 / 3,249 ratings | 12 dip portions |
+| Butternut squash soup | Once Upon a Chef | 4.65 / 188 votes | 6 generous starter bowls (source 6–8) |
+| Honey-glazed ham | Allrecipes | 4.8 / 1,464 ratings | One 5 lb ready-to-eat ham, 15 portions |
+| Sweet potato + pecan casserole | Allrecipes | 4.8 / 4,227 ratings | 12 portions, 9 × 13 inch pan |
+| Garlic + Parmesan cauliflower | Allrecipes | 4.6 / 3,272 ratings | 6 portions |
+| Lemon + nutmeg creamed spinach | Allrecipes | 4.8 / 266 ratings | 6 portions |
+| Green beans almondine | Mel’s Kitchen Cafe | 5 / 11 ratings | 8 small side portions |
+| Wild rice + cranberry apple salad | Once Upon a Chef | 5 / 18 votes | 6 portions |
+| Honey cornbread muffins | Once Upon a Chef | 4.83 / 594 votes | 12 muffins |
+| Cranberry orange + walnut bread | Once Upon a Chef | 4.87 / 260 votes | One loaf, 12 slices |
+| Apple + oat crisp | Allrecipes | 4.8 / 7,919 ratings | 12 portions, 9 × 13 inch pan |
+| Cinnamon vanilla bread pudding | Allrecipes | 4.8 / 4,461 ratings | 12 small portions, 8 inch square pan |
+| Double-layer pumpkin cheesecake | Allrecipes | 4.8 / 3,994 ratings | One 9 inch pie, 8 slices |
+| Chocolate mousse cups | Once Upon a Chef | 4.58 / 145 votes | 6 cups |
+| Maple + citrus spiced cider | Allrecipes | 4.8 / 290 ratings | 6 one-cup mugs, all guests |
+
+Every record links to its checked publisher page. Publisher batch ingredients normalize exactly once. Fixed egg trays, ham, casseroles, pies, muffins and loaf recipes use complete batches; independent batches keep their own oven reservations. Other dishes scale continuously. No prices are invented; unpriced recipes retain budget warnings. Prepared/guest-provided food remains excluded from raw host groceries.
+
+Timing notes: deviled eggs include the source’s separate 50-minute boiling/cooling allowance; cheesecake reserves 2 hours cooling plus at least 3 hours chilling; mousse reserves 2 hours chilling and explicitly calls for pasteurized eggs for its uncooked-egg method. Cranberry loaf preserves the 375°F → 350°F source stages and 40-minute cooling. Wild rice includes cooling and an oven slot for nut toasting. Ham/cauliflower slots include final broiling, with appliance-specific broiler adjustment stated explicitly; the scheduler cannot model a separate broiler mode. Cooling/chilling allowances may make planning times longer than publishers’ headline times.
+
+Dietary notes: nuts in almondine, rice salad, sweet potato casserole and cranberry bread exclude Nut-Free. Mousse/deviled eggs contain eggs. Cheese recipes do not assume traditional Parmesan/Romano rennet is vegetarian. Almondine uses the publisher-supported water option; honey means rice salad is not vegan. Cider is alcohol-free and scales to adults and children together. Optional dip accompaniments, garnishes and ice cream are explicitly separate instead of fabricated quantities.
+
+New illustrations are generated dish depictions, not publisher photographs or proof that the recipe was cooked. Paths/prompts are recorded in `RECIPE_EXPANSION_IMAGES.json`; all assets are installed in the repository.

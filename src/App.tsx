@@ -1,6 +1,7 @@
 import { groupPrintables } from './printableCategories';
 import { guideRecipes } from './guideRecipes';
 import { moreReviewedRecipes } from './moreReviewedRecipes';
+import { expandedRecipes } from './expandedRecipes';
 import { recipePhotos as dishThumb } from './recipePhotos';
 import { auditedRecipes, pecanRecipe, isHighlyRated } from './auditedRecipes';
 import { recipeSources, equipmentChecklist, advanceWindows, stationGuides, tableChecklist, guestJourney, guideLinks } from './hostingGuide';
@@ -800,7 +801,7 @@ const legacyDishes: Dish[] = [
     audience: 'adults',
   },
 ];
-export const dishes: Dish[] = [...legacyDishes.filter(d=>!guideRecipes.some(r=>r.id===d.id)).map(d=>({...d,...auditedRecipes.find(r=>r.id===d.id)})), ...guideRecipes, pecanRecipe, ...moreReviewedRecipes].map(d=>({...d,image:d.image || dishThumb[d.id]}));
+export const dishes: Dish[] = [...legacyDishes.filter(d=>!guideRecipes.some(r=>r.id===d.id)).map(d=>({...d,...auditedRecipes.find(r=>r.id===d.id)})), ...guideRecipes, pecanRecipe, ...moreReviewedRecipes, ...expandedRecipes].map(d=>({...d,image:d.image || dishThumb[d.id]}));
 const presets: Record<string, string[]> = {
   'THE CLASSIC': [
     'turkey',

@@ -51,3 +51,6 @@ Current generation brief (photorealistic-natural): one portrait 4:5 close editor
 | reviewed-cranberry-brie | public/resources/recipes/cranberry-brie-bites-editorial.jpeg |
 
 Check every catalog photo path in tests/domain.cjs; custom image uploads retain precedence. Main image consumers are the selected menu, source library and recipe reader.
+
+
+Recipe expansion adds 15 separate generated editorial illustrations, installed as `public/resources/recipes/*-expansion.jpeg`. The new spiced hot cider uses the existing matching cider illustration. No publisher photographs were copied, and none of these images establishes kitchen testing. Built-in image generation used close food crops, directional natural side light, neutral grey marble and tactile slate/olive linen with no amber/sepia grading. `RECIPE_EXPANSION_IMAGES.json` records each subject, installed path and shared prompt. Original images and Home remain unchanged.
