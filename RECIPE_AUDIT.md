@@ -46,3 +46,17 @@ Ratings were checked against the original publisher page or its public Recipe st
 Full npm test (including 49 domain cases, actual React workflows, cloud/account, purchase webhook, typography and Home baseline checks), npm run typecheck and npm run build passed. New checks cover all built-in food records being complete, unique IDs, exact/overflow casserole batches, pecan pie eggs and cooling, source turkey stages, appetizer deadline and corrected allergen filters. Custom incomplete recipes still cannot produce invented shopping quantities or cooking tasks. The unrelated working-copy pumpkin image was not changed.
 
 Deployment result is recorded in HANDOFF.md after publishing the single tested commit to the existing repository. Shopify remains Draft; this recipe task does not complete the outstanding purchase/account verification.
+
+
+## Additional reader-reviewed choices — October 5 evening PDT / October 6 UTC
+
+| Added choice | Publisher score / sample | Source | Planning yield |
+|---|---|---|---|
+| Honey-roasted carrots | 4.7 / 410 ratings | https://www.allrecipes.com/recipe/214079/honey-roasted-carrots/ | 4 side portions |
+| Garlic + Parmesan roasted asparagus | 4.8 / 3,345 ratings | https://www.allrecipes.com/recipe/214931/oven-roasted-asparagus/ | 4 side portions; asparagus measured by bunch |
+| Sausage-stuffed mushrooms | 4.7 / 84 ratings | https://www.allrecipes.com/recipe/234844/easy-sausage-stuffed-mushrooms/ | 24 caps, 12 portions of 2 |
+| Cranberry + brie pastry bites | 4.87 / 30 ratings | https://www.melskitchencafe.com/cranberry-brie-bites/ | 24 bites, 12 portions of 2 |
+
+Scores/sample sizes checked directly on publisher pages. The smaller brie sample is disclosed. Source-size ingredient quantities normalize once; mushroom and pastry trays use whole batches. Mushroom page lists 25 minutes cooking, including stovetop browning, but its actual oven steps total 15 minutes; oven allocation uses 15 with 30 minutes pre-oven work. Prepared cranberry sauce follows the brie publisher's supported option; optional asparagus cheese/garlic/lemon are included in shopping. Costs remain unpriced rather than fabricated. Original summaries link to full source methods.
+
+All 43 catalog entries receive a local dish-specific picture, including beverage serving plans. Preserved suitable existing food images; new generated images replace table fallbacks and mismatched gratin/rolls/beans images. These are illustrative styled images, not publisher recipe photographs. Home photography and custom image uploads are untouched. See RECIPE_PHOTOS.md for the photo manifest and generation brief.

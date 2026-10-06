@@ -115,3 +115,14 @@
 .planning-active .menu-studio .library-view-recipe{padding:10px 16px;text-decoration:none}
 .planning-active .menu-studio .menu-totals button{padding:14px 32px 14px 14px}
 .planning-active .menu-studio .menu-dish-settings[open] summary{padding:8px 12px}
+
+/* The source collection uses the same dish pictures as menu and reader. */
+.library-recipe-photo{width:100%;height:160px;object-fit:cover;border-radius:10px;display:block}
+.library-recipe-copy{display:flex;flex-direction:column;gap:12px;min-width:0}
+@media(max-width:767px){
+ .library-recipe-card{display:grid;grid-template-columns:88px minmax(0,1fr);gap:10px 12px;padding:16px}
+ .library-recipe-photo{grid-column:1;grid-row:1/span 4;width:88px;height:112px;border-radius:8px}
+ .library-recipe-copy{display:contents}
+ .library-recipe-copy>:is(span,h3,p){grid-column:2}
+ .library-recipe-copy>button{grid-column:1/-1}
+}

@@ -1,5 +1,7 @@
 import { groupPrintables } from './printableCategories';
 import { guideRecipes } from './guideRecipes';
+import { moreReviewedRecipes } from './moreReviewedRecipes';
+import { recipePhotos as dishThumb } from './recipePhotos';
 import { auditedRecipes, pecanRecipe, isHighlyRated } from './auditedRecipes';
 import { recipeSources, equipmentChecklist, advanceWindows, stationGuides, tableChecklist, guestJourney, guideLinks } from './hostingGuide';
 import { normalizeState, planningContext, uid, nextThanksgiving, preparation, responsibility, derivePlan, dishPortions, recipeQuantityServings, recipeIngredientQuantity, formatRecipeAmount, recipeReady, completeMealCoverage, timelineWarnings, buildTimeline, parseIngredients, printOne, printableCards as selectPrintableCards, reconcileState } from './domain';
@@ -798,7 +800,7 @@ const legacyDishes: Dish[] = [
     audience: 'adults',
   },
 ];
-export const dishes: Dish[] = [...legacyDishes.filter(d=>!guideRecipes.some(r=>r.id===d.id)).map(d=>({...d,...auditedRecipes.find(r=>r.id===d.id)})), ...guideRecipes, pecanRecipe];
+export const dishes: Dish[] = [...legacyDishes.filter(d=>!guideRecipes.some(r=>r.id===d.id)).map(d=>({...d,...auditedRecipes.find(r=>r.id===d.id)})), ...guideRecipes, pecanRecipe, ...moreReviewedRecipes].map(d=>({...d,image:d.image || dishThumb[d.id]}));
 const presets: Record<string, string[]> = {
   'THE CLASSIC': [
     'turkey',
@@ -1242,35 +1244,7 @@ const dietTagForNeed = (need: string) => {
   return '';
 };
 
-const dishThumb: Record<string, string> = {
-  turkey: asset.bird,
-  stuffing: asset.stuffingDish,
-  potatoes: asset.mashedDish,
-  gravy: asset.gravyDish,
-  greens: asset.greenBeansDish,
-  cranberry: asset.cranberryDish,
-  rolls: asset.dinnerRollsDish,
-  pie: asset.pumpkinPieDish,
-  salad: asset.salad,
-  mac: asset.macDish,
-  sweet: asset.sweetDish,
-  app: asset.crostiniDish,
-  'ba-dry-turkey': asset.bird,
-  'ba-simple-stuffing': asset.stuffingDish,
-  'ba-mashed': asset.mashedDish,
-  'ba-honey-brussels': asset.gratin,
-  'ba-greenbeans': asset.greenBeansDish,
-  'ba-pumpkin-pie': asset.pumpkinPieDish,
-  'ba-parker-rolls': asset.dinnerRollsDish,
-  'ba-roasted-sweet': asset.sweetDish,
-  'ba-fancy-cranberry': asset.cranberryDish,
-  'allrecipes-corn': asset.gratin,
-  'allrecipes-broccoli-cheese': asset.gratin,
-  'fn-vegan-greenbean': asset.greenBeansDish,
-  'fn-gf-cornbread': asset.dinnerRollsDish,
-  'ew-stuffed-squash': asset.gratin,
-  'fn-citrus-cranberry': asset.cranberryDish,
-};
+
 
 type AppProps = {
   seed?: unknown;
@@ -2142,7 +2116,7 @@ C | C
                       {filter}
                     </button>
                   ))}
-                </div><section className="recipe-collection" id="source-recipes"><h2>Source recipe collection</h2><p className="collection-description">Add a recipe to include it in your menu. Homemade ingredients scale to your guest count.</p>{!visibleSourceRecipes.length&&<p>No source recipes match this filter.</p>}<div className="library-recipe-grid">{visibleSourceRecipes.map(d=><article className="library-recipe-card" key={d.id}><span className="eyebrow">{d.group} · {d.source}</span><h3>{d.name}</h3><p>Original yield: {d.sourceYield} · {d.minutes} min</p>{d.rating&&<p>{d.rating} · checked October 6, 2026</p>}<button className="library-view-recipe" onClick={()=>setOpenDish(d.id)}>Recipe & ingredients <ArrowRight size={14}/></button>{recipeMenuAction(d)}</article>)}</div></section>
+                </div><section className="recipe-collection" id="source-recipes"><h2>Source recipe collection</h2><p className="collection-description">Add a recipe to include it in your menu. Homemade ingredients scale to your guest count.</p>{!visibleSourceRecipes.length&&<p>No source recipes match this filter.</p>}<div className="library-recipe-grid">{visibleSourceRecipes.map(d=><article className="library-recipe-card" key={d.id}><img className="library-recipe-photo" src={d.image || dishThumb[d.id]} alt={d.name} loading="lazy" decoding="async" width={960} height={960}/><div className="library-recipe-copy"><span className="eyebrow">{d.group} · {d.source}</span><h3>{d.name}</h3><p>Original yield: {d.sourceYield} · {d.minutes} min</p>{d.rating&&<p>{d.rating} · checked October 6, 2026</p>}<button className="library-view-recipe" onClick={()=>setOpenDish(d.id)}>Recipe & ingredients <ArrowRight size={14}/></button>{recipeMenuAction(d)}</div></article>)}</div></section>
                 <details className="panel glass-light source-library"><summary>More recommendations from your file</summary><p>Your original links are retained here. Measured imports appear above. Other ideas remain source references until a specific complete recipe is available.</p>{recipeSources.map(r=><div className="source-recipe-row" key={r.name}><div><h3>{r.name}</h3><p>{r.note}</p><a href={r.url} target="_blank" rel="noreferrer">OPEN {r.publisher.toUpperCase()} →</a></div></div>)}</details>
                 <div className="library-heading" id="other-recipes"><h2>Serving plans + your recipes</h2><p>Prepared foods, drink service and your saved recipes. Finish any incomplete personal recipes before relying on their shopping quantities or cooking times.</p></div>
 
