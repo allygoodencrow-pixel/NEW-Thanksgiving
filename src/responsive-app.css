@@ -204,4 +204,8 @@ input,select,textarea{max-width:100%;box-sizing:border-box}
  .planning-active .main .timeline-row>span input{width:60px;min-height:44px}
  .planning-active .main .timeline-row>.check-row{flex:1 1 100%;padding:8px 0}
  .planning-active .day-page{width:calc(100% - 32px);margin:16px auto;padding:16px}
+ .planning-active .main .shop-look-grid{grid-template-columns:minmax(0,1fr);gap:16px}
+ .planning-active .main .shop-look-card{display:grid;grid-template-columns:88px minmax(0,1fr);gap:6px 16px;align-items:start;padding:16px;min-width:0}
+ .planning-active .main .shop-look-card img{grid-column:1;grid-row:1/4;width:88px;height:112px;object-fit:cover}
+ .planning-active .main .shop-look-card :is(.eyebrow,h3,small){grid-column:2;margin:0;padding:0;min-width:0}
 }
