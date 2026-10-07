@@ -148,6 +148,8 @@ input,select,textarea{max-width:100%;box-sizing:border-box}
  .planning-active .main .guest-entry{padding:0}
  .planning-active .main .section-image{height:112px;margin-bottom:16px}
  .planning-active .main>.guided-workflow{padding:0;min-height:44px}
+ .planning-active .main .room-math{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .planning-active .main .room-math>div{min-width:0}
 }
 
 /* Grids own the space between fields; avoid doubled label margins. */
