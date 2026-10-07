@@ -169,7 +169,7 @@ body :where(.page-home:not(.planning-active)) :is(.eyebrow,.input-kicker,.nav-ph
 .planning-active{
  --font-body:Lato,'Helvetica Neue',Arial,sans-serif;
  --text-primary:#f1f1f1;--text-muted:#cdcac6;--text-on-fill:#1d1b1b;
- --type-title:28px;--type-heading:18px;--type-card:16px;--type-subheading:14px;--type-body:13px;--type-label:10px;--type-meta:11px;--type-reader:28px;--type-eyebrow:10px;--type-control:11px;
+ --type-title:24px;--type-heading:16px;--type-card:14px;--type-subheading:13px;--type-body:13px;--type-label:10px;--type-meta:11px;--type-reader:24px;--type-eyebrow:10px;--type-control:11px;
  color:var(--text-primary);font-family:var(--font-body);font-size:var(--type-body);font-weight:300;line-height:1.6;letter-spacing:0;
 }
 .planning-active :where(*){font-family:inherit;font-size:inherit;font-weight:inherit;font-style:normal;line-height:inherit;letter-spacing:inherit;color:inherit;-webkit-text-fill-color:currentColor}
@@ -186,7 +186,7 @@ body :where(.page-home:not(.planning-active)) :is(.eyebrow,.input-kicker,.nav-ph
 .planning-active :is(.panel>summary,.shopping-support summary,.shopping-support-row>summary){font-family:var(--font-body);font-size:var(--type-control);font-weight:300;line-height:1.5;letter-spacing:.12em;text-transform:uppercase}
 .planning-active :is(input,select,textarea){font-family:var(--font-body);font-size:var(--type-body);font-weight:300;line-height:1.4;color:var(--text-primary);caret-color:var(--text-primary)}
 .planning-active :is(input,textarea)::placeholder{color:var(--text-muted);-webkit-text-fill-color:currentColor;opacity:1}
-.planning-active :is(.stat-row b,.budget-head b,.shopping-summary-strip b,.chair-logic b,.room-math b,.shopping-list-toolbar p b){font-family:var(--font-display);font-size:21px;font-weight:100;line-height:1.25;letter-spacing:0}
+.planning-active :is(.stat-row b,.budget-head b,.shopping-summary-strip b,.chair-logic b,.room-math b,.shopping-list-toolbar p b){font-family:var(--font-display);font-size:18px;font-weight:100;line-height:1.25;letter-spacing:0}
 .planning-active :is(.shopping-row-quantity,.reader-ingredients b,.recipe-facts dd,.qty-stepper b){font-family:var(--font-body);font-size:var(--type-body);font-weight:300;font-variant-numeric:tabular-nums;line-height:1.5;color:var(--text-primary)}
 .planning-active .recipe-source-label{font-size:var(--type-label);color:var(--text-muted)}
 .planning-active .reference-menu .menu-dish-fields label{font-family:var(--font-body);font-size:var(--type-label);font-weight:300;color:var(--text-muted)}
@@ -204,7 +204,7 @@ body :where(.page-home:not(.planning-active)) :is(.eyebrow,.input-kicker,.nav-ph
 .planning-active .sidebar nav button{font-size:16px;font-weight:300;letter-spacing:.03em}
 .planning-active .sidebar .nav-index{font-size:var(--type-label);color:var(--text-muted)}
 .planning-active :is(button:disabled,input:disabled,select:disabled){opacity:.5}
-@media(max-width:767px){.planning-active{--type-title:24px;--type-heading:16px;--type-card:14px;--type-subheading:14px;--type-body:13px;--type-label:10px;--type-meta:11px;--type-reader:24px;--type-eyebrow:8px;--type-control:11px}.planning-active :is(input,select,textarea){font-size:16px}}
+@media(max-width:767px){.planning-active{--type-title:20px;--type-heading:14px;--type-card:13px;--type-subheading:13px;--type-body:13px;--type-label:10px;--type-meta:11px;--type-reader:20px;--type-eyebrow:8px;--type-control:11px}.planning-active :is(input,select,textarea){font-size:16px}}
 
 
 /* Shared content roles, including the menu and recipe library.
@@ -237,14 +237,14 @@ body :where(.page-home:not(.planning-active)) :is(.eyebrow,.input-kicker,.nav-ph
 /* Account UI uses the same two font families and functional hierarchy. */
 .account-sheet{font-family:var(--font-body);font-size:13px;font-weight:300;line-height:1.6;letter-spacing:0;color:#292725}
 .account-sheet :where(*){font-family:inherit;font-size:inherit;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit}
-.account-sheet h2{font-family:var(--font-display);font-size:26px;font-weight:100;line-height:1.35;letter-spacing:.09em;text-transform:uppercase}
+.account-sheet h2{font-family:var(--font-display);font-size:24px;font-weight:100;line-height:1.35;letter-spacing:.09em;text-transform:uppercase}
 .account-sheet :is(button,label,small,.account-kicker){font-size:11px;line-height:1.5;letter-spacing:.15em;text-transform:uppercase}
 .account-sheet button{color:#f1f1f1}.account-sheet :is(header button,.account-text-action,.account-party-list button){color:#292725}
 .account-sheet .account-tabs button[aria-pressed=false]{color:#292725}
 .account-sheet input{font-family:var(--font-body);font-size:16px;font-weight:300;line-height:1.4;letter-spacing:0;color:#292725}
 body .shell .topbar .account-control,.cloud-status{font-family:var(--font-body);font-size:8px;font-weight:300;line-height:1.5;letter-spacing:.13em;color:#f1f1f1;text-transform:uppercase}
 .cloud-status{font-size:11px}
-@media(max-width:560px){body .shell .topbar .account-control{font-size:7px}.account-sheet h2{font-size:22px}}
+@media(max-width:560px){body .shell .topbar .account-control{font-size:7px}.account-sheet h2{font-size:20px}}
 
 /* Compact shared utility roles; Home remains frozen above. */
 .planning-active .sidebar .sidebar-foot{font-size:9px;line-height:1.6;letter-spacing:.12em;color:var(--text-muted)}
