@@ -1574,7 +1574,7 @@ function App({seed, storageKey = 'cc-thanksgiving-v4', onPlanChange, onAccount, 
       <div>
         <span className="eyebrow">{eyebrow}</span>
         <h1>{title}</h1>
-        {compact ? <p>{children}</p> : <details className="page-guide"><summary>How it works</summary><p>{children}</p></details>}
+        {compact ? <p>{children}</p> : <details className="page-guide"><summary>Guide</summary><p>{children}</p></details>}
       </div>
       {aside}
     </div>
@@ -2009,10 +2009,6 @@ C | C
                 )}
                 {menuView === 'plan' && <div className="menu-composition">
                   <div className="menu-collection">
-                    <div className="menu-collection-heading">
-                      <h2>Your dishes</h2>
-                      <button className="headcount-link" onClick={() => navigate('GUESTS')}>PLAN FOR {planningCount}</button>
-                    </div>
                     {s.selections.some(id=>allDishes.some(d=>d.id===id&&d.group==='Drink · Alcoholic')&&!selected.some(d=>d.id===id))&&<p className="fine">Alcohol menu items are paused because this plan has no alcohol drinkers or is set to no alcohol. They contribute no shopping, budget or schedule quantities. Change the drink settings to restore them.</p>}
                     <nav className="menu-categories" aria-label="Filter your dishes">{['All','Mains','Sides','Starters','Desserts','Drinks'].filter(c=>c==='All'||selected.some(d=>menuCategoryFor(d)===c)).map(c=><button key={c} aria-pressed={menuCategory===c} onClick={()=>setMenuCategory(c)}>{c}</button>)}</nav>
                     {plan.incompleteRecipes.length>0&&<button className="menu-recipe-status" onClick={()=>setOpenDish(plan.incompleteRecipes[0].id)}>{plan.incompleteRecipes.length} incomplete {plan.incompleteRecipes.length===1?'recipe':'recipes'} · Review <ArrowRight size={14}/></button>}
@@ -2109,7 +2105,6 @@ C | C
                   </div>
                 )}
                 {menuView==='browse' && <section className="recipe-browser" aria-label="Recipe library">
-                  <p className="collection-description">Choose your dishes. Shopping and prep update with your menu.</p>
                   <div className="library-recipe-grid">{allDishes.map(d=><article className="library-recipe-card" key={d.id}>
                     <img className="library-recipe-photo" src={d.image || dishThumb[d.id] || asset.tableLight} alt={d.name} loading="lazy" decoding="async" width={960} height={960}/>
                     <div className="library-recipe-copy">
@@ -2345,7 +2340,7 @@ C | C
                   Ingredients and supplies for your plan. Check off purchases or open an item to adjust it.
                 </Section>
                 <p className="shopping-plan-note">Quantities use {planningCount} people · {s.planningMode.toLowerCase()}. <button className="text-link" onClick={()=>navigate('GUESTS')}>Manage guests →</button></p>
-                <div className="shopping-list-toolbar"><div><span className="eyebrow">FOR {planningCount} GUESTS</span><p><b>{shoppingEntries.filter(item=>!s.purchased.includes(item.key)).length}</b> to buy <span>· {shoppingEntries.filter(item=>s.purchased.includes(item.key)).length} bought</span></p></div><div className="shopping-list-filters" aria-label="Shopping list view">{(['remaining','all','bought'] as const).map(view=><button key={view} aria-pressed={shoppingFilter===view} onClick={()=>setShoppingFilter(view)}>{view==='remaining'?'To buy':view==='all'?'All items':'Bought'}</button>)}</div></div>
+                <div className="shopping-list-toolbar"><div><p><b>{shoppingEntries.filter(item=>!s.purchased.includes(item.key)).length}</b> to buy <span>· {shoppingEntries.filter(item=>s.purchased.includes(item.key)).length} bought</span></p></div><div className="shopping-list-filters" aria-label="Shopping list view">{(['remaining','all','bought'] as const).map(view=><button key={view} aria-pressed={shoppingFilter===view} onClick={()=>setShoppingFilter(view)}>{view==='remaining'?'To buy':view==='all'?'All items':'Bought'}</button>)}</div></div>
                 <div className="two-col shopping-layout">
                   <div className="panel glass-light shopping-list-panel">
                     {s.hiddenShopping.length>0&&<button className="text-link" onClick={()=>update('hiddenShopping',[])}>RESTORE {s.hiddenShopping.length} HIDDEN ITEMS</button>}
@@ -2855,7 +2850,7 @@ C | C
                 {s.planningMode==='Estimated' && <p className="guest-estimate-note">Food quantities currently use your estimate of {planningCount}. Choose Expected in the settings below to use Attending + Pending guests.</p>}
                 <section className="panel input-panel glass-light guest-list-panel" aria-label="Guest list">
                   <header className="guest-list-heading"><h2>Your guest list</h2><span>{s.guests.length} names</span></header>
-                  <p className="guest-list-hint">New guests start as Pending. Choose Attending when they confirm, or Declined if they can’t come.</p>
+                  
                   {!s.guests.length && <p className="guest-empty">Start with the people you’re inviting. Add each person separately so their preferences and seat stay connected.</p>}
                   <div className="guest-list">
                     {s.guests.map(g => {
@@ -3069,7 +3064,7 @@ C | C
             )}
             {tab === 'PRINTABLES' && (
               <div className="content">
-                <Section eyebrow="09 / THE FINISHING TOUCHES" title="Printables">
+                <Section eyebrow="09 / PRINTABLES" title="Printables">
                   Browse the complete collection by printable type. Original designs are ready to download; personalized items below use your plan. Print at 100% / actual size. The complete PDF includes full-quality artwork and cutting guides.
                 </Section>
                 <div className="panel printable-collection-intro">

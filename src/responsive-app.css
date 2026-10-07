@@ -128,9 +128,10 @@ input,select,textarea{max-width:100%;box-sizing:border-box}
 .planning-active .main .guided-next{background:transparent;border:0;border-radius:0;padding:8px 0;min-height:44px}
 .planning-active .main .content{padding-top:20px}
 .planning-active .main .page-head{min-height:0;margin-bottom:20px;padding:0}
-.planning-active .main .page-head h1{margin:8px 0 4px}
+.planning-active .main .page-head h1{margin:16px 0 4px}
+.planning-active .main .page-head>div:first-child{position:relative}
 .planning-active .page-guide{margin:0;max-width:52ch}
-.planning-active .page-guide>summary{display:inline-flex;align-items:center;min-height:44px;cursor:pointer;list-style:none;gap:8px}
+.planning-active .page-guide>summary{position:absolute;top:-14px;right:0;display:inline-flex;align-items:center;min-height:44px;cursor:pointer;list-style:none;gap:8px}
 .planning-active .page-guide>summary::after{content:'+'}
 .planning-active .page-guide[open]>summary::after{content:'−'}
 .planning-active .main .page-guide p{margin:0 0 12px}
@@ -151,8 +152,15 @@ input,select,textarea{max-width:100%;box-sizing:border-box}
 
 /* Grids own the space between fields; avoid doubled label margins. */
 .planning-active .main .form-grid>.field{margin-bottom:0}
-.planning-active .main .recipe-integrity-notice:not([open]){padding:0;background:transparent;border:0;margin-bottom:16px}
+.planning-active .main .recipe-integrity-notice:is(details):not([open]){padding:0;background:transparent;border:0;margin-bottom:16px}
 .planning-active .main .recipe-integrity-notice>summary{min-height:44px;display:flex;align-items:center;gap:8px;cursor:pointer}
 .planning-active .main .recipe-integrity-notice>summary::after{content:'+'}
 .planning-active .main .recipe-integrity-notice[open]>summary::after{content:'−'}
 .planning-active .main .printable-collection-intro{padding:0;background:transparent;border:0;backdrop-filter:none}
+
+/* Statistics are a compact row, rather than boxes inside another box. */
+.planning-active .main .budget-head{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:16px;padding:0;background:transparent;border:0;margin:0 0 20px}
+.planning-active .main .budget-head>div{padding:0;min-height:0;background:transparent;border:0;box-shadow:none}
+.planning-active .main .budget-head b{margin:8px 0 0}
+.planning-active .main .activity-plan-actions{margin:12px 0;gap:12px}
+.planning-active .main .guest-list-heading{margin-bottom:12px}
