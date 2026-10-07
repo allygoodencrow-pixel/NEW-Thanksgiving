@@ -169,7 +169,7 @@ body :where(.page-home:not(.planning-active)) :is(.eyebrow,.input-kicker,.nav-ph
 .planning-active{
  --font-body:Lato,'Helvetica Neue',Arial,sans-serif;
  --text-primary:#f1f1f1;--text-muted:#cdcac6;--text-on-fill:#1d1b1b;
- --type-title:24px;--type-heading:16px;--type-card:14px;--type-subheading:13px;--type-body:13px;--type-label:10px;--type-meta:11px;--type-reader:24px;--type-eyebrow:10px;--type-control:11px;
+ --type-title:28px;--type-heading:18px;--type-card:16px;--type-subheading:14px;--type-body:13px;--type-label:10px;--type-meta:11px;--type-reader:28px;--type-eyebrow:10px;--type-control:11px;
  color:var(--text-primary);font-family:var(--font-body);font-size:var(--type-body);font-weight:300;line-height:1.6;letter-spacing:0;
 }
 .planning-active :where(*){font-family:inherit;font-size:inherit;font-weight:inherit;font-style:normal;line-height:inherit;letter-spacing:inherit;color:inherit;-webkit-text-fill-color:currentColor}
@@ -204,7 +204,7 @@ body :where(.page-home:not(.planning-active)) :is(.eyebrow,.input-kicker,.nav-ph
 .planning-active .sidebar nav button{font-size:16px;font-weight:300;letter-spacing:.03em}
 .planning-active .sidebar .nav-index{font-size:var(--type-label);color:var(--text-muted)}
 .planning-active :is(button:disabled,input:disabled,select:disabled){opacity:.5}
-@media(max-width:767px){.planning-active{--type-title:20px;--type-heading:14px;--type-card:13px;--type-subheading:13px;--type-body:13px;--type-label:10px;--type-meta:11px;--type-reader:20px;--type-eyebrow:8px;--type-control:11px}.planning-active :is(input,select,textarea){font-size:16px}}
+@media(max-width:767px){.planning-active{--type-title:24px;--type-heading:16px;--type-card:14px;--type-subheading:14px;--type-body:13px;--type-label:10px;--type-meta:11px;--type-reader:24px;--type-eyebrow:8px;--type-control:11px}.planning-active :is(input,select,textarea){font-size:16px}}
 
 
 /* Shared content roles, including the menu and recipe library.

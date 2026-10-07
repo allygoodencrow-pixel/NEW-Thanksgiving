@@ -6,6 +6,7 @@ const postcss=require('postcss');
 const parser=require('postcss-selector-parser');
 const {JSDOM}=require('jsdom');
 const files=[...fs.readFileSync('src/main.tsx','utf8').matchAll(/import '\.\/([^']+\.css)'/g)].map(m=>m[1]);
+assert.deepEqual(files,['app-layout.css','typography.css'],'screen styles must have one layout owner and one typography owner');
 const rules=[];
 const add=(a,b)=>a.map((v,i)=>v+b[i]);
 const cmp=(a,b)=>{for(let i=0;i<a.length;i++)if(a[i]!==b[i])return a[i]-b[i];return 0};
@@ -60,7 +61,7 @@ for(const page of ['plan','guests','menu','shopping','prep','timeline','experien
  for(const width of [375,390,650,767,768,1100]){
   assert.equal(value(q('.page-head'),'min-height',width),'0',`${page} must not retain fixed header height`);
   assert.equal(value(q('.page-head'),'padding',width),'0',`${page} has no padded header box`);
-  assert.equal(value(q('.page-head h1'),'font-size',width),width<768?'20px':'24px',`${page} title at ${width}`);
+  assert.equal(value(q('.page-head h1'),'font-size',width),width<768?'24px':'28px',`${page} title at ${width}`);
   assert.equal(value(q('.sidebar nav'),'flex',width),'0 0 auto',`${page} drawer must occupy its content height`);
   assert.equal(value(q('.sidebar nav'),'min-height',width),'auto');
   assert.equal(value(q('.sidebar-foot'),'position',width),'static');
@@ -82,7 +83,7 @@ const menuActions=doc.createElement('div');menuActions.className='menu-actions';
 const menuMeta=doc.createElement('small');menuMeta.className='menu-dish-meta';menuMeta.textContent='Main · 4 planned portions';q('.menu-dish-copy').append(menuMeta);
 const paper=doc.createElement('div');paper.className='paper';paper.innerHTML='<h3>A long family dinner title</h3><p>Full details</p>';q('.content').append(paper);
 for(const width of [320,375,390,560,650,767]){
- assert.equal(value(libraryCard.querySelector('h3'),'font-size',width),'13px');
+ assert.equal(value(libraryCard.querySelector('h3'),'font-size',width),'14px');
  assert.equal(value(libraryCard.querySelector('h3'),'font-weight',width),'200');
  assert.equal(value(libraryCard.querySelector('.eyebrow'),'font-size',width),'8px');
  assert(value(libraryCard.querySelector('.eyebrow'),'font-family',width).startsWith('Metropolis'));
@@ -99,7 +100,7 @@ for(const width of [320,375,390,560,650,767]){
  assert.equal(value(prep.firstElementChild,'background',width),'transparent');
  assert.notEqual(value(nestedSummary,'background',width),'transparent');
  assert.notEqual(value(nestedSummary,'border-radius',width),'0');
- assert.equal(value(q('.menu-studio'),'width',width),'calc(100% - 32px)');
+ assert.equal(value(q('.menu-studio'),'width',width),'calc(100% - 48px)');
  assert.equal(value(q('.menu-studio'),'border-radius',width),'0');
  assert.equal(value(q('.menu-studio'),'background',width),'transparent');
  assert.equal(value(nestedSummary.querySelector('p'),'text-transform',width),'none','summary descriptions must not inherit uppercase utility styling');
@@ -126,13 +127,13 @@ console.log('PASS mobile text inheritance and intrinsic long-content geometry');
 for(const width of [375,390,560,650,767,768,850,1099,1100,1440]){
  const phone=width<768;
  assert.equal(value(q('.topbar'),'position',width),'relative',`header position at ${width}`);
- assert.equal(value(q('.topbar'),'height',width),phone?'calc(60px + env(safe-area-inset-top))':'72px',`header height at ${width}`);
+ assert.equal(value(q('.topbar'),'height',width),phone?'calc(72px + env(safe-area-inset-top))':'88px',`header height at ${width}`);
  assert.equal(value(q('.topbar'),'z-index',width),'8');
  assert.equal(value(q('.recipe-sheet'),'max-height',width),phone?'100dvh':'calc(100dvh - 64px)');
  assert.equal(value(q('.recipe-reader-columns'),'grid-template-columns',width),phone?'1fr':width>=1100?'minmax(260px,.8fr) minmax(0,1.3fr)':'minmax(0,.9fr) minmax(0,1.35fr)');
  assert(value(q('.recipe-reader-intro h2'),'font-family',width).startsWith('Metropolis'));
  assert.equal(value(q('.recipe-reader-intro h2'),'font-weight',width),'100');
- assert.equal(value(q('.recipe-reader-intro h2'),'font-size',width),phone?'20px':'24px');
+ assert.equal(value(q('.recipe-reader-intro h2'),'font-size',width),phone?'24px':'28px');
  assert(value(q('.reader-method li span'),'font-family',width).startsWith('Lato'));
  assert.equal(value(q('.reader-method li span'),'color',width),'#292725');
  assert.equal(value(q('.panel p'),'color',width),'#f1f1f1');
@@ -148,7 +149,7 @@ for(const width of [375,390,560,650,767,768,850,1099,1100,1440]){
  assert.equal(value(q('.menu-dish-settings select'),'color',width),'#f1f1f1');
  assert.equal(value(q('.menu-composition'),'display',width),'grid');
  assert.equal(value(q('.menu-support'),'position',width),width>=1100?'sticky':'');
- assert.equal(value(q('.menu-dish'),'grid-template-columns',width),'72px repeat(3,minmax(0,1fr))');
+ assert.equal(value(q('.menu-dish'),'grid-template-columns',width),width>=1100?'104px repeat(3,minmax(0,1fr))':'72px repeat(3,minmax(0,1fr))');
  console.log(`PASS responsive cascade and recipe type at ${width}px`);
 }
 // The same elements outside planning mode retain Home's original header rules.

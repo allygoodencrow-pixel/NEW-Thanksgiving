@@ -1553,7 +1553,7 @@ function App({seed, storageKey = 'cc-thanksgiving-v4', onPlanChange, onAccount, 
     const extra = extraTools.find(tool=>tool.tab===tab);
     const next = index>=0 ? planningSteps[index+1] : planningSteps.find(step=>step.tab===extra?.returnTab);
     return <section className="section-navigation guided-workflow" aria-label="Planning guide">
-      <div className="guided-step-copy"><span className="guided-step-label">{step ? `STEP ${index+1} / ${planningSteps.length}` : extra?.label}</span></div>
+      <div className="guided-step-copy"><span className="guided-step-label">{step ? `STEP ${index+1} / ${planningSteps.length}` : 'MORE TO PLAN'}</span></div>
       {next && <button className="guided-next" onClick={()=>{navigate(next.tab,next.group);if(next.tab==='MENU')setMenuView('plan');}}>{step ? 'Next: ' : 'Return to '}{next.label} <span aria-hidden="true">→</span></button>}
     </section>;
   };
