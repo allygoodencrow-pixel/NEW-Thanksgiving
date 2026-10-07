@@ -107,6 +107,19 @@ for(const width of [320,375,390,560,650,767]){
  assert.equal(value(paper,'height',width),'auto','personalized previews grow with wrapping text');
  assert.equal(value(paper.querySelector('p'),'max-height',width),'none');
 }
+
+const guestEntry=doc.createElement('div');guestEntry.className='panel glass-light guest-entry';guestEntry.innerHTML='<div class="guest-add"><input placeholder="Add a guest name"/><button>Add guest</button></div>';q('.content').append(guestEntry);
+for(const width of [320,390,430]){
+ assert.equal(value(guestEntry.querySelector('.guest-add'),'display',width),'grid');
+ assert.equal(value(guestEntry.querySelector('input'),'height',width),'44px');
+ assert.equal(value(guestEntry.querySelector('button'),'background',width),'#080808b3');
+}
+const actions=doc.createElement('div');actions.className='library-recipe-actions';actions.innerHTML='<button class="library-view-recipe">View recipe</button><div class="recipe-selection"><button class="recipe-add-button">Add to menu</button></div>';
+q('.menu-studio').append(actions);
+for(const width of [320,390,430]){
+ assert.equal(value(actions.firstElementChild,'padding',width),'10px 8px','mobile action padding must beat the shared frosted control rule');
+ assert.equal(value(q('.menu-dish-settings summary'),'background',width),'transparent','mobile manage action remains a quiet disclosure, not another pill');
+}
 console.log('PASS mobile text inheritance and intrinsic long-content geometry');
 for(const width of [375,390,560,650,767,768,850,1099,1100,1440]){
  const phone=width<768;
@@ -133,7 +146,7 @@ for(const width of [375,390,560,650,767,768,850,1099,1100,1440]){
  assert.equal(value(q('.menu-dish-settings select'),'color',width),'#f1f1f1');
  assert.equal(value(q('.menu-composition'),'display',width),'grid');
  assert.equal(value(q('.menu-support'),'position',width),width>=1100?'sticky':'');
- assert.equal(value(q('.menu-dish'),'grid-template-columns',width),phone?'88px minmax(0,1fr)':width>=1100?'160px minmax(0,1fr)':'1fr 1fr');
+ assert.equal(value(q('.menu-dish'),'grid-template-columns',width),phone?'72px minmax(0,1fr)':width>=1100?'160px minmax(0,1fr)':'1fr 1fr');
  console.log(`PASS responsive cascade and recipe type at ${width}px`);
 }
 // The same elements outside planning mode retain Home's original header rules.

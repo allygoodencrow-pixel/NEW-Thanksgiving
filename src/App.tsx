@@ -2113,7 +2113,7 @@ C | C
                     <div className="library-recipe-copy">
                       <div className="library-recipe-kicker"><span className="eyebrow">{d.group}</span>{s.selections.includes(d.id)&&<span className="library-menu-status" role="status"><Check size={12}/> In your menu</span>}</div>
                       <h3>{d.name}</h3>
-                      <p className="library-recipe-facts">{d.minutes} min{d.serves ? ` · ${d.serves} base servings` : ''}</p>
+                      <p className="library-recipe-facts">{d.minutes} min{d.serves ? ` · ${d.serves} base ${d.serves===1?'serving':'servings'}` : ''}</p>
                       <p className="library-recipe-source">{d.source || (d.servingPlan ? 'Serving plan' : 'Your recipe')}</p>
                       {!d.recipeVerified&&!d.servingPlan&&!recipeReady(d)&&<span className="recipe-completeness">INCOMPLETE RECIPE</span>}
                     </div>
