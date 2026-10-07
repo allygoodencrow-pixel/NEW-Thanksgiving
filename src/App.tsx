@@ -1570,6 +1570,7 @@ function App({seed, storageKey = 'cc-thanksgiving-v4', onPlanChange, onAccount, 
     aside?: React.ReactNode;
     compact?: boolean;
   }) => (
+    <>
     <div className="page-head">
       <div>
         <span className="eyebrow">{eyebrow}</span>
@@ -1578,6 +1579,10 @@ function App({seed, storageKey = 'cc-thanksgiving-v4', onPlanChange, onAccount, 
       </div>
       {aside}
     </div>
+    {['SHOPPING','PREP','TIMELINE','BUDGET'].includes(tab) && plan.incompleteRecipes.length>0 && <div className="recipe-integrity-notice" role="status"><b>{plan.incompleteRecipes.length} homemade dishes need complete recipes</b><p>Shopping, budget and cooking schedules exclude these dishes: {plan.incompleteRecipes.map(d=>d.name).join(' · ')}.</p><button onClick={()=>navigate('MENU')}>REVIEW MENU</button></div>}
+    {(tab==='TIMELINE' || tab==='PREP') && warnings.length>0 && <details className="warning-summary"><summary>{warnings.length} planning items to review</summary>{warnings.map((w,i)=><p key={i}>{w}</p>)}</details>}
+    {tab==='BUDGET' && plan.unpricedRecipes.length>0 && <details className="recipe-integrity-notice" role="status"><summary>Ingredient prices needed · {plan.unpricedRecipes.length} recipes</summary><p>Enter unit prices below for {plan.unpricedRecipes.map(d=>d.name).join(' · ')}. These recipes currently contribute no assumed ingredient prices.</p></details>}
+    </>
   );
   const SectionImage = ({
     image,
@@ -1671,14 +1676,10 @@ C | C
           <button className={tab === 'HOME' ? 'active nav-home' : 'nav-home'} onClick={() => navigate('HOME')}>HOME</button>
           <div className="nav-group"><p className="drawer-heading">PLAN IN ORDER</p><div className="drawer-subnav">{planningSteps.map((step,index)=><button key={step.tab} className={tab===step.tab?'active':''} aria-current={tab===step.tab?'page':undefined} onClick={()=>navigate(step.tab,step.group)}><span className="nav-index">{index+1}</span>{step.label}</button>)}</div></div>
           <div className="nav-group"><p className="drawer-heading">MORE TO PLAN</p><div className="drawer-subnav">{extraTools.map(tool=><button key={tool.tab} className={tab===tool.tab?'active':''} onClick={()=>navigate(tool.tab,tool.group)}>{tool.label}</button>)}</div></div>
-
+          {(tab !== 'HOME' || s.dayMode) && <button className="drawer-day-mode" onClick={()=>{update('dayMode',!s.dayMode);setMobileNav(false);}}>{s.dayMode ? 'EXIT DAY MODE' : 'PARTY-DAY MODE'}</button>}
         </nav>
         <div className="sidebar-foot">
-          THANKSGIVING
-          <br />
-          THE EDIT
-          <br />
-          <span>ALREADY FIGURED OUT.</span>
+          {tab === 'HOME' && !s.dayMode ? <>THANKSGIVING<br />THE EDIT<br /><span>ALREADY FIGURED OUT.</span></> : <span>THANKSGIVING AT HOME</span>}
         </div>
       </aside>
       {mobileNav && (
@@ -1709,20 +1710,18 @@ C | C
           <button className="header-monogram" aria-label="Crow and Crown home" onClick={() => navigate('HOME')}>C | C</button>
           <div className="top-actions">
             {onAccount && <button className="account-control" onClick={onAccount} aria-label="Account and saved parties">ACCOUNT</button>}
-            <button
+            {tab === 'HOME' && !s.dayMode && <button
               onClick={() => update('dayMode', !s.dayMode)}
               className={s.dayMode ? 'mode active' : 'mode'}
             >
               {s.dayMode ? 'EXIT DAY MODE' : 'PARTY-DAY MODE'}
-            </button>
+            </button>}
             
           </div>
         </header>
         {storageError && <div role="alert" className="alert">{storageError}</div>}
         {!s.dayMode && tab !== 'HOME' && <WorkflowNav />}
-        {['SHOPPING','PREP','TIMELINE','BUDGET'].includes(tab) && plan.incompleteRecipes.length>0 && <div className="recipe-integrity-notice" role="status"><b>{plan.incompleteRecipes.length} homemade dishes need complete recipes</b><p>Shopping, budget and cooking schedules exclude these dishes: {plan.incompleteRecipes.map(d=>d.name).join(' · ')}.</p><button onClick={()=>{navigate('MENU','PLAN MENU');setMenuView('plan');}}>REVIEW MENU</button></div>}
-
-        {(tab==='TIMELINE' || tab==='PREP' || s.dayMode) && warnings.length>0 && <details className="warning-summary"><summary>{warnings.length} planning items to review</summary>{warnings.map((w,i)=><p key={i}>{w}</p>)}</details>}
+        {s.dayMode && warnings.length>0 && <details className="warning-summary"><summary>{warnings.length} planning items to review</summary>{warnings.map((w,i)=><p key={i}>{w}</p>)}</details>}
         {s.dayMode ? (
           <div className="day-page">
             <span className="eyebrow">{thanksgiving.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'})}</span>
@@ -2505,7 +2504,7 @@ C | C
                   <div className="panel">
                     <span className="eyebrow">ROOM LOGIC</span>
                     <h2>{planningCount} people · {adults} adults · {kids} kids</h2>
-                    <div className="form-grid">
+                    <details className="room-settings inline-editor"><summary>Edit room settings</summary><div className="form-grid">
                       {select(
                         'Plan quantities for',
                         s.planningMode,
@@ -2538,6 +2537,7 @@ C | C
                         </button>
                       </label>
                     </div>
+                    </details>
                     <div className="room-math">
                       <div><b>{mainTableCount}</b><span>{s.tableShape.toUpperCase()} MAIN TABLE{mainTableCount === 1 ? '' : 'S'}</span></div>
                       <div><b>{kidsTableCount}</b><span>KIDS TABLE{kidsTableCount === 1 ? '' : 'S'}</span></div>
@@ -2706,8 +2706,8 @@ C | C
                   Built from your menu, house prep, activities, guest flow and dinner at {clock(dinner)}. Add anything else and it joins the same schedule.
                 </Section>
                 <details className="panel glass-light advance-guide"><summary>Before the day · planning calendar</summary><p>These are advance planning windows. The timed run below uses your actual dinner hour and selected dishes.</p>{advanceWindows.map((window,i)=><section key={window.when}><h3>{window.when}</h3>{window.tasks.map((task,j)=><CheckRow key={task} id={`guide-advance-${i}-${j}`}>{task}</CheckRow>)}</section>)}<div className="guide-source-links">{guideLinks.map(link=><a key={link.url} href={link.url} target="_blank" rel="noreferrer">{link.label} →</a>)}</div></details>
-                <div className="panel input-panel">
-                  <h2>Add to timeline</h2>
+                <details className="panel input-panel inline-editor">
+                  <summary>Add an event</summary>
                   <div className="form-grid">
                     <label className="field">
                       <span>What happens</span>
@@ -2729,14 +2729,14 @@ C | C
                       </select>
                     </label>
                   </div>
-                  <button className="save-recipe-button" onClick={addCustomTimelineItem}><Plus size={14} /> ADD TO PLAN TO SCHEDULE</button>
+                  <button className="save-recipe-button" onClick={addCustomTimelineItem}><Plus size={14} /> ADD TO SCHEDULE</button>
                   {(s.customTimelineItems || []).map(item => (
                     <div className="guest-provided-row" key={item.id}>
                       <span><small>{item.category} · {clock(timeToMin(item.time))}</small><br />{item.label}</span>
                       <button className="manual-remove" aria-label={`Remove ${item.label}`} onClick={() => update('customTimelineItems', (s.customTimelineItems || []).filter(x => x.id !== item.id))}><X size={14} /></button>
                     </div>
                   ))}
-                </div>
+                </details>
                 <div className="timeline-layout">
                   <div className="panel">
                     <h2>Thanksgiving Day</h2>
@@ -2928,9 +2928,9 @@ C | C
                 <div className="panel glass-light activity-plan">
                   <h2>Your activity plan</h2>
                   {s.activities.length ? s.activities.map(name=>{const activity=activityByName(name);return <div className="activity-plan-row" key={name}><div><h3>{name}</h3><p>{activity ? `${activity.duration} · ${activity.when}` : 'Your own activity'}</p></div><button aria-label={`Remove activity ${name}`} onClick={()=>toggleActivity(name)}>REMOVE</button></div>}) : <p>Choose an activity below, or let dinner be enough.</p>}
-                  <div className="guest-add"><input aria-label="Custom activity" placeholder="Add your own activity" value={newActivity} onChange={e=>setNewActivity(e.target.value)}/><button onClick={()=>{const name=newActivity.trim();if(name&&!s.activities.includes(name)){update('activities',[...s.activities,name]);setNewActivity('');}}}>ADD ACTIVITY</button></div>
+                  <details className="inline-editor activity-custom"><summary>Add your own activity</summary><div className="guest-add"><input aria-label="Custom activity" placeholder="Add your own activity" value={newActivity} onChange={e=>setNewActivity(e.target.value)}/><button onClick={()=>{const name=newActivity.trim();if(name&&!s.activities.includes(name)){update('activities',[...s.activities,name]);setNewActivity('');}}}>ADD ACTIVITY</button></div></details>
                   <div className="activity-plan-actions"><button className="text-link" onClick={()=>navigate('TIMELINE','DAY OF')}>VIEW TIMELINE</button><button className="text-link" onClick={()=>navigate('PRINTABLES')}>VIEW PRINTABLES</button>{s.activities.length>0&&<button className="text-link" onClick={()=>toggleActivity('No activity needed')}>CLEAR ACTIVITIES</button>}</div>
-                  {activitySupplies(s.activities,adults,kids).length>0&&<div className="activity-supplies"><h3>Supplies for your group</h3>{activitySupplies(s.activities,adults,kids).map(item=><p key={item.name}>{item.count} {item.unit} · {item.name}</p>)}<p className="fine">These supplies are also in Shopping. Pencils are reused between games.</p></div>}
+                  {activitySupplies(s.activities,adults,kids).length>0&&<details className="activity-supplies inline-editor"><summary>Supplies for your group</summary>{activitySupplies(s.activities,adults,kids).map(item=><p key={item.name}>{item.count} {item.unit} · {item.name}</p>)}<p className="fine">These supplies are also in Shopping. Pencils are reused between games.</p></details>}
                 </div>
                 <div className="experience-grid activity-library">
                   {activityLibrary.map(activity=>{const added=activeActivities.includes(activity.name),people=activityPeople(activity,adults,kids);return <article key={activity.name} className={`experience-card activity-card ${added?'selected':''}`}>
@@ -2987,11 +2987,11 @@ C | C
               </div>
             )}
             {tab === 'BUDGET' && (
-              <div className="content">{plan.unpricedRecipes.length>0&&<details className="recipe-integrity-notice" role="status"><summary>Ingredient prices needed · {plan.unpricedRecipes.length} recipes</summary><p>Enter unit prices below for {plan.unpricedRecipes.map(d=>d.name).join(' · ')}. These recipes currently contribute no assumed ingredient prices.</p></details>}
+              <div className="content">
                 <Section eyebrow="BUDGET / SPEND" title="Your budget">
                   A clear estimate that changes as the plan changes.
                 </Section>
-                <div className="panel"><div className="budget-head"><div><span>RULE ESTIMATE</span><b>{money(estimated)}</b></div><div><span>ACTUAL SPEND</span><b>{money(actual)}</b></div></div><h2>Record actual spending</h2><div className="form-grid"><label className="field"><span>Purchase</span><input value={spendLabel} onChange={e=>setSpendLabel(e.target.value)}/></label><label className="field"><span>Amount paid</span><input type="number" min="0" step="0.01" value={spendAmount} onChange={e=>setSpendAmount(e.target.value)}/></label></div><button className="save-recipe-button" onClick={()=>{if(!spendLabel.trim()||!Number.isFinite(Number(spendAmount))||Number(spendAmount)<0)return;update('actualSpend',[...s.actualSpend,{id:uid('spend'),label:spendLabel,amount:Number(spendAmount)}]);setSpendLabel('');setSpendAmount('');}}>ADD PURCHASE</button>{s.actualSpend.map(x=><div className="budget-line" key={x.id}><span>{x.label}</span><b>{money(x.amount)}</b><button aria-label={`Remove purchase ${x.label}`} onClick={()=>update('actualSpend',s.actualSpend.filter(i=>i.id!==x.id))}>REMOVE</button></div>)}</div>
+                <div className="panel"><div className="budget-head"><div><span>RULE ESTIMATE</span><b>{money(estimated)}</b></div><div><span>ACTUAL SPEND</span><b>{money(actual)}</b></div></div><details className="inline-editor"><summary>Record actual spending</summary><div className="form-grid"><label className="field"><span>Purchase</span><input value={spendLabel} onChange={e=>setSpendLabel(e.target.value)}/></label><label className="field"><span>Amount paid</span><input type="number" min="0" step="0.01" value={spendAmount} onChange={e=>setSpendAmount(e.target.value)}/></label></div><button className="save-recipe-button" onClick={()=>{if(!spendLabel.trim()||!Number.isFinite(Number(spendAmount))||Number(spendAmount)<0)return;update('actualSpend',[...s.actualSpend,{id:uid('spend'),label:spendLabel,amount:Number(spendAmount)}]);setSpendLabel('');setSpendAmount('');}}>ADD PURCHASE</button></details>{s.actualSpend.map(x=><div className="budget-line" key={x.id}><span>{x.label}</span><b>{money(x.amount)}</b><button aria-label={`Remove purchase ${x.label}`} onClick={()=>update('actualSpend',s.actualSpend.filter(i=>i.id!==x.id))}>REMOVE</button></div>)}</div>
                 <div className="budget-head">
                   <div>
                     <span className="eyebrow">TOTAL BUDGET</span>

@@ -40,7 +40,7 @@
 .recipe-added{display:inline-flex;align-items:center;gap:6px}
 .recipe-remove-button{min-height:44px;padding:8px 0;border:0;background:transparent;text-decoration:underline;text-underline-offset:4px}
 .menu-dish-selection{grid-area:selection;border-top:1px solid #ffffff20;padding-top:6px;min-width:0}
-.menu-support{display:grid;gap:28px}
+.menu-support{display:grid;gap:20px}
 .menu-totals{display:grid;gap:20px;padding:24px;background:var(--menu-glass);border:1px solid #ffffff30;border-radius:18px;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
 .menu-totals button{position:relative;display:grid;gap:8px;width:100%;min-height:64px;padding:0 26px 16px 0;text-align:left;background:transparent;border:0;border-bottom:1px solid #ffffff26}
 .menu-totals button svg{position:absolute;right:0;top:20px}
@@ -48,7 +48,7 @@
 .menu-gaps{border-top:1px solid #ffffff26;padding:0 4px}.menu-gaps>summary{display:flex;justify-content:space-between;gap:12px;align-items:center;min-height:64px;cursor:pointer;list-style:none}.menu-gaps>summary::-webkit-details-marker{display:none}.menu-gaps>summary::after{content:'+'}.menu-gaps[open]>summary::after{content:'−'}
 .menu-check-content{padding-bottom:20px}.menu-gap{display:flex;gap:12px;padding:16px 0;border-top:1px solid #ffffff18}.menu-gap>span{flex:none}.menu-gaps .allergy-note{margin:20px 0 0}
 .menu-owner-note{margin:24px 0 0;max-width:60ch}
-.menu-library-entry{padding:24px;background:var(--menu-glass);border:1px solid #ffffff30;border-radius:18px;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+.menu-library-entry{padding:20px;background:var(--menu-glass);border:1px solid #ffffff30;border-radius:18px;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
 .menu-library-entry h2{margin:12px 0}.menu-library-entry p{margin:12px 0;max-width:40ch}.menu-library-entry button{width:100%;margin-top:24px}
 .collection-description{max-width:48ch;margin:0 0 28px}
 .library-recipe-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
@@ -83,7 +83,7 @@
  .planning-active .menu-studio .menu-actions button{justify-content:center}
  .menu-collection-heading{gap:12px;margin-bottom:12px}
  .menu-categories{gap:20px;margin-bottom:24px}
- .menu-dish{grid-template-columns:72px minmax(0,1fr);grid-template-areas:'photo copy' 'recipe recipe' 'settings settings' 'selection selection';padding:18px;gap:16px}
+ .menu-dish{grid-template-columns:72px minmax(0,1fr);grid-template-areas:'photo copy' 'recipe recipe' 'settings settings' 'selection selection';padding:18px;gap:12px}
  .menu-dish-photo{width:72px;height:96px}
  .menu-dish-recipe svg{display:none}
  .menu-dish-settings{margin-top:-8px}

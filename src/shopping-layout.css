@@ -1,9 +1,9 @@
 /* Shopping is one translucent reading sheet, with real row edit controls. */
 .planning-active .shopping-workspace .shopping-layout{display:block}
 .planning-active .shopping-workspace .shopping-list-panel{padding:28px 32px 36px;border-radius:22px;background:linear-gradient(135deg,#ffffff80,#ffffff40),#e5e5e51a!important;border:1px solid #ffffff99!important;backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);box-shadow:inset 0 1px 0 #ffffff80,0 20px 60px #0002}
-.shopping-plan-note{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin:0 0 24px}
+.shopping-plan-note{display:flex;align-items:center;gap:8px 18px;flex-wrap:wrap;margin:0 0 16px}
 .shopping-plan-note button{min-height:44px}
-.shopping-list-toolbar{display:flex;justify-content:space-between;align-items:end;gap:24px;margin:0 0 24px}
+.shopping-list-toolbar{display:flex;justify-content:space-between;align-items:end;gap:16px;margin:0 0 16px}
 .shopping-list-toolbar p{margin:10px 0 0}
 .shopping-list-filters{display:flex;gap:4px;padding:4px;border:1px solid #ffffff50;border-radius:24px;background:#08080880;backdrop-filter:blur(16px)}
 .shopping-list-filters button{min-height:44px;padding:10px 16px;border:0;border-radius:20px;background:transparent}

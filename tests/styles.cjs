@@ -93,10 +93,10 @@ for(const width of [320,375,390,560,650,767]){
  assert.equal(value(menuActions.firstElementChild,'color',width),'#f1f1f1','dark menu controls must have light text');
  assert.equal(value(libraryCard.querySelector('button'),'color',width),'#f1f1f1');
  assert.equal(value(q('.menu-dish-title'),'letter-spacing',width),'.045em');
- assert.equal(value(prep,'gap',width),'10px');
- assert.equal(value(categories,'gap',width),'24px');
- assert.equal(value(prep.firstElementChild,'border-radius',width),'18px');
- assert.equal(value(prep.firstElementChild,'background',width),'rgba(29,27,27,.72)');
+ assert.equal(value(prep,'gap',width),'12px');
+ assert.equal(value(categories,'gap',width),'16px');
+ assert.equal(value(prep.firstElementChild,'border-radius',width),'0');
+ assert.equal(value(prep.firstElementChild,'background',width),'transparent');
  assert.notEqual(value(nestedSummary,'background',width),'transparent');
  assert.notEqual(value(nestedSummary,'border-radius',width),'0');
  assert.equal(value(q('.menu-studio'),'width',width),'calc(100% - 32px)');

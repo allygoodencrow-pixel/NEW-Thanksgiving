@@ -186,14 +186,14 @@ body :where(.page-home:not(.planning-active)) :is(.eyebrow,.input-kicker,.nav-ph
 .planning-active :is(.panel>summary,.shopping-support summary,.shopping-support-row>summary){font-family:var(--font-body);font-size:var(--type-control);font-weight:300;line-height:1.5;letter-spacing:.12em;text-transform:uppercase}
 .planning-active :is(input,select,textarea){font-family:var(--font-body);font-size:var(--type-body);font-weight:300;line-height:1.4;color:var(--text-primary);caret-color:var(--text-primary)}
 .planning-active :is(input,textarea)::placeholder{color:var(--text-muted);-webkit-text-fill-color:currentColor;opacity:1}
-.planning-active :is(.stat-row b,.budget-head b,.shopping-summary-strip b,.chair-logic b,.shopping-list-toolbar p b){font-family:var(--font-display);font-size:21px;font-weight:100;line-height:1.25;letter-spacing:0}
+.planning-active :is(.stat-row b,.budget-head b,.shopping-summary-strip b,.chair-logic b,.room-math b,.shopping-list-toolbar p b){font-family:var(--font-display);font-size:21px;font-weight:100;line-height:1.25;letter-spacing:0}
 .planning-active :is(.shopping-row-quantity,.reader-ingredients b,.recipe-facts dd,.qty-stepper b){font-family:var(--font-body);font-size:var(--type-body);font-weight:300;font-variant-numeric:tabular-nums;line-height:1.5;color:var(--text-primary)}
 .planning-active .recipe-source-label{font-size:var(--type-label);color:var(--text-muted)}
 .planning-active .reference-menu .menu-dish-fields label{font-family:var(--font-body);font-size:var(--type-label);font-weight:300;color:var(--text-muted)}
 .planning-active .recipe-section-heading h3{font-size:var(--type-heading)}
 .planning-active .reader-method li{line-height:1.8}
 .planning-active .reader-method li::before{font-family:var(--font-body);font-size:var(--type-label);line-height:2.3;color:var(--text-muted)}
-.planning-active :is(.add-dish-action,.save-recipe-button,.mini-toggle,.recipe-reader-actions .recipe-plan-action){background:var(--text-primary);color:var(--text-on-fill)}
+.planning-active :is(.add-dish-action,.save-recipe-button,.mini-toggle,.recipe-reader-actions .recipe-plan-action){color:#f1f1f1}
 .planning-active :is(.filter-chip.active,.shopping-list-filters button[aria-pressed=true]){background:var(--text-primary);color:var(--text-on-fill)}
 .planning-active .shop-item.completed .check-circle{background:var(--text-primary);color:var(--text-on-fill)}
 .planning-active :is(.recipe-section-heading>span,.shopping-support summary span){font-size:var(--type-label);color:var(--text-muted)}
