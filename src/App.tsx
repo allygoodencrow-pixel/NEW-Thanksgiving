@@ -2801,7 +2801,7 @@ C | C
                 >
                   Add a name, choose their RSVP, then open details for dietary needs or what they’re bringing.
                 </Section>
-                <section className="panel glass-light guest-entry" aria-label="Add a guest"><span className="eyebrow">ADD A GUEST</span>
+                <section className="panel guest-entry" aria-label="Add a guest"><span className="eyebrow">ADD A GUEST</span>
                   <div className="guest-add">
                     <input
                       aria-label="New guest name" placeholder="Add a guest name"
@@ -2992,7 +2992,7 @@ C | C
               </div>
             )}
             {tab === 'BUDGET' && (
-              <div className="content">{plan.unpricedRecipes.length>0&&<div className="recipe-integrity-notice" role="status"><b>Budget incomplete: ingredient prices needed</b><p>Enter unit prices below for {plan.unpricedRecipes.map(d=>d.name).join(' · ')}. These recipes currently contribute no assumed ingredient prices.</p></div>}
+              <div className="content">{plan.unpricedRecipes.length>0&&<details className="recipe-integrity-notice" role="status"><summary>Ingredient prices needed · {plan.unpricedRecipes.length} recipes</summary><p>Enter unit prices below for {plan.unpricedRecipes.map(d=>d.name).join(' · ')}. These recipes currently contribute no assumed ingredient prices.</p></details>}
                 <Section eyebrow="BUDGET / SPEND" title="Your budget">
                   A clear estimate that changes as the plan changes.
                 </Section>
@@ -3070,10 +3070,10 @@ C | C
             {tab === 'PRINTABLES' && (
               <div className="content">
                 <Section eyebrow="09 / THE FINISHING TOUCHES" title="Printables">
-                  Browse the complete collection by printable type. Original designs are ready to download; personalized items below use your plan.
+                  Browse the complete collection by printable type. Original designs are ready to download; personalized items below use your plan. Print at 100% / actual size. The complete PDF includes full-quality artwork and cutting guides.
                 </Section>
                 <div className="panel printable-collection-intro">
-                  <p>76 original design sheets · Print at 100% / actual size. Download the PDF for full-quality artwork and cutting guides.</p>
+                  <p>76 original designs · Print at actual size.</p>
                   <a className="text-link" href="/resources/printables/collection/thanksgiving-collection.pdf" download="Crow-Crown-Thanksgiving-Collection.pdf">DOWNLOAD THE COMPLETE COLLECTION <ArrowRight size={16} /></a>
                 </div>
                 <details className="panel glass-light"><summary>Print + staging checklist</summary><p>Print menus after dishes are confirmed. Place cards use guest names. Dish labels should show the actual dish and ingredient-checked allergens.</p><CheckRow id="guide-print-menu">Confirm the menu before printing</CheckRow><CheckRow id="guide-print-labels">Check ingredients before adding dietary labels</CheckRow><CheckRow id="guide-print-leftovers">Prepare leftover labels with dish, packed date/time and relevant allergens</CheckRow><CheckRow id="guide-print-run-sheet">Keep the kitchen run sheet private for the host and helpers</CheckRow></details>

@@ -434,3 +434,5 @@ Live narrow-width review identified two additional conflicts: a high-specificity
 
 ## October 7 — app-wide restraint
 Shared planning headers now keep instructional prose behind a How it works disclosure; menu counts remain visible. Guided progress has one step indicator and next action without repeated save/navigation copy or a surrounding box. Menu's outer nested frame and decorative header photo are removed; actual recipe photos remain. All planning surfaces use intrinsic height, compact shared header spacing and 20px desktop / 16px phone internal padding. Guest entry is an unboxed action row; Prep's photo is a restrained strip. Home and the sole typography owner are untouched. Review every route, not only Menu.
+
+Live all-page review found grid gaps doubling field margins, an expanded Budget notice preceding the title, and light-sheet text inheriting into the unboxed guest input. Field margins are removed inside grids, Budget keeps a concise closed price disclosure, and guest entry no longer inherits light-sheet text. Printable download instructions move into the page guide; the collection action is unboxed. Party-Day is a mode button, not a hash route.

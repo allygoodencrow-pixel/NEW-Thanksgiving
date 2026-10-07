@@ -148,3 +148,11 @@ input,select,textarea{max-width:100%;box-sizing:border-box}
  .planning-active .main .section-image{height:112px;margin-bottom:16px}
  .planning-active .main>.guided-workflow{padding:0;min-height:44px}
 }
+
+/* Grids own the space between fields; avoid doubled label margins. */
+.planning-active .main .form-grid>.field{margin-bottom:0}
+.planning-active .main .recipe-integrity-notice:not([open]){padding:0;background:transparent;border:0;margin-bottom:16px}
+.planning-active .main .recipe-integrity-notice>summary{min-height:44px;display:flex;align-items:center;gap:8px;cursor:pointer}
+.planning-active .main .recipe-integrity-notice>summary::after{content:'+'}
+.planning-active .main .recipe-integrity-notice[open]>summary::after{content:'−'}
+.planning-active .main .printable-collection-intro{padding:0;background:transparent;border:0;backdrop-filter:none}
