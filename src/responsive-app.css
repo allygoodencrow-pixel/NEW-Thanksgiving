@@ -166,3 +166,4 @@ input,select,textarea{max-width:100%;box-sizing:border-box}
 .planning-active .main .budget-head b{margin:8px 0 0}
 .planning-active .main .activity-plan-actions{margin:12px 0;gap:12px}
 .planning-active .main .guest-list-heading{margin-bottom:12px}
+.planning-active .main .toggle-field .pill:is(.active,:hover){background:rgba(12,12,12,.66);border-color:rgba(255,255,255,.45)}
