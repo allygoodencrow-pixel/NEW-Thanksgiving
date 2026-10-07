@@ -2710,9 +2710,7 @@ C | C
                 </Section>
                 <details className="panel glass-light advance-guide"><summary>Before the day · planning calendar</summary><p>These are advance planning windows. The timed run below uses your actual dinner hour and selected dishes.</p>{advanceWindows.map((window,i)=><section key={window.when}><h3>{window.when}</h3>{window.tasks.map((task,j)=><CheckRow key={task} id={`guide-advance-${i}-${j}`}>{task}</CheckRow>)}</section>)}<div className="guide-source-links">{guideLinks.map(link=><a key={link.url} href={link.url} target="_blank" rel="noreferrer">{link.label} →</a>)}</div></details>
                 <div className="panel input-panel">
-                  <span className="input-kicker">YOUR INPUT</span>
-                  <span className="eyebrow">ADD ANYTHING TO THE DAY</span>
-                  <h2>One schedule for food, people, activities + house tasks.</h2>
+                  <h2>Add to timeline</h2>
                   <div className="form-grid">
                     <label className="field">
                       <span>What happens</span>
