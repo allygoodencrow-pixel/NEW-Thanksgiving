@@ -1530,7 +1530,7 @@ function App({seed, storageKey = 'cc-thanksgiving-v4', onPlanChange, onAccount, 
     if(removing) delete menuPlan[id]; else if(!menuPlan[id]) menuPlan[id]={owner:'Host',status:'Confirmed',preparation:(/purchased|outsourc/i.test(v.cook))?'Purchased':'Homemade'};
     return reconcileState({...v,menuPlan,selections:removing?v.selections.filter(x=>x!==id):[...v.selections,id]},dishes);
   });
-  const recipeMenuAction = (d:Dish) => <div className="recipe-selection" data-included={s.selections.includes(d.id)}>{s.selections.includes(d.id) ? <><span className="recipe-added" role="status"><Check size={16}/> In your menu</span><button className="recipe-remove-button" onClick={()=>toggleSelection(d.id)}>Remove from menu</button></> : <button className="recipe-add-button" onClick={()=>toggleSelection(d.id)}><Plus size={17}/> Add to menu</button>}</div>;
+  const recipeMenuAction = (d:Dish, compact = false) => <div className="recipe-selection" data-included={s.selections.includes(d.id)}>{s.selections.includes(d.id) ? <>{!compact && <span className="recipe-added" role="status"><Check size={16}/> In your menu</span>}<button className="recipe-remove-button" aria-label="Remove from menu" onClick={()=>toggleSelection(d.id)}>{compact ? 'Remove' : 'Remove from menu'}</button></> : <button className="recipe-add-button" onClick={()=>toggleSelection(d.id)}><Plus size={17}/> Add to menu</button>}</div>;
   const navigate = (t: string, section?: string) => {
     if(t !== 'HOME') setPrimarySection(section || (primaryDestinations.find(g => g.label === primarySection && g.items.some(i => i.tab === t)) || primaryDestinations.find(g => g.items.some(i => i.tab === t)))?.label || 'PLAN');
     const nextHash='#'+t.toLowerCase().replace(/ /g,'-');
@@ -2107,18 +2107,21 @@ C | C
                   </div>
                 )}
                 {menuView==='browse' && <section className="recipe-browser" aria-label="Recipe library">
-                  <p className="collection-description">Browse every dish here. Only dishes marked “In your menu” are included in your plan. Add a dish to update shopping and prep.</p>
+                  <p className="collection-description">Choose your dishes. Shopping and prep update with your menu.</p>
                   <div className="library-recipe-grid">{allDishes.map(d=><article className="library-recipe-card" key={d.id}>
                     <img className="library-recipe-photo" src={d.image || dishThumb[d.id] || asset.tableLight} alt={d.name} loading="lazy" decoding="async" width={960} height={960}/>
                     <div className="library-recipe-copy">
-                      <span className="eyebrow">{d.group}{d.source ? ` · ${d.source}` : ''}</span><h3>{d.name}</h3>
-                      <p>{d.sourceYield ? `Original yield: ${d.sourceYield} · ` : ''}{d.minutes} min</p>
-                      {!d.recipeVerified&&<span className="recipe-completeness">{d.servingPlan?'SERVING PLAN':recipeReady(d)?'YOUR SAVED RECIPE':'INCOMPLETE RECIPE'}</span>}
-                      {d.rating&&<p>{d.rating} · checked October 6, 2026</p>}
-                      <button className="library-view-recipe" onClick={()=>setOpenDish(d.id)}>Recipe & ingredients <ArrowRight size={14}/></button>
-                      {d.id.startsWith('custom-')&&<button className="remove-recipe-link" onClick={()=>setS(v=>reconcileState({...v,customRecipes:v.customRecipes.filter(r=>r.id!==d.id),selections:v.selections.filter(id=>id!==d.id)},dishes))}>Remove saved recipe</button>}
-                      {recipeMenuAction(d)}
+                      <div className="library-recipe-kicker"><span className="eyebrow">{d.group}</span>{s.selections.includes(d.id)&&<span className="library-menu-status" role="status"><Check size={12}/> In your menu</span>}</div>
+                      <h3>{d.name}</h3>
+                      <p className="library-recipe-facts">{d.minutes} min{d.serves ? ` · ${d.serves} base servings` : ''}</p>
+                      <p className="library-recipe-source">{d.source || (d.servingPlan ? 'Serving plan' : 'Your recipe')}</p>
+                      {!d.recipeVerified&&!d.servingPlan&&!recipeReady(d)&&<span className="recipe-completeness">INCOMPLETE RECIPE</span>}
                     </div>
+                    <div className="library-recipe-actions">
+                      <button className="library-view-recipe" aria-label="Recipe & ingredients" onClick={()=>setOpenDish(d.id)}>View recipe <ArrowRight size={14}/></button>
+                      {recipeMenuAction(d,true)}
+                    </div>
+                    {d.id.startsWith('custom-')&&<button className="remove-recipe-link" onClick={()=>setS(v=>reconcileState({...v,customRecipes:v.customRecipes.filter(r=>r.id!==d.id),selections:v.selections.filter(id=>id!==d.id)},dishes))}>Remove saved recipe</button>}
                   </article>)}</div>
                 </section>}
               </div>

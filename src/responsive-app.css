@@ -50,8 +50,8 @@ input,select,textarea{max-width:100%;box-sizing:border-box}
  .planning-active .reference-menu .dish-assignment-fields{grid-template-columns:repeat(2,minmax(0,1fr))}
 
  .planning-active .main .page-head{display:block}
- .planning-active .main .page-head>div:first-child{display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,.8fr);gap:8px 48px;align-items:end}
- .planning-active .main .page-head .eyebrow{grid-column:1}.planning-active .main .page-head h1{grid-column:1}.planning-active .main .page-head p{grid-column:2;grid-row:1/4}
+ .planning-active .main .page-head>div:first-child{display:block;max-width:640px}
+ .planning-active .main .page-head p{max-width:52ch;margin:12px 0 0}
  .planning-active .main :is(.two-col,.guided-prep-grid,.timeline-layout,.table-planner-grid){grid-template-columns:minmax(0,1.4fr) minmax(300px,1fr);gap:32px}
  .planning-active .main .experience-grid,.planning-active .main .print-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
  .planning-active .reference-menu .dish-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 32px}
@@ -116,7 +116,7 @@ input,select,textarea{max-width:100%;box-sizing:border-box}
  .planning-active .main .paper{height:auto;min-height:220px;gap:12px;padding:20px}
  .planning-active .main .paper :is(h3,p){margin:0;max-height:none;overflow:visible;overflow-wrap:anywhere}
  .planning-active .main .paper small{margin-top:12px}
- .planning-active .main :is(h1,h2,h3,h4,.printable-category-copy,.menu-dish-copy,.library-recipe-copy){overflow-wrap:anywhere;min-width:0}
+ .planning-active .main :is(h1,h2,h3,h4,.printable-category-copy,.menu-dish-copy,.library-recipe-copy){overflow-wrap:break-word;min-width:0}
  .planning-active .main .recipe-library-toolbar{position:static;flex-wrap:wrap}
  .planning-active .main .recipe-library-toolbar>div{min-width:0;flex:1 1 180px}
  .planning-active .main .recipe-library-toolbar>button{white-space:normal;flex:none}

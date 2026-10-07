@@ -421,3 +421,11 @@ Previous recipe correction 2e92e939 was verified READY as dpl_7HPUELGvQUsjnYRQW7
 
 ## October 6 — Plan Menu and selected Menu navigation
 Owner requested Plan Menu with all recipes and a separate Menu tab. Home's menu destination and the guided drawer now open Plan Menu (#plan-menu), containing the entire recipe catalogue including personal recipes. Menu (#menu) is a distinct guided navigation destination containing only selected dishes, quantities and responsibility. Legacy #recipes links still open Plan Menu. The view derives from the active tab so reload, back and forward share one route state. Explicit Add/In your menu/Remove controls and existing shopping/prep scaling are retained. No CSS, font or photography changes. UI coverage verifies both drawer destinations, the 63-dish catalogue, synchronized add/remove controls and route reload/history.
+
+## October 7 — compact composition correction
+
+Home remains frozen. The earlier font-only adjustments did not resolve the owner's complaint. Menu and Plan Menu now use one consolidated composition sheet (`menu-studio.css`), lighter neutral glass borders, smaller photos, consistent spacing, and two actions per library card. Library cards show category, title, concise time/base-yield facts, publisher, and explicit selected status; detailed original yield, ratings and methods remain in the reader. All 63 dishes and planning mappings remain intact. Mobile uses a single column; desktop uses two catalogue columns and a selected-menu support column.
+
+Typography remains exclusively in `typography.css`: the shared card role is 14px phone / 16px desktop, below section headings, with Metropolis 200; large page titles retain Metropolis 100 and functional text retains Lato 300. Action tracking is reduced to .09em for cleaner wrapping. Do not stack new font overrides onto component styles. Desktop page descriptions now stay with their headings.
+
+`/resources/layout-review.html` is a noindex visual QA page embedding the real app at 320, 390 and 430 CSS pixels. It is not linked in customer navigation. Use it to inspect actual narrow rendered layouts when the review browser cannot resize; source cascade tests alone are insufficient. This is viewport review, not physical iOS device verification.
