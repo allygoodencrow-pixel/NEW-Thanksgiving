@@ -1553,7 +1553,7 @@ function App({seed, storageKey = 'cc-thanksgiving-v4', onPlanChange, onAccount, 
     const extra = extraTools.find(tool=>tool.tab===tab);
     const next = index>=0 ? planningSteps[index+1] : planningSteps.find(step=>step.tab===extra?.returnTab);
     return <section className="section-navigation guided-workflow" aria-label="Planning guide">
-      <div className="guided-step-copy"><span className="guided-step-label">{step ? `STEP ${index+1} OF ${planningSteps.length} · ${step.label}` : extra?.label}</span><small>Saved on this device · MENU opens every section.</small></div>
+      <div className="guided-step-copy"><span className="guided-step-label">{step ? `STEP ${index+1} / ${planningSteps.length}` : extra?.label}</span></div>
       {next && <button className="guided-next" onClick={()=>{navigate(next.tab,next.group);if(next.tab==='MENU')setMenuView('plan');}}>{step ? 'Next: ' : 'Return to '}{next.label} <span aria-hidden="true">→</span></button>}
     </section>;
   };
@@ -1562,17 +1562,19 @@ function App({seed, storageKey = 'cc-thanksgiving-v4', onPlanChange, onAccount, 
     title,
     children,
     aside,
+    compact = false,
   }: {
     eyebrow: string;
     title: string;
     children: React.ReactNode;
     aside?: React.ReactNode;
+    compact?: boolean;
   }) => (
     <div className="page-head">
       <div>
         <span className="eyebrow">{eyebrow}</span>
         <h1>{title}</h1>
-        <p>{children}</p>
+        {compact ? <p>{children}</p> : <details className="page-guide"><summary>How it works</summary><p>{children}</p></details>}
       </div>
       {aside}
     </div>
@@ -1824,7 +1826,7 @@ C | C
             {(tab === 'MENU' || tab === 'PLAN MENU') && (
               <div className="content reference-menu menu-studio">
                 <div className="menu-intro">
-                  <Section eyebrow={menuView==='plan'?"03 / MENU":"03 / ALL RECIPES"} title={menuView==='plan'?"YOUR MENU":"PLAN MENU"}>
+                  <Section compact eyebrow={menuView==='plan'?"03 / MENU":"03 / ALL RECIPES"} title={menuView==='plan'?"YOUR MENU":"PLAN MENU"}>
                     {menuView==='plan'?`${selected.length} dishes in your plan · quantities for ${planningCount}`:`${allDishes.length} dishes to explore · ${selected.length} in your menu`}
                   </Section>
                   <div className="kitchen-reference" role="img" aria-label="Neutral marble kitchen with dark cabinets and natural daylight" />
@@ -2925,7 +2927,7 @@ C | C
             )}
             {tab === 'EXPERIENCE' && (
               <div className="content">
-                <Section eyebrow="ACTIVITIES" title="A little more to the night">
+                <Section eyebrow="ACTIVITIES" title="Activities">
                   Choose a game, a conversation or something for the kids. Open an activity for the instructions and print sheet.
                 </Section>
                 <div className="panel glass-light activity-plan">
@@ -3067,7 +3069,7 @@ C | C
             )}
             {tab === 'PRINTABLES' && (
               <div className="content">
-                <Section eyebrow="09 / THE FINISHING TOUCHES" title="Print only what helps">
+                <Section eyebrow="09 / THE FINISHING TOUCHES" title="Printables">
                   Browse the complete collection by printable type. Original designs are ready to download; personalized items below use your plan.
                 </Section>
                 <div className="panel printable-collection-intro">

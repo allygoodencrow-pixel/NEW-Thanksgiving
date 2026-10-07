@@ -58,6 +58,8 @@ const disclosure=doc.createElement('details');disclosure.className='panel';discl
 for(const page of ['plan','guests','menu','shopping','prep','timeline','experiences','tables','budget','printables']){
  q('.shell').className=`shell reference-shell planning-active page-${page}`;
  for(const width of [375,390,650,767,768,1100]){
+  assert.equal(value(q('.page-head'),'min-height',width),'0',`${page} must not retain fixed header height`);
+  assert.equal(value(q('.page-head'),'padding',width),'0',`${page} has no padded header box`);
   assert.equal(value(q('.page-head h1'),'font-size',width),width<768?'24px':'28px',`${page} title at ${width}`);
   assert.equal(value(q('.sidebar nav'),'flex',width),'0 0 auto',`${page} drawer must occupy its content height`);
   assert.equal(value(q('.sidebar nav'),'min-height',width),'auto');
@@ -97,9 +99,9 @@ for(const width of [320,375,390,560,650,767]){
  assert.equal(value(prep.firstElementChild,'background',width),'rgba(29,27,27,.72)');
  assert.notEqual(value(nestedSummary,'background',width),'transparent');
  assert.notEqual(value(nestedSummary,'border-radius',width),'0');
- assert.equal(value(q('.menu-studio'),'width',width),'calc(100% - 24px)');
- assert.equal(value(q('.menu-studio'),'border-radius',width),'22px');
- assert.equal(value(q('.menu-studio'),'background',width),'#10101030');
+ assert.equal(value(q('.menu-studio'),'width',width),'calc(100% - 32px)');
+ assert.equal(value(q('.menu-studio'),'border-radius',width),'0');
+ assert.equal(value(q('.menu-studio'),'background',width),'transparent');
  assert.equal(value(nestedSummary.querySelector('p'),'text-transform',width),'none','summary descriptions must not inherit uppercase utility styling');
  assert.equal(value(nestedSummary.querySelector('p'),'letter-spacing',width),'0','summary descriptions must not inherit action tracking');
  assert.equal(value(nestedSummary.querySelector('.eyebrow'),'text-transform',width),'uppercase');
