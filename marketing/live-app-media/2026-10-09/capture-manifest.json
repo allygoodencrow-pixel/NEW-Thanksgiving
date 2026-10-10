@@ -1,0 +1,79 @@
+{
+  "source": "https://thanksgiving.thecrowandcrown.com/",
+  "captured_at": "2026-10-10T01:44:41.270Z",
+  "screens": [
+    {
+      "section": "home",
+      "url": "https://thanksgiving.thecrowandcrown.com/",
+      "httpStatus": 200,
+      "title": "CROW & CROWN | Thanksgiving at Home"
+    },
+    {
+      "section": "party-plan",
+      "url": "https://thanksgiving.thecrowandcrown.com/#party-plan",
+      "httpStatus": 200,
+      "title": "CROW & CROWN | Thanksgiving at Home"
+    },
+    {
+      "section": "guests",
+      "url": "https://thanksgiving.thecrowandcrown.com/#guests",
+      "httpStatus": 200,
+      "title": "CROW & CROWN | Thanksgiving at Home"
+    },
+    {
+      "section": "plan-menu",
+      "url": "https://thanksgiving.thecrowandcrown.com/#plan-menu",
+      "httpStatus": 200,
+      "title": "CROW & CROWN | Thanksgiving at Home"
+    },
+    {
+      "section": "menu",
+      "url": "https://thanksgiving.thecrowandcrown.com/#menu",
+      "httpStatus": 200,
+      "title": "CROW & CROWN | Thanksgiving at Home"
+    },
+    {
+      "section": "shopping",
+      "url": "https://thanksgiving.thecrowandcrown.com/#shopping",
+      "httpStatus": 200,
+      "title": "CROW & CROWN | Thanksgiving at Home"
+    },
+    {
+      "section": "prep",
+      "url": "https://thanksgiving.thecrowandcrown.com/#prep",
+      "httpStatus": 200,
+      "title": "CROW & CROWN | Thanksgiving at Home"
+    },
+    {
+      "section": "timeline",
+      "url": "https://thanksgiving.thecrowandcrown.com/#timeline",
+      "httpStatus": 200,
+      "title": "CROW & CROWN | Thanksgiving at Home"
+    },
+    {
+      "section": "activities",
+      "url": "https://thanksgiving.thecrowandcrown.com/#activities",
+      "httpStatus": 200,
+      "title": "CROW & CROWN | Thanksgiving at Home"
+    },
+    {
+      "section": "seating",
+      "url": "https://thanksgiving.thecrowandcrown.com/#seating",
+      "httpStatus": 200,
+      "title": "CROW & CROWN | Thanksgiving at Home"
+    },
+    {
+      "section": "budget",
+      "url": "https://thanksgiving.thecrowandcrown.com/#budget",
+      "httpStatus": 200,
+      "title": "CROW & CROWN | Thanksgiving at Home"
+    },
+    {
+      "section": "printables",
+      "url": "https://thanksgiving.thecrowandcrown.com/#printables",
+      "httpStatus": 200,
+      "title": "CROW & CROWN | Thanksgiving at Home"
+    }
+  ],
+  "method": "real browser-rendered screenshots; no AI"
+}
