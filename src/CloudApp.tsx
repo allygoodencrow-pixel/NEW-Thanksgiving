@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState, type FormEvent } from 'react';
 import type { Session } from '@supabase/supabase-js';
 import App, { initial, type State } from './App';
-import { cacheKey, createParty, initialAuthSetupIntent, listParties, PartySaver, readAuthSetupIntent, recoveryKey, retainRecovery, supabase, type AuthSetupIntent, type Party, type SaveStatus } from './cloud';
+import { cacheKey, createParty, hasPaidAccess, loadPrintable, initialAuthSetupIntent, listParties, PartySaver, readAuthSetupIntent, recoveryKey, retainRecovery, supabase, type AuthSetupIntent, type Party, type SaveStatus } from './cloud';
 
 // Suggested menu/setup is retained, but example guests must not become customer data.
 const newPartyState: State = {...initial, guests: [], seating: {}, menuPlan: {}, menuOwners: {}, planningMode: 'Estimated'};
@@ -14,6 +14,9 @@ function downloadBackup(state: State) {
 
 export default function CloudApp() {
   const [session, setSession] = useState<Session | null | undefined>(undefined);
+  const [access,setAccess]=useState<{user:string;paid:boolean}|null>(null);
+  const [accessError,setAccessError]=useState('');
+  const [accessRefresh,setAccessRefresh]=useState(0);
   const [parties, setParties] = useState<Party[]>([]);
   const [active, setActive] = useState<Party | null>(null);
   const [epoch, setEpoch] = useState(0);
@@ -34,6 +37,8 @@ export default function CloudApp() {
   const generation = useRef(0);
   const accountDialog = useRef<HTMLElement>(null);
   const userId = session?.user.id;
+  const paid=Boolean(userId&&access?.user===userId&&access.paid);
+  const checkingAccess=Boolean(userId&&(!access||access.user!==userId)&&!accessError);
   const recovery = setupIntent === 'recovery';
   const inviteSetup = setupIntent === 'invite';
   const passwordSetup = Boolean(session && setupIntent);
@@ -68,11 +73,24 @@ export default function CloudApp() {
     window.history.replaceState(null, '', `${url.pathname}${url.search}${url.hash}`);
   }, [session?.user.id, setupIntent]);
 
+  useEffect(()=>{
+    let current=true;
+    setAccess(null);setAccessError('');
+    if(!userId)return;
+    const check=async()=>{
+      try{const allowed=await hasPaidAccess(userId);if(current){setAccess({user:userId,paid:allowed});setAccessError('');}}
+      catch{if(current){setAccess(null);setAccessError('Your purchase access could not be checked. Please retry.');}}
+    };
+    void check();window.addEventListener('focus',check);
+    const interval=window.setInterval(check,60000);
+    return ()=>{current=false;window.removeEventListener('focus',check);window.clearInterval(interval);};
+  },[userId,accessRefresh]);
+
   useEffect(() => {
     const token = ++generation.current;
     saver.current?.stop(); saver.current = null;
     setActive(null); setParties([]); setError(''); setHasBackup(false);
-    if (!userId) {setLoading(false); return;}
+    if (!userId || !paid) {setLoading(false); return;}
     setLoading(true);
     void listParties(userId).then(rows => {
       if (generation.current !== token) return;
@@ -83,10 +101,10 @@ export default function CloudApp() {
       if (generation.current === token) {setError('Your saved parties could not be loaded. Retry before editing.'); setAccountOpen(true);}
     }).finally(() => {if (generation.current === token) setLoading(false);});
     return () => {generation.current++; saver.current?.stop();};
-  }, [userId, activate]);
+  }, [userId, paid, activate]);
 
   useEffect(() => {
-    if (!userId || !active) return;
+    if (!userId || !paid || !active) return;
     const refresh = async () => {
       const current = saver.current;
       if (!current || current.dirty) return;
@@ -107,16 +125,16 @@ export default function CloudApp() {
     };
     window.addEventListener('beforeunload', preventLoss);
     return () => {window.removeEventListener('focus', refresh); window.removeEventListener('online', onOnline); window.removeEventListener('beforeunload', preventLoss);};
-  }, [userId, active?.id, activate]);
+  }, [userId, paid, active?.id, activate]);
 
   const onPlanChange = useCallback((state: State) => {
     latest.current = state;
     // A signed-out/device render must never enter the previous account's queue.
-    if (userId && saver.current?.party.user_id === userId && saver.current.party.id === active?.id) saver.current.enqueue(state);
-  }, [userId, active?.id]);
+    if (paid && userId && saver.current?.party.user_id === userId && saver.current.party.id === active?.id) saver.current.enqueue(state);
+  }, [userId, paid, active?.id]);
   const showAccount = useCallback(() => {setAccountOpen(true);}, []);
   const mustChooseParty = Boolean(session && !active);
-  const showDialog = accountOpen || mustChooseParty || session === undefined || Boolean(setupIntent);
+  const showDialog = !paid || accountOpen || mustChooseParty || session === undefined || Boolean(setupIntent);
 
   useEffect(() => {
     if (!showDialog) return;
@@ -124,7 +142,7 @@ export default function CloudApp() {
     const overflow = document.body.style.overflow; document.body.style.overflow = 'hidden';
     accountDialog.current?.querySelector<HTMLElement>('input,button')?.focus();
     const handleKeys = (event: KeyboardEvent) => {
-      if (event.key === 'Escape' && !mustChooseParty && !setupIntent && session !== undefined) setAccountOpen(false);
+      if (event.key === 'Escape' && paid && !mustChooseParty && !setupIntent && session !== undefined) setAccountOpen(false);
       if (event.key !== 'Tab') return;
       const controls = accountDialog.current?.querySelectorAll<HTMLElement>('button:not(:disabled),input:not(:disabled),a');
       if (!controls?.length) return;
@@ -162,7 +180,7 @@ export default function CloudApp() {
     });
   }
   async function addParty(state: State) {
-    if (!userId) return;
+    if (!userId || !paid) return;
     const token = generation.current;
     if (saver.current && !await saver.current.flush()) throw new Error('Save or download your current changes before switching parties.');
     const party = await createParty(userId, name.trim() || 'Thanksgiving at home', state);
@@ -170,7 +188,7 @@ export default function CloudApp() {
     setParties(rows => [party, ...rows]); activate(party); setAccountOpen(false);
   }
   async function switchParty(id: string) {
-    if (!userId) return;
+    if (!userId || !paid) return;
     const token = generation.current;
     if (saver.current && !await saver.current.flush()) throw new Error('Save or download your current changes before switching parties.');
     const rows = await listParties(userId);
@@ -187,15 +205,14 @@ export default function CloudApp() {
 
   return <>
     <div inert={showDialog}>
-      {session === null && <App key="device" onPlanChange={onPlanChange} onAccount={showAccount} />}
-      {session && active && !loading && active.user_id === userId && <App key={`${userId}:${active.id}:${epoch}`} seed={active.state}
-        storageKey={cacheKey(userId!, active.id)} onPlanChange={onPlanChange} onAccount={showAccount} saveStatus={saveStatus} />}
+      {paid && session && active && !loading && active.user_id === userId && <App key={`${userId}:${active.id}:${epoch}`} seed={active.state}
+        storageKey={cacheKey(userId!, active.id)} onPlanChange={onPlanChange} onAccount={showAccount} saveStatus={saveStatus} loadPrintable={loadPrintable} />}
     </div>
-    {session && active && !loading && saveStatus !== 'Saved to account' && <button className="cloud-status" onClick={showAccount} aria-live="polite">{saveStatus}</button>}
+    {paid && session && active && !loading && saveStatus !== 'Saved to account' && <button className="cloud-status" onClick={showAccount} aria-live="polite">{saveStatus}</button>}
     {showDialog && <div className="account-overlay"><section ref={accountDialog} className="account-sheet" role="dialog" aria-modal="true" aria-labelledby="account-title">
-      <header><span className="account-kicker">CROW & CROWN · AT HOME</span>{session !== undefined && !mustChooseParty && !setupIntent && <button aria-label="Close account" onClick={() => setAccountOpen(false)}>CLOSE ×</button>}</header>
-      <h2 id="account-title">{session === undefined ? 'Opening your account' : needsSetupLink ? 'Finish account setup' : recovery ? 'A new password' : inviteSetup ? 'Set your password' : session ? 'Your parties' : 'Make yourself at home'}</h2>
-      {session === undefined || (loading && !passwordSetup) ? <p role="status">Loading saved parties…</p> : <>
+      <header><span className="account-kicker">CROW & CROWN · AT HOME</span>{paid && session !== undefined && !mustChooseParty && !setupIntent && <button aria-label="Close account" onClick={() => setAccountOpen(false)}>CLOSE ×</button>}</header>
+      <h2 id="account-title">{session === undefined ? 'Opening your account' : needsSetupLink ? 'Finish account setup' : recovery ? 'A new password' : inviteSetup ? 'Set your password' : checkingAccess ? 'Checking your purchase' : session && !paid ? 'Your private app access' : session ? 'Your parties' : 'Make yourself at home'}</h2>
+      {session === undefined || ((loading || checkingAccess) && !passwordSetup) ? <p role="status">Loading saved parties…</p> : <>
         {error && <p role="alert" className="account-message">{error}</p>}
         {message && <p role="status" className="account-message">{message}</p>}
         {(!session || passwordSetup) && <>
@@ -213,9 +230,15 @@ export default function CloudApp() {
             } else setMode(mode === 'reset' ? 'signin' : 'reset');
             setError(''); setMessage('');
           }}>{needsSetupLink || mode === 'reset' ? 'BACK TO SIGN IN' : 'FORGOT PASSWORD?'}</button>}
-          {!session && !setupIntent && <button className="account-text-action" onClick={() => setAccountOpen(false)}>CONTINUE ON THIS DEVICE</button>}
+
         </>}
-        {session && !passwordSetup && <>
+        {session && !paid && !passwordSetup && <>
+          <p>{session.user.email}</p>
+          <p role="status">{accessError || 'This account does not yet have paid app access. After your Etsy purchase, check the email associated with your order for your personal setup link.'}</p>
+          <p>Check spam and promotions too. If you need help, message TheCrowandCrown on Etsy with your order number.</p>
+          <div className="account-actions"><button onClick={()=>setAccessRefresh(v=>v+1)}>CHECK ACCESS AGAIN</button><button disabled={busy} onClick={()=>void run(()=>signOut())}>SIGN OUT</button></div>
+        </>}
+        {session && paid && !passwordSetup && <>
           <p>{session.user.email}</p><p className="account-save-status" role="status">{active ? saveStatus : 'Choose a saved party or start a new one.'}</p>
           <button className="account-text-action" onClick={() => {setSetupIntent('invite'); setPassword(''); setError(''); setMessage('');}}>SET OR CHANGE PASSWORD</button>
           {active && saveStatus !== 'Saved to account' && <div className="account-actions"><button disabled={busy} onClick={() => void run(async () => {if (!await saver.current?.flush()) throw new Error('Save failed. Download a backup before reloading the saved party.');})}>RETRY SAVE</button><button onClick={() => downloadBackup(latest.current)}>DOWNLOAD BACKUP</button></div>}

@@ -107,3 +107,17 @@ export class PartySaver {
   }
   stop() {this.stopped = true; clearTimeout(this.timer);}
 }
+
+export async function hasPaidAccess(user: string): Promise<boolean> {
+ const {data,error}=await supabase.from('cc_access_grants').select('source_id').eq('user_id',user).eq('active',true);
+ if(error)throw error;
+ return Boolean(data?.length);
+}
+export async function loadPrintable(path: string): Promise<Blob> {
+ if(!/^(page-\d{2}\.(pdf|png)|thanksgiving-collection\.pdf)$/.test(path))throw new Error('Unknown printable');
+ const {data:{session}}=await supabase.auth.getSession();
+ if(!session)throw new Error('Sign in required');
+ const response=await fetch(`${supabaseUrl}/functions/v1/paid-printable`,{method:'POST',headers:{Authorization:`Bearer ${session.access_token}`,apikey:supabasePublishableKey,'Content-Type':'application/json'},body:JSON.stringify({path}),cache:'no-store'});
+ if(!response.ok)throw new Error('Paid printable unavailable');
+ return response.blob();
+}

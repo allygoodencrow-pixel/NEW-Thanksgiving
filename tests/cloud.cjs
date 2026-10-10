@@ -32,14 +32,15 @@ const deferred=()=>{let resolve,reject;const promise=new Promise((a,b)=>{resolve
  assert.notEqual(cloud.pendingKey('owner-a','party-a'),cloud.pendingKey('owner-b','party-a'));fresh.stop();localStorage.clear();
  console.log('PASS reload preserves unsaved recovery backup; account caches are isolated');
 
- let authListener,currentUser=null;const rows=[];let failLoad=false;let writes=[];
+ let authListener,currentUser=null;const rows=[];let failLoad=false;let writes=[];let paidUsers=new Set(["owner-a","owner-b"]);
  cloud.supabase.auth.onAuthStateChange=(fn)=>{authListener=fn;queueMicrotask(()=>fn('INITIAL_SESSION',null));return {data:{subscription:{unsubscribe(){}}}};};
  const session=id=>({user:{id,email:id+'@example.test'},access_token:'test',refresh_token:'test',expires_in:3600,token_type:'bearer'});
  cloud.supabase.auth.signInWithPassword=async()=>{currentUser='owner-a';const s=session(currentUser);authListener('SIGNED_IN',s);return {data:{session:s},error:null};};
  cloud.supabase.auth.signOut=async()=>{currentUser=null;authListener('SIGNED_OUT',null);return {error:null};};
- cloud.supabase.from=()=>{
+ cloud.supabase.from=(table)=>{
   let operation='select',filters=[],body;
   const query={select(){return query},eq(k,v){filters.push([k,v]);return query},order(){return query},insert(v){operation='insert';body=v;return query},update(v){operation='update';body=v;return query},single(){return query},maybeSingle(){return query},then(resolve,reject){return Promise.resolve().then(()=>{
+   if(table==='cc_access_grants')return {data:paidUsers.has(currentUser)?[{source_id:'test'}]:[],error:null};
    if(failLoad&&operation==='select')return {data:null,error:new Error('Unavailable')};
    if(operation==='select')return {data:rows.filter(p=>p.user_id===currentUser&&filters.every(([k,v])=>p[k]===v)).map(clone),error:null};
    if(operation==='insert'){const row={...body,id:'party-'+rows.length,revision:1,updated_at:new Date().toISOString()};rows.push(clone(row));return {data:clone(row),error:null};}
@@ -49,10 +50,13 @@ const deferred=()=>{let resolve,reject;const promise=new Promise((a,b)=>{resolve
  party.state.notes='Private account A';rows.push(clone(party));localStorage.setItem('cc-thanksgiving-v4',JSON.stringify({...initial,notes:'Device draft'}));
  const CloudApp=require('../.qa/cloud-app.cjs').default;
  render(React.createElement(CloudApp));
- await waitFor(()=>assert(screen.getByRole('button',{name:'Account and saved parties'})));
- fireEvent.click(screen.getByRole('button',{name:'Account and saved parties'}));
+ await waitFor(()=>assert(screen.getByLabelText('EMAIL')));
+ assert.equal(document.querySelector('.shell'),null,'Signed-out visitors cannot use the planner');
+ assert.equal(screen.queryByRole('button',{name:'CONTINUE ON THIS DEVICE'}),null);
  fireEvent.change(screen.getByLabelText('EMAIL'),{target:{value:'a@example.test'}});fireEvent.change(screen.getByLabelText('PASSWORD'),{target:{value:'correct-password'}});
  fireEvent.submit(screen.getByLabelText('EMAIL').closest('form'));
+ await waitFor(()=>assert(screen.getByRole('button',{name:'Account and saved parties'})),{timeout:5000});
+ fireEvent.click(screen.getByRole('button',{name:'Account and saved parties'}));
  await waitFor(()=>assert(screen.getByRole('button',{name:/A dinner/})),{timeout:5000});
  await waitFor(()=>assert.equal(JSON.parse(localStorage.getItem(cloud.cacheKey('owner-a','party-a')))?.notes,'Private account A'),{timeout:5000});
  assert.equal(JSON.parse(localStorage.getItem('cc-thanksgiving-v4')).notes,'Device draft');
@@ -143,6 +147,21 @@ const deferred=()=>{let resolve,reject;const promise=new Promise((a,b)=>{resolve
  assert.equal(document.querySelector('.shell').parentElement.getAttribute('inert'),'');
  cleanup();
  console.log('PASS authenticated account exposes password setup without changing saved parties');
+ currentUser='nonbuyer';window.history.replaceState(null,'','/');
+ render(React.createElement(CloudApp));
+ await waitFor(()=>assert(screen.getByText(/does not yet have paid app access/)));
+ assert.equal(document.querySelector('.shell'),null);
+ assert.equal(screen.queryByRole('button',{name:'START A NEW PARTY'}),null);
+ cleanup();
+ currentUser='owner-a';
+ render(React.createElement(CloudApp));
+ await waitFor(()=>assert(document.querySelector('.shell')));
+ paidUsers.delete('owner-a');
+ await act(async()=>{window.dispatchEvent(new window.Event('focus'));});
+ await waitFor(()=>assert(screen.getByText(/does not yet have paid app access/)));
+ assert.equal(document.querySelector('.shell'),null);
+ cleanup();
+ console.log('PASS anonymous visitors, nonbuyers and revoked accounts cannot open the planner');
  // Supabase opens a BroadcastChannel for browser tabs. No pending assertions remain.
  process.exit(0);
 })().catch(error=>{console.error(error);cleanup();cloud.supabase.auth.stopAutoRefresh();process.exit(1);});

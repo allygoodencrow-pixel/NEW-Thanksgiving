@@ -1,3 +1,4 @@
+import {PrivatePrintableImage,PrivatePrintableDownload,type PrintableLoader} from './PrivatePrintable';
 import { activities as activityLibrary, activityByName, activityPeople, activitySupplies, printActivity } from './activities';
 import { completeRecipe } from './completeRecipes';
 import { groupPrintables } from './printableCategories';
@@ -1263,9 +1264,10 @@ type AppProps = {
   onPlanChange?: (state: State) => void;
   onAccount?: () => void;
   saveStatus?: string;
+  loadPrintable?: PrintableLoader;
 };
 
-function App({seed, storageKey = 'cc-thanksgiving-v4', onPlanChange, onAccount, saveStatus}: AppProps = {}) {
+function App({seed, storageKey = 'cc-thanksgiving-v4', onPlanChange, onAccount, saveStatus, loadPrintable}: AppProps = {}) {
   const [loadResult] = useState(() => {
     try { const raw = seed === undefined ? localStorage.getItem(storageKey) || (storageKey === 'cc-thanksgiving-v4' ? localStorage.getItem('cc-thanksgiving-v3') || localStorage.getItem('cc-thanksgiving-v1') : null) : null;
       return {state: normalizeState(seed ?? (raw ? JSON.parse(raw) : initial), initial, dishes), error: ''};
@@ -3069,7 +3071,7 @@ C | C
                 </Section>
                 <div className="panel printable-collection-intro">
                   <p>76 original designs · Print at actual size.</p>
-                  <a className="text-link" href="/resources/printables/collection/thanksgiving-collection.pdf" download="Crow-Crown-Thanksgiving-Collection.pdf">DOWNLOAD THE COMPLETE COLLECTION <ArrowRight size={16} /></a>
+                  <PrivatePrintableDownload path="thanksgiving-collection.pdf" filename="Crow-Crown-Thanksgiving-Collection.pdf" load={loadPrintable}>DOWNLOAD THE COMPLETE COLLECTION</PrivatePrintableDownload>
                 </div>
                 <details className="panel glass-light"><summary>Print + staging checklist</summary><p>Print menus after dishes are confirmed. Place cards use guest names. Dish labels should show the actual dish and ingredient-checked allergens.</p><CheckRow id="guide-print-menu">Confirm the menu before printing</CheckRow><CheckRow id="guide-print-labels">Check ingredients before adding dietary labels</CheckRow><CheckRow id="guide-print-leftovers">Prepare leftover labels with dish, packed date/time and relevant allergens</CheckRow><CheckRow id="guide-print-run-sheet">Keep the kitchen run sheet private for the host and helpers</CheckRow></details>
                 <div className="printable-categories">
@@ -3087,10 +3089,10 @@ C | C
                       {category.designs.length > 0 && <div className="print-grid printable-design-grid">
                         {category.designs.map(item => (
                           <article className="print-card printable-design" key={item.page}>
-                            <img src={item.src} alt={`${item.name} · original sheet ${item.page}`} width={218} height={286} loading="lazy" decoding="async" />
+                            <PrivatePrintableImage path={item.src.split("/").pop()!} alt={`${item.name} · original sheet ${item.page}`} load={loadPrintable} />
                             <h3>{item.name}</h3>
                             <p className="fine">Collection sheet {item.page} · Original artwork</p>
-                            <a className="text-link" href={item.pdf} download={`Crow-Crown-${item.name.replace(/[^a-z0-9]+/gi,'-')}-${item.page}.pdf`}>DOWNLOAD PDF <ArrowRight size={16} /></a>
+                            <PrivatePrintableDownload path={item.pdf.split("/").pop()!} filename={`Crow-Crown-${item.name.replace(/[^a-z0-9]+/gi,'-')}-${item.page}.pdf`} load={loadPrintable}>DOWNLOAD PDF</PrivatePrintableDownload>
                           </article>
                         ))}
                       </div>}
