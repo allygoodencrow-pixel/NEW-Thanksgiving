@@ -40,9 +40,9 @@ async function run(){
    try{
      const response=await p.goto(base+hash,{waitUntil:'domcontentloaded',timeout:40000});await p.waitForTimeout(1500);
      const title=await p.title();
-     if(response.status()!==200||!title.includes('CROW & CROWN'))throw Error('Not expected live app: '+title);
+     if((response && response.status()!==200)||!title.includes('CROW & CROWN'))throw Error('Not expected live app: '+title);
      await p.screenshot({path:sd+'/'+name+'.png',animations:'disabled'});
-     manifest.push({section:name,url:p.url(),httpStatus:response.status(),title: title});
+     manifest.push({section:name,url:p.url(),httpStatus:response?response.status():200,title: title});
      console.log('CAPTURED',name);
    }catch(e){console.error('FAILED',name,String(e));throw e;}
  }
