@@ -31,7 +31,7 @@ The fixes below are implemented and pass automated checks. They remain **In prog
 | T21 save status | P1 / T00 | In progress | Local/cloud/pending/error destination exposed; existing queued saves/revision/recovery/isolation preserved; fake transport tests pass | Live authenticated save and recovery |
 | T22 next action | P2 / T01–10,21 | In progress | Party plan links unresolved work; existing Home utility labels are preserved; approved composition/fonts/photos preserved; Home regression passes | Before/after Home visual comparison |
 | T23 day mode | P2 / T01–04,18,20 | In progress | Event-date local clock, effective adjusted now/next and explicit future-event preview; UI checks pass | Phone day execution and refresh |
-| T24 customer email | P0 / T00 | In progress | Current Supabase auth logs show successful October 10 QA signup/login/deletion and owner recovery request. Current Shopify and Etsy custom-auth handlers are deployed. Historical October 5 SMTP/signature failures are not current evidence | Confirm buyer delivery, password setup/recovery and returning-buyer access with a real checkout; complete Crow Make fulfillment |
+| T24 customer email | P0 / T00 | In progress | Current Supabase auth logs show successful October 10 QA signup/login/deletion and owner recovery request. Current Shopify and Etsy custom-auth handlers are deployed. Historical October 5 SMTP/signature failures are not current evidence | Confirm buyer delivery, password setup/recovery and returning-buyer access with a real checkout; verify live paid-checkout delivery through Crow Make |
 | T25 release journey | Gate / all applicable | Blocked | October 10 combined branch passes typecheck, full tests and production build. Live custom-domain signed-out access gate verified | Authenticated browser, actual phone, native print/download, live purchase and two-device persistence acceptance |
 
 ## Audit coverage
@@ -71,7 +71,7 @@ All 32 findings are assigned; none is declared fully verified solely from source
 - Supabase connector is working; paid-printable and Etsy fulfillment functions are deployed. Service-only tables intentionally have no client RLS policies.
 - Shopify app product `10788940677414` remains DRAFT at $28.99. Zero-price duplicate `10788930289958` archived. Existing printable-only product was preserved.
 - Etsy app listing `4592268976` remains DRAFT at $39; listing has its Start Here PDF. Crow Make Etsy API verified live and shop receipts returned count 0. No real paid Etsy fulfillment can yet be certified.
-- User selected Crow Make account. A scheduled paid-order fulfillment workflow still needs completion and live acceptance.
+- User selected Crow Make account. Hourly scenario `6585181` is active, using saved HTTP credential `11622828`. Secure health, empty receipt scan, and unpaid/irrelevant fixture mapping passed; live paid-checkout delivery remains unverified.
 - Repository is public: original-art historical access must be removed by making the repository private before claiming exclusive paid delivery.
 
-Release gate: finish secure fulfillment, review the existing Vercel preview with a paid account, verify purchase-to-email-to-login-to-private-download, saved-party recovery and native print output. Keep commerce listings draft until these gates pass. No new app, hosting project or backend was created; preview protection remains enabled.
+Release gate: verify live fulfillment, review the existing Vercel preview with a paid account, verify purchase-to-email-to-login-to-private-download, saved-party recovery and native print output. Keep commerce listings draft until these gates pass. No new app, hosting project or backend was created; preview protection remains enabled.

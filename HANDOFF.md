@@ -467,3 +467,16 @@ User authorized Make Allygoodencrow fulfillment, buyer PDF attachment, individua
 Branch `codex/sale-readiness-2026-10-10` combines current main with the relevant PR #13 planning repairs. Current Home typography/composition, all 63 library records, paid account gate, private original gallery and current activity engine are preserved. Restored legacy styles and public original-printable preview assets from the old branch were excluded.
 
 Full `npm test`, `npm run typecheck`, `npm run build` and `git diff --check` passed. Responsive/Home baseline tests cover six widths; they do not certify physical-device or live paid-account behavior. Build retains the existing >500 kB chunk warning. See WORK_FIX_STATUS.md for current live blockers rather than historical SMTP/signature errors. Zero-price Shopify duplicate was archived; real app products remain draft.
+
+
+## October 10 Crow Make fulfillment
+
+User authorized the Crow account and completed saved HTTP credential setup. A scoped replacement Etsy automation key was activated and its live health request passed; do not put the plaintext key in this repository. Saved connection ID: `11622828`.
+
+Scenario `6585181`, Thanksgiving app — Etsy access fulfillment, is ACTIVE with hourly scheduling (3600 seconds). It scans all shop receipts with explicit 100-record offset pagination, filters listing `4592268976`, serializes only required fulfillment fields with native JSON Transform, and posts through the saved credential. Empty shops consume one credit per scan. Failure handlers store incomplete executions and retry up to 10 times at 15-minute intervals; exhausted failures need review in Make. Confidential execution data is enabled. The temporary Etsy audit shell `6562324` was deactivated to free its active scenario slot; existing Amazon automation was preserved.
+
+Live evidence: connection health and original empty-shop scan passed; fixture run `1f3f33d9cc624808bac6b46f86c985ba` completed six operations, with exactly one JSON serialization and one HTTP delivery for the target listing, excluding the unrelated item. Fixtures were unpaid and caused no account or email side effects. Fixtures were removed, real mappings restored, and final live scan `0152e13c1b0a4db38235607d55c4235d` passed. Next scheduled execution was `2026-10-10T21:06:22.936Z`.
+
+`etsy-purchase` edge function v2 is deployed. Authenticated envelopes support an explicit verified shop scope when shop-scoped Etsy responses omit `shop_id`; conflicting scope remains rejected. Unpaid orders return pending without permanently revoking later paid access; completed cancellation/refund still revokes. Null refund entries no longer cause a transient error. Focused Etsy tests, typecheck and whitespace checks passed. Real paid checkout, buyer email/password, native outputs and saved-plan recovery still require acceptance before sales.
+
+Draft PR #14 preview `dpl_DsDZSPWhVJcegQ3WbWDjnXGWUEbH` was READY at SHA `61fa2098f4ca10bc75e7e9cff07c402cf12fb691`; browser preview remains behind Vercel sign-in. GitHub repository remains public: privacy change warns Advanced Security and custom Dependabot alert rules would be disabled and existing forks remain public; no visibility change was made without reviewing that consequence.
