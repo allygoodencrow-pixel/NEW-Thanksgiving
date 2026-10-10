@@ -1,0 +1,43 @@
+name: Capture real Crow & Crown Thanksgiving app
+on:
+  push:
+    branches:
+      - media/real-thanksgiving-app-2026-10-09
+    paths:
+      - marketing/capture-real-app.cjs
+      - .github/workflows/crow-crown-live-media.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install browser capture and image tools
+        run: |
+          mkdir -p /tmp/crow-render
+          npm install --prefix /tmp/crow-render --no-audit --no-fund playwright sharp
+          /tmp/crow-render/node_modules/.bin/playwright install chromium --with-deps
+          command -v ffmpeg || (sudo apt-get update && sudo apt-get install -y ffmpeg)
+      - name: Capture production app, compose faithful gallery, record navigation
+        env:
+          NODE_PATH: /tmp/crow-render/node_modules
+        run: node marketing/capture-real-app.cjs
+      - name: Bundle original screenshot files and gallery
+        run: |
+          cd marketing/live-app-media/2026-10-09
+          zip -qr crow-crown-live-app-media.zip screenshots etsy-images real-app-recording.mp4 capture-manifest.json README.txt
+      - name: Commit only to isolated media branch
+        run: |
+          git config user.name "Crow & Crown Media Export"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add marketing/live-app-media/2026-10-09
+          if ! git diff --cached --quiet; then
+            git commit -m "Export true production screenshots and Etsy media"
+            git push origin HEAD:media/real-thanksgiving-app-2026-10-09
+          fi
