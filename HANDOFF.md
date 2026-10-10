@@ -460,3 +460,10 @@ The owner rejected both the earlier bulky pass and the subsequent over-compresse
 ## October 10 — Etsy individual buyer access
 
 User authorized Make Allygoodencrow fulfillment, buyer PDF attachment, individual profiles/personal password links, protected app/76 printables and Etsy publication after verification. The correct Supabase connection now accesses existing project almqseeccuohdmlsjnhi. See ETSY_ACCESS_SETUP.md for exact IDs, current backend, tests and remaining Make/public-repository work. PDF is attached and draft description updated; Etsy is still draft. No new paid order has been tested, and Make purchase automation is not activated because its connector returns internal errors. Keep the user's current planner, fonts and owner parties intact. Source changes gate the app on server-maintained entitlements and deliver files through fresh authenticated checks. No shared buyer credential is introduced.
+
+
+## October 10 sale-readiness integration
+
+Branch `codex/sale-readiness-2026-10-10` combines current main with the relevant PR #13 planning repairs. Current Home typography/composition, all 63 library records, paid account gate, private original gallery and current activity engine are preserved. Restored legacy styles and public original-printable preview assets from the old branch were excluded.
+
+Full `npm test`, `npm run typecheck`, `npm run build` and `git diff --check` passed. Responsive/Home baseline tests cover six widths; they do not certify physical-device or live paid-account behavior. Build retains the existing >500 kB chunk warning. See WORK_FIX_STATUS.md for current live blockers rather than historical SMTP/signature errors. Zero-price Shopify duplicate was archived; real app products remain draft.
