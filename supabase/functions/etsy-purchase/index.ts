@@ -1,5 +1,5 @@
 import {createClient} from 'npm:@supabase/supabase-js@2.117.2';
-import {inspectReceipt} from './core.ts';
+import {inspectEnvelope} from './core.ts';
 const db=createClient(Deno.env.get('SUPABASE_URL')!,Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!,{auth:{persistSession:false,autoRefreshToken:false}});
 const redirect='https://thanksgiving.thecrowandcrown.com/?setup=1';
 const json=(data:unknown,status=200)=>new Response(JSON.stringify(data),{status,headers:{'Content-Type':'application/json','Cache-Control':'no-store'}});
@@ -14,8 +14,9 @@ Deno.serve(async req=>{
  try {
  const body=await req.json();
  if(body.action==='health') return json({ready:true,shop_id:'66552482',listing_id:'4592268976'});
- const receipt=inspectReceipt(body.receipt);
+ const receipt=inspectEnvelope(body);
  if(receipt.kind==='unrelated') return json({status:'ignored'});
+ if(receipt.kind==='pending') return json({status:'pending_payment'});
  id=receipt.id;
  if(receipt.kind==='revoke') {
   const revoked=await db.rpc('cc_revoke_etsy',{p_receipt:id});if(revoked.error)throw revoked.error;
