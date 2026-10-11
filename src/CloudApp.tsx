@@ -216,7 +216,8 @@ export default function CloudApp() {
         {error && <p role="alert" className="account-message">{error}</p>}
         {message && <p role="status" className="account-message">{message}</p>}
         {(!session || passwordSetup) && <>
-          <p>{needsSetupLink ? 'Open the setup email in this browser to choose your password. If your link expired or opened elsewhere, request a fresh link below.' : passwordSetup ? 'Choose a password to continue on your phone and computer.' : 'Your account setup link is emailed after purchase. Sign in with the email you used at checkout to open your saved parties.'}</p>
+          <p>{needsSetupLink ? 'Use the email from your purchase to request your personal login setup link. Open the email in this browser and choose your password. If your purchase is still processing, wait for your purchase setup email.' : passwordSetup ? 'Choose a password to continue on your phone and computer.' : 'Your purchase includes a personal account. First visit? Set up your login using the email from checkout. Already set your password? Sign in below to open your saved parties.'}</p>
+          {!session && !needsSetupLink && mode === 'signin' && <button className="account-text-action" disabled={busy} onClick={() => {setSetupIntent('invite'); setPassword(''); setError(''); setMessage('');}}>SET UP YOUR LOGIN</button>}
           <form onSubmit={authenticate}>
             {!passwordSetup && <label>EMAIL<input type="email" autoComplete="email" required value={email} onChange={e => setEmail(e.target.value)} /></label>}
             {(passwordSetup || (!needsSetupLink && mode !== 'reset')) && <label>{passwordSetup ? 'NEW PASSWORD' : 'PASSWORD'}<input type="password" autoComplete={passwordSetup ? 'new-password' : 'current-password'} minLength={passwordSetup ? 8 : 1} required value={password} onChange={e => setPassword(e.target.value)} /></label>}
