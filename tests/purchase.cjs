@@ -63,9 +63,9 @@ const memory = () => {
   const existing = memory(); existing.setError({code: 'email_exists'});
   assert.equal((await createPurchaseHandler(config, existing.dependencies)(request())).status, 200);
   assert.equal(existing.emails[0].type, 'existing');
-  assert.equal(existing.emails[0].redirect, config.appUrl);
+  assert.equal(existing.emails[0].redirect, config.appUrl + '?setup=1');
   assert.equal([...existing.jobs.values()][0].user, 'existing-user');
-  console.log('PASS returning buyers reuse their account without resetting its password or replacing saved parties');
+  console.log('PASS existing buyers receive password setup for their own account without replacing saved parties');
 
   const failed = memory(); failed.setError({code: 'unexpected_failure', message: 'SMTP 535 secret data must not be stored'});
   const failedHandler = createPurchaseHandler(config, failed.dependencies);
