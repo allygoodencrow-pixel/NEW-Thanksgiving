@@ -7,7 +7,7 @@ export function readAuthSetupIntent(href: string): AuthSetupIntent {
   const url = new URL(href);
   const type = new URLSearchParams(url.hash.slice(1)).get('type');
   if (type === 'recovery' || new URLSearchParams(url.hash.slice(1)).get('error_code') === 'otp_expired') return 'recovery';
-  if (type === 'invite' || url.searchParams.get('setup') === '1') return 'invite';
+  if (type === 'invite' || type === 'magiclink' || url.searchParams.get('setup') === '1') return 'invite';
   return null;
 }
 // Capture only the purpose before the auth client consumes/clears the URL hash.
