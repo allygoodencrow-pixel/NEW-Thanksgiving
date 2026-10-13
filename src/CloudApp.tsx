@@ -23,7 +23,7 @@ export default function CloudApp() {
   const [loading, setLoading] = useState(false);
   const [accountOpen, setAccountOpen] = useState(false);
   const [setupIntent, setSetupIntent] = useState<AuthSetupIntent>(() => initialAuthSetupIntent || readAuthSetupIntent(window.location.href));
-  const [mode, setMode] = useState<'signin' | 'reset'>('signin');
+  const [mode, setMode] = useState<'signin' | 'reset' | 'link'>('signin');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('Thanksgiving at home');
@@ -173,6 +173,11 @@ export default function CloudApp() {
         const {error: failure} = await supabase.auth.resetPasswordForEmail(email.trim(), {redirectTo}); if (failure) throw failure;
         setMessage(needsSetupLink ? 'If an account exists for this email, a fresh password setup link has been sent. Check your inbox and spam.' : 'If an account exists for this email, a password reset link has been sent.'); return;
       }
+      if (mode === 'link') {
+        const {error: failure} = await supabase.auth.signInWithOtp({email: email.trim(), options: {shouldCreateUser: false, emailRedirectTo: redirectTo}});
+        if (failure) throw failure;
+        setMessage('Check your inbox and spam for your personal sign-in link. Open it on the device you want to use.'); return;
+      }
       const result = await supabase.auth.signInWithPassword({email: email.trim(), password});
       if (result.error) throw result.error;
       setPassword('');
@@ -220,17 +225,18 @@ export default function CloudApp() {
           {!session && !needsSetupLink && mode === 'signin' && <button className="account-text-action" disabled={busy} onClick={() => {setSetupIntent('invite'); setPassword(''); setError(''); setMessage('');}}>SET UP YOUR LOGIN</button>}
           <form onSubmit={authenticate}>
             {!passwordSetup && <label>EMAIL<input type="email" autoComplete="email" required value={email} onChange={e => setEmail(e.target.value)} /></label>}
-            {(passwordSetup || (!needsSetupLink && mode !== 'reset')) && <label>{passwordSetup ? 'NEW PASSWORD' : 'PASSWORD'}<input type="password" autoComplete={passwordSetup ? 'new-password' : 'current-password'} minLength={passwordSetup ? 8 : 1} required value={password} onChange={e => setPassword(e.target.value)} /></label>}
-            <button type="submit" disabled={busy}>{busy ? 'PLEASE WAIT…' : passwordSetup ? 'SAVE PASSWORD' : needsSetupLink ? 'SEND SETUP LINK' : mode === 'reset' ? 'SEND RESET LINK' : 'SIGN IN'}</button>
+            {(passwordSetup || (!needsSetupLink && mode === 'signin')) && <label>{passwordSetup ? 'NEW PASSWORD' : 'PASSWORD'}<input type="password" autoComplete={passwordSetup ? 'new-password' : 'current-password'} minLength={passwordSetup ? 8 : 1} required value={password} onChange={e => setPassword(e.target.value)} /></label>}
+            <button type="submit" disabled={busy}>{busy ? 'PLEASE WAIT…' : passwordSetup ? 'SAVE PASSWORD' : needsSetupLink ? 'SEND SETUP LINK' : mode === 'reset' ? 'SEND RESET LINK' : mode === 'link' ? 'SEND SIGN-IN LINK' : 'SIGN IN'}</button>
           </form>
+          {!session && !needsSetupLink && mode === 'signin' && <button className="account-text-action" disabled={busy} onClick={() => {setMode('link'); setPassword(''); setError(''); setMessage('');}}>EMAIL ME A SIGN-IN LINK</button>}
           {!passwordSetup && <button className="account-text-action" onClick={() => {
             if (needsSetupLink) {
               setSetupIntent(null); setMode('signin'); setAccountOpen(true);
               const url = new URL(window.location.href); url.searchParams.delete('setup');
               window.history.replaceState(null, '', `${url.pathname}${url.search}${url.hash}`);
-            } else setMode(mode === 'reset' ? 'signin' : 'reset');
+            } else setMode(mode === 'signin' ? 'reset' : 'signin');
             setError(''); setMessage('');
-          }}>{needsSetupLink || mode === 'reset' ? 'BACK TO SIGN IN' : 'FORGOT PASSWORD?'}</button>}
+          }}>{needsSetupLink || mode !== 'signin' ? 'BACK TO SIGN IN' : 'FORGOT PASSWORD?'}</button>}
 
         </>}
         {session && !paid && !passwordSetup && <>
