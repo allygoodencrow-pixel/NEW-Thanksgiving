@@ -56,7 +56,7 @@ const deferred=()=>{let resolve,reject;const promise=new Promise((a,b)=>{resolve
  assert.equal(screen.queryByRole('button',{name:'EMAIL ME A SIGN-IN LINK'}),null,'Customers must choose a password instead of using a passwordless shortcut');
  let firstVisitRequest;
  cloud.supabase.auth.resetPasswordForEmail=async(email,options)=>{firstVisitRequest={email,options};return {data:{},error:null};};
- fireEvent.click(screen.getByRole('button',{name:'SET UP YOUR LOGIN'}));
+ fireEvent.click(screen.getByRole('button',{name:'RESEND SETUP EMAIL'}));
  await waitFor(()=>assert(screen.getByRole('heading',{name:'Finish account setup'})));
  assert.equal(screen.queryByLabelText('PASSWORD'),null);
  fireEvent.change(screen.getByLabelText('EMAIL'),{target:{value:'a@example.test'}});
