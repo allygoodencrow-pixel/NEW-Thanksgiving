@@ -69,14 +69,14 @@ async function fulfil(purchase: Purchase, config: PurchaseConfig, dependencies: 
   if (!lease) return false;
   try {
     let user: string;
+    const setup = new URL(config.appUrl); setup.searchParams.set('setup', '1');
     try {
-      const setup = new URL(config.appUrl); setup.searchParams.set('setup', '1');
       user = await dependencies.invite(lease.email, setup.href);
     } catch (failure) {
       const code = failure && typeof failure === 'object' && 'code' in failure ? failure.code : null;
       // SMTP failures must remain retryable, never be mistaken for an existing buyer.
       if (code !== 'email_exists' && code !== 'user_already_exists') throw failure;
-      user = await dependencies.existingAccount(lease.email, config.appUrl);
+      user = await dependencies.existingAccount(lease.email, setup.href);
     }
     await dependencies.complete(lease, user);
     return true;

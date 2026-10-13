@@ -38,7 +38,7 @@ Deno.serve(async req=>{
   if(!['email_exists','user_already_exists'].includes(invited.error.code??''))throw invited.error;
   const existing=await db.auth.admin.generateLink({type:'magiclink',email,options:{redirectTo:redirect}});if(existing.error)throw existing.error;
   user=existing.data.user;
-  const sent=await db.auth.signInWithOtp({email,options:{shouldCreateUser:false,emailRedirectTo:redirect}});if(sent.error)throw sent.error;
+  const sent=await db.auth.resetPasswordForEmail(email,{redirectTo:redirect});if(sent.error)throw sent.error;
  }
  if(!user)throw new Error('missing_account');
  // The order lock makes entitlement creation atomic with completion/cancellation.
