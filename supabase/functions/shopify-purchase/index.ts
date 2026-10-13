@@ -40,7 +40,7 @@ const handler = createPurchaseHandler({
     const {data, error} = await client.auth.admin.generateLink({type: 'magiclink', email, options: {redirectTo: redirect}});
     if (error) throw error;
     if (!data.user) throw new Error('existing_user_missing');
-    const sent = await client.auth.signInWithOtp({email, options: {shouldCreateUser: false, emailRedirectTo: redirect}});
+    const sent = await client.auth.resetPasswordForEmail(email, {redirectTo: redirect});
     if (sent.error) throw sent.error;
     return data.user.id;
   },
