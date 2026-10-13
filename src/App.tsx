@@ -1,3 +1,6 @@
+import {tablesFor,clothSize,type TableDetail} from './hostingTools';
+import {tableProducts,productRecommendations} from './tableProducts';
+import {downloadCardImage} from './printables';
 import {PrivatePrintableImage,PrivatePrintableDownload,type PrintableLoader} from './PrivatePrintable';
 import { activities as activityLibrary, activityByName, activityPeople, activitySupplies, printActivity } from './activities';
 import { completeRecipe } from './completeRecipes';
@@ -9,7 +12,7 @@ import { expandedRecipes } from './expandedRecipes';
 import { recipePhotos as dishThumb } from './recipePhotos';
 import { auditedRecipes, pecanRecipe } from './auditedRecipes';
 import { equipmentChecklist, advanceWindows, stationGuides, tableChecklist, guestJourney, guideLinks } from './hostingGuide';
-import { normalizeState, planningContext, uid, nextThanksgiving, preparation, responsibility, derivePlan, dishPortions, recipeQuantityServings, recipeIngredientQuantity, formatRecipeAmount, recipeReady, completeMealCoverage, timelineWarnings, buildTimeline, parseIngredients, printOne, printableCards as selectPrintableCards, reconcileState } from './domain';
+import { normalizeState, planningContext, uid, nextThanksgiving, preparation, responsibility, derivePlan, dishPortions, recipeQuantityServings, recipeIngredientQuantity, formatRecipeAmount, guestDietaryNeeds, buyingAmount, recipeReady, completeMealCoverage, timelineWarnings, buildTimeline, parseIngredients, printOne, printableCards as selectPrintableCards, reconcileState } from './domain';
 import { useEffect, useRef, useState } from 'react';
 import {
   ArrowRight,
@@ -59,6 +62,10 @@ export type Dish = {
   prepMinutes?: number;
   restMinutes?: number;
   ovenStages?: { label:string; minutes:number; temp:number; waitBefore?:number; restAfter?:number }[];
+  advanceKind?: 'full' | 'prep' | 'stage0';
+  advanceLabel?: string;
+  advanceOvenMinutes?: number;
+  servingTemperature?: string;
 };
 const legacyDishes: Dish[] = [
   {
@@ -893,6 +900,8 @@ export type Guest = {
   dish: string;
   status: 'Not confirmed' | 'Confirmed' | 'Arrived';
   note: string;
+  householdId?: string;
+  highchair?: boolean;
 };
 export type PlanningMode = 'Estimated' | 'Expected' | 'Confirmed' | 'Custom';
 export type CustomShoppingItem = {
@@ -924,7 +933,14 @@ export type State = {
   shoppingOverrides: Record<string, {mode: 'adjustment' | 'locked'; value: number}>;
   hiddenShopping: string[];
   unitPrices: Record<string, number>;
-  actualSpend: {id: string; label: string; amount: number}[];
+  actualSpend: {id: string; label: string; amount: number; shoppingKey?: string}[];
+  holdingPlans: Record<string, string>;
+  tableDetails: Record<string,TableDetail>;
+  roomLength: number;
+  roomWidth: number;
+  productOwned: Record<string,number>;
+  highchairs: number;
+  selectedTableProducts: string[];
   printableOverrides: Record<string, {name?: string; desc?: string}>;
   drafts: Record<string, any>;
   cocktailGlasses: number;
@@ -990,7 +1006,7 @@ export type State = {
   dayMode: boolean;
 };
 export const initial: State = {
-  schemaVersion: 4, eventDate: nextThanksgiving(), estimatedDrinkers: 0, customKids: 2, customDrinkers: 0, childDrink: 'Water',
+  schemaVersion: 4, productOwned: {}, selectedTableProducts: [], tableDetails: {}, roomLength: 240, roomWidth: 180, holdingPlans: {}, highchairs: 0, eventDate: nextThanksgiving(), estimatedDrinkers: 0, customKids: 2, customDrinkers: 0, childDrink: 'Water',
   menuPlan: {pie:{owner:'guest-seed-0',status:'Confirmed',preparation:'Homemade'}}, shoppingOverrides: {}, hiddenShopping: [], unitPrices: {}, actualSpend: [], printableOverrides: {}, drafts: {},
   cocktailGlasses: 0, coffeeMugs: 0, adultCups: 0, spoons: 0, tablesOwned: 1, timelineOverrides: {},
   count: 18,
@@ -1093,6 +1109,14 @@ export const initial: State = {
   hostBuffer: '14:15',
   dayMode: false,
 };
+export function freshPlan(kind:'blank'|'suggested'|'sample'='blank'):State {
+ if(kind==='sample')return structuredClone(initial);
+ const plan=structuredClone(initial);plan.guests=[];plan.seating={};plan.menuOwners={};plan.menuPlan={};plan.planningMode='Estimated';plan.kids=0;plan.customKids=0;plan.activities=[];
+ for(const key of ['chairs','highchairs','tablesOwned','plates','dessertPlates','forks','dessertForks','spoons','knives','waterGlasses','glasses','cocktailGlasses','adultCups','coffeeMugs','kidsCups','napkins','linens','platters'] as const)plan[key]=0;
+ plan.selections=kind==='suggested'?initial.selections.filter(id=>id!=='gravy'):[];
+ if(kind==='suggested')plan.menuPlan.rolls={owner:'Host',status:'Confirmed',preparation:'Purchased'};
+ return plan;
+}
 const timeToMin = (v: string) => {
   const [h, m] = v.split(':').map(Number);
   return h * 60 + m;
@@ -1270,10 +1294,13 @@ type AppProps = {
 function App({seed, storageKey = 'cc-thanksgiving-v4', onPlanChange, onAccount, saveStatus, loadPrintable}: AppProps = {}) {
   const [loadResult] = useState(() => {
     try { const raw = seed === undefined ? localStorage.getItem(storageKey) || (storageKey === 'cc-thanksgiving-v4' ? localStorage.getItem('cc-thanksgiving-v3') || localStorage.getItem('cc-thanksgiving-v1') : null) : null;
-      return {state: normalizeState(seed ?? (raw ? JSON.parse(raw) : initial), initial, dishes), error: ''};
-    } catch { return {state: normalizeState(initial, initial, dishes), error: 'Saved plan could not be read. The original saved data has been left untouched. Export this plan before making changes.'}; }
+      return {state: normalizeState(seed ?? (raw ? JSON.parse(raw) : freshPlan()), initial, dishes), error: '',firstUse:seed===undefined&&!raw};
+    } catch { return {state: normalizeState(initial, initial, dishes), firstUse:false,error: 'Saved plan could not be read. The original saved data has been left untouched. Export this plan before making changes.'}; }
   });
   const [s, setS] = useState<State>(loadResult.state);
+  const [firstUse,setFirstUse]=useState(Boolean(loadResult.firstUse));
+  const setupWasShown=useRef(firstUse);
+  useEffect(()=>{if(!firstUse&&setupWasShown.current){setupWasShown.current=false;const heading=document.querySelector<HTMLElement>('main h1');heading?.setAttribute('tabindex','-1');heading?.focus();}},[firstUse]);
   const accountPlan = seed !== undefined;
   const [storageError, setStorageError] = useState(loadResult.error);
   const [canSave,setCanSave]=useState(!loadResult.error);
@@ -1296,6 +1323,13 @@ function App({seed, storageKey = 'cc-thanksgiving-v4', onPlanChange, onAccount, 
   const [customSource,setCustomSource] = useState<string>(draft.sourceUrl || '');
   const [customImage,setCustomImage] = useState<string>(draft.image || '');
   const [customInstructions,setCustomInstructions] = useState(draft.instructions || '');
+  const [selectedRoomTable,setSelectedRoomTable]=useState('');
+  const [draggingTable,setDraggingTable]=useState<string|null>(null);
+  const [packageDraft,setPackageDraft]=useState({size:'',price:''});
+  const [previewTime,setPreviewTime]=useState('');
+  const [now,setNow]=useState(()=>new Date());
+  useEffect(()=>{const timer=setInterval(()=>setNow(new Date()),60000);return()=>clearInterval(timer);},[]);
+  const [spendShoppingKey,setSpendShoppingKey]=useState('');
   const [newActivity,setNewActivity] = useState('');
   const [mobileNav, setMobileNav] = useState(false);
   const [primarySection, setPrimarySection] = useState(() => primaryDestinations.find(g=>g.items.some(i=>i.tab===readAppRoute()))?.label || 'PLAN');
@@ -1385,6 +1419,14 @@ function App({seed, storageKey = 'cc-thanksgiving-v4', onPlanChange, onAccount, 
   const { selected, guestProvidedSelected, hostPrepared, purchasedDishes, planningCount, kids, adults, foodGuests, adultDrinkers, planningGuests, expectedCount, confirmedCount, listDrivenHeadcount, bird, turkeyActive, thawText, dinner, schedule, tableSeats, mainTableCount, kidsTableCount, linenCount, mainTableGuests, kidsAtOwnTable, chairNeed, inventoryRows, estimates, estimated, planned, actual, shoppingEntries, seats, warnings: engineWarnings } = plan;
   const planRef = useRef(plan); planRef.current=plan;
   useEffect(()=>{const ctx=(document as any).modelContext;if(!ctx?.registerTool)return;const controller=new AbortController();try{Promise.resolve(ctx.registerTool({name:'read_thanksgiving_plan',description:'Read the current derived planning totals and unresolved warnings. Does not change the plan.',inputSchema:{type:'object',properties:{},additionalProperties:false},annotations:{readOnlyHint:true,untrustedContentHint:true},execute:(input:unknown)=>{if(input&&typeof input==='object'&&Object.keys(input).length)throw new Error('No parameters accepted');const p=planRef.current;return {headcount:p.planningCount,adults:p.adults,children:p.kids,adultDrinkers:p.adultDrinkers,shoppingItems:p.shoppingEntries.length,plannedCost:p.planned,warnings:p.warnings};}},{signal:controller.signal})).catch(()=>{});}catch{}return()=>controller.abort();},[]);
+  const roomTables=tablesFor(s,planningCount,kids);
+  const activeRoomTable=roomTables.find(t=>t.id===selectedRoomTable)||roomTables[0];
+  const updateRoomTable=(id:string,patch:Partial<TableDetail>)=>{const current=roomTables.find(t=>t.id===id);if(current)update('tableDetails',{...s.tableDetails,[id]:{...current.detail,...patch}});};
+  const eventToday=s.eventDate===`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+  const dayClock=previewTime?timeToMin(previewTime):eventToday?now.getHours()*60+now.getMinutes():dinner-180;
+  const upcomingTasks=buildTimeline(s,plan).filter(x=>!s.done.includes(x[2]));
+  const overdueTasks=upcomingTasks.filter(x=>x[0]<dayClock);
+  const nextTasks=upcomingTasks.filter(x=>x[0]>=dayClock).slice(0,3);
   const thanksgiving = new Date((s.eventDate||nextThanksgiving()) + 'T12:00:00');
   const ownerLabel = (d: Dish) => { const owner = responsibility(s,d).owner; return owner === 'Host' ? 'Host' : owner === 'Other' ? 'Someone else' : s.guests.find(g=>g.guestId === owner)?.name || 'Missing guest'; };
   const setResponsibility = (id: string, patch: Partial<State['menuPlan'][string]>) => setS(v=>reconcileState({...v,menuPlan:{...v.menuPlan,[id]:{...responsibility(v,{id} as Dish),...patch}}},dishes));
@@ -1455,7 +1497,7 @@ function App({seed, storageKey = 'cc-thanksgiving-v4', onPlanChange, onAccount, 
     }));
   };
   const uncoveredDiets = s.guests.filter(g=>g.rsvp!=='Declined').flatMap(g=>{
-    const needs=[...g.diet.split(/[,;\/]+/).map(x=>x.trim()).filter(Boolean),...g.dietaryNeeds];
+    const needs=guestDietaryNeeds(g);
     if(!needs.length)return[];
     const tags=[...new Set(needs.map(dietTagForNeed).filter(Boolean))];
     return needs.some(n=>!dietTagForNeed(n)) || !completeMealCoverage(tags,selected,tagsForDish)
@@ -1491,9 +1533,7 @@ function App({seed, storageKey = 'cc-thanksgiving-v4', onPlanChange, onAccount, 
     planGaps.push('Add at least one kid-friendly option');
   }
   [...new Set(uncoveredDiets)].forEach(name => planGaps.push(`Review a complete compatible meal for ${name}; verify ingredients and cross-contact directly.`));
-  const prepAheadDishes = hostPrepared.filter(
-    d => d.makeAhead && !/set your make-ahead plan/i.test(d.makeAhead)
-  );
+  const prepAheadDishes = hostPrepared.filter(d=>Boolean(d.advanceKind));
   const finalHourDishes = hostPrepared.filter(
     d =>
       d.group === 'Fresh' ||
@@ -1618,6 +1658,7 @@ function App({seed, storageKey = 'cc-thanksgiving-v4', onPlanChange, onAccount, 
   }) => (
     <button
       className={`check-row ${checked(id) ? 'completed' : ''}`}
+      aria-pressed={checked(id)}
       onClick={() => toggleDone(id)}
     >
       <span className="check-circle">{checked(id) && <Check size={13} />}</span>
@@ -1663,7 +1704,8 @@ function App({seed, storageKey = 'cc-thanksgiving-v4', onPlanChange, onAccount, 
 
   return (
     <div className={`shell reference-shell ${tab !== 'HOME' || s.dayMode ? 'planning-active' : ''} page-${tab.toLowerCase().replace(/ /g, "-")}`}>
-      <aside className={`sidebar ${mobileNav ? 'show' : ''}`} inert={!mobileNav} aria-hidden={!mobileNav}>
+      {firstUse&&<div className="setup-backdrop"><section role="dialog" aria-modal="true" aria-labelledby="setup-title" className="setup-dialog" onKeyDown={e=>{if(e.key==='Tab'){const buttons=e.currentTarget.querySelectorAll('button');const first=buttons[0],last=buttons[buttons.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}}}}><span className="eyebrow">YOUR GATHERING</span><h2 id="setup-title">Start your Thanksgiving plan</h2><p>Choose a clean plan or a suggested menu. Example guests only appear in the labeled sample.</p><button autoFocus onClick={()=>{setS(freshPlan('blank'));setFirstUse(false);navigate('PARTY PLAN');}}>START A BLANK PLAN</button><button onClick={()=>{setS(freshPlan('suggested'));setFirstUse(false);navigate('PARTY PLAN');}}>START WITH A SUGGESTED MENU</button><button onClick={()=>{setS(freshPlan('sample'));setFirstUse(false);navigate('PARTY PLAN');}}>EXPLORE THE SAMPLE PLAN</button></section></div>}
+      <aside className={`sidebar ${mobileNav ? 'show' : ''}`} inert={firstUse||!mobileNav} aria-hidden={firstUse||!mobileNav}>
         <button className="brand" onClick={() => navigate('HOME')}>
 C | C
         </button>
@@ -1699,9 +1741,9 @@ C | C
         {(d.makeAhead||d.finish||d.vessel)&&<div className="recipe-finishing-notes">{d.makeAhead&&<section><div className="recipe-section-heading"><span>03</span><h3>Make ahead</h3></div><p>{d.makeAhead}</p></section>}{(d.finish||d.vessel)&&<section><div className="recipe-section-heading"><span>04</span><h3>Serving</h3></div>{d.finish&&<p>{d.finish}</p>}{d.vessel&&<p className="recipe-vessel">{d.vessel}</p>}</section>}</div>}
         {d.sourceUrl&&d.instructions?.trim()&&<footer className="recipe-reader-footer"><a href={d.sourceUrl} target="_blank" rel="noreferrer">OPEN ORIGINAL RECIPE →</a></footer>}
       </section></div>})()}
-      <main className="main" inert={mobileNav || Boolean(openDish)}>
+      <main className="main" inert={firstUse || mobileNav || Boolean(openDish)}>
         {(tab !== 'HOME' || s.dayMode) && <div className="planning-backdrop" aria-hidden="true"><img src="/resources/kitchen-editorial.png" alt="" /><div /></div>}
-        <header className="topbar">
+        <header inert={firstUse} className="topbar">
           <button
             className="mobile-menu"
             aria-label="Open navigation" aria-expanded={mobileNav}
@@ -1727,7 +1769,7 @@ C | C
         {s.dayMode ? (
           <div className="day-page">
             <span className="eyebrow">{thanksgiving.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'})}</span>
-            <h1>Today, you host.</h1>
+            <h1>{eventToday?'Today, you host.':'Your hosting day.'}</h1><p>{eventToday&&!previewTime?'Live schedule':'Preview'} · {s.eventDate} · {clock(dayClock)}</p><label className="field"><span>Preview time (clear for live time)</span><input type="time" aria-label="Party-day preview time" value={previewTime} onChange={e=>setPreviewTime(e.target.value)}/></label><section className="panel"><h2>Now / next</h2>{overdueTasks.length>0&&<p>{overdueTasks.length} earlier tasks are still unchecked. Review the full run below.</p>}{[...overdueTasks.slice(-1),...nextTasks].map(([time,label,id])=><CheckRow key={id} id={id} note={clock(time)}>{label}</CheckRow>)}{upcomingTasks.length===0&&<p>All scheduled tasks are complete.</p>}</section>
             <p className="lede">
               Dinner at {clock(dinner)}. Only what matters now.
             </p>
@@ -1740,7 +1782,7 @@ C | C
             {[...timelineItems()].map(([time, label, id]) => (
               <button
                 key={id}
-                className={`day-task ${checked(id) ? 'completed' : ''}`}
+                aria-pressed={checked(id)} className={`day-task ${checked(id) ? 'completed' : ''}`}
                 onClick={() => toggleDone(id)}
               >
                 <b>{clock(time)}{time<0?' · DAY BEFORE':''}</b>
@@ -1788,7 +1830,7 @@ C | C
             )}
             {tab === 'PARTY PLAN' && (
               <div className="content party-setup">
-                <Section eyebrow="01 / START" title="Party plan">Set the date, dinner time and your starting guest count.</Section>
+                <Section eyebrow="01 / START" title="Party plan">Set the date, dinner time and your starting guest count.</Section><details className="panel"><summary>Next actions · {warnings.length} items to review</summary><p>{planningLabel} drives food, seating and shopping. Your estimate only drives quantities in Estimated mode.</p>{warnings.slice(0,8).map(x=><p key={x}>{x}</p>)}<button onClick={()=>navigate(plan.incompleteRecipes.length?'MENU':plan.unpricedRows.length?'SHOPPING':'TIMELINE')}>REVIEW NEXT ACTION →</button></details>
                 <section className="panel glass-light setup-essentials" aria-label="Party basics">
                   <div className="form-grid">
                     {input('Date',s.eventDate,v=>update('eventDate',v),'date')}
@@ -2203,7 +2245,7 @@ C | C
                     <span className="eyebrow">1–2 DAYS BEFORE</span>
                     <h2>Do anything that will hold well.</h2>
                     {prepAheadDishes.map(d => (
-                      <CheckRow key={d.id} id={`prep-ahead-${d.id}`} note={d.makeAhead}>
+                      <CheckRow key={d.id} id={`prep-ahead-${d.id}`} note={[d.advanceLabel||d.makeAhead,d.servingTemperature].filter(Boolean).join(' · ')}>
                         {d.name}
                       </CheckRow>
                     ))}
@@ -2393,8 +2435,8 @@ C | C
                                 >
                                   {s.purchased.includes(item.key) && <Check size={13} />}
                                 </button>
-                                <button className="shopping-edit-trigger" aria-label={`Edit quantity and details for ${item.name}`} aria-expanded={expandedShopping===item.key} aria-controls={`shopping-editor-${encodeURIComponent(item.key)}`} onClick={()=>{setShoppingQuantityDraft(String(currentQty));setShoppingPriceDraft(String(s.unitPrices[item.key] ?? Math.round((item.count?item.cost/item.count:0)*100)/100));setExpandedShopping(expandedShopping===item.key?null:item.key);}}>
-                                  <span className="shop-item-name">{item.name}{s.shoppingOverrides?.[item.key]?.mode==='locked'&&<small>Quantity locked</small>}</span>
+                                <button className="shopping-edit-trigger" aria-label={`Edit quantity and details for ${item.name}`} aria-expanded={expandedShopping===item.key} aria-controls={`shopping-editor-${encodeURIComponent(item.key)}`} onClick={()=>{setPackageDraft({size:'',price:''});setShoppingQuantityDraft(String(currentQty));setShoppingPriceDraft(String(s.unitPrices[item.key] ?? Math.round((item.count?item.cost/item.count:0)*100)/100));setExpandedShopping(expandedShopping===item.key?null:item.key);}}>
+                                  <span className="shop-item-name">{item.name}<small>Buy at least {buyingAmount(currentQty,item.unit)} · exact need {qty(currentQty)} {item.unit}</small>{s.shoppingOverrides?.[item.key]?.mode==='locked'&&<small>Quantity locked</small>}</span>
                                   <span className="shopping-edit-quantity"><span className="shopping-row-quantity">{qty(currentQty)} <small>{item.unit}</small></span><small>{expandedShopping===item.key?'Close':'Edit'}</small></span>
                                 </button>
                                 {currentQty<item.count&&<small className="shopping-quantity-warning" role="alert">Below planned amount: {qty(item.count)} {item.unit}</small>}
@@ -2418,7 +2460,7 @@ C | C
                                   </button>
                                 )}
                                 <div className="shopping-controls">
-                                  <label>Unit price $<input type="number" min="0" step="0.01" aria-label={`Unit price for ${item.name}`} value={shoppingPriceDraft} onChange={e=>setShoppingPriceDraft(e.target.value)} onBlur={savePrice}/></label>
+                                  <label>Price per {item.unit} $<input type="number" min="0" step="0.01" aria-label={`Unit price for ${item.name}`} value={shoppingPriceDraft} onChange={e=>setShoppingPriceDraft(e.target.value)} onBlur={savePrice}/></label><label>Package contains ({item.unit})<input aria-label={`Package size for ${item.name}`} type="number" min="0.001" step="any" value={packageDraft.size} onChange={e=>setPackageDraft(v=>({...v,size:e.target.value}))}/></label><label>Package price $<input aria-label={`Package price for ${item.name}`} type="number" min="0" step="0.01" value={packageDraft.price} onChange={e=>setPackageDraft(v=>({...v,price:e.target.value}))}/></label><button disabled={!packageDraft.size.trim()||!packageDraft.price.trim()||!Number.isFinite(Number(packageDraft.size))||!Number.isFinite(Number(packageDraft.price))||Number(packageDraft.size)<=0||Number(packageDraft.price)<0} onClick={()=>{const price=Number(packageDraft.price)/Number(packageDraft.size);update('unitPrices',{...s.unitPrices,[item.key]:price});setShoppingPriceDraft(String(price));setPackageDraft({size:'',price:''});}}>USE PACKAGE PRICE</button>
                                   <select aria-label={`Quantity mode for ${item.name}`} value={s.shoppingOverrides[item.key]?.mode||'adjustment'} onChange={e=>update('shoppingOverrides',{...s.shoppingOverrides,[item.key]:{mode:e.target.value as 'locked'|'adjustment',value:e.target.value==='locked'?currentQty:currentQty-item.count}})}><option value="adjustment">Automatic + adjustment</option><option value="locked">Locked quantity</option></select>
                                   {currentQty<item.count&&<small className="shopping-edit-note">Automatic amount: {qty(item.count)} {item.unit}</small>}
                                   {item.auto&&<button onClick={()=>update('hiddenShopping',[...s.hiddenShopping,item.key])}>ALREADY HAVE THIS</button>}
@@ -2557,20 +2599,7 @@ C | C
                         ))}
                       </div>
                     </div>
-                    <div className="table-visual">
-                      {Array.from({ length: mainTableCount }).map((_, i) => (
-                        <div className={`table-shape ${s.tableShape.toLowerCase()}`} key={`main-${i}`}>
-                          <span>TABLE {i + 1}</span>
-                          <small>up to {tableSeats}</small>
-                        </div>
-                      ))}
-                      {Array.from({ length: kidsTableCount }).map((_, i) => (
-                        <div className="table-shape kids" key={`kids-${i}`}>
-                          <span>KIDS</span>
-                          <small>up to 6</small>
-                        </div>
-                      ))}
-                    </div>
+                    <div className="table-visual">{roomTables.map(t=><section className={`table-shape ${t.detail.shape.toLowerCase()}`} key={t.id}><span>{t.label}</span><small>{t.detail.capacity} seats · cloth {clothSize(t.detail).label}</small><ol>{seats.filter(x=>x.id.startsWith(t.id+':')).map(seat=>{const guest=planningGuests.find(g=>s.seating[g.guestId]===seat.id);return <li key={seat.id}>{seat.label.split(' · ')[1]}: {guest?.name||'Unassigned'}{guest?.highchair?' · highchair':''}</li>;})}</ol></section>)}</div>
                     <div className="note-banner">
                       FOOD SCALE · Planning for about {qty(foodGuests)} adult-size
                       portions. Kids count at roughly 65% of an adult portion, then
@@ -2631,6 +2660,11 @@ C | C
                   </div>
                 </div>
 
+                <section className="panel"><h2>Room + table dimensions</h2><p>All dimensions are inches. Allow room for chairs and walkways; the diagram checks table footprints, not accessibility clearance.</p><div className="form-grid">{input('Room length (in)',s.roomLength,v=>update('roomLength',Math.max(24,Number(v)||24)),'number')}{input('Room width (in)',s.roomWidth,v=>update('roomWidth',Math.max(24,Number(v)||24)),'number')}{select('Edit table',activeRoomTable?.id||'',roomTables.map(t=>t.id),setSelectedRoomTable)}</div>{activeRoomTable&&<div className="form-grid">{input('Table length / diameter (in)',activeRoomTable.detail.length,v=>updateRoomTable(activeRoomTable.id,{length:Math.max(12,Number(v)||12)}),'number')}{activeRoomTable.detail.shape==='Rectangle'?input('Table width (in)',activeRoomTable.detail.width,v=>updateRoomTable(activeRoomTable.id,{width:Math.max(12,Number(v)||12)}),'number'):<p>{activeRoomTable.detail.shape==='Round'?'Diameter':'Both sides'}: {activeRoomTable.detail.length} in</p>}{input('Cloth drop (in)',activeRoomTable.detail.drop,v=>updateRoomTable(activeRoomTable.id,{drop:Math.max(0,Number(v)||0)}),'number')}{input('This table capacity',activeRoomTable.detail.capacity,v=>updateRoomTable(activeRoomTable.id,{capacity:Math.max(2,Math.min(24,Number(v)||2))}),'number')}{select('This table shape',activeRoomTable.detail.shape,['Rectangle','Round','Square'],v=>updateRoomTable(activeRoomTable.id,{shape:v}))}{input('Table x (in)',activeRoomTable.detail.x,v=>updateRoomTable(activeRoomTable.id,{x:Math.max(0,Number(v)||0)}),'number')}{input('Table y (in)',activeRoomTable.detail.y,v=>updateRoomTable(activeRoomTable.id,{y:Math.max(0,Number(v)||0)}),'number')}<p>Cloth: {clothSize(activeRoomTable.detail).label}</p></div>}
+                <div className="room-layout" aria-label="Editable room layout" style={{aspectRatio:String(s.roomLength/s.roomWidth)}} onPointerMove={e=>{if(!draggingTable)return;const rect=e.currentTarget.getBoundingClientRect();const t=roomTables.find(x=>x.id===draggingTable);if(!t)return;updateRoomTable(t.id,{x:Math.max(0,Math.min(s.roomLength-t.detail.length,(e.clientX-rect.left)/rect.width*s.roomLength-t.detail.length/2)),y:Math.max(0,Math.min(s.roomWidth-(t.detail.shape==='Round'?t.detail.length:t.detail.width),(e.clientY-rect.top)/rect.height*s.roomWidth-(t.detail.shape==='Round'?t.detail.length:t.detail.width)/2))});}} onPointerUp={()=>setDraggingTable(null)} onPointerCancel={()=>setDraggingTable(null)}>{roomTables.map(t=><button key={t.id} className={`room-table ${t.detail.shape.toLowerCase()}`} aria-label={`Move ${t.label}`} style={{left:`${t.detail.x/s.roomLength*100}%`,top:`${t.detail.y/s.roomWidth*100}%`,width:`${t.detail.length/s.roomLength*100}%`,height:`${(t.detail.shape==='Round'?t.detail.length:t.detail.width)/s.roomWidth*100}%`}} onPointerDown={e=>{e.currentTarget.setPointerCapture(e.pointerId);setDraggingTable(t.id);setSelectedRoomTable(t.id);}} onKeyDown={e=>{const delta:{[key:string]:[number,number]}={ArrowLeft:[-6,0],ArrowRight:[6,0],ArrowUp:[0,-6],ArrowDown:[0,6]};if(delta[e.key]){e.preventDefault();updateRoomTable(t.id,{x:Math.max(0,t.detail.x+delta[e.key][0]),y:Math.max(0,t.detail.y+delta[e.key][1])});}}}>{t.label}</button>)}</div>
+                {roomTables.some(t=>t.detail.x+t.detail.length>s.roomLength||t.detail.y+(t.detail.shape==='Round'?t.detail.length:t.detail.width)>s.roomWidth)&&<p role="alert">A table extends beyond the room. Adjust its dimensions or position.</p>}
+                {roomTables.some((a,i)=>roomTables.some((b,j)=>j>i&&a.detail.x<b.detail.x+b.detail.length&&a.detail.x+a.detail.length>b.detail.x&&a.detail.y<b.detail.y+(b.detail.shape==='Round'?b.detail.length:b.detail.width)&&a.detail.y+(a.detail.shape==='Round'?a.detail.length:a.detail.width)>b.detail.y))&&<p role="alert">Table footprints overlap. Move tables and check chair/walkway clearance.</p>}
+                </section>
                 <div className="panel"><h2>Seating</h2><p className="fine">Assign each person to one seat. Table and seat IDs stay stable when names change. Declined guests release their seats.</p><div className="seat-grid">
                   {planningGuests.slice(0,planningCount).map(g=><label className="seat" key={g.guestId}><span>{g.name || 'Unnamed guest'} · {g.ageGroup}</span><select aria-label={`Seat for ${g.name}`} value={s.seating[g.guestId]||''} onChange={e=>update('seating',{...s.seating,[g.guestId]:e.target.value})}><option value="">Unassigned</option>{seats.filter(x=>!s.kidsTable||x.kind===(g.ageGroup==='Child'?'kids':'main')).map(x=><option key={x.id} value={x.id} disabled={Object.entries(s.seating).some(([id,seat])=>id!==g.guestId&&seat===x.id)}>{x.label}</option>)}</select>{g.note&&<small>{g.note}</small>}</label>)}
                 </div>{planningGuests.length===0&&<p>Add guests to assign seats.</p>}</div>
@@ -2649,6 +2683,7 @@ C | C
                   ))}
                 </div>
 
+                <section className="panel"><h2>Shop this look</h2><p>Choose serviceware and decor for your gathering. Quantities cover missing items and round up to whole packs. Check the seller’s current price and pack size.</p><div className="look-products">{(shopLooks.find(l=>l.name===s.table)||shopLooks[0]).products.map(([,asin])=>{const product=tableProducts.find(p=>p.asin===asin)!;const r=productRecommendations(s,inventoryRows,planningCount,kids,[asin]).find(x=>x.asin===asin)!;const chosen=s.selectedTableProducts.includes(asin);return <article key={asin}><h3>{product.title}</h3>{!product.covers.length&&<label>Already own (pieces)<input type="number" min="0" step="1" aria-label={`Owned pieces for ${asin}`} value={s.productOwned[asin]||0} onChange={e=>update('productOwned',{...s.productOwned,[asin]:Math.max(0,Math.floor(Number(e.target.value)||0))})}/></label>}<p>{product.pack} per pack · {r.packs} {r.packs===1?'pack':'packs'} needed{r.note?' · '+r.note:''}</p><p className="fine">{product.destinationStatus}</p><a href={product.href} target="_blank" rel="noreferrer">VIEW ON AMAZON ↗</a><button aria-pressed={chosen} disabled={!chosen&&(!r.packs||Boolean(r.note))} onClick={()=>update('selectedTableProducts',chosen?s.selectedTableProducts.filter(x=>x!==asin):[...s.selectedTableProducts,asin])}>{chosen?'REMOVE FROM SHOPPING':'ADD TO SHOPPING'}</button></article>;})}</div>{s.selectedTableProducts.length>0&&<details><summary>Selected products · {s.selectedTableProducts.length}</summary>{productRecommendations(s,inventoryRows,planningCount,kids).map(r=><p key={r.asin}>{r.title} · {r.packs} packs {r.note}<button onClick={()=>update('selectedTableProducts',s.selectedTableProducts.filter(x=>x!==r.asin))}>REMOVE</button></p>)}</details>}<a href="https://crow-crown-shop-the-look.lex236027.chatgpt.site" target="_blank" rel="noreferrer">OPEN APPROVED CATALOG ↗</a></section>
                 <details className="panel glass-light"><summary>Tablescape + service layout</summary>{tableChecklist.map((item,i)=><CheckRow key={item} id={`guide-table-${i}`}>{item}</CheckRow>)}<div className="station-guide-list">{stationGuides.map(station=><section key={station.title}><h3>{station.title}</h3><p>{station.notes}</p></section>)}</div></details>
                 <details className="panel glass-light"><summary>Kitchen staging sheet · {selected.length} dishes</summary><p>Stage these empty serving pieces before the gathering. Assign a utensil and check the source recipe’s exact yield.</p><div className="staging-sheet">{selected.map(d=><div key={d.id}><b>{d.name}</b><span>{ownerLabel(d)} · {qty(dishPortions(s,d))} planned servings</span><span>{d.vessel}</span><span>{d.makeAhead}</span>{d.sourceUrl&&<a href={d.sourceUrl} target="_blank" rel="noreferrer">RECIPE SOURCE →</a>}</div>)}</div></details>
                 <div className="panel inspiration-board">
@@ -2739,6 +2774,7 @@ C | C
                     </div>
                   ))}
                 </details>
+                <details className="panel holding-plan"><summary>Resolve early finishes · dedicated holding equipment</summary><p>For dishes that finish early, identify dedicated equipment and a checked holding method. This does not reserve space in your cooking oven. If you cannot arrange holding, change oven capacity or the menu.</p>{[...new Map(schedule.slots.filter(x=>x.dish.group!=='Dessert'&&(!x.dish.ovenStages?.length||x.stage===x.dish.ovenStages[x.dish.ovenStages.length-1].label)&&x.end<dinner-120).map(x=>[x.dish.id,x.dish])).values()].map(d=><label className="field" key={d.id}><span>{d.name} · equipment / method</span><input aria-label={`Holding plan for ${d.name}`} value={s.holdingPlans[d.id]||''} onChange={e=>update('holdingPlans',{...s.holdingPlans,[d.id]:e.target.value})} placeholder="Equipment, location and checked method" /></label>)}</details>
                 <div className="timeline-layout">
                   <div className="panel">
                     <h2>Thanksgiving Day</h2>
@@ -2752,10 +2788,9 @@ C | C
                   <div>
                     <div className="panel warm">
                       <span className="eyebrow">HOST BUFFER</span>
-                      <h2>You have time to get ready.</h2>
+                      <h2>{timelineWarnings(s,plan).some(x=>x.startsWith('Host break'))?'Your break needs attention.':'Your break is clear.'}</h2>
                       <p>
-                        We protect 45 minutes before guests settle in. Step away
-                        from the kitchen.
+                        Request 45 minutes to get ready. Resolve overlapping work before relying on this break.
                       </p>
                       {input(
                         'Get ready starts',
@@ -2775,9 +2810,7 @@ C | C
                           <b>{d.name}</b>
                           <span>{d.vessel}</span>
                           <small>
-                            {d.group === 'Fresh' && d.id === 'cranberry'
-                              ? 'Chilled'
-                              : 'Serve warm'}{' '}
+                            {d.servingTemperature || (d.group==='Dessert'||d.group==='Sauce'?'Check recipe serving instructions':'Serve according to recipe')}{' '}
                             ·{' '}
                             {s.service === 'Buffet'
                               ? 'Buffet'
@@ -2871,7 +2904,7 @@ C | C
                             {g.ageGroup==='Adult'?<label className="field"><span>Alcohol preference</span><select aria-label={`Alcohol preference for ${g.name}`} value={g.alcohol===null?'Not answered':g.alcohol?'Drinks alcohol':'No alcohol'} onChange={e=>patch({alcohol:e.target.value==='Not answered'?null:e.target.value==='Drinks alcohol'})}><option>Not answered</option><option>Drinks alcohol</option><option>No alcohol</option></select></label>:<label className="field"><span>Child’s beverage</span><input aria-label={`Kids beverage for ${g.name}`} value={g.kidBeverage} onChange={e=>patch({kidBeverage:e.target.value})}/></label>}
                           </div>
                           <label className="field"><span>Dietary / allergy notes</span><input aria-label={`Dietary needs for ${g.name}`} value={g.diet} placeholder="Any details the host needs" onChange={e=>patch({diet:e.target.value})}/></label>
-                          <details className="dietary-picker"><summary>Dietary requirements · {g.dietaryNeeds.length} selected</summary><fieldset className="dietary-options"><legend>Choose all that apply</legend>{['Vegetarian','Vegan','Gluten-Free','Dairy-Free','Nut-Free','Egg-Free','Soy-Free','Sesame-Free','Fish-Free','Shellfish-Free'].map(tag=><label key={tag}><input type="checkbox" checked={g.dietaryNeeds.includes(tag)} onChange={e=>patch({dietaryNeeds:e.target.checked?[...g.dietaryNeeds,tag]:g.dietaryNeeds.filter(t=>t!==tag)})}/>{tag}</label>)}</fieldset></details>
+                          <label className="field"><span>Household / invited with</span><select aria-label={`Household for ${g.name}`} value={g.householdId||''} onChange={e=>patch({householdId:e.target.value})}><option value="">Individual invitation</option>{s.guests.filter(x=>x.guestId!==g.guestId&&!x.householdId).map(x=><option key={x.guestId} value={x.guestId}>{x.name||'Unnamed guest'}</option>)}</select></label>{g.ageGroup==='Child'&&<label className="field"><span>Highchair required</span><input type="checkbox" aria-label={`Highchair for ${g.name}`} checked={Boolean(g.highchair)} onChange={e=>patch({highchair:e.target.checked})}/></label>}<details className="dietary-picker"><summary>Dietary requirements · {g.dietaryNeeds.length} selected</summary><fieldset className="dietary-options"><legend>Choose all that apply</legend>{['Vegetarian','Vegan','Gluten-Free','Dairy-Free','Nut-Free','Egg-Free','Soy-Free','Sesame-Free','Fish-Free','Shellfish-Free'].map(tag=><label key={tag}><input type="checkbox" checked={g.dietaryNeeds.includes(tag)} onChange={e=>patch({dietaryNeeds:e.target.checked?[...g.dietaryNeeds,tag]:g.dietaryNeeds.filter(t=>t!==tag)})}/>{tag}</label>)}</fieldset></details>
                           <div className="guest-contribution"><h3>What they’re bringing</h3>{selected.filter(d=>responsibility(s,d).owner===g.guestId).map(d=><label key={d.id} className="field"><span>{d.name}</span><select aria-label={`Contribution from ${g.name} for ${d.name}`} value={responsibility(s,d).status} onChange={e=>setResponsibility(d.id,{status:e.target.value as 'Planned'|'Confirmed'|'Arrived'})}><option>Planned</option><option>Confirmed</option><option>Arrived</option></select></label>)}
                           <select aria-label={`Assign a dish to ${g.name}`} value="" onChange={e=>{if(e.target.value)setResponsibility(e.target.value,{owner:g.guestId,status:'Planned'});}}><option value="">Assign a dish from your menu…</option>{selected.map(d=><option key={d.id} value={d.id}>{d.name}</option>)}</select>
                           {g.dish && <small>Previous contribution note: {g.dish}</small>}</div>
@@ -2910,12 +2943,12 @@ C | C
                     ice instead.
                   </div>
                 )}
-                {s.guests.filter(g => g.diet).length > 0 && (
+                {planningGuests.filter(g => guestDietaryNeeds(g).length).length > 0 && (
                   <div className="note-banner">
                     DIETARY CHECK ·{' '}
-                    {s.guests
-                      .filter(g => g.diet)
-                      .map(g => `${g.name}: ${g.diet}`)
+                    {planningGuests
+                      .filter(g => guestDietaryNeeds(g).length)
+                      .map(g => `${g.name}: ${guestDietaryNeeds(g).join(', ')}`)
                       .join(' · ')}
                     . Review ingredients before serving.
                   </div>
@@ -2977,7 +3010,7 @@ C | C
                       Plan water, sparkling water and ice for everyone. Coffee
                       and tea belong beside dessert.
                     </p>
-                    <div className="big-callout">
+                    <button onClick={()=>{navigate('MENU');setMenuView('browse');setMenuCategory('Drinks');}}>CHOOSE DRINKS →</button><p>Approach guides the plan; bottles are calculated from selected drinks and explicit alcohol preferences.</p><div className="big-callout">
                       {s.drink === 'No-alcohol-forward' ? 0 : selected.some(d=>d.group==='Drink · Alcoholic'&&/wine/i.test(d.name))?Math.ceil(adultDrinkers * 0.5):0}{' '}
                       <small>APPROX. WINE / SPARKLING BOTTLES FOR DRINKERS</small>
                     </div>
@@ -2989,11 +3022,11 @@ C | C
               </div>
             )}
             {tab === 'BUDGET' && (
-              <div className="content">
+              <div className="content">{plan.unpricedRows.length>0&&<div className="recipe-integrity-notice" role="status"><b>Budget incomplete: {plan.unpricedRows.length} items need prices</b><p>Enter prices for ingredients, manual items and selected products in Shopping. Unpriced items are excluded from the estimate.</p><button onClick={()=>navigate('SHOPPING')}>ENTER SHOPPING PRICES →</button></div>}
                 <Section eyebrow="BUDGET / SPEND" title="Your budget">
                   A clear estimate that changes as the plan changes.
                 </Section>
-                <div className="panel"><div className="budget-head"><div><span>RULE ESTIMATE</span><b>{money(estimated)}</b></div><div><span>ACTUAL SPEND</span><b>{money(actual)}</b></div></div><details className="inline-editor"><summary>Record actual spending</summary><div className="form-grid"><label className="field"><span>Purchase</span><input value={spendLabel} onChange={e=>setSpendLabel(e.target.value)}/></label><label className="field"><span>Amount paid</span><input type="number" min="0" step="0.01" value={spendAmount} onChange={e=>setSpendAmount(e.target.value)}/></label></div><button className="save-recipe-button" onClick={()=>{if(!spendLabel.trim()||!Number.isFinite(Number(spendAmount))||Number(spendAmount)<0)return;update('actualSpend',[...s.actualSpend,{id:uid('spend'),label:spendLabel,amount:Number(spendAmount)}]);setSpendLabel('');setSpendAmount('');}}>ADD PURCHASE</button></details>{s.actualSpend.map(x=><div className="budget-line" key={x.id}><span>{x.label}</span><b>{money(x.amount)}</b><button aria-label={`Remove purchase ${x.label}`} onClick={()=>update('actualSpend',s.actualSpend.filter(i=>i.id!==x.id))}>REMOVE</button></div>)}</div>
+                <div className="panel"><div className="budget-head"><div><span>RULE ESTIMATE</span><b>{money(estimated)}</b></div><div><span>ACTUAL SPEND</span><b>{money(actual)}</b></div></div><h2>Record actual spending</h2><div className="form-grid"><label className="field"><span>Purchase</span><input value={spendLabel} onChange={e=>setSpendLabel(e.target.value)}/></label><label className="field"><span>Amount paid</span><input type="number" min="0" step="0.01" value={spendAmount} onChange={e=>setSpendAmount(e.target.value)}/></label></div><label className="field"><span>Related planned item (optional)</span><select aria-label="Related planned item" value={spendShoppingKey} onChange={e=>setSpendShoppingKey(e.target.value)}><option value="">Unlinked purchase</option>{shoppingEntries.map(item=><option key={item.key} value={item.key}>{item.name}</option>)}</select></label><button className="save-recipe-button" onClick={()=>{if(!spendAmount.trim()||!spendLabel.trim()||!Number.isFinite(Number(spendAmount))||Number(spendAmount)<0)return;update('actualSpend',[...s.actualSpend,{id:uid('spend'),label:spendLabel,amount:Number(spendAmount),shoppingKey:spendShoppingKey}]);setSpendLabel('');setSpendAmount('');setSpendShoppingKey('');}}>ADD PURCHASE</button>{s.actualSpend.map(x=><div className="budget-line" key={x.id}><span>{x.label}</span><b>{money(x.amount)}</b><label>Link purchase<select aria-label={`Planned item for purchase ${x.label}`} value={x.shoppingKey||''} onChange={e=>update('actualSpend',s.actualSpend.map(i=>i.id===x.id?{...i,shoppingKey:e.target.value}:i))}><option value="">Unlinked purchase</option>{shoppingEntries.map(item=><option key={item.key} value={item.key}>{item.name}</option>)}</select></label><button aria-label={`Remove purchase ${x.label}`} onClick={()=>update('actualSpend',s.actualSpend.filter(i=>i.id!==x.id))}>REMOVE</button></div>)}</div>
                 <div className="budget-head">
                   <div>
                     <span className="eyebrow">TOTAL BUDGET</span>
@@ -3004,15 +3037,15 @@ C | C
                     <b>{money(planned)}</b>
                   </div>
                   <div>
-                    <span className="eyebrow">REMAINING</span>
+                    <span className="eyebrow">PLANNED BALANCE</span>
                     <b className={planned > s.budget ? 'over' : ''}>
                       {money(s.budget - planned)}
                     </b>
                   </div>
                 </div>
-                <div className="two-col">
+                <div className="panel" role="status"><h2>{plan.actualRemaining<0?`${money(-plan.actualRemaining)} over budget`:`${money(plan.actualRemaining)} actual remaining`}</h2><p>Actual remaining uses recorded purchases. Planned balance compares your full shopping estimate with your target.</p><p>{plan.unreconciledSpend?'Some receipts are unlinked. Link them to planned items before using a combined forecast.':`Forecast: ${money(plan.projectedTotal)} = actual spend + ${money(plan.outstandingPlanned)} still planned. Linked payments reduce the outstanding estimate; overages are counted in actual spend.`}</p></div><div className="two-col">
                   <div className="panel">
-                    <h2>Where it goes</h2>
+                    <h2>Planned costs by category</h2>
                     {Object.entries(estimates).map(([name, amount]) => (
                       <div className="budget-line" key={name}>
                         <span>{name}</span>
@@ -3049,9 +3082,9 @@ C | C
                     <div className="panel">
                       <h2>Spend it better</h2>
                       <p>
-                        {s.budget - planned > 100
+                        {plan.actualRemaining>100&&s.budget-plan.projectedTotal>100&&!plan.unreconciledSpend&&!plan.unpricedRows.length&&!plan.unpricedRecipes.length&&s.budget - planned > 100
                           ? 'You have room for one stronger detail: better linens, a more generous floral arrangement, or a turkey upgrade.'
-                          : 'Keep the edit tight. Candlelight and a clean serving plan will carry the room.'}
+                          : 'Complete prices and reconcile purchases before planning upgrades.'}
                       </p>
                       <button
                         className="text-link"
@@ -3108,12 +3141,14 @@ C | C
                         <p>{desc}</p>
                         <small>THANKSGIVING AT HOME · {thanksgiving.getFullYear()}</small>
                       </div>
-                      <label className="field"><span>Title override</span><input aria-label={`Title for ${id}`} value={name} onChange={e=>update('printableOverrides',{...s.printableOverrides,[id]:{...s.printableOverrides[id],name:e.target.value}})}/></label>
+                      <details className="printable-editor"><summary>Personalize this printable</summary>
+                      <label className="field"><span>Title</span><input aria-label={`Title for ${id}`} value={name} onChange={e=>update('printableOverrides',{...s.printableOverrides,[id]:{...s.printableOverrides[id],name:e.target.value}})}/></label>
                       <label className="field"><span>Detail override</span><textarea aria-label={`Detail for ${id}`} value={desc} onChange={e=>update('printableOverrides',{...s.printableOverrides,[id]:{...s.printableOverrides[id],desc:e.target.value}})}/></label>
                       <button onClick={()=>{const next={...s.printableOverrides};delete next[id];update('printableOverrides',next);}}>RESET TO PLAN</button>
-                      <button onClick={() => printOne({name,desc})}>
+                      </details>
+                      <button onClick={() => printOne({id,name,desc})}>
                         <Printer size={16} /> PRINT / SAVE PDF
-                      </button>
+                      </button><button onClick={()=>void downloadCardImage({id,name,desc})}>DOWNLOAD PNG</button>
                     </article>
                           ))}
                         </div>

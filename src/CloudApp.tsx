@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useRef, useState, type FormEvent } from 'react';
 import type { Session } from '@supabase/supabase-js';
-import App, { initial, type State } from './App';
+import App, { initial, freshPlan, type State } from './App';
 import { cacheKey, createParty, hasPaidAccess, loadPrintable, initialAuthSetupIntent, listParties, PartySaver, readAuthSetupIntent, recoveryKey, retainRecovery, supabase, type AuthSetupIntent, type Party, type SaveStatus } from './cloud';
 
 // Suggested menu/setup is retained, but example guests must not become customer data.
-const newPartyState: State = {...initial, guests: [], seating: {}, menuPlan: {}, menuOwners: {}, planningMode: 'Estimated'};
+const newPartyState: State = freshPlan('suggested');
 
 function downloadBackup(state: State) {
   const url = URL.createObjectURL(new Blob([JSON.stringify(state, null, 2)], {type: 'application/json'}));
@@ -216,7 +216,8 @@ export default function CloudApp() {
         {error && <p role="alert" className="account-message">{error}</p>}
         {message && <p role="status" className="account-message">{message}</p>}
         {(!session || passwordSetup) && <>
-          <p>{needsSetupLink ? 'Open the setup email in this browser to choose your password. If your link expired or opened elsewhere, request a fresh link below.' : passwordSetup ? 'Choose a password to continue on your phone and computer.' : 'Your account setup link is emailed after purchase. Sign in with the email you used at checkout to open your saved parties.'}</p>
+          <p>{needsSetupLink ? 'Use the email from your purchase to request your personal login setup link. Open the email in this browser and choose your password. If your purchase is still processing, wait for your purchase setup email.' : passwordSetup ? 'Choose a password to continue on your phone and computer.' : 'Your purchase includes a personal account. First visit? Set up your login using the email from checkout. Already set your password? Sign in below to open your saved parties.'}</p>
+          {!session && !needsSetupLink && mode === 'signin' && <button className="account-text-action" disabled={busy} onClick={() => {setSetupIntent('invite'); setPassword(''); setError(''); setMessage('');}}>SET UP YOUR LOGIN</button>}
           <form onSubmit={authenticate}>
             {!passwordSetup && <label>EMAIL<input type="email" autoComplete="email" required value={email} onChange={e => setEmail(e.target.value)} /></label>}
             {(passwordSetup || (!needsSetupLink && mode !== 'reset')) && <label>{passwordSetup ? 'NEW PASSWORD' : 'PASSWORD'}<input type="password" autoComplete={passwordSetup ? 'new-password' : 'current-password'} minLength={passwordSetup ? 8 : 1} required value={password} onChange={e => setPassword(e.target.value)} /></label>}
@@ -234,8 +235,8 @@ export default function CloudApp() {
         </>}
         {session && !paid && !passwordSetup && <>
           <p>{session.user.email}</p>
-          <p role="status">{accessError || 'This account does not yet have paid app access. After your Etsy purchase, check the email associated with your order for your personal setup link.'}</p>
-          <p>Check spam and promotions too. If you need help, message TheCrowandCrown on Etsy with your order number.</p>
+          <p role="status">{accessError || 'This account does not yet have paid app access. After your purchase, check the email associated with your order for your personal setup link.'}</p>
+          <p>Check spam and promotions too. If you need help, contact help@thecrowandcrown.com or message TheCrowandCrown on Etsy with your order number.</p>
           <div className="account-actions"><button onClick={()=>setAccessRefresh(v=>v+1)}>CHECK ACCESS AGAIN</button><button disabled={busy} onClick={()=>void run(()=>signOut())}>SIGN OUT</button></div>
         </>}
         {session && paid && !passwordSetup && <>
