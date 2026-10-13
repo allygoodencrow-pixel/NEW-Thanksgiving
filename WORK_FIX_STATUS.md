@@ -1,6 +1,6 @@
 # Work fix checklist — implementation status
 
-Updated October 10, 2026. Existing app: https://thanksgiving.thecrowandcrown.com/
+Updated October 13, 2026. Existing app: https://thanksgiving.thecrowandcrown.com/
 Work branch: `codex/sale-readiness-2026-10-10`; integrates the relevant planning fixes from PR #13 with current main `81f2e8f9a2af21ba47b9fe74ade24f7b7e2c7e2b`.
 
 The fixes below are implemented and pass automated checks. They remain **In progress** until the appropriate browser/device/output acceptance checks pass. Production has not received this fix branch. The latest main purchase-account implementation and its documentation are preserved, including the current paid-access gate, 63-record library and private original-printable delivery.
@@ -33,6 +33,16 @@ The fixes below are implemented and pass automated checks. They remain **In prog
 | T23 day mode | P2 / T01–04,18,20 | In progress | Event-date local clock, effective adjusted now/next and explicit future-event preview; UI checks pass | Phone day execution and refresh |
 | T24 customer email | P0 / T00 | In progress | Current Supabase auth logs show successful October 10 QA signup/login/deletion and owner recovery request. Current Shopify and Etsy custom-auth handlers are deployed. Historical October 5 SMTP/signature failures are not current evidence | Confirm buyer delivery, password setup/recovery and returning-buyer access with a real checkout; verify live paid-checkout delivery through Crow Make |
 | T25 release journey | Gate / all applicable | Blocked | October 10 combined branch passes typecheck, full tests and production build. Live custom-domain signed-out access gate verified | Authenticated browser, actual phone, native print/download, live purchase and two-device persistence acceptance |
+
+## October 13 production release
+
+PR #14 was merged at `f65cfd79e5694dcaecec1f6835c322d1a69de04f`. Vercel production deployment `dpl_tATKsTGSwxLfrLsDbJMHQcA8NQK9` is READY, and the custom domain resolves to that deployment. The fixes are now production; the earlier branch-only statements below describe the October 10 audit.
+
+Re-ran full npm test, typecheck and production build successfully. Live opening screen shows SET UP YOUR LOGIN; anonymous paid-printable POST returns 401 sign_in_required, and the printable storage bucket remains private. Crow Make fulfillment scenario 6585181 is active with no incomplete executions; current run 4f8440443354459f8c18b1418a4e102b succeeded. That receipt scan does not certify a real paid app order.
+
+The secure browser sign-in submission returned Invalid login credentials. Authenticated browser, second-device recovery, native print/download and actual paid order-to-email acceptance remain unverified. No owner password or party was changed. Commerce release readiness remains BLOCKED.
+
+The repository is still public. The prepared GitHub privacy confirmation explicitly warns that Advanced Security and custom Dependabot alert rules will be disabled and existing forks remain public. The privacy change was not submitted; it requires action-time confirmation because it disables security monitoring.
 
 ## Audit coverage
 
