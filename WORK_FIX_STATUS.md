@@ -85,3 +85,9 @@ All 32 findings are assigned; none is declared fully verified solely from source
 - Repository is public: original-art historical access must be removed by making the repository private before claiming exclusive paid delivery.
 
 Release gate: verify live fulfillment, review the existing Vercel preview with a paid account, verify purchase-to-email-to-login-to-private-download, saved-party recovery and native print output. Keep commerce listings draft until these gates pass. No new app, hosting project or backend was created; preview protection remains enabled.
+
+## October 13 email-link sign-in recovery
+
+After repeated invalid-credentials responses, verified the owner account is confirmed and not banned. Added EMAIL ME A SIGN-IN LINK / SEND SIGN-IN LINK to the existing account form. The client uses signInWithOtp with shouldCreateUser:false and the existing app origin; sending a link does not bypass purchase grants, change a password, or replace parties. The password flow and invitation/password-recovery flows remain available.
+
+Full npm test passed, including the new real React email-link request regression, unpaid-access gate, account isolation and saved-party cases. Typecheck and production build passed. Live OTP request for the owner succeeded; the branded email arrived in the approved owner inbox at 2026-10-13T07:19:20Z with subject Open your CROW & CROWN Thanksgiving planner. Authentication by opening that link, two-device saving and paid checkout remain acceptance checks, not completed evidence. Source commit: 0a6e157975b296dac54343a108f32cb9082adc36.
