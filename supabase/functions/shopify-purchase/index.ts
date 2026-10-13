@@ -1,5 +1,6 @@
 import {createClient} from 'npm:@supabase/supabase-js@2.117.2';
 import {createPurchaseHandler, type Lease, type Purchase} from './core.ts';
+import {sendExistingBuyerSetup} from '../_shared/buyerAccount.ts';
 
 declare const EdgeRuntime: {waitUntil(task: Promise<unknown>): void};
 
@@ -35,14 +36,7 @@ const handler = createPurchaseHandler({
     return data.user.id;
   },
   async existingAccount(email, redirect) {
-    // Generate-only resolves the existing user's ID server-side; its unused action
-    // link is never persisted or returned. OTP sends through the configured SMTP.
-    const {data, error} = await client.auth.admin.generateLink({type: 'magiclink', email, options: {redirectTo: redirect}});
-    if (error) throw error;
-    if (!data.user) throw new Error('existing_user_missing');
-    const sent = await client.auth.resetPasswordForEmail(email, {redirectTo: redirect});
-    if (sent.error) throw sent.error;
-    return data.user.id;
+    return sendExistingBuyerSetup(client.auth, email, redirect);
   },
   async complete(lease, user) {
     const {data, error} = await client.from('cc_purchase_fulfillments').update({status: 'complete', user_id: user, email_sent_at: new Date().toISOString(), lease_token: null, lease_until: null, last_error_code: null})
