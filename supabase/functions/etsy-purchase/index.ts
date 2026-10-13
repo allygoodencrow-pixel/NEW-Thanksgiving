@@ -1,5 +1,6 @@
 import {createClient} from 'npm:@supabase/supabase-js@2.117.2';
 import {inspectEnvelope} from './core.ts';
+import {sendExistingBuyerSetup} from '../_shared/buyerAccount.ts';
 const db=createClient(Deno.env.get('SUPABASE_URL')!,Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!,{auth:{persistSession:false,autoRefreshToken:false}});
 const redirect='https://thanksgiving.thecrowandcrown.com/?setup=1';
 const json=(data:unknown,status=200)=>new Response(JSON.stringify(data),{status,headers:{'Content-Type':'application/json','Cache-Control':'no-store'}});
@@ -33,16 +34,14 @@ Deno.serve(async req=>{
  // Stored checkout email is immutable across retries; credentials are never returned.
  const email=claim.data[0].email;
  const invited=await db.auth.admin.inviteUserByEmail(email,{redirectTo:redirect});
- let user=invited.data?.user;
+ let userId=invited.data?.user?.id;
  if(invited.error) {
   if(!['email_exists','user_already_exists'].includes(invited.error.code??''))throw invited.error;
-  const existing=await db.auth.admin.generateLink({type:'magiclink',email,options:{redirectTo:redirect}});if(existing.error)throw existing.error;
-  user=existing.data.user;
-  const sent=await db.auth.resetPasswordForEmail(email,{redirectTo:redirect});if(sent.error)throw sent.error;
+  userId=await sendExistingBuyerSetup(db.auth,email,redirect);
  }
- if(!user)throw new Error('missing_account');
+ if(!userId)throw new Error('missing_account');
  // The order lock makes entitlement creation atomic with completion/cancellation.
- const done=await db.rpc('cc_finish_etsy',{p_receipt:id,p_token:lease,p_user:user.id});
+ const done=await db.rpc('cc_finish_etsy',{p_receipt:id,p_token:lease,p_user:userId});
  if(done.error||!done.data)throw new Error('completion_failed');
  return json({status:'complete'});
  }catch(err){
