@@ -2888,13 +2888,17 @@ input,select,textarea{max-width:100%;box-sizing:border-box}
 @media(max-width:650px){.buyer-demo-bar{padding:14px 20px;gap:10px}.buyer-demo-actions{gap:6px}.buyer-demo-bar button,.buyer-demo-bar a{padding:10px 12px}.buyer-demo-tour{align-items:flex-start;flex-direction:column;gap:14px;padding-top:14px}.buyer-demo-tour-actions{align-self:flex-end}}
 @media print{.buyer-demo-bar{display:none!important}}
 
-/* Demonstration annotations are separate from the application's visual system. */
-.demo-feature-sticker{width:180px;margin:12px 14px 42px auto;position:relative;z-index:3;transform:rotate(5deg);background:none;border:0;box-shadow:none;color:#fff}
-.demo-annotation{position:relative}.demo-annotation summary{width:180px;height:180px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:12px;padding:28px;text-align:center;cursor:pointer;background:#334cff;color:#fff;border-radius:50%;outline:2px dashed #334cff;outline-offset:7px;box-shadow:5px 8px 0 #08080830;list-style:none}
-.demo-annotation summary::-webkit-details-marker{display:none}.demo-annotation summary:focus-visible{outline:3px solid #161616;outline-offset:8px}
-.demo-annotation p{position:absolute;top:calc(100% + 22px);right:0;width:260px;padding:18px 20px;margin:0;box-sizing:border-box;background:#334cff;color:white;border-radius:4px;transform:rotate(-5deg);box-shadow:0 8px 20px #0003;z-index:5}
-.demo-annotation-arrow{position:absolute;bottom:-44px;left:-88px;width:110px;height:65px;overflow:visible;pointer-events:none;transform:rotate(-5deg)}
-.demo-annotation-arrow path{stroke:#334cff;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 1px 1px #fff)}
-.demo-feature-home{position:absolute;right:clamp(30px,5vw,72px);top:140px;margin:0}
-@media(max-width:650px){.demo-feature-sticker{width:140px;margin:12px 12px 44px auto}.demo-annotation summary{width:140px;height:140px;gap:9px;padding:22px;outline-offset:5px}.demo-feature-home{position:absolute;top:96px;right:30px;width:140px;margin:0}.demo-annotation-arrow{left:-68px;width:90px;bottom:-42px}.demo-annotation p{width:245px}.buyer-demo-actions{max-width:100%}}
-@media print{.demo-feature-sticker{display:none!important}}
+
+/* Demo annotations track their feature without taking space in the planner. */
+.demo-annotation-layer{position:fixed;inset:0;pointer-events:none;z-index:1100}
+.demo-moving-arrow{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.demo-moving-arrow>path{stroke:#334cff;stroke-width:3;fill:none;filter:drop-shadow(0 1px 1px #fff)}
+.demo-moving-arrow marker path{stroke:#334cff;stroke-width:1.3;fill:none}
+.demo-feature-sticker{position:fixed;color:#fff;pointer-events:auto;transition:left .35s ease,top .35s ease;background:none;border:0;box-shadow:none;margin:0}
+.demo-sticker-badge{width:100%;aspect-ratio:1;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:9px;padding:22px;box-sizing:border-box;text-align:center;cursor:pointer;background:#334cff;color:#fff;border:0;border-radius:50%;outline:2px dashed #334cff;outline-offset:5px;box-shadow:4px 6px 0 #08080830;transform:rotate(5deg)}
+.demo-sticker-badge:focus-visible,.demo-next-feature:focus-visible{outline:3px solid #161616;outline-offset:7px}
+.demo-next-feature{display:block;min-height:36px;margin:12px auto 0;padding:8px 10px;background:#334cff;color:#fff;border:1px solid white;border-radius:4px;cursor:pointer;width:max-content;max-width:160px}
+.demo-sticker-explanation{position:fixed;width:230px;padding:16px;margin:0;box-sizing:border-box;background:#334cff;color:#fff;border-radius:4px;box-shadow:0 6px 18px #0003}
+@media(max-width:650px){.demo-sticker-badge{padding:16px;gap:7px}.demo-next-feature{padding:7px 8px;max-width:120px}.demo-sticker-explanation{width:230px}}
+@media(prefers-reduced-motion:reduce){.demo-feature-sticker{transition:none}}
+@media print{.demo-annotation-layer{display:none!important}}

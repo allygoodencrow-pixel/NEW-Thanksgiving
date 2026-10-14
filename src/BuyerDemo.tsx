@@ -13,7 +13,7 @@ export function buyerSample(): State {
 const tour = [
   {route:'home', title:'Thanksgiving, already figured out.', copy:'Explore a sample party for 12. Use the menu at the top left, or follow this short tour.'},
   {route:'guests',title:'Start with your people.',copy:'Change a pending RSVP to declined. Expected headcount changes, and your plan follows.'},
-  {route:'menu',title:'Make the menu yours.',copy:'Open a recipe, review its scaled ingredients, or add a dish from the recipe library.'},
+  {route:'menu',title:'Make the menu yours.',copy:'Open a recipe to see the total amount of each ingredient you need. The app has already done the multiplying for you.'},
   {route:'shopping',title:'Your menu becomes your list.',copy:'See ingredients from the selected dishes. Edit a quantity, lock an override or mark an item bought.'},
   {route:'prep',title:'A little now. Less later.',copy:'Review make-ahead tasks and check off prep as you go.'},
   {route:'timeline',title:'Give everything its moment.',copy:'Review cooking, arrivals and serving around dinner. Check equipment conflicts and adjust your timing.'},
