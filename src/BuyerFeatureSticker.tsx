@@ -1,4 +1,4 @@
-import {useEffect,useState} from 'react';
+import {useEffect,useState,type CSSProperties} from 'react';
 import {createPortal} from 'react-dom';
 type Feature={label:string;detail:string;target:string};
 const features:Record<string,Feature[]>={
@@ -16,6 +16,13 @@ const features:Record<string,Feature[]>={
  EXPERIENCE:[{label:'MORE THAN DINNER',detail:'Choose an activity. We add what you need and when to do it.',target:'.content .panel'}],
 };
 const recipeFeature:Feature={label:'HERE’S HOW MUCH YOU NEED',detail:'The list already shows how much to buy and use for your guests. You don’t need to work anything out.',target:'.recipe-ingredient-section .recipe-scale-note'};
+const appearances=[
+ {shape:'circle',color:'#334cff',line:'#334cff',text:'#ffffff'},
+ {shape:'burst',color:'#6935c7',line:'#6935c7',text:'#ffffff'},
+ {shape:'label',color:'#f9c8df',line:'#98285a',text:'#161616'},
+ {shape:'ticket',color:'#08685d',line:'#08685d',text:'#ffffff'},
+ {shape:'cut-corners',color:'#ccebe0',line:'#196555',text:'#161616'},
+];
 type Position={x:number;y:number;tx:number;ty:number;size:number;recipe:boolean;visible:boolean;inView:boolean};
 export function BuyerFeatureSticker({page}:{page:string}){
  const [index,setIndex]=useState(0),[position,setPosition]=useState<Position|null>(null);
@@ -56,7 +63,8 @@ export function BuyerFeatureSticker({page}:{page:string}){
  function next(){const n=(index+1)%list.length;setIndex(n);setExpanded(false);document.querySelector<HTMLElement>(list[n].target)?.scrollIntoView({block:'center',behavior:'instant'});}
  const {x,y,tx,ty,size}=position;
  const bx=x+size/2,by=y+size/2;
- return createPortal(<div className="demo-annotation-layer">
+ const appearance=appearances[position.recipe?4:((Object.keys(features).indexOf(page)+index)%appearances.length)];
+ return createPortal(<div className={`demo-annotation-layer demo-shape-${appearance.shape}`} style={{'--demo-ink':appearance.color,'--demo-text':appearance.text,'--demo-line':appearance.line} as CSSProperties}>
   {position.inView&&<svg className="demo-moving-arrow" aria-hidden="true"><defs><marker id="demo-arrow-tip" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6"/></marker></defs><path d={`M${bx} ${by} Q${bx} ${ty} ${tx} ${ty}`} markerEnd="url(#demo-arrow-tip)"/></svg>}
   <aside className="demo-feature-sticker" aria-label="Feature highlight" style={{left:x,top:y,width:size}}>
    <button className="demo-sticker-badge" aria-expanded={expanded} aria-label={`Demo highlight: ${item.label}`} onClick={()=>setExpanded(v=>!v)}><span className="demo-annotation-kicker">DEMO NOTE</span><span className="demo-sticker-title">{item.label}</span><span className="demo-annotation-tap">TAP TO LEARN</span></button>
