@@ -271,3 +271,5 @@ body .shell .topbar .account-control,.cloud-status{font-family:var(--font-body);
 
 .demo-sticker-badge{font-family:var(--font-body)}
 .demo-next-feature{font-family:var(--font-body);font-size:9px;font-weight:400;letter-spacing:.04em;line-height:1.4}
+
+.demo-feature-sticker .demo-sticker-message{font-family:var(--font-body);font-size:16px;font-weight:400;line-height:1.35;letter-spacing:0;text-transform:none}

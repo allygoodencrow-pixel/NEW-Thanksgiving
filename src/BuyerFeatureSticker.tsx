@@ -2,20 +2,20 @@ import {useEffect,useState,type CSSProperties} from 'react';
 import {createPortal} from 'react-dom';
 type Feature={label:string;detail:string;target:string};
 const features:Record<string,Feature[]>={
- HOME:[{label:'YOUR GUESTS + MENU',detail:'See how many people are coming and what you’re serving.',target:'.hosting-counts'},{label:'CHOOSE A SECTION',detail:'Choose one of these four sections to begin.',target:'.hosting-navigation'}],
- 'PARTY PLAN':[{label:'SET THE DATE + TIME',detail:'Your date and dinner time guide the prep and timeline.',target:'.setup-essentials'},{label:'HOW MANY ARE COMING?',detail:'Choose whether to cook for everyone invited, just those coming, or a number you enter.',target:'.setup-details > summary'}],
- GUESTS:[{label:'ADD YOUR GUESTS',detail:'Add each person and note what they can eat or drink.',target:'.guest-entry'},{label:'CHANGE WHO’S COMING',detail:'If someone can’t come, change their answer here. Your food and shopping amounts follow.',target:'.guest-rsvp select'},{label:'SEE WHO’S COMING',detail:'See who said yes, who hasn’t answered and who can’t make it.',target:'.guest-count-line'}],
- MENU:[{label:'SEE THE RECIPE',detail:'Open the recipe to see how much of each ingredient you need for your guests.',target:'.menu-dish-recipe'},{label:'ADD A DISH',detail:'Choose a dish. We add what you need to buy and prepare.',target:'.add-dish-action'},{label:'YOUR SHOPPING LIST',detail:'Your chosen dishes become your shopping list.',target:'.menu-support'}],
- 'PLAN MENU':[{label:'CHOOSE YOUR DISHES',detail:'Add a dish from the recipe library to your own menu.',target:'.library-recipe-card'},{label:'ADD YOUR OWN RECIPE',detail:'Add your own recipe and tell us how many people it feeds.',target:'.add-recipe-button'}],
- SHOPPING:[{label:'CHANGE HOW MUCH TO BUY',detail:'Tap an item to change how much you need or what it costs.',target:'.shopping-edit-trigger'},{label:'SEE WHAT IS LEFT',detail:'Switch between the full list, items still to buy and purchases already checked off.',target:'.shopping-list-filters'},{label:'ADD HOUSEHOLD EXTRAS',detail:'Add anything else you need, like ice, candles or trash bags.',target:'.custom-shopping-panel'}],
- PREP:[{label:'MAKE AHEAD',detail:'See what you can do early, then check it off as you go.',target:'.prep-start-grid'}],
- TIMELINE:[{label:'FOLLOW THE TIMING',detail:'Cooking, arrivals and serving are organized around dinner.',target:'.timeline-row'},{label:'ADD AN EVENT',detail:'Add a family photo, an activity or another event.',target:'.page-timeline .input-panel'}],
- TABLE:[{label:'SEE THE TABLE PLAN',detail:'See how many tables and chairs you need.',target:'.table-visual'},{label:'GIVE EACH GUEST A SEAT',detail:'Choose where each person will sit. If they can’t come, their seat becomes free.',target:'.seat-grid'}],
- BUDGET:[{label:'KEEP TRACK OF COSTS',detail:'See what you expect to spend and what you’ve already paid.',target:'.budget-head'},{label:'RECORD A PURCHASE',detail:'Enter what you bought and what you paid. Choose the matching item so it isn’t counted twice.',target:'input[type="number"]'}],
- PRINTABLES:[{label:'EXPLORE THE COLLECTION',detail:'Buying the app gives you access to the printable collection.',target:'.printable-collection-intro'},{label:'ADD YOUR PARTY DETAILS',detail:'Open a section to see printables filled in with your guests and dishes.',target:'.printable-category'}],
- EXPERIENCE:[{label:'CHOOSE AN ACTIVITY',detail:'Choose an activity. We add what you need and when to do it.',target:'.content .panel'}],
+ HOME:[{label:'YOUR GUESTS + MENU',detail:'Pick your guests and dishes. The app tells you how much food to buy.',target:'.hosting-counts'},{label:'CHOOSE A SECTION',detail:'Keep guests, food, shopping and prep here instead of juggling separate lists.',target:'.hosting-navigation'}],
+ 'PARTY PLAN':[{label:'SET THE DATE + TIME',detail:'Set dinner time once. Your cooking and serving schedule is built around it.',target:'.setup-essentials'},{label:'HOW MANY ARE COMING?',detail:'Choose how many people to cook for. The app works out the food amounts.',target:'.setup-details > summary'}],
+ GUESTS:[{label:'ADD YOUR GUESTS',detail:'Keep names, food allergies and what people are bringing together in one guest list.',target:'.guest-entry'},{label:'CHANGE WHO’S COMING',detail:'When someone can’t come, food and shopping amounts change—without redoing the math.',target:'.guest-rsvp select'},{label:'SEE WHO’S COMING',detail:'Know who’s coming and who hasn’t answered, without counting replies yourself.',target:'.guest-count-line'}],
+ MENU:[{label:'SEE THE RECIPE',detail:'Recipes show how much you need for your guests. You don’t have to work it out.',target:'.menu-dish-recipe'},{label:'ADD A DISH',detail:'Add a dish and its ingredients go on your shopping list. No rewriting needed.',target:'.add-dish-action'},{label:'YOUR SHOPPING LIST',detail:'Your dishes become a shopping list, so you don’t have to make one from scratch.',target:'.menu-support'}],
+ 'PLAN MENU':[{label:'CHOOSE YOUR DISHES',detail:'Choose from the recipe library instead of starting your menu from scratch.',target:'.library-recipe-card'},{label:'ADD YOUR OWN RECIPE',detail:'Use your family recipes too. Their ingredients can join the same shopping list.',target:'.add-recipe-button'}],
+ SHOPPING:[{label:'CHANGE HOW MUCH TO BUY',detail:'Need more or less? Edit any shopping amount and keep the list right for your party.',target:'.shopping-edit-trigger'},{label:'SEE WHAT IS LEFT',detail:'Check off what you buy. See what’s left at a glance.',target:'.shopping-list-filters'},{label:'ADD HOUSEHOLD EXTRAS',detail:'Add ice, candles and trash bags to the same list, so the little things aren’t forgotten.',target:'.custom-shopping-panel'}],
+ PREP:[{label:'MAKE AHEAD',detail:'See what you can prepare early, so there’s less to do when guests arrive.',target:'.prep-start-grid'}],
+ TIMELINE:[{label:'FOLLOW THE TIMING',detail:'See when to cook and serve. Spot dishes that need the oven at the same time.',target:'.timeline-row'},{label:'ADD AN EVENT',detail:'Add photos, games and arrivals to the schedule, so the whole day is easy to follow.',target:'.page-timeline .input-panel'}],
+ TABLE:[{label:'SEE THE TABLE PLAN',detail:'Know how many tables and chairs you need before guests arrive.',target:'.table-visual'},{label:'GIVE EACH GUEST A SEAT',detail:'Give everyone a seat ahead of time instead of sorting it out at dinner.',target:'.seat-grid'}],
+ BUDGET:[{label:'KEEP TRACK OF COSTS',detail:'See what the party may cost and what you’ve already spent, all in one place.',target:'.budget-head'},{label:'RECORD A PURCHASE',detail:'Record purchases as you go, so you can keep track of spending.',target:'input[type="number"]'}],
+ PRINTABLES:[{label:'EXPLORE THE COLLECTION',detail:'The printable collection comes with the app, so you can finish the party details too.',target:'.printable-collection-intro'},{label:'ADD YOUR PARTY DETAILS',detail:'Your guests and dishes fill in name cards and menu labels, saving you from typing them again.',target:'.printable-category'}],
+ EXPERIENCE:[{label:'CHOOSE AN ACTIVITY',detail:'Choose an activity. Its supplies and timing join your plan, so there’s less to remember.',target:'.content .panel'}],
 };
-const recipeFeature:Feature={label:'HERE’S HOW MUCH YOU NEED',detail:'The list already shows how much to buy and use for your guests. You don’t need to work anything out.',target:'.recipe-ingredient-section .recipe-scale-note'};
+const recipeFeature:Feature={label:'HERE’S HOW MUCH YOU NEED',detail:'These are the amounts to buy for your guests. The app has already done the math.',target:'.recipe-ingredient-section .recipe-scale-note'};
 const appearances=[
  {shape:'circle',color:'#334cff',line:'#334cff',text:'#ffffff'},
  {shape:'burst',color:'#6935c7',line:'#6935c7',text:'#ffffff'},
@@ -26,8 +26,7 @@ const appearances=[
 type Position={x:number;y:number;tx:number;ty:number;size:number;recipe:boolean;visible:boolean;inView:boolean};
 export function BuyerFeatureSticker({page}:{page:string}){
  const [index,setIndex]=useState(0),[position,setPosition]=useState<Position|null>(null);
- const [expanded,setExpanded]=useState(false);
- useEffect(()=>{setIndex(0);setExpanded(false);},[page]);
+  useEffect(()=>{setIndex(0);},[page]);
  useEffect(()=>{
   let frame=0;
   function update(){
@@ -35,7 +34,7 @@ export function BuyerFeatureSticker({page}:{page:string}){
    const item=recipe?recipeFeature:features[page]?.[index];
    const target=item&&document.querySelector<HTMLElement>(item.target);
    if(!target||document.querySelector('.sidebar.show')){setPosition(p=>p?.visible?{...p,visible:false}:p);return;}
-   const r=target.getBoundingClientRect(),w=window.innerWidth,h=window.innerHeight,size=w<650?110:140;
+   const r=target.getBoundingClientRect(),w=window.innerWidth,h=window.innerHeight,size=w<650?190:200;
    const inView=r.bottom>20&&r.top<h-20&&r.width>0&&r.height>0;
    const tx=Math.max(16,Math.min(w-16,r.left+r.width/2)),ty=Math.max(24,Math.min(h-24,r.top+Math.min(r.height/2,80)));
    let x:number,y:number;
@@ -60,15 +59,14 @@ export function BuyerFeatureSticker({page}:{page:string}){
  },[page,index]);
  const list=features[page]||[],item=position?.recipe?recipeFeature:list[index];
  if(!item||!position?.visible)return null;
- function next(){const n=(index+1)%list.length;setIndex(n);setExpanded(false);document.querySelector<HTMLElement>(list[n].target)?.scrollIntoView({block:'center',behavior:'instant'});}
+ function next(){const n=(index+1)%list.length;setIndex(n);document.querySelector<HTMLElement>(list[n].target)?.scrollIntoView({block:'center',behavior:'instant'});}
  const {x,y,tx,ty,size}=position;
  const bx=x+size/2,by=y+size/2;
  const appearance=appearances[position.recipe?4:((Object.keys(features).indexOf(page)+index)%appearances.length)];
  return createPortal(<div className={`demo-annotation-layer demo-shape-${appearance.shape}`} style={{'--demo-ink':appearance.color,'--demo-text':appearance.text,'--demo-line':appearance.line} as CSSProperties}>
   {position.inView&&<svg className="demo-moving-arrow" aria-hidden="true"><defs><marker id="demo-arrow-tip" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6"/></marker></defs><path d={`M${bx} ${by} Q${bx} ${ty} ${tx} ${ty}`} markerEnd="url(#demo-arrow-tip)"/></svg>}
   <aside className="demo-feature-sticker" aria-label="Feature highlight" style={{left:x,top:y,width:size}}>
-   <button className="demo-sticker-badge" aria-expanded={expanded} aria-label={`Demo highlight: ${item.label}`} onClick={()=>setExpanded(v=>!v)}><span className="demo-annotation-kicker">DEMO NOTE</span><span className="demo-sticker-title">{item.label}</span><span className="demo-annotation-tap">TAP TO LEARN</span></button>
-   {expanded&&<p className="demo-sticker-explanation" style={{left:Math.max(16,Math.min(window.innerWidth-246,x>260?x-246:x+size+16)),top:Math.max(16,Math.min(window.innerHeight-170,y))}}>{item.detail}</p>}
+   <div className="demo-sticker-badge"><span className="demo-annotation-kicker">DEMO NOTE</span><p className="demo-sticker-message">{item.detail}</p></div>
    {!position.inView&&<button className="demo-next-feature" onClick={()=>document.querySelector<HTMLElement>(item.target)?.scrollIntoView({block:'center',behavior:'instant'})}>SHOW FEATURE ↓</button>}
    {!position.recipe&&list.length>1&&<button className="demo-next-feature" onClick={next}>NEXT FEATURE · {index+1}/{list.length} →</button>}
   </aside>
