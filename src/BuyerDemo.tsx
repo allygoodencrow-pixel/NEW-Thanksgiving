@@ -12,14 +12,14 @@ export function buyerSample(): State {
 }
 const tour = [
   {route:'home', title:'Thanksgiving, already figured out.', copy:'Explore a sample party for 12. Use the menu at the top left, or follow this short tour.'},
-  {route:'guests',title:'Start with your people.',copy:'Change a pending RSVP to declined. Expected headcount changes, and your plan follows.'},
-  {route:'menu',title:'Make the menu yours.',copy:'Open a recipe to see the total amount of each ingredient you need. The app has already done the multiplying for you.'},
-  {route:'shopping',title:'Your menu becomes your list.',copy:'See ingredients from the selected dishes. Edit a quantity, lock an override or mark an item bought.'},
+  {route:'guests',title:'Start with your people.',copy:'Try changing someone’s answer to “Declined.” The app changes how much food you need.'},
+  {route:'menu',title:'Make the menu yours.',copy:'Choose what you want to serve. Open a recipe to see how much to buy for your guests.'},
+  {route:'shopping',title:'Your menu becomes your list.',copy:'Your dishes become your shopping list. Change an amount, add something or check off what you’ve bought.'},
   {route:'prep',title:'A little now. Less later.',copy:'Review make-ahead tasks and check off prep as you go.'},
-  {route:'timeline',title:'Give everything its moment.',copy:'Review cooking, arrivals and serving around dinner. Check equipment conflicts and adjust your timing.'},
-  {route:'table',title:'A place for everyone.',copy:'Try seating assignments and review the table and chair requirements for your guest count.'},
-  {route:'budget',title:'Keep the costs in view.',copy:'Review estimated costs, supply needs and actual spending. Add missing prices to refine the estimate.'},
-  {route:'printables',title:'The finishing details.',copy:'Explore the printable sections and personalized planning tools. Original collection downloads are available in a purchased account.'},
+  {route:'timeline',title:'Give everything its moment.',copy:'See when to cook, when guests arrive and when to serve. The app warns you if dishes need the oven at the same time.'},
+  {route:'table',title:'A place for everyone.',copy:'Choose where people will sit and see how many tables and chairs you need.'},
+  {route:'budget',title:'Keep the costs in view.',copy:'See what you expect to spend. Add prices and record what you’ve paid.'},
+  {route:'printables',title:'The finishing details.',copy:'See printables for your party. Buy the app to download the full collection.'},
 ];
 function readSample() {
   try {const saved=localStorage.getItem(demoStorageKey);return saved?JSON.parse(saved):buyerSample();}
