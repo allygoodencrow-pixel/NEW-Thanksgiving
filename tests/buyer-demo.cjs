@@ -17,12 +17,14 @@ const {default:BuyerDemo,demoStorageKey,buyerSample}=require('../.qa/buyer-demo.
  let saved=JSON.parse(localStorage.getItem(demoStorageKey));
  assert.equal(saved.guests.length,12);assert.equal(saved.guests.filter(g=>g.ageGroup==='Child').length,2);
  await user.click(screen.getByRole('button',{name:'START TOUR →'}));
+ await waitFor(()=>assert(screen.getByRole('heading',{name:'Party plan',exact:true})));
+ await user.click(screen.getByRole('button',{name:'NEXT →',exact:true}));
  await waitFor(()=>assert(screen.getByRole('heading',{name:'Guests',exact:true})));
  const rsvp=screen.getAllByLabelText(/^RSVP for /);
  const pending=rsvp.find(el=>el.value==='Pending');
  fireEvent.change(pending,{target:{value:'Declined'}});
  await waitFor(()=>assert.equal(JSON.parse(localStorage.getItem(demoStorageKey)).guests.filter(g=>g.rsvp==='Declined').length,1));
- const nav=['YOUR MENU','Shopping list','Your prep plan','Timeline','Seating + tables','Your budget','Printables'];
+ const nav=['PLAN MENU','YOUR MENU','Shopping list','Your prep plan','Timeline','Activities','Seating + tables','Your budget','Printables'];
  for(const title of nav){await user.click(screen.getByRole('button',{name:'NEXT →'}));await waitFor(()=>assert(screen.getByRole('heading',{name:title,exact:true})));}
  const downloads=screen.getAllByRole('button').filter(b=>/DOWNLOAD PDF|DOWNLOAD THE COMPLETE COLLECTION/.test(b.textContent));
  assert(downloads.length>0);assert(downloads.every(b=>b.disabled));

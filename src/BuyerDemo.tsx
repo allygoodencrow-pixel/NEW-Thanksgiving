@@ -12,11 +12,14 @@ export function buyerSample(): State {
 }
 const tour = [
   {route:'home', title:'Try the Thanksgiving app.', copy:'Explore a sample party for 12. Use the menu at the top left, or follow this short tour.'},
-  {route:'guests',title:'Add your guests.',copy:'Try changing someone’s answer to “Declined.” The app changes how much food you need.'},
+  {route:'party-plan',title:'Set your party details.',copy:'Choose dinner time and how many people to cook for. The app uses them to work out food, supplies and timing.'},
+  {route:'guests',title:'Add your guests.',copy:'Change your guests, and the app changes how much food to buy.'},
+  {route:'plan-menu',title:'Find recipes for your party.',copy:'Browse mains, sides, desserts and drinks. Add dishes here and they join your shopping and prep lists.'},
   {route:'menu',title:'Choose your dishes.',copy:'Choose what you want to serve. Open a recipe to see how much to buy for your guests.'},
   {route:'shopping',title:'See what you need to buy.',copy:'Your dishes become your shopping list. Change an amount, add something or check off what you’ve bought.'},
   {route:'prep',title:'Get ready before the day.',copy:'Review make-ahead tasks and check off prep as you go.'},
   {route:'timeline',title:'Plan when to cook and serve.',copy:'See when to cook, when guests arrive and when to serve. The app warns you if dishes need the oven at the same time.'},
+  {route:'experience',title:'Plan activities and drinks.',copy:'Choose games and drinks. Keep their supplies and timing in the same party plan.'},
   {route:'table',title:'Choose where people will sit.',copy:'Choose where people will sit and see how many tables and chairs you need.'},
   {route:'budget',title:'Keep track of spending.',copy:'See what you expect to spend. Add prices and record what you’ve paid.'},
   {route:'printables',title:'See the printables.',copy:'See printables for your party. Buy the app to download the full collection.'},
