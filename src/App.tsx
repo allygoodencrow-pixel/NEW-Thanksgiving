@@ -3193,7 +3193,7 @@ C | C
                   <button
                     className="text-link"
                     onClick={() => {
-                      try {localStorage.setItem('cc-thanksgiving-archive',JSON.stringify(s));alert('Party saved on this device. Export the plan for a portable backup.');} catch {setStorageError('Party archive could not be saved. Export your plan.');}
+                      try {localStorage.setItem(storageKey === 'cc-thanksgiving-v4' ? 'cc-thanksgiving-archive' : `${storageKey}-archive`,JSON.stringify(s));alert('Party saved on this device. Export the plan for a portable backup.');} catch {setStorageError('Party archive could not be saved. Export your plan.');}
                     }}
                   >
                     SAVE THIS PARTY <ArrowRight size={16} />
@@ -3201,7 +3201,7 @@ C | C
                   <button
                     className="text-link secondary"
                     onClick={() => {
-                      try {const old=localStorage.getItem('cc-thanksgiving-archive');if(!old){alert('Save a party first.');return;}if(!confirm('Use the saved party as your current plan? Export your current plan first to keep it.'))return;setS({...normalizeState(JSON.parse(old),initial,dishes),dayMode:false});navigate('PARTY PLAN');}catch{setStorageError('Saved party could not be restored. The current plan was not changed.');}
+                      try {const old=localStorage.getItem(storageKey === 'cc-thanksgiving-v4' ? 'cc-thanksgiving-archive' : `${storageKey}-archive`);if(!old){alert('Save a party first.');return;}if(!confirm('Use the saved party as your current plan? Export your current plan first to keep it.'))return;setS({...normalizeState(JSON.parse(old),initial,dishes),dayMode:false});navigate('PARTY PLAN');}catch{setStorageError('Saved party could not be restored. The current plan was not changed.');}
                     }}
                   >
                     <RotateCcw size={16} /> USE SAVED PARTY

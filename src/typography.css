@@ -254,3 +254,11 @@ body .shell .topbar .account-control,.cloud-status{font-family:var(--font-body);
  .planning-active .guided-next{font-size:var(--type-control);letter-spacing:.1em}
  .planning-active .sidebar .drawer-heading{font-size:10px;letter-spacing:.12em}
 }
+
+/* Buyer demo uses the same locally served Home typefaces. */
+.buyer-demo-bar{font-family:var(--font-body);font-weight:300;font-size:14px;line-height:1.5}
+.buyer-demo-label>span,.buyer-demo-bar button,.buyer-demo-bar a{font-family:var(--font-body);font-size:11px;font-weight:400;letter-spacing:.08em;line-height:1.4}
+.buyer-demo-label small{font-size:12px;letter-spacing:0;line-height:1.5}
+.buyer-demo-tour h2{font-family:var(--font-display);font-size:24px;font-weight:200;letter-spacing:.02em;line-height:1.3;text-transform:uppercase}
+.buyer-demo-tour p{font-size:14px;line-height:1.6}
+@media(max-width:650px){.buyer-demo-tour h2{font-size:20px}}

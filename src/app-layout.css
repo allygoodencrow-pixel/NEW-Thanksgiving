@@ -2875,3 +2875,15 @@ input,select,textarea{max-width:100%;box-sizing:border-box}
 .look-product{border:1px solid #777;padding:20px;border-radius:14px;overflow-wrap:anywhere}
 .look-product button,.look-product a{display:block;min-height:44px;padding:12px 0}
 @media(max-width:560px){.look-products{grid-template-columns:1fr}.setup-dialog{padding:24px 20px}}
+
+/* Buyer demo presentation; the production planner keeps its existing layout. */
+.buyer-demo-bar{position:relative;z-index:9;padding:16px clamp(20px,5vw,72px);background:#f3f3f3;color:#161616;border-bottom:1px solid #c9c7c2;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px}
+.buyer-demo-label{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.buyer-demo-actions,.buyer-demo-tour-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.buyer-demo-bar button,.buyer-demo-bar a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 16px;border:1px solid #bbb;border-radius:24px;background:transparent;color:#161616;text-decoration:none;cursor:pointer}
+.buyer-demo-bar button:focus-visible,.buyer-demo-bar a:focus-visible{outline:2px solid #161616;outline-offset:3px}
+.buyer-demo-tour{width:100%;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:20px 0 8px;border-top:1px solid #c9c7c2}
+.buyer-demo-tour h2{margin:8px 0 12px}.buyer-demo-tour p{margin:0;max-width:660px}
+.buyer-demo-tour-actions{flex-shrink:0}.buyer-demo-tour-actions button:last-child{background:#161616;color:#fff;border-color:#161616}
+@media(max-width:650px){.buyer-demo-bar{padding:14px 20px;gap:10px}.buyer-demo-actions{gap:6px}.buyer-demo-bar button,.buyer-demo-bar a{padding:10px 12px}.buyer-demo-tour{align-items:flex-start;flex-direction:column;gap:14px;padding-top:14px}.buyer-demo-tour-actions{align-self:flex-end}}
+@media print{.buyer-demo-bar{display:none!important}}

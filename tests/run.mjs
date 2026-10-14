@@ -6,6 +6,7 @@ for(const [source,name] of [['src/App.tsx','app'],['src/domain.ts','domain'],['s
 await build({entryPoints:['supabase/functions/etsy-purchase/core.ts'],bundle:true,platform:'node',format:'cjs',outfile:'.qa/etsy.cjs'});
 await build({entryPoints:['supabase/functions/shopify-purchase/core.ts'],bundle:true,platform:'node',format:'cjs',outfile:'.qa/purchase.cjs'});
 await build({entryPoints:['src/CloudApp.tsx'],bundle:true,platform:'node',format:'cjs',packages:'external',outfile:'.qa/cloud-app.cjs',jsx:'automatic',plugins:[{name:'shared-cloud-client',setup(b){b.onResolve({filter:/^\.\/cloud$/},()=>({path:'./cloud.cjs',external:true}));}}]});
+await build({entryPoints:['src/BuyerDemo.tsx'],bundle:true,platform:'node',format:'cjs',packages:'external',outfile:'.qa/buyer-demo.cjs',jsx:'automatic'});
 execFileSync(process.execPath,['tests/domain.cjs'],{stdio:'inherit'});
 execFileSync(process.execPath,['tests/recipe-audit.cjs'],{stdio:'inherit'});
 execFileSync(process.execPath,['tests/activities.cjs'],{stdio:'inherit'});
@@ -17,3 +18,5 @@ execFileSync(process.execPath,['tests/purchase.cjs'],{stdio:'inherit'});
 execFileSync(process.execPath,['tests/buyer-account.cjs'],{stdio:'inherit'});
 execFileSync(process.execPath,['tests/styles.cjs'],{stdio:'inherit'});
 execFileSync(process.execPath,['tests/home-type.cjs'],{stdio:'inherit'});
+
+execFileSync(process.execPath,['tests/buyer-demo.cjs'],{stdio:'inherit'});
