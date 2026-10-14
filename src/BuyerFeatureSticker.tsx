@@ -16,7 +16,14 @@ export function BuyerFeatureSticker({page}:{page:string}) {
  const highlight=highlights[page];
  if(!highlight)return null;
  return <aside className={`demo-feature-sticker${page==='HOME'?' demo-feature-home':''}`} aria-label="Feature highlight">
-   <span className="demo-sticker-marker" aria-hidden="true">↙</span>
-   <div><span className="demo-sticker-title">{highlight.label}</span><p>{highlight.detail}</p></div>
+   <details className="demo-annotation">
+     <summary aria-label={`Demo highlight: ${highlight.label}`}>
+       <span className="demo-annotation-kicker">DEMO NOTE</span>
+       <span className="demo-sticker-title">{highlight.label}</span>
+       <span className="demo-annotation-tap">TAP TO LEARN</span>
+     </summary>
+     <p>{highlight.detail}</p>
+   </details>
+   <svg className="demo-annotation-arrow" viewBox="0 0 110 65" fill="none" aria-hidden="true"><path d="M104 5 C72 3 96 47 10 51 M26 35 L9 51 L30 60" /></svg>
  </aside>;
 }

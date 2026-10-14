@@ -2888,9 +2888,13 @@ input,select,textarea{max-width:100%;box-sizing:border-box}
 @media(max-width:650px){.buyer-demo-bar{padding:14px 20px;gap:10px}.buyer-demo-actions{gap:6px}.buyer-demo-bar button,.buyer-demo-bar a{padding:10px 12px}.buyer-demo-tour{align-items:flex-start;flex-direction:column;gap:14px;padding-top:14px}.buyer-demo-tour-actions{align-self:flex-end}}
 @media print{.buyer-demo-bar{display:none!important}}
 
-/* Feature stickers appear only in the buyer demo and keep controls unobstructed. */
-.demo-feature-sticker{display:flex;align-items:flex-start;gap:12px;width:min(100%,330px);margin:16px 6px 26px auto;padding:18px 20px;border-radius:5px 18px 18px 18px;background:#f3f3f3;color:#161616;border:1px solid #fff;box-shadow:0 8px 24px #0002;transform:rotate(-1deg);position:relative;z-index:2;box-sizing:border-box}
-.demo-sticker-marker{flex-shrink:0;display:flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:#161616;color:#fff}
-.demo-feature-sticker p{margin:7px 0 0}.demo-feature-home{position:absolute;right:clamp(24px,5vw,72px);top:140px;margin:0;transform:rotate(2deg)}
-@media(max-width:650px){.demo-feature-sticker{width:min(100%,300px);padding:14px 16px;margin:14px 3px 22px auto;gap:10px}.demo-feature-home{top:96px;right:22px;width:255px;margin:0}.buyer-demo-actions{max-width:100%}}
+/* Demonstration annotations are separate from the application's visual system. */
+.demo-feature-sticker{width:180px;margin:12px 14px 42px auto;position:relative;z-index:3;transform:rotate(5deg);background:none;border:0;box-shadow:none;color:#fff}
+.demo-annotation{position:relative}.demo-annotation summary{width:180px;height:180px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:12px;padding:28px;text-align:center;cursor:pointer;background:#334cff;color:#fff;border-radius:50%;outline:2px dashed #334cff;outline-offset:7px;box-shadow:5px 8px 0 #08080830;list-style:none}
+.demo-annotation summary::-webkit-details-marker{display:none}.demo-annotation summary:focus-visible{outline:3px solid #161616;outline-offset:8px}
+.demo-annotation p{position:absolute;top:calc(100% + 22px);right:0;width:260px;padding:18px 20px;margin:0;box-sizing:border-box;background:#334cff;color:white;border-radius:4px;transform:rotate(-5deg);box-shadow:0 8px 20px #0003;z-index:5}
+.demo-annotation-arrow{position:absolute;bottom:-44px;left:-88px;width:110px;height:65px;overflow:visible;pointer-events:none;transform:rotate(-5deg)}
+.demo-annotation-arrow path{stroke:#334cff;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 1px 1px #fff)}
+.demo-feature-home{position:absolute;right:clamp(30px,5vw,72px);top:140px;margin:0}
+@media(max-width:650px){.demo-feature-sticker{width:140px;margin:12px 12px 44px auto}.demo-annotation summary{width:140px;height:140px;gap:9px;padding:22px;outline-offset:5px}.demo-feature-home{position:absolute;top:96px;right:30px;width:140px;margin:0}.demo-annotation-arrow{left:-68px;width:90px;bottom:-42px}.demo-annotation p{width:245px}.buyer-demo-actions{max-width:100%}}
 @media print{.demo-feature-sticker{display:none!important}}
