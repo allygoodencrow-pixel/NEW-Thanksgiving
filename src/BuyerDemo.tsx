@@ -30,6 +30,7 @@ export default function BuyerDemo() {
   const [epoch,setEpoch]=useState(0);
   const [step,setStep]=useState(0);
   const [tourOpen,setTourOpen]=useState(true);
+  const [highlightsOn,setHighlightsOn]=useState(true);
   const current=tour[step];
   function go(next:number) {
     setStep(next);setTourOpen(true);
@@ -44,9 +45,9 @@ export default function BuyerDemo() {
   return <div className="buyer-demo">
     <section className="buyer-demo-bar" aria-label="Buyer demo controls">
       <div className="buyer-demo-label"><span>BUYER DEMO</span><small>Sample data · saved on this device</small></div>
-      <div className="buyer-demo-actions"><button aria-expanded={tourOpen} onClick={()=>setTourOpen(v=>!v)}>{tourOpen?'HIDE TOUR':'SHOW TOUR'}</button><button onClick={reset}>RESET SAMPLE</button><a href="/">CUSTOMER SIGN IN ↗</a></div>
+      <div className="buyer-demo-actions"><button aria-pressed={highlightsOn} onClick={()=>setHighlightsOn(v=>!v)}>{highlightsOn?'HIDE HIGHLIGHTS':'SHOW HIGHLIGHTS'}</button><button aria-expanded={tourOpen} onClick={()=>setTourOpen(v=>!v)}>{tourOpen?'HIDE TOUR':'SHOW TOUR'}</button><button onClick={reset}>RESET SAMPLE</button><a href="/">CUSTOMER SIGN IN ↗</a></div>
       {tourOpen&&<div className="buyer-demo-tour"><div><span className="eyebrow">{String(step+1).padStart(2,'0')} / {String(tour.length).padStart(2,'0')}</span><h2>{current.title}</h2><p>{current.copy}</p></div><div className="buyer-demo-tour-actions">{step>0&&<button onClick={()=>go(step-1)}>BACK</button>}<button onClick={()=>step<tour.length-1?go(step+1):setTourOpen(false)}>{step===0?'START TOUR →':step===tour.length-1?'EXPLORE FREELY →':'NEXT →'}</button></div></div>}
     </section>
-    <App key={epoch} seed={seed} storageKey={demoStorageKey} saveStatus="Demo · saved on this device" />
+    <App key={epoch} seed={seed} storageKey={demoStorageKey} saveStatus="Demo · saved on this device" featureStickers={highlightsOn} />
   </div>;
 }

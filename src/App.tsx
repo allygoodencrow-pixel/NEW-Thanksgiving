@@ -1,3 +1,4 @@
+import { BuyerFeatureSticker } from './BuyerFeatureSticker';
 import {tablesFor,clothSize,type TableDetail} from './hostingTools';
 import {tableProducts,productRecommendations} from './tableProducts';
 import {downloadCardImage} from './printables';
@@ -1289,9 +1290,10 @@ type AppProps = {
   onAccount?: () => void;
   saveStatus?: string;
   loadPrintable?: PrintableLoader;
+  featureStickers?: boolean;
 };
 
-function App({seed, storageKey = 'cc-thanksgiving-v4', onPlanChange, onAccount, saveStatus, loadPrintable}: AppProps = {}) {
+function App({seed, storageKey = 'cc-thanksgiving-v4', onPlanChange, onAccount, saveStatus, loadPrintable, featureStickers = false}: AppProps = {}) {
   const [loadResult] = useState(() => {
     try { const raw = seed === undefined ? localStorage.getItem(storageKey) || (storageKey === 'cc-thanksgiving-v4' ? localStorage.getItem('cc-thanksgiving-v3') || localStorage.getItem('cc-thanksgiving-v1') : null) : null;
       return {state: normalizeState(seed ?? (raw ? JSON.parse(raw) : freshPlan()), initial, dishes), error: '',firstUse:seed===undefined&&!raw};
@@ -1817,6 +1819,7 @@ C | C
               <section className="hosting-canvas" aria-label="Your Thanksgiving gathering">
                 <img className="hosting-photo" src="/resources/kitchen-editorial.png" alt="Organic modern kitchen with neutral marble, black cabinetry and natural daylight" />
                 <div className="hosting-shade" />
+                {featureStickers && <BuyerFeatureSticker page="HOME" />}
                 <div className="hosting-title">
                   <span className="eyebrow">AT HOME / CROW & CROWN</span>
                   <h1>THANKSGIVING</h1>
@@ -1830,7 +1833,8 @@ C | C
             )}
             {tab === 'PARTY PLAN' && (
               <div className="content party-setup">
-                <Section eyebrow="01 / START" title="Party plan">Set the date, dinner time and your starting guest count.</Section><details className="panel"><summary>Next actions · {warnings.length} items to review</summary><p>{planningLabel} drives food, seating and shopping. Your estimate only drives quantities in Estimated mode.</p>{warnings.slice(0,8).map(x=><p key={x}>{x}</p>)}<button onClick={()=>navigate(plan.incompleteRecipes.length?'MENU':plan.unpricedRows.length?'SHOPPING':'TIMELINE')}>REVIEW NEXT ACTION →</button></details>
+                <Section eyebrow="01 / START" title="Party plan">Set the date, dinner time and your starting guest count.</Section>
+                {featureStickers && <BuyerFeatureSticker page={tab} />}<details className="panel"><summary>Next actions · {warnings.length} items to review</summary><p>{planningLabel} drives food, seating and shopping. Your estimate only drives quantities in Estimated mode.</p>{warnings.slice(0,8).map(x=><p key={x}>{x}</p>)}<button onClick={()=>navigate(plan.incompleteRecipes.length?'MENU':plan.unpricedRows.length?'SHOPPING':'TIMELINE')}>REVIEW NEXT ACTION →</button></details>
                 <section className="panel glass-light setup-essentials" aria-label="Party basics">
                   <div className="form-grid">
                     {input('Date',s.eventDate,v=>update('eventDate',v),'date')}
@@ -1875,6 +1879,7 @@ C | C
                   <div className="kitchen-reference" role="img" aria-label="Neutral marble kitchen with dark cabinets and natural daylight" />
 
                 </div>
+                {featureStickers && <BuyerFeatureSticker page={tab} />}
                 <div className="menu-actions">
                   {menuView==='plan' ? <button className="add-dish-action" onClick={()=>{setMenuView('browse');setMenuCategory('All');setShowRecipeForm(false);}}><Plus size={18}/> ADD A DISH</button> : <button className="add-dish-action" onClick={()=>setMenuView('plan')}>VIEW YOUR MENU · {selected.length} DISHES</button>}
                   <button
@@ -2172,6 +2177,7 @@ C | C
                   Start with the plan, do everything possible ahead, then follow
                   the day-of list. The oven math is there only when you need it.
                 </Section>
+                {featureStickers && <BuyerFeatureSticker page={tab} />}
                 <SectionImage image={asset.salad} alt="Thanksgiving food being prepared before guests arrive" eyebrow="BEFORE THEY ARRIVE" caption="The useful work happens before the doorbell: food, house reset, serving pieces, drinks and the details guests notice." position="center 55%" />
 
                 <div className="prep-start-grid">
@@ -2382,6 +2388,7 @@ C | C
                 <Section eyebrow="04 / SHOPPING" title="Shopping list">
                   Ingredients and supplies for your plan. Check off purchases or open an item to adjust it.
                 </Section>
+                {featureStickers && <BuyerFeatureSticker page={tab} />}
                 <p className="shopping-plan-note">Quantities use {planningCount} people · {s.planningMode.toLowerCase()}. <button className="text-link" onClick={()=>navigate('GUESTS')}>Manage guests →</button></p>
                 <div className="shopping-list-toolbar"><div><p><b>{shoppingEntries.filter(item=>!s.purchased.includes(item.key)).length}</b> to buy <span>· {shoppingEntries.filter(item=>s.purchased.includes(item.key)).length} bought</span></p></div><div className="shopping-list-filters" aria-label="Shopping list view">{(['remaining','all','bought'] as const).map(view=><button key={view} aria-pressed={shoppingFilter===view} onClick={()=>setShoppingFilter(view)}>{view==='remaining'?'To buy':view==='all'?'All items':'Bought'}</button>)}</div></div>
                 <div className="two-col shopping-layout">
@@ -2543,6 +2550,7 @@ C | C
                   Set the room around the guest count, see exactly how many chairs and
                   place-setting pieces you need, then shop only the gaps.
                 </Section>
+                {featureStickers && <BuyerFeatureSticker page={tab} />}
 
                 <div className="table-planner-grid">
                   <div className="panel">
@@ -2742,6 +2750,7 @@ C | C
                 <Section eyebrow="06 / TIMELINE" title="Timeline">
                   Built from your menu, house prep, activities, guest flow and dinner at {clock(dinner)}. Add anything else and it joins the same schedule.
                 </Section>
+                {featureStickers && <BuyerFeatureSticker page={tab} />}
                 <details className="panel glass-light advance-guide"><summary>Before the day · planning calendar</summary><p>These are advance planning windows. The timed run below uses your actual dinner hour and selected dishes.</p>{advanceWindows.map((window,i)=><section key={window.when}><h3>{window.when}</h3>{window.tasks.map((task,j)=><CheckRow key={task} id={`guide-advance-${i}-${j}`}>{task}</CheckRow>)}</section>)}<div className="guide-source-links">{guideLinks.map(link=><a key={link.url} href={link.url} target="_blank" rel="noreferrer">{link.label} →</a>)}</div></details>
                 <details className="panel input-panel inline-editor">
                   <summary>Add an event</summary>
@@ -2831,6 +2840,7 @@ C | C
                 >
                   Add a name, choose their RSVP, then open details for dietary needs or what they’re bringing.
                 </Section>
+                {featureStickers && <BuyerFeatureSticker page={tab} />}
                 <section className="panel guest-entry" aria-label="Add a guest"><span className="eyebrow">ADD A GUEST</span>
                   <div className="guest-add">
                     <input
@@ -2960,6 +2970,7 @@ C | C
                 <Section eyebrow="ACTIVITIES" title="Activities">
                   Choose a game, a conversation or something for the kids. Open an activity for the instructions and print sheet.
                 </Section>
+                {featureStickers && <BuyerFeatureSticker page={tab} />}
                 <div className="panel glass-light activity-plan">
                   <h2>Your activity plan</h2>
                   {s.activities.length ? s.activities.map(name=>{const activity=activityByName(name);return <div className="activity-plan-row" key={name}><div><h3>{name}</h3><p>{activity ? `${activity.duration} · ${activity.when}` : 'Your own activity'}</p></div><button aria-label={`Remove activity ${name}`} onClick={()=>toggleActivity(name)}>REMOVE</button></div>}) : <p>Choose an activity below, or let dinner be enough.</p>}
@@ -3026,6 +3037,7 @@ C | C
                 <Section eyebrow="BUDGET / SPEND" title="Your budget">
                   A clear estimate that changes as the plan changes.
                 </Section>
+                {featureStickers && <BuyerFeatureSticker page={tab} />}
                 <div className="panel"><div className="budget-head"><div><span>RULE ESTIMATE</span><b>{money(estimated)}</b></div><div><span>ACTUAL SPEND</span><b>{money(actual)}</b></div></div><h2>Record actual spending</h2><div className="form-grid"><label className="field"><span>Purchase</span><input value={spendLabel} onChange={e=>setSpendLabel(e.target.value)}/></label><label className="field"><span>Amount paid</span><input type="number" min="0" step="0.01" value={spendAmount} onChange={e=>setSpendAmount(e.target.value)}/></label></div><label className="field"><span>Related planned item (optional)</span><select aria-label="Related planned item" value={spendShoppingKey} onChange={e=>setSpendShoppingKey(e.target.value)}><option value="">Unlinked purchase</option>{shoppingEntries.map(item=><option key={item.key} value={item.key}>{item.name}</option>)}</select></label><button className="save-recipe-button" onClick={()=>{if(!spendAmount.trim()||!spendLabel.trim()||!Number.isFinite(Number(spendAmount))||Number(spendAmount)<0)return;update('actualSpend',[...s.actualSpend,{id:uid('spend'),label:spendLabel,amount:Number(spendAmount),shoppingKey:spendShoppingKey}]);setSpendLabel('');setSpendAmount('');setSpendShoppingKey('');}}>ADD PURCHASE</button>{s.actualSpend.map(x=><div className="budget-line" key={x.id}><span>{x.label}</span><b>{money(x.amount)}</b><label>Link purchase<select aria-label={`Planned item for purchase ${x.label}`} value={x.shoppingKey||''} onChange={e=>update('actualSpend',s.actualSpend.map(i=>i.id===x.id?{...i,shoppingKey:e.target.value}:i))}><option value="">Unlinked purchase</option>{shoppingEntries.map(item=><option key={item.key} value={item.key}>{item.name}</option>)}</select></label><button aria-label={`Remove purchase ${x.label}`} onClick={()=>update('actualSpend',s.actualSpend.filter(i=>i.id!==x.id))}>REMOVE</button></div>)}</div>
                 <div className="budget-head">
                   <div>
@@ -3102,6 +3114,7 @@ C | C
                 <Section eyebrow="09 / PRINTABLES" title="Printables">
                   Browse the complete collection by printable type. Original designs are ready to download; personalized items below use your plan. Print at 100% / actual size. The complete PDF includes full-quality artwork and cutting guides.
                 </Section>
+                {featureStickers && <BuyerFeatureSticker page={tab} />}
                 <div className="panel printable-collection-intro">
                   <p>76 original designs · Print at actual size.</p>
                   <PrivatePrintableDownload path="thanksgiving-collection.pdf" filename="Crow-Crown-Thanksgiving-Collection.pdf" load={loadPrintable}>DOWNLOAD THE COMPLETE COLLECTION</PrivatePrintableDownload>

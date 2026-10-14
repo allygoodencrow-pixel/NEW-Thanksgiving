@@ -2887,3 +2887,10 @@ input,select,textarea{max-width:100%;box-sizing:border-box}
 .buyer-demo-tour-actions{flex-shrink:0}.buyer-demo-tour-actions button:last-child{background:#161616;color:#fff;border-color:#161616}
 @media(max-width:650px){.buyer-demo-bar{padding:14px 20px;gap:10px}.buyer-demo-actions{gap:6px}.buyer-demo-bar button,.buyer-demo-bar a{padding:10px 12px}.buyer-demo-tour{align-items:flex-start;flex-direction:column;gap:14px;padding-top:14px}.buyer-demo-tour-actions{align-self:flex-end}}
 @media print{.buyer-demo-bar{display:none!important}}
+
+/* Feature stickers appear only in the buyer demo and keep controls unobstructed. */
+.demo-feature-sticker{display:flex;align-items:flex-start;gap:12px;width:min(100%,330px);margin:16px 6px 26px auto;padding:18px 20px;border-radius:5px 18px 18px 18px;background:#f3f3f3;color:#161616;border:1px solid #fff;box-shadow:0 8px 24px #0002;transform:rotate(-1deg);position:relative;z-index:2;box-sizing:border-box}
+.demo-sticker-marker{flex-shrink:0;display:flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:#161616;color:#fff}
+.demo-feature-sticker p{margin:7px 0 0}.demo-feature-home{position:absolute;right:clamp(24px,5vw,72px);top:140px;margin:0;transform:rotate(2deg)}
+@media(max-width:650px){.demo-feature-sticker{width:min(100%,300px);padding:14px 16px;margin:14px 3px 22px auto;gap:10px}.demo-feature-home{top:96px;right:22px;width:255px;margin:0}.buyer-demo-actions{max-width:100%}}
+@media print{.demo-feature-sticker{display:none!important}}
